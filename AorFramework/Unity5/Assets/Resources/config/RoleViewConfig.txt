@@ -1,0 +1,179 @@
+﻿long	string	string	string	float	float[]	string	string	string	string	string	string	string	string	string	string
+ID	描述	角色名称	模型资源	缩放倍率	模型旋转修正	头像名称	特写名称	待机动画	移动动画	行进动画	浮空动画	起身动画	失控动画	硬直动画	死亡动画
+id	describe	Name	ModelPath	Scale	Rotation	HeadImageName	CutInName	IdleAnim	MoveAnim	AdvanceAnim	FloatingAnim	GetUpAnim	UncontrollableAnim	StiffAnim	DeadAnim
+999	test	test	Role/beijita/beijita_prefab			beijita_icon	beijita								
+100	超赛悟空	超赛悟空	Role/sunwukong/sunwukong_prefab												
+101	悟空	悟空	Role/sunwukong/sunwukong_prefab			wukong_icon	wukong								
+102	超赛贝吉塔	超赛贝吉塔	Role/beijita/beijita_prefab												
+103	贝吉塔	贝吉塔	Role/beijita/beijita_prefab			beijita_icon	beijita								
+104	幼年孙悟饭	幼年孙悟饭	Role/youniansunwufan/youniansunwufan_prefab												
+105	拉蒂兹	拉蒂兹	Role/ladizi/ladizi_prefab												
+106	兰琦	未完成	Role/sunwukong/sunwukong_prefab												
+107	沙鲁	未完成	Role/sunwukong/sunwukong_prefab												
+108	贝吉特	未完成	Role/sunwukong/sunwukong_prefab												
+109	人造人19号	人造人19号	Role/renzaoren19/renzaoren19_prefab												
+110	达普拉	未完成	Role/sunwukong/sunwukong_prefab												
+111	青年悟饭	未完成	Role/sunwukong/sunwukong_prefab												
+112	神秘悟饭	未完成	Role/sunwukong/sunwukong_prefab												
+113	比迪丽	未完成	Role/sunwukong/sunwukong_prefab												
+114	萨波	未完成	Role/sunwukong/sunwukong_prefab												
+115	吉斯	未完成	Role/sunwukong/sunwukong_prefab												
+116	基纽	未完成	Role/sunwukong/sunwukong_prefab												
+117	机器桃白白	未完成	Role/sunwukong/sunwukong_prefab												
+118	超赛3悟空	未完成	Role/sunwukong/sunwukong_prefab												
+119	欧布	未完成	Role/sunwukong/sunwukong_prefab												
+120	排骨饭	未完成	Role/sunwukong/sunwukong_prefab												
+121	比鲁斯	未完成	Role/sunwukong/sunwukong_prefab												
+200	胖布欧	未完成	Role/sunwukong/sunwukong_prefab												
+201	天津饭	未完成	Role/sunwukong/sunwukong_prefab												
+202	龟仙人	未完成	Role/sunwukong/sunwukong_prefab												
+203	人造人16号	人造人16号	Role/renzaoren16/renzaoren16_prefab												
+204	人造人17号	人造人17号	Role/renzaoren17/renzaoren17_prefab												
+205	那巴	未完成	Role/sunwukong/sunwukong_prefab												
+206	琪琪	未完成	Role/sunwukong/sunwukong_prefab												
+207	利库姆	未完成	Role/sunwukong/sunwukong_prefab												
+208	特兰克斯	未完成	Role/sunwukong/sunwukong_prefab												
+209	多多利亚	未完成	Role/sunwukong/sunwukong_prefab												
+210	超赛布罗利	未完成	Role/sunwukong/sunwukong_prefab												
+211	库鲁德大王	未完成	Role/sunwukong/sunwukong_prefab												
+212	悟吉塔	未完成	Role/sunwukong/sunwukong_prefab												
+213	卡比克二世	未完成	Role/sunwukong/sunwukong_prefab												
+300	比克	未完成	Role/sunwukong/sunwukong_prefab												
+301	弗利萨	弗利萨	Role/fulisa/fulisa_Prefab			fulisa_icon	fulisa								
+302	克林	克林	Role/xiaolin/xiaolin_Prefab			xiaolin_icon	xiaolin								
+303	未来特南克斯	未完成	Role/sunwukong/sunwukong_prefab												
+304	雅木茶	未完成	Role/sunwukong/sunwukong_prefab												
+305	悟天克斯	未完成	Role/sunwukong/sunwukong_prefab												
+306	饺子	未完成	Role/sunwukong/sunwukong_prefab												
+307	人造人18号	未完成	Role/sunwukong/sunwukong_prefab												
+308	布尔玛	未完成	Role/sunwukong/sunwukong_prefab												
+309	未来特兰克斯	未完成	Role/sunwukong/sunwukong_prefab												
+310	巴达	未完成	Role/sunwukong/sunwukong_prefab												
+311	古鲁多	未完成	Role/sunwukong/sunwukong_prefab												
+312	人造人20号	人造人20号	Role/renzaoren20/renzaoren20_prefab												
+313	？？？	未完成	Role/sunwukong/sunwukong_prefab												
+314	丹迪	未完成	Role/sunwukong/sunwukong_prefab												
+315	黄金弗利萨	未完成	Role/sunwukong/sunwukong_prefab												
+316	原始布欧	未完成	Role/sunwukong/sunwukong_prefab												
+317	孙悟天	未完成	Role/sunwukong/sunwukong_prefab												
+318	斑斑	未完成	Role/sunwukong/sunwukong_prefab												
+319	维斯	未完成	Role/sunwukong/sunwukong_prefab												
+1112	布欧	布欧	Role/buou/buou_Prefab			buou_icon	buou								
+1114	悟天克斯	悟天克斯	Role/wutiankesi/wutiankesi_Prefab			wutiankesi_icon	wutiankesi								
+2113	大猩猩	大猩猩	Role/daxingxing/daxingxing_prefab			daxingxing_icon									
+500	弗利萨手下1	弗利萨手下1	Role/xiaolin/xiaolin_Prefab												
+501	弗利萨手下2	弗利萨手下2	Role/fulisashouxia2/fulisashouxia2_Prefab												
+502	弗利萨手下3	弗利萨手下3	Role/fulisashouxia3/fulisashouxia3_Prefab												
+503	魔族小怪1	魔族小怪1	Role/xiaolin/xiaolin_Prefab												
+504	魔族小怪2	魔族小怪2	Role/xiaolin/xiaolin_Prefab												
+505	魔族小怪3	魔族小怪3	Role/xiaolin/xiaolin_Prefab												
+506	佳格	佳格	Role/jiage/jiage_Prefab												
+507	力奇	力奇	Role/liqi/liqi_Prefab												
+508	山素	山素	Role/xiaolin/xiaolin_Prefab												
+509	机器人1号	机器人1号	Role/jiqiren1/jiqiren1_Prefab												
+510	机器人2号	机器人2号	Role/jiqiren2/jiqiren2_Prefab												
+511	机器人3号	机器人3号	Role/jiqiren3/jiqiren3_Prefab												
+512	栽培人1	栽培人1	Role/zaipeiren/zaipeiren_Prefab												
+513	栽培人2	栽培人2	Role/zaipeiren/zaipeiren_Prefab												
+514	魔化小怪1	魔化小怪1	Role/xiaolin/xiaolin_Prefab												
+515	魔化小怪2	魔化小怪2	Role/xiaolin/xiaolin_Prefab												
+516	魔化小怪3	魔化小怪3	Role/xiaolin/xiaolin_Prefab												
+650	恐龙	恐龙	Role/xiaolin/xiaolin_Prefab												
+651	巨人	巨人	Role/xiaolin/xiaolin_Prefab												
+652	假那美克星人本体1	假那美克星人本体1	Role/xiaolin/xiaolin_Prefab												
+653	假那美克星人本体2	假那美克星人本体2	Role/xiaolin/xiaolin_Prefab												
+654	弗利萨手下1	弗利萨手下1	Role/xiaolin/xiaolin_Prefab												
+655	弗利萨手下2	弗利萨手下2	Role/xiaolin/xiaolin_Prefab												
+656	邱胰	邱胰	Role/xiaolin/xiaolin_Prefab												
+657	加素	加素	Role/xiaolin/xiaolin_Prefab												
+658	马斯达 / 塔多	马斯达 / 塔多	Role/xiaolin/xiaolin_Prefab												
+659	比家	比家	Role/xiaolin/xiaolin_Prefab												
+660	素兹	素兹	Role/xiaolin/xiaolin_Prefab												
+661	库鲁德大王随从	库鲁德大王随从	Role/xiaolin/xiaolin_Prefab												
+662	库鲁德大王随从	库鲁德大王随从	Role/xiaolin/xiaolin_Prefab												
+663	皮拉夫	皮拉夫	Role/xiaolin/xiaolin_Prefab												
+750	巨猿（boss挑战）	巨猿（boss挑战）	Role/xiaolin/xiaolin_Prefab												
+751	巨人（boss挑战）	巨人（boss挑战）	Role/xiaolin/xiaolin_Prefab												
+752	合体机器人（boss挑战）	合体机器人（boss挑战）	Role/xiaolin/xiaolin_Prefab												
+753	贝吉塔巨猿	贝吉塔巨猿	Role/xiaolin/xiaolin_Prefab												
+10704	沙鲁召唤物1	沙鲁召唤物1	Role/wutiankesi/wutiankesi_Prefab			wutiankesi_icon	wutiankesi								
+10714	沙鲁召唤物2	沙鲁召唤物2	Role/wutiankesi/wutiankesi_Prefab			wutiankesi_icon	wutiankesi								
+54100	超赛悟空	超赛悟空	Role/sunwukong/sunwukong_prefab												
+54101	孙悟空	悟空	Role/sunwukong/sunwukong_prefab			wukong_icon	wukong								
+54102	超赛贝吉塔	超赛贝吉塔	Role/beijita/beijita_prefab												
+54103	贝吉塔	贝吉塔	Role/beijita/beijita_prefab			beijita_icon	beijita								
+54104	幼年孙悟饭	幼年孙悟饭	Role/youniansunwufan/youniansunwufan_prefab												
+54105	拉蒂兹	拉蒂兹	Role/ladizi/ladizi_prefab												
+54106	兰琪	未完成	Role/sunwukong/sunwukong_prefab												
+54107	沙鲁	未完成	Role/sunwukong/sunwukong_prefab												
+54108	贝吉特	未完成	Role/sunwukong/sunwukong_prefab												
+54109	人造人19号	人造人19号	Role/renzaoren19/renzaoren19_prefab												
+54110	达普拉	未完成	Role/sunwukong/sunwukong_prefab												
+54111	青年悟饭	未完成	Role/sunwukong/sunwukong_prefab												
+54112	神秘悟饭	未完成	Role/sunwukong/sunwukong_prefab												
+54113	比迪丽	未完成	Role/sunwukong/sunwukong_prefab												
+54114	萨波	未完成	Role/sunwukong/sunwukong_prefab												
+54115	吉斯	未完成	Role/sunwukong/sunwukong_prefab												
+54116	基纽	未完成	Role/sunwukong/sunwukong_prefab												
+54117	机器桃白白	未完成	Role/sunwukong/sunwukong_prefab												
+54118	超赛3悟空	未完成	Role/sunwukong/sunwukong_prefab												
+54119	欧布	未完成	Role/sunwukong/sunwukong_prefab												
+54120	排骨饭	未完成	Role/sunwukong/sunwukong_prefab												
+54121	比鲁斯	未完成	Role/sunwukong/sunwukong_prefab												
+54200	胖布欧	未完成	Role/sunwukong/sunwukong_prefab												
+54201	天津饭	未完成	Role/sunwukong/sunwukong_prefab												
+54202	龟仙人	未完成	Role/sunwukong/sunwukong_prefab												
+54203	人造人16号	人造人16号	Role/renzaoren16/renzaoren16_prefab												
+54204	人造人17号	人造人17号	Role/renzaoren17/renzaoren17_prefab												
+54205	那巴	未完成	Role/sunwukong/sunwukong_prefab												
+54206	琪琪	未完成	Role/sunwukong/sunwukong_prefab												
+54207	利库姆	未完成	Role/sunwukong/sunwukong_prefab												
+54208	特兰克斯	未完成	Role/sunwukong/sunwukong_prefab												
+54209	多多利亚	未完成	Role/sunwukong/sunwukong_prefab												
+54210	超赛布罗利	未完成	Role/sunwukong/sunwukong_prefab												
+54211	库鲁德大王	未完成	Role/sunwukong/sunwukong_prefab												
+54212	悟吉塔	未完成	Role/sunwukong/sunwukong_prefab												
+54213	卡比克二世	未完成	Role/sunwukong/sunwukong_prefab												
+54300	短笛	未完成	Role/sunwukong/sunwukong_prefab												
+54301	弗利萨	弗利萨	Role/fulisa/fulisa_Prefab			fulisa_icon	fulisa								
+54302	库林	克林	Role/xiaolin/xiaolin_Prefab			xiaolin_icon	xiaolin								
+54303	撒旦	未完成	Role/sunwukong/sunwukong_prefab												
+54304	雅木茶	未完成	Role/sunwukong/sunwukong_prefab												
+54305	悟天克斯	未完成	Role/sunwukong/sunwukong_prefab												
+54306	饺子	未完成	Role/sunwukong/sunwukong_prefab												
+54307	人造人18号	未完成	Role/sunwukong/sunwukong_prefab												
+54308	布尔玛	未完成	Role/sunwukong/sunwukong_prefab												
+54309	未来特兰克斯	未完成	Role/sunwukong/sunwukong_prefab												
+54310	巴特	未完成	Role/sunwukong/sunwukong_prefab												
+54311	古杜	未完成	Role/sunwukong/sunwukong_prefab												
+54312	人造人20号	人造人20号	Role/renzaoren20/renzaoren20_prefab												
+54314	丹迪	未完成	Role/sunwukong/sunwukong_prefab												
+54315	黄金弗利萨	未完成	Role/sunwukong/sunwukong_prefab												
+54316	原始布欧	未完成	Role/sunwukong/sunwukong_prefab												
+54317	孙悟天	未完成	Role/sunwukong/sunwukong_prefab												
+54318	斑斑	未完成	Role/sunwukong/sunwukong_prefab												
+54319	维斯	未完成	Role/sunwukong/sunwukong_prefab												
+400	玛伦		Role/zhanbupopo/zhanbupopo_Prefab												
+401	乌帕		Role/zhanbupopo/zhanbupopo_Prefab												
+402	玛丽安		Role/zhanbupopo/zhanbupopo_Prefab												
+403	武道会主持人		Role/zhanbupopo/zhanbupopo_Prefab												
+404	普尔		Role/zhanbupopo/zhanbupopo_Prefab												
+405	布里夫博士		Role/zhanbupopo/zhanbupopo_Prefab												
+406	海龟		Role/zhanbupopo/zhanbupopo_Prefab												
+407	巴布鲁斯		Role/zhanbupopo/zhanbupopo_Prefab												
+408	古雷格利		Role/zhanbupopo/zhanbupopo_Prefab												
+409	小舞		Role/zhanbupopo/zhanbupopo_Prefab												
+410	阿修		Role/zhanbupopo/zhanbupopo_Prefab												
+411	牛魔王		Role/zhanbupopo/zhanbupopo_Prefab												
+412	乌龙		Role/zhanbupopo/zhanbupopo_Prefab												
+413	波波		Role/zhanbupopo/zhanbupopo_Prefab												
+414	皮拉夫		Role/zhanbupopo/zhanbupopo_Prefab												
+415	蛇姬公主		Role/zhanbupopo/zhanbupopo_Prefab												
+416	神		Role/zhanbupopo/zhanbupopo_Prefab												
+417	加林仙人		Role/zhanbupopo/zhanbupopo_Prefab												
+418	占卜婆婆	占卜婆婆	Role/zhanbupopo/zhanbupopo_Prefab												
+419	北界王		Role/zhanbupopo/zhanbupopo_Prefab												
+420	阎魔王		Role/zhanbupopo/zhanbupopo_Prefab												
+421	那美克星大长老		Role/zhanbupopo/zhanbupopo_Prefab												
+422	大界王		Role/zhanbupopo/zhanbupopo_Prefab												
+423	老界王神		Role/zhanbupopo/zhanbupopo_Prefab												

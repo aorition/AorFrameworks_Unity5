@@ -1,0 +1,208 @@
+fileFormatVersion: 2
+guid: 4fc35619590980a4ca0a89c644f103c6
+timeCreated: 1483495557
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Object070
+    100004: Object071
+    100006: Object072
+    100008: Object073
+    100010: Object074
+    100012: Object077
+    100014: Object078
+    100016: Object079
+    100018: Object080
+    100020: Object117
+    100022: Object118
+    100024: Object122
+    100026: Object124
+    100028: Object127
+    100030: Sphere019
+    100032: men_01
+    100034: nameikexing_jianzhu2_sui
+    100036: nameikexing_jianzhu2_sui 1
+    100038: nameikexing_jianzhu_07_01
+    100040: nameikexing_jianzhu_07_02
+    100042: nameikexing_jianzhu_07_03
+    100044: nameikexing_jianzhu_07_04
+    100046: nameikexing_jianzhu_07_05
+    100048: nameikexing_jianzhu_07_06
+    100050: nameikexing_jianzhu_07_07
+    100052: nameikexing_jianzhu_07_08
+    100054: nameikexing_jianzhu_07_09
+    400000: //RootNode
+    400002: Object070
+    400004: Object071
+    400006: Object072
+    400008: Object073
+    400010: Object074
+    400012: Object077
+    400014: Object078
+    400016: Object079
+    400018: Object080
+    400020: Object117
+    400022: Object118
+    400024: Object122
+    400026: Object124
+    400028: Object127
+    400030: Sphere019
+    400032: men_01
+    400034: nameikexing_jianzhu2_sui
+    400036: nameikexing_jianzhu2_sui 1
+    400038: nameikexing_jianzhu_07_01
+    400040: nameikexing_jianzhu_07_02
+    400042: nameikexing_jianzhu_07_03
+    400044: nameikexing_jianzhu_07_04
+    400046: nameikexing_jianzhu_07_05
+    400048: nameikexing_jianzhu_07_06
+    400050: nameikexing_jianzhu_07_07
+    400052: nameikexing_jianzhu_07_08
+    400054: nameikexing_jianzhu_07_09
+    2300000: Object070
+    2300002: Object071
+    2300004: Object072
+    2300006: Object073
+    2300008: Object074
+    2300010: Object077
+    2300012: Object078
+    2300014: Object079
+    2300016: Object080
+    2300018: Object117
+    2300020: Object118
+    2300022: Object122
+    2300024: Object124
+    2300026: Object127
+    2300028: Sphere019
+    2300030: men_01
+    2300032: nameikexing_jianzhu2_sui
+    2300034: nameikexing_jianzhu2_sui 1
+    2300036: nameikexing_jianzhu_07_01
+    2300038: nameikexing_jianzhu_07_02
+    2300040: nameikexing_jianzhu_07_03
+    2300042: nameikexing_jianzhu_07_04
+    2300044: nameikexing_jianzhu_07_05
+    2300046: nameikexing_jianzhu_07_06
+    2300048: nameikexing_jianzhu_07_07
+    2300050: nameikexing_jianzhu_07_08
+    2300052: nameikexing_jianzhu_07_09
+    3300000: Object070
+    3300002: Object071
+    3300004: Object072
+    3300006: Object073
+    3300008: Object074
+    3300010: Object077
+    3300012: Object078
+    3300014: Object079
+    3300016: Object080
+    3300018: Object117
+    3300020: Object118
+    3300022: Object122
+    3300024: Object124
+    3300026: Object127
+    3300028: Sphere019
+    3300030: men_01
+    3300032: nameikexing_jianzhu2_sui
+    3300034: nameikexing_jianzhu2_sui 1
+    3300036: nameikexing_jianzhu_07_01
+    3300038: nameikexing_jianzhu_07_02
+    3300040: nameikexing_jianzhu_07_03
+    3300042: nameikexing_jianzhu_07_04
+    3300044: nameikexing_jianzhu_07_05
+    3300046: nameikexing_jianzhu_07_06
+    3300048: nameikexing_jianzhu_07_07
+    3300050: nameikexing_jianzhu_07_08
+    3300052: nameikexing_jianzhu_07_09
+    4300000: Sphere019
+    4300002: Object074
+    4300004: Object122
+    4300006: Object072
+    4300008: Object118
+    4300010: Object077
+    4300012: Object124
+    4300014: Object073
+    4300016: Object079
+    4300018: Object078
+    4300020: Object127
+    4300022: Object080
+    4300024: Object070
+    4300026: Object071
+    4300028: Object117
+    4300030: nameikexing_jianzhu_07_01
+    4300032: men_01
+    4300034: nameikexing_jianzhu_07_02
+    4300036: nameikexing_jianzhu_07_04
+    4300038: nameikexing_jianzhu_07_05
+    4300040: nameikexing_jianzhu_07_09
+    4300042: nameikexing_jianzhu_07_08
+    4300044: nameikexing_jianzhu_07_06
+    4300046: nameikexing_jianzhu_07_07
+    4300048: nameikexing_jianzhu2_sui
+    4300050: nameikexing_jianzhu2_sui
+    4300052: nameikexing_jianzhu_07_03
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

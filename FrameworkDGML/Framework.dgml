@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" Layout="Sugiyama" ZoomLevel="-1" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="AorBaseUtility" Bounds="242.167905824276,-149.881046438523,121.013333333333,44" Group="Expanded" Label="AorBaseUtility" UseManualLocation="True" />
+    <Node Id="AorFramework" Bounds="240.68123915761,-61.880946438523,124.52,44" Group="Expanded" Label="AorFramework" UseManualLocation="True" />
+    <Node Id="AorFrameworkEditor" Bounds="454.324567935391,-58.4649021291802,158.669999999999,44" Group="Expanded" Label="AorFrameworkEditor" UseManualLocation="True" />
+    <Node Id="AorUI" Bounds="266.20123915761,24.119153561477,73.1433333333333,43.9999999999999" Group="Expanded" Label="AorUI" UseManualLocation="True" />
+    <Node Id="AorUIEditor" Bounds="456.031234602058,15.5351978708197,107.293333333333,44.0000000000001" Group="Expanded" Label="AorUIEditor" UseManualLocation="True" />
+    <Node Id="Editor" Category="Comment" Bounds="434.324567935391,-98.4650021291802,198.669999999999,178.0003" Group="Expanded" UseManualLocation="True" />
+    <Node Id="Framework" Category="Comment" Bounds="220.68123915761,-189.881146438523,164.52,278.0004" Group="Expanded" UseManualLocation="True" />
+  </Nodes>
+  <Links>
+    <Link Source="AorBaseUtility" Target="AorFramework" Bounds="302.741239081852,-105.881046438523,0.1060609137852,35.0001413219356" />
+    <Link Source="AorFramework" Target="AorFrameworkEditor" Bounds="365.20123915761,-38.959117124717,80.1243151115733,1.18633058815409" />
+    <Link Source="AorFramework" Target="AorUI" Bounds="302.833584014548,-17.880946438523,0.0645931776301722,33.0001172406487" />
+    <Link Source="AorUI" Target="AorUIEditor" Bounds="339.344572490943,40.1339258955424,107.694397556151,4.4679633508522" />
+    <Link Source="Editor" Target="AorFrameworkEditor" Category="Contains" />
+    <Link Source="Editor" Target="AorUIEditor" Category="Contains" />
+    <Link Source="Framework" Target="AorBaseUtility" Category="Contains" />
+    <Link Source="Framework" Target="AorFramework" Category="Contains" />
+    <Link Source="Framework" Target="AorUI" Category="Contains" />
+  </Links>
+  <Categories>
+    <Category Id="Comment" Label="注释" Description="表示在图表中用户定义的注释" CanBeDataDriven="True" IsProviderRoot="False" NavigationActionLabel="注释" />
+    <Category Id="Contains" Label="包含" Description="链接的源是否包含目标对象" CanBeDataDriven="False" CanLinkedNodesBeDataDriven="True" IncomingActionLabel="包含者" IsContainment="True" OutgoingActionLabel="包含" />
+  </Categories>
+  <Properties>
+    <Property Id="Bounds" DataType="System.Windows.Rect" />
+    <Property Id="CanBeDataDriven" Label="CanBeDataDriven" Description="CanBeDataDriven" DataType="System.Boolean" />
+    <Property Id="CanLinkedNodesBeDataDriven" Label="CanLinkedNodesBeDataDriven" Description="CanLinkedNodesBeDataDriven" DataType="System.Boolean" />
+    <Property Id="Expression" DataType="System.String" />
+    <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation" />
+    <Property Id="Group" Label="组" Description="将节点显示为组" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
+    <Property Id="GroupLabel" DataType="System.String" />
+    <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
+    <Property Id="IsContainment" DataType="System.Boolean" />
+    <Property Id="IsEnabled" DataType="System.Boolean" />
+    <Property Id="IsProviderRoot" Label="IsProviderRoot" Description="IsProviderRoot" DataType="System.Boolean" />
+    <Property Id="Label" Label="标签" Description="可批注对象的可显示标签" DataType="System.String" />
+    <Property Id="Layout" DataType="System.String" />
+    <Property Id="NavigationActionLabel" Label="NavigationActionLabel" Description="NavigationActionLabel" DataType="System.String" />
+    <Property Id="OutgoingActionLabel" Label="OutgoingActionLabel" Description="OutgoingActionLabel" DataType="System.String" />
+    <Property Id="TargetType" DataType="System.Type" />
+    <Property Id="UseManualLocation" DataType="System.Boolean" />
+    <Property Id="Value" DataType="System.String" />
+    <Property Id="ValueLabel" DataType="System.String" />
+    <Property Id="ZoomLevel" DataType="System.String" />
+  </Properties>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="注释" ValueLabel="包含注释">
+      <Condition Expression="HasCategory('Comment')" />
+      <Setter Property="Background" Value="#FFFFFACD" />
+      <Setter Property="Stroke" Value="#FFE5C365" />
+      <Setter Property="StrokeThickness" Value="1" />
+      <Setter Property="NodeRadius" Value="2" />
+      <Setter Property="MaxWidth" Value="250" />
+    </Style>
+  </Styles>
+</DirectedGraph>

@@ -1,0 +1,230 @@
+fileFormatVersion: 2
+guid: 7206882a72de63a499103a1b40ea6d36
+timeCreated: 1481623424
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: nameikexing_jianzhu1_005
+    100002: nameikexing_jianzhu2_02
+    100004: //RootNode
+    100006: nameikexing_jianzhu1
+    100008: nameikexing_jianzhu1_01
+    100010: nameikexing_jianzhu1_01B
+    100012: nameikexing_jianzhu1_02
+    100014: nameikexing_jianzhu1_02B
+    100016: nameikexing_jianzhu1_03
+    100018: nameikexing_jianzhu1_03B
+    100020: nameikexing_jianzhu1_04
+    100022: nameikexing_jianzhu1_04B
+    100024: nameikexing_jianzhu1_05
+    100026: nameikexing_jianzhu1_05B
+    100028: nameikexing_jianzhu2
+    100030: nameikexing_jianzhu2_01
+    100032: nameikexing_jianzhu2_01B
+    100034: nameikexing_jianzhu2_02B
+    100036: nameikexing_jianzhu2_03
+    100038: nameikexing_jianzhu2_03B
+    100040: nameikexing_jianzhu3_01
+    100042: nameikexing_jianzhu3_02
+    100044: nameikexing_jianzhu3_03
+    100046: nameikexing_jianzhu3_04
+    100048: nameikexing_jianzhu3_05
+    100050: nameikexing_jianzhu_01
+    100052: nameikexing_jianzhu_01B
+    100054: nameikexing_jianzhu_02
+    100056: nameikexing_jianzhu_02B
+    100058: nameikexing_jianzhu_03
+    100060: nameikexing_jianzhu_03B
+    100062: nameikexing_jianzhu_04
+    100064: nameikexing_jianzhu_05
+    100066: nameikexing_jianzhu_05B
+    100068: nameikexing_jianzhu_06
+    100070: nameikexing_jianzhu_06B
+    100072: nameikexing_suishi_01
+    100074: nameikexing_suishi_02
+    100076: nameikexing_suishi_03
+    100078: nameikexing_suishi_03 1
+    400000: nameikexing_jianzhu1_005
+    400002: nameikexing_jianzhu2_02
+    400004: //RootNode
+    400006: nameikexing_jianzhu1
+    400008: nameikexing_jianzhu1_01
+    400010: nameikexing_jianzhu1_01B
+    400012: nameikexing_jianzhu1_02
+    400014: nameikexing_jianzhu1_02B
+    400016: nameikexing_jianzhu1_03
+    400018: nameikexing_jianzhu1_03B
+    400020: nameikexing_jianzhu1_04
+    400022: nameikexing_jianzhu1_04B
+    400024: nameikexing_jianzhu1_05
+    400026: nameikexing_jianzhu1_05B
+    400028: nameikexing_jianzhu2
+    400030: nameikexing_jianzhu2_01
+    400032: nameikexing_jianzhu2_01B
+    400034: nameikexing_jianzhu2_02B
+    400036: nameikexing_jianzhu2_03
+    400038: nameikexing_jianzhu2_03B
+    400040: nameikexing_jianzhu3_01
+    400042: nameikexing_jianzhu3_02
+    400044: nameikexing_jianzhu3_03
+    400046: nameikexing_jianzhu3_04
+    400048: nameikexing_jianzhu3_05
+    400050: nameikexing_jianzhu_01
+    400052: nameikexing_jianzhu_01B
+    400054: nameikexing_jianzhu_02
+    400056: nameikexing_jianzhu_02B
+    400058: nameikexing_jianzhu_03
+    400060: nameikexing_jianzhu_03B
+    400062: nameikexing_jianzhu_04
+    400064: nameikexing_jianzhu_05
+    400066: nameikexing_jianzhu_05B
+    400068: nameikexing_jianzhu_06
+    400070: nameikexing_jianzhu_06B
+    400072: nameikexing_suishi_01
+    400074: nameikexing_suishi_02
+    400076: nameikexing_suishi_03
+    400078: nameikexing_suishi_03 1
+    2300000: nameikexing_jianzhu1_005
+    2300002: nameikexing_jianzhu2_02
+    2300004: nameikexing_jianzhu1_01
+    2300006: nameikexing_jianzhu1_01B
+    2300008: nameikexing_jianzhu1_02
+    2300010: nameikexing_jianzhu1_02B
+    2300012: nameikexing_jianzhu1_03
+    2300014: nameikexing_jianzhu1_03B
+    2300016: nameikexing_jianzhu1_04
+    2300018: nameikexing_jianzhu1_04B
+    2300020: nameikexing_jianzhu1_05
+    2300022: nameikexing_jianzhu1_05B
+    2300024: nameikexing_jianzhu2_01
+    2300026: nameikexing_jianzhu2_01B
+    2300028: nameikexing_jianzhu2_02B
+    2300030: nameikexing_jianzhu2_03
+    2300032: nameikexing_jianzhu2_03B
+    2300034: nameikexing_jianzhu3_01
+    2300036: nameikexing_jianzhu3_02
+    2300038: nameikexing_jianzhu3_03
+    2300040: nameikexing_jianzhu3_04
+    2300042: nameikexing_jianzhu3_05
+    2300044: nameikexing_suishi_01
+    2300046: nameikexing_suishi_02
+    2300048: nameikexing_suishi_03
+    2300050: nameikexing_suishi_03 1
+    3300000: nameikexing_jianzhu1_005
+    3300002: nameikexing_jianzhu2_02
+    3300004: nameikexing_jianzhu1_01
+    3300006: nameikexing_jianzhu1_01B
+    3300008: nameikexing_jianzhu1_02
+    3300010: nameikexing_jianzhu1_02B
+    3300012: nameikexing_jianzhu1_03
+    3300014: nameikexing_jianzhu1_03B
+    3300016: nameikexing_jianzhu1_04
+    3300018: nameikexing_jianzhu1_04B
+    3300020: nameikexing_jianzhu1_05
+    3300022: nameikexing_jianzhu1_05B
+    3300024: nameikexing_jianzhu2_01
+    3300026: nameikexing_jianzhu2_01B
+    3300028: nameikexing_jianzhu2_02B
+    3300030: nameikexing_jianzhu2_03
+    3300032: nameikexing_jianzhu2_03B
+    3300034: nameikexing_jianzhu3_01
+    3300036: nameikexing_jianzhu3_02
+    3300038: nameikexing_jianzhu3_03
+    3300040: nameikexing_jianzhu3_04
+    3300042: nameikexing_jianzhu3_05
+    3300044: nameikexing_suishi_01
+    3300046: nameikexing_suishi_02
+    3300048: nameikexing_suishi_03
+    3300050: nameikexing_suishi_03 1
+    4300000: nameikexing_jianzhu2_02
+    4300002: nameikexing_jianzhu1_005
+    4300004: nameikexing_jianzhu3_01
+    4300006: nameikexing_jianzhu1_01B
+    4300008: nameikexing_suishi_01
+    4300010: nameikexing_jianzhu1_01
+    4300012: nameikexing_jianzhu3_02
+    4300014: nameikexing_suishi_02
+    4300016: nameikexing_jianzhu2_01B
+    4300018: nameikexing_jianzhu1_02B
+    4300020: nameikexing_jianzhu2_01
+    4300022: nameikexing_jianzhu1_02
+    4300024: nameikexing_jianzhu1_03B
+    4300026: nameikexing_jianzhu3_03
+    4300028: nameikexing_suishi_03
+    4300030: nameikexing_jianzhu1_03
+    4300032: nameikexing_jianzhu1_04
+    4300034: nameikexing_jianzhu1_04B
+    4300036: nameikexing_jianzhu3_04
+    4300038: nameikexing_jianzhu2_02B
+    4300040: nameikexing_jianzhu1_05
+    4300042: nameikexing_jianzhu2_03
+    4300044: nameikexing_jianzhu2_03B
+    4300046: nameikexing_jianzhu3_05
+    4300048: nameikexing_suishi_03
+    4300050: nameikexing_jianzhu1_05B
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

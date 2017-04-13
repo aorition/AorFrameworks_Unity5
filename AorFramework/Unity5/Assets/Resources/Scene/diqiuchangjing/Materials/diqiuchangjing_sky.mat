@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: diqiuchangjing_sky
+  m_Shader: {fileID: 4800000, guid: 156a46ec1dd4b6d48957dc97e6e0556e, type: 3}
+  m_ShaderKeywords: CLIP_ON LIGHTMAP_LOGLUV
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+    - first:
+        name: _MainTex
+      second:
+        m_Texture: {fileID: 2800000, guid: 0aae7d18b8b63274a8bb84ba4dad10ed, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - first:
+        name: _CutOut
+      second: 0.1
+    - first:
+        name: _Lighting
+      second: 1.1
+    - first:
+        name: _power
+      second: 0.2
+    - first:
+        name: _wind
+      second: 1
+    m_Colors:
+    - first:
+        name: _Color
+      second: {r: 0.85294116, g: 0.969574, b: 1, a: 1}
+    - first:
+        name: _TintColor
+      second: {r: 1, g: 1, b: 1, a: 1}

@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AorFramework", "AorFramework.csproj", "{B05094BF-0EFC-4835-A998-EA8A3198A46E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AorFrameworkEditor", "..\Editor\AorFrameworkEditor.csproj", "{BDF1F7FF-E854-4A89-9BA7-3BC8FE065911}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AorBaseUtility", "..\..\AorBaseUtility\AorBaseUtility.csproj", "{CFF766B5-AAF1-4638-A423-F71EA26E70E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B05094BF-0EFC-4835-A998-EA8A3198A46E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B05094BF-0EFC-4835-A998-EA8A3198A46E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B05094BF-0EFC-4835-A998-EA8A3198A46E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B05094BF-0EFC-4835-A998-EA8A3198A46E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDF1F7FF-E854-4A89-9BA7-3BC8FE065911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDF1F7FF-E854-4A89-9BA7-3BC8FE065911}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDF1F7FF-E854-4A89-9BA7-3BC8FE065911}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDF1F7FF-E854-4A89-9BA7-3BC8FE065911}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFF766B5-AAF1-4638-A423-F71EA26E70E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFF766B5-AAF1-4638-A423-F71EA26E70E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFF766B5-AAF1-4638-A423-F71EA26E70E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFF766B5-AAF1-4638-A423-F71EA26E70E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
