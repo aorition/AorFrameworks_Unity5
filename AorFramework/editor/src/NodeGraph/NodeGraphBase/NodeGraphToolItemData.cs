@@ -15,6 +15,16 @@ namespace AorFramework.NodeGraph
             this.isDefaultIntoShortcutMenu = isDefaultIntoShortcutMenu;
         }
 
+        public float height
+        {
+            get { return rect.height; }
+        }
+
+        public float width
+        {
+            get { return rect.width; }
+        }
+
         public Rect rect;
         public string label;
         public string data;

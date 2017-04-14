@@ -692,7 +692,7 @@ namespace AorFramework.NodeGraph
                 //这里有个莫名其妙的补救
                 if (m_Instance == null)
                 {
-                    m_Instance = this;
+                    setup();
                 }
 
                 _draw_welcome();
@@ -808,7 +808,7 @@ namespace AorFramework.NodeGraph
 
             AorGUILayout.Horizontal(() =>
             {
-                if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(13), GUILayout.Height(28), GUILayout.Width(_ToolAreaWidth)))
+                if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(13),NodeGraphDefind.GetToolBarBtnStyle(_isShowToolArea), GUILayout.Height(28), GUILayout.Width(_ToolAreaWidth)))
                 {
                     _isShowToolArea = !_isShowToolArea;
                 }
@@ -816,13 +816,21 @@ namespace AorFramework.NodeGraph
                 if (_NodeGUIList != null && _NodeGUIList.Count > 0)
                 {
 
-                    GUILayout.Space(28);
+                    //GUILayout.Space(28);
+
+                    //候选样式名： InnerShadowBg AnimationKeyframeBackground
+                    GUILayout.BeginHorizontal("AnimationEventBackground", GUILayout.Height(NodeGraphDefind.MenuLayoutHeight),GUILayout.ExpandWidth(true));
+
                     //新建Graph
-                    if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(2) + " Graph", GUILayout.Height(28), GUILayout.Width(120)))
+                    if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(2) + " Graph", GUILayout.Height(28),
+                        GUILayout.Width(120)))
                     {
                         if (string.IsNullOrEmpty(_saveGraphPath))
                         {
-                            if (EditorUtility.DisplayDialog(NodeGraphLagDefind.GetLabelDefine(5), "Graph " + NodeGraphLagDefind.GetLabelDefine(6) + "," + NodeGraphLagDefind.GetLabelDefine(7) + "?", NodeGraphLagDefind.GetLabelDefine(8), NodeGraphLagDefind.GetLabelDefine(9)))
+                            if (EditorUtility.DisplayDialog(NodeGraphLagDefind.GetLabelDefine(5),
+                                "Graph " + NodeGraphLagDefind.GetLabelDefine(6) + "," +
+                                NodeGraphLagDefind.GetLabelDefine(7) + "?", NodeGraphLagDefind.GetLabelDefine(8),
+                                NodeGraphLagDefind.GetLabelDefine(9)))
                             {
                                 SaveGraphToFile();
                             }
@@ -834,11 +842,15 @@ namespace AorFramework.NodeGraph
                         NewNodeGraph();
                     }
                     //打开Graph
-                    if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(3) + " Graph", GUILayout.Height(28), GUILayout.Width(120)))
+                    if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(3) + " Graph", GUILayout.Height(28),
+                        GUILayout.Width(120)))
                     {
                         if (string.IsNullOrEmpty(_saveGraphPath))
                         {
-                            if (EditorUtility.DisplayDialog(NodeGraphLagDefind.GetLabelDefine(5), "Graph " + NodeGraphLagDefind.GetLabelDefine(6) + "," + NodeGraphLagDefind.GetLabelDefine(7) + "?", NodeGraphLagDefind.GetLabelDefine(8), NodeGraphLagDefind.GetLabelDefine(9)))
+                            if (EditorUtility.DisplayDialog(NodeGraphLagDefind.GetLabelDefine(5),
+                                "Graph " + NodeGraphLagDefind.GetLabelDefine(6) + "," +
+                                NodeGraphLagDefind.GetLabelDefine(7) + "?", NodeGraphLagDefind.GetLabelDefine(8),
+                                NodeGraphLagDefind.GetLabelDefine(9)))
                             {
                                 SaveGraphToFile();
                             }
@@ -852,14 +864,16 @@ namespace AorFramework.NodeGraph
                     //保存Graph
                     if (string.IsNullOrEmpty(_saveGraphPath))
                     {
-                        if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(8), GUILayout.Height(28), GUILayout.Width(120)))
+                        if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(8), GUILayout.Height(28),
+                            GUILayout.Width(120)))
                         {
                             SaveGraphToFile();
                         }
                     }
                     else
                     {
-                        if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(10), GUILayout.Height(28), GUILayout.Width(120)))
+                        if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(10), GUILayout.Height(28),
+                            GUILayout.Width(120)))
                         {
                             SaveGraphToFile(true);
                         }
@@ -869,22 +883,31 @@ namespace AorFramework.NodeGraph
 
                     if (_MainNode != null)
                     {
-                        if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(17), GUILayout.Height(28), GUILayout.Width(120)))
+                        if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(17), GUILayout.Height(28),
+                            GUILayout.Width(120)))
                         {
                             _MainNode.controller.update();
                         }
                     }
 
+                    GUILayout.EndHorizontal();
+
                 }
-                GUILayout.FlexibleSpace();
-                if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(11), GUILayout.Height(28), GUILayout.Width(120)))
+                else
+                {
+                    GUILayout.FlexibleSpace();
+                }
+
+                if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(11), NodeGraphDefind.GetInspectorBtnStyle(_isShowInspector),GUILayout.Height(28), GUILayout.Width(_InspectorWidth)))
                 {
                     _isShowInspector = !_isShowInspector;
                 }
-                if (_isShowInspector)
-                {
-                    GUILayout.Space(_InspectorWidth - 120);
-                }
+
+                //if (_isShowInspector)
+                //{
+                  //  GUILayout.Space(_InspectorWidth - 120);
+                //}
+
             }, GUILayout.Width(Screen.width), GUILayout.Height(NodeGraphDefind.MenuLayoutHeight));
 
         }
@@ -903,7 +926,7 @@ namespace AorFramework.NodeGraph
         /// </summary>
         protected List<NodeGraphToolItemCollection> _ToolAreaItemCollection = new List<NodeGraphToolItemCollection>();
 
-        protected void _addToolItemInCollection(NodeGraphToolItemData toolItemData, string tag = "non_category")
+        protected void _addToolItemInCollection(NodeGraphToolItemData toolItemData, string tag = "de")
         {
             if (_ToolAreaItemCollection.Exists(e => e.TAG == tag))
             {
@@ -925,18 +948,18 @@ namespace AorFramework.NodeGraph
             }
         }
 
-        protected int _GetAllToolItemCount()
+        protected float _GetAllToolItemHeight()
         {
-            int c = 0;
+            float c = 0;
             int i, len = _ToolAreaItemCollection.Count;
             for (i = 0; i < len; i++)
             {
-                c += _ToolAreaItemCollection[i].Count;
+                c += _ToolAreaItemCollection[i].Count * NodeGraphDefind.ToolAreaItemHeight + NodeGraphDefind.ToolAreaItemFoldoutHeight;
             }
             return c;
         }
 
-        protected NodeGraphToolItemCollection _GeToolItemListWithTag(string tag = "non_category")
+        protected NodeGraphToolItemCollection _GeToolItemListWithTag(string tag = "default")
         {
             if (_ToolAreaItemCollection.Exists(e => e.TAG == tag))
             {
@@ -972,6 +995,8 @@ namespace AorFramework.NodeGraph
             if (GCTypes.Count == 0) return;
 
             //在INodeGUIController集合中找NodeToolItemAttribute
+            List<NodeToolItemAttribute> NTIlist = new List<NodeToolItemAttribute>();
+                
             len = GCTypes.Count;
             for (i = 0; i < len; i++)
             {
@@ -980,31 +1005,54 @@ namespace AorFramework.NodeGraph
                 if (attributes.Length > 0)
                 {
                     //约定每个GUIController只能有一个NodeToolItemAttribute
-                    NodeToolItemAttribute ntItemAttribute = attributes[0] as NodeToolItemAttribute;
+                    NTIlist.Add(attributes[0] as NodeToolItemAttribute);
                     //
-                    Rect itemRect = new Rect(0, i * NodeGraphDefind.ToolAreaItemHeight, _ToolAreaWidth, NodeGraphDefind.ToolAreaItemHeight);
-                    string data = ntItemAttribute.reflectionClass + "@" + ntItemAttribute.reflectionMethodName;
-                    string label = _GetToolItemLabel(ntItemAttribute.labelDefine);
-                    string tag = ntItemAttribute.collectionTag;
-                    if (ntItemAttribute.defaultIntoShortcutMenu)
-                    {
-                        _AddToolItemInShortcutContextMenu(label, data);
-                    }
-                    _addToolItemInCollection(new NodeGraphToolItemData(itemRect, label, data, ntItemAttribute.defaultIntoShortcutMenu), tag);
                 }
             }
 
-//            _ToolAreaScrollCanvas = new Rect(0, 0, NodeGraphDefind.ToolAreaWidth - 15, _ToolAreaItemRects.Count * NodeGraphDefind.ToolAreaItemHeight);
-            _ToolAreaScrollCanvas = new Rect(0, 0, NodeGraphDefind.ToolAreaWidth - 15, _GetAllToolItemCount() * NodeGraphDefind.ToolAreaItemHeight);
+            //排序
+            NTIlist.Sort((a, b) =>
+            {
+                if (a.sortId < b.sortId)
+                {
+                    return -1;
+                }
+                else if (a.sortId == b.sortId)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
+            });
 
+            len = NTIlist.Count;
+            for (i = 0; i < len; i++)
+            {
+                NodeToolItemAttribute ntItemAttribute = NTIlist[i];
+                //
+                Rect itemRect = new Rect(0, 0, _ToolAreaWidth, NodeGraphDefind.ToolAreaItemHeight);
+                string data = ntItemAttribute.reflectionClass + "@" + ntItemAttribute.reflectionMethodName;
+                string label = _GetToolItemLabel(ntItemAttribute.labelDefine);
+                string tag = ntItemAttribute.collectionTag;
+                if (ntItemAttribute.defaultIntoShortcutMenu)
+                {
+                    _AddToolItemInShortcutContextMenu(label, data);
+                }
+                _addToolItemInCollection(new NodeGraphToolItemData(itemRect, label, data, ntItemAttribute.defaultIntoShortcutMenu), tag);
+            }
+
+            _ToolAreaScrollCanvas = new Rect(0, 0, NodeGraphDefind.ToolAreaWidth - 15, _GetAllToolItemHeight());
         }
 
         protected Rect _ToolAreaScrollCanvas;
         protected Vector2 _ToolAreaScrollPos = Vector2.zero;
         protected virtual void Draw_ToolArea(Rect taRect)
         {
+
           // GUI.BeginGroup(taRect);
-                        _ToolAreaScrollPos = GUI.BeginScrollView(taRect, _ToolAreaScrollPos, _ToolAreaScrollCanvas, false, true);
+            _ToolAreaScrollPos = GUI.BeginScrollView(taRect, _ToolAreaScrollPos, _ToolAreaScrollCanvas, false, true);
 //            _ToolAreaScrollPos = GUILayout.BeginScrollView(_ToolAreaScrollPos, false, true, GUILayout.ExpandWidth(false), GUILayout.ExpandHeight(true), GUILayout.Width(taRect.width));
 
             float stHight = 0;
@@ -1012,17 +1060,31 @@ namespace AorFramework.NodeGraph
             int u, ulen = _ToolAreaItemCollection.Count;
             for (u = 0; u < ulen; u++)
             {
+
+                GUILayout.BeginVertical();
                 NodeGraphToolItemCollection currentCollection = _ToolAreaItemCollection[u];
-                len = currentCollection.Count;
-                for (i = 0; i < len; i++)
+
+                Rect currentCollectionRect = new Rect(0, stHight, taRect.width, NodeGraphDefind.ToolAreaItemFoldoutHeight);
+                currentCollection.isFoldout = EditorGUI.Foldout(currentCollectionRect, currentCollection.isFoldout, currentCollection.TAG,NodeGraphDefind.GetToolItemFoldoutStyle());
+                stHight += currentCollectionRect.height;
+
+                if (currentCollection.isFoldout)
                 {
-                    Rect r = new Rect(currentCollection[i].rect.x, currentCollection[i].rect.y, currentCollection[i].rect.width, currentCollection[i].rect.height);
-                    GUI.Box(r, currentCollection[i].label, NodeGraphDefind.GetNodeToolItemStyle());
+                    float innerItemHeight = 0;
+                    len = currentCollection.Count;
+                    for (i = 0; i < len; i++)
+                    {
+                        Rect r = new Rect(0, stHight + innerItemHeight, currentCollection[i].rect.width, currentCollection[i].rect.height);
+                        currentCollection[i].rect = r;
+                        innerItemHeight += currentCollection[i].rect.height;
+                        GUI.Box(r, currentCollection[i].label, NodeGraphDefind.GetNodeToolItemStyle());
+                    }
+                    stHight += innerItemHeight;
                 }
+                GUILayout.EndVertical();
             }
 
 //            GUILayout.EndScrollView();
-
             GUI.EndScrollView();
           //  GUI.EndGroup();
         }
@@ -1816,6 +1878,9 @@ namespace AorFramework.NodeGraph
                     setSettings(parms);
                 }
             }
+
+            //////
+
         }
 
         //------------------------------- 新建
@@ -1828,9 +1893,6 @@ namespace AorFramework.NodeGraph
         /// </summary>
         public virtual void NewNodeGraph()
         {
-            //补救初始化
-            if (!_isInit) setup();
-
             _CurrentTID = NodeGraphTool.GetTIDCode();
             _NodeGUIList = new List<NodeGUI>();
             _activeNodeGUIList = new List<NodeGUI>();
