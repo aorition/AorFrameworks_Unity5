@@ -7,7 +7,8 @@ namespace AorFramework.NodeGraph
 {
     [NodeToolItem("Hierarchy #<12>", 
         "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder", 
-        "CreateHierarchySelector")]
+        "CreateHierarchySelector",
+        "Hierarchy Tools")]
     public class HierarchyObjSelectorGUIController : NodeGUIController
     {
 

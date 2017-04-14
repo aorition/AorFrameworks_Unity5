@@ -7,7 +7,8 @@ namespace AorFramework.NodeGraph
 {
     [NodeToolItem("#<0>", 
         "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder",
-        "CreateAssetSearch")]
+        "CreateAssetSearch",
+        "default", -100, true)]
     public class AssetSearchGUIController : NodeGUIController
     {
 

@@ -7,11 +7,18 @@ namespace AorFramework.NodeGraph
     public class NodeGraphToolItemCollection : IList<NodeGraphToolItemData>
     {
 
-        public NodeGraphToolItemCollection(string tag = "non_category")
+        public NodeGraphToolItemCollection(string tag = "default")
         {
             _tag = tag;
             _collection = new List<NodeGraphToolItemData>();
+            if (_tag == "default")
+            {
+                isFoldout = true;
+            }
         }
+
+        //是否显示
+        public bool isFoldout;
 
         private string _tag;
         public string TAG

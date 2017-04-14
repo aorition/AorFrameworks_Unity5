@@ -7,7 +7,8 @@ namespace AorFramework.NodeGraph
 {
     [NodeToolItem("#<1>", 
         "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder",
-        "CreateAssetFilter")]
+        "CreateAssetFilter",
+        "default",-99,true)]
     public class AssetFilterGUIController : NodeGUIController
     {
         public override string GetNodeLabel()

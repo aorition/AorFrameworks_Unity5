@@ -10,6 +10,65 @@ namespace AorFramework.NodeGraph
     /// </summary>
     public class NodeGraphDefind
     {
+        private static GUIStyle _ToolItemFoldoutStyle;
+        public static GUIStyle GetToolItemFoldoutStyle()
+        {
+            if (_ToolItemFoldoutStyle == null)
+            {
+                _ToolItemFoldoutStyle = GUI.skin.GetStyle("IN Foldout").Clone();
+                _ToolItemFoldoutStyle.fontSize = 10;
+                _ToolItemFoldoutStyle.alignment = TextAnchor.MiddleLeft;
+                _ToolItemFoldoutStyle.wordWrap = true;
+                _ToolItemFoldoutStyle.normal.textColor = Color.white;
+            }
+            return _ToolItemFoldoutStyle;
+        }
+
+        private static GUIStyle _toolBarBtnStyle;
+        private static GUIStyle _toolBarBtnStyle_hidden;
+        public static GUIStyle GetToolBarBtnStyle(bool isShow)
+        {
+            if (isShow)
+            {
+                if (_toolBarBtnStyle == null)
+                {
+                    _toolBarBtnStyle = GUI.skin.GetStyle("TL tab right").Clone();
+                }
+                return _toolBarBtnStyle;
+                
+            }
+            else
+            {
+                if (_toolBarBtnStyle_hidden == null)
+                {
+                    _toolBarBtnStyle_hidden = GUI.skin.GetStyle("Label").Clone();
+                }
+                return _toolBarBtnStyle_hidden;
+            }
+        }
+
+        private static GUIStyle _inspectorBtnStyle;
+        private static GUIStyle _inspectorBtnStyle_hidden;
+        public static GUIStyle GetInspectorBtnStyle(bool isShow)
+        {
+            if (isShow)
+            {
+                if (_inspectorBtnStyle == null)
+                {
+                    _inspectorBtnStyle = GUI.skin.GetStyle("TL tab left").Clone();
+                }
+                return _inspectorBtnStyle;
+            }
+            else
+            {
+                if (_inspectorBtnStyle_hidden == null)
+                {
+                    _inspectorBtnStyle_hidden = GUI.skin.GetStyle("RightLabel").Clone();
+                }
+                return _inspectorBtnStyle_hidden;
+                
+            }
+        }
 
         private static GUIStyle _ConnectPointLabelStyle_input;
         private static GUIStyle _ConnectPointLabelStyle_output;
@@ -127,7 +186,7 @@ namespace AorFramework.NodeGraph
         
         public static Vector2 WindowMinSize
         {
-            get { return new Vector2(800,600);}
+            get { return new Vector2(960,600);}
         }
 
         public const float ConnectCenterTipMargin = 5f;
@@ -202,6 +261,7 @@ namespace AorFramework.NodeGraph
         public const float ToolAreaWidth = 135f;
         //工具箱物品高度
         public const float ToolAreaItemHeight = 46f;
+        public const float ToolAreaItemFoldoutHeight = 20f;
         //Inspector宽度
         public const float InspectorWidth = 360f;
 
