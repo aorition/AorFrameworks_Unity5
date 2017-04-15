@@ -49,6 +49,24 @@ namespace AorFramework.NodeGraph
             NodeGraphBase.Instance.AddNodeGUI(node);
         }
 
+        public static void CreateAssetPrefabProcessor(Vector2 inputPos)
+        {
+            //---创建 AssetPrefabProcessor
+            AssetPrefabProcessorData nodedata = new AssetPrefabProcessorData(NodeGraphBase.Instance.GetNewNodeID());
+            nodedata.name = typeof(AssetPrefabProcessorData).Name;
+
+            AssetPrefabProcessorController ctrl = new AssetPrefabProcessorController();
+            AssetPrefabProcessorGUIController GUICtrl = new AssetPrefabProcessorGUIController();
+
+            NodeGUI node = new NodeGUI(nodedata, ctrl, GUICtrl);
+            node.position = inputPos;
+
+            ctrl.setup(node);
+            GUICtrl.setup(node);
+
+            NodeGraphBase.Instance.AddNodeGUI(node);
+        }
+
         public static void CreatePrefabProcessor(Vector2 inputPos)
         {
             //---创建 PrefabProcessor

@@ -78,6 +78,9 @@
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetFilter\AssetFilterController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetFilter\AssetFilterData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetFilter\AssetFilterGUIController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetPrefabProcessor\AssetPrefabProcessorController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetPrefabProcessor\AssetPrefabProcessorData.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetPrefabProcessor\AssetPrefabProcessorGUIController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetSearch\AssetSearchData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetSearch\AssetSearchController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetSearch\AssetSearchGUIController.cs" />

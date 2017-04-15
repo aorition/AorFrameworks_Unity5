@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    public class PrefabProcessorController : NodeController
+    public class AssetPrefabProcessorController : NodeController
     {
 
         private Type _customScriptType;
@@ -72,9 +72,8 @@ namespace AorFramework.NodeGraph
 
         public override void update(bool updateParentLoop = true)
         {
-
+            List<string> resultPathList = new List<string>();
             List<string> resultInfoList = new List<string>();
-            List<int> instanceList = new List<int>();
 
             int i = 0;
             int len;
@@ -89,52 +88,59 @@ namespace AorFramework.NodeGraph
                 }
             }
 
-            //获取上级节点数据 (PrefabInput)
-            ConnectionPointGUI cpg2 = NodeGraphBase.Instance.GetConnectionPointGui(m_nodeGUI.id, 100, ConnectionPointInoutType.MutiInput);
-            List<ConnectionGUI> clist2 = NodeGraphBase.Instance.GetContainsConnectionGUI(cpg2);
-            if (clist2 != null)
+            //获取上级节点数据 (PathInput)
+            ConnectionPointGUI cpg = NodeGraphBase.Instance.GetConnectionPointGui(m_nodeGUI.id, 100, ConnectionPointInoutType.MutiInput);
+            List<ConnectionGUI> clist = NodeGraphBase.Instance.GetContainsConnectionGUI(cpg);
+            if (clist != null)
             {
 
-                List<int> parentInsIdData = new List<int>();
+                List<string> parentData = new List<string>();
 
-                len = clist2.Count;
+                len = clist.Count;
                 for (i = 0; i < len; i++)
                 {
-                    int[] pd = (int[])clist2[i].GetConnectionValue(updateParentLoop);
+                    string[] pd = (string[])clist[i].GetConnectionValue(updateParentLoop);
                     if (pd != null)
                     {
-                        parentInsIdData.AddRange(pd);
+                        parentData.AddRange(pd);
                     }
                 }
-
+                
                 //查找Prefab
-                List<GameObject> gameObjectList = new List<GameObject>();
-                len = parentInsIdData.Count;
+                List<string> inputPathList = new List<string>();
+                len = parentData.Count;
                 for (i = 0; i < len; i++)
                 {
-                    GameObject go = (GameObject)EditorUtility.InstanceIDToObject(parentInsIdData[i]);
-                    if (go)
+                    EditorAssetInfo info = new EditorAssetInfo(parentData[i]);
+                    if (info.suffix.ToLower() == ".prefab")
                     {
-                        gameObjectList.Add(go);
+                        inputPathList.Add(info.path);
                     }
                 }
 
-                if (gameObjectList.Count > 0)
+                if (inputPathList.Count > 0)
                 {
-                   // m_nodeGUI.data.ref_SetField_Inst_Public("InputAssetsPath", inputPathList.ToArray());
+                    //m_nodeGUI.data.ref_SetField_Inst_Public("InputAssetsPath", inputPathList.ToArray());
 
                     //自定义脚本
                     if (_hasCustomScript)
                     {
 
-                        len = gameObjectList.Count;
+                        len = inputPathList.Count;
                         for (i = 0; i < len; i++)
                         {
-                            EditorUtility.DisplayProgressBar("Processing ...", "Processing ..." + i + " / " + len, Mathf.Round((float)i / len * 10000) * 0.01f);
-                            GameObject go = gameObjectList[i];
-                            if ((bool)_customScriptMethodInfo.Invoke(_customScript, new object[] { go, resultInfoList }))
+                            EditorUtility.DisplayProgressBar("Processing ...", "Processing ..." + i + " / " + len,
+                                Mathf.Round((float) i/len*10000)*0.01f);
+                            GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(inputPathList[i]);
+                            if (go)
                             {
-                                instanceList.Add(go.GetInstanceID());
+
+                                if (
+                                    (bool)
+                                        _customScriptMethodInfo.Invoke(_customScript, new object[] {go, resultInfoList}))
+                                {
+                                    resultPathList.Add(inputPathList[i]);
+                                }
                             }
                         }
 
@@ -143,26 +149,21 @@ namespace AorFramework.NodeGraph
                     }
                     else
                     {
-                        len = gameObjectList.Count;
-                        for (i = 0; i < len; i++)
-                        {
-                            instanceList.Add(gameObjectList[i].GetInstanceID());
-                        }
+                        m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", inputPathList.ToArray());
                     }
-                    
+
                 }
                 else
                 {
-                    m_nodeGUI.data.ref_SetField_Inst_Public("InstancesPath", null);
+                    m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", null);
                 }
+
             }
             else
             {
-                m_nodeGUI.data.ref_SetField_Inst_Public("InstancesPath", null);
+                m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", null);
             }
-
-
-
+            
             //输出 。。。
             if (resultInfoList.Count > 0)
             {
@@ -173,9 +174,9 @@ namespace AorFramework.NodeGraph
                 m_nodeGUI.data.ref_SetField_Inst_Public("CustomScriptResultInfo", null);
             }
 
-            if (instanceList.Count > 0)
+            if (resultPathList.Count > 0)
             {
-                m_nodeGUI.data.ref_SetField_Inst_Public("InstancesPath", instanceList.ToArray());
+                m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", resultPathList.ToArray());
             }
 
             base.update(updateParentLoop);

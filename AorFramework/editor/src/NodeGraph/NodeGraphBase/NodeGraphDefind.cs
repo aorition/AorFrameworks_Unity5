@@ -193,6 +193,16 @@ namespace AorFramework.NodeGraph
         public const float ConnectCenterTipLabelPreHeight = 26f;
         public const float ConnectCenterTipLabelPreWidth = 8f;
 
+        private static Color m_ConnectionLineColor = Color.gray;
+        public static Color ConnectionLineColor
+        {
+            get { return m_ConnectionLineColor; }
+        }
+
+        public const float ConnectionLineWidth = 4f;
+        public const float ConnectionLineAddOffset = 20f;
+
+
         //--------------------- 菜单 定义---------------
 
         public const string MENU_ROOT = "Window";
@@ -294,6 +304,8 @@ namespace AorFramework.NodeGraph
         {
             get { return m_NodeGraphBaseColor; }
         }
+
+        
 
         //MutiSelection 框体颜色
         private static Color m_MutiSelectionColor = Color.cyan;

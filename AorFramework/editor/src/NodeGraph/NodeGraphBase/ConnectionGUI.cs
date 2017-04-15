@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using AorBaseUtility;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,38 +8,75 @@ namespace AorFramework.NodeGraph
     public class ConnectionGUI
     {
 
-        private class ConnectionGUISingleton
+        public static void DrawConnction(Vector3 startV3, Vector3 endV3, Vector3 startEx, Vector3 endEx, bool drawAddLine, bool drawArrow)
         {
-           // public Action<OnConnectionEvent> emitAction;
 
-            public Texture2D connectionArrowTex;
+            float pointDistance = (endV3.x - startV3.x) / 3f;
+            if (pointDistance < NodeGraphDefind.CONNECTION_CURVE_LENGTH) pointDistance = NodeGraphDefind.CONNECTION_CURVE_LENGTH;
 
-            private static ConnectionGUISingleton s_singleton;
+            Vector3 startTan = new Vector3(startV3.x + pointDistance, startV3.y, 0f);
+            Vector3 endTan = new Vector3(endV3.x - pointDistance, endV3.y, 0f);
 
-            public static ConnectionGUISingleton s
+            //绘制 连线
+            if (drawAddLine)
             {
-                get
-                {
-                    if (s_singleton == null)
-                    {
-                        s_singleton = new ConnectionGUISingleton();
-                    }
+                //start
+                Vector3 st = new Vector3(startV3.x, startEx.y);
+                Handles.DrawBezier(startEx, st, startEx, st, NodeGraphDefind.ConnectionLineColor, null, NodeGraphDefind.ConnectionLineWidth);
+                Handles.DrawBezier(st, startV3, st, startV3, NodeGraphDefind.ConnectionLineColor, null, NodeGraphDefind.ConnectionLineWidth);
 
-                    return s_singleton;
-                }
+                //
+                Vector3 et = new Vector3(endV3.x, endEx.y);
+                Handles.DrawBezier(endEx, et, endEx, et, NodeGraphDefind.ConnectionLineColor, null, NodeGraphDefind.ConnectionLineWidth);
+                Handles.DrawBezier(et, endV3, et, endV3, NodeGraphDefind.ConnectionLineColor, null, NodeGraphDefind.ConnectionLineWidth);
+
+
+                Handles.DrawBezier(startV3, endV3, startV3, endV3, NodeGraphDefind.ConnectionLineColor, null, NodeGraphDefind.ConnectionLineWidth);
+            }
+            else
+            {
+                Handles.DrawBezier(startV3, endV3, startTan, endTan, NodeGraphDefind.ConnectionLineColor, null, NodeGraphDefind.ConnectionLineWidth);
+            }
+
+            //-- 绘制箭头
+            if (!drawArrow) return;
+            if (drawAddLine)
+            {
+                GUI.DrawTexture(
+                    new Rect(
+                        endEx.x - NodeGraphDefind.CONNECTION_ARROW_WIDTH + 4f,
+                        endEx.y - (NodeGraphDefind.CONNECTION_ARROW_HEIGHT / 2f) - 1f,
+                        NodeGraphDefind.CONNECTION_ARROW_WIDTH,
+                        NodeGraphDefind.CONNECTION_ARROW_HEIGHT
+                        ),
+                    ConnectionGUI.connectionArrowTex
+                    );
+            }
+            else
+            {
+                GUI.DrawTexture(
+                    new Rect(
+                        endV3.x - NodeGraphDefind.CONNECTION_ARROW_WIDTH + 4f,
+                        endV3.y - (NodeGraphDefind.CONNECTION_ARROW_HEIGHT/2f) - 1f,
+                        NodeGraphDefind.CONNECTION_ARROW_WIDTH,
+                        NodeGraphDefind.CONNECTION_ARROW_HEIGHT
+                        ),
+                    ConnectionGUI.connectionArrowTex
+                    );
             }
         }
 
+        private static Texture2D m_connectionArrowTex;
         public static Texture2D connectionArrowTex
         {
             get
             {
                 // load shared connection textures
-                if (ConnectionGUISingleton.s.connectionArrowTex == null)
+                if (m_connectionArrowTex == null)
                 {
-                    ConnectionGUISingleton.s.connectionArrowTex = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_ARROW);
+                    m_connectionArrowTex = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_ARROW);
                 }
-                return ConnectionGUISingleton.s.connectionArrowTex;
+                return m_connectionArrowTex;
             }
         }
 
@@ -162,43 +197,60 @@ namespace AorFramework.NodeGraph
             if (NodeGraphBase.Instance == null) return;
             //绘制连线
             Rect sRect = m_OutputPointGui.GlobalPointRect;
-//            Vector3 startV3 = new Vector3(
-//                sRect.x + sRect.width * 0.5f - NodeGraphBase.Instance.NodeGraphCanvasScrollPos.x,
-//                sRect.y + sRect.height * 0.5f - NodeGraphBase.Instance.NodeGraphCanvasScrollPos.y + NodeGraphDefind.MenuLayoutHeight,
-//                0f);
+            Rect eRect = m_InputPointGui.GlobalPointRect;
+
+            //开始点
             Vector3 startV3 = new Vector3(
                 sRect.x + sRect.width * 0.5f,
                 sRect.y + sRect.height * 0.5f - NodeGraphDefind.MenuLayoutHeight,
                 0f);
 
-            Rect eRect = m_InputPointGui.GlobalPointRect;
+            //结束点
             Vector3 endV3 = new Vector3(
                 eRect.x + eRect.width * 0.5f,
                 eRect.y + sRect.height * 0.5f - NodeGraphDefind.MenuLayoutHeight,
                 0f);
 
+            Vector3 os = new Vector3(startV3.x, startV3.y, startV3.z);
+            Vector3 oe = new Vector3(endV3.x, endV3.y, endV3.z);
+
+            bool drawAddLine = false;
+
+            //判断是否是绕线
+            if (endV3.x < startV3.x)
+            {
+                drawAddLine = true;
+                
+                float sx = os.x + OutputPointGui.index*NodeGraphDefind.ConnectionLineAddOffset + NodeGraphDefind.ConnectionLineAddOffset;
+
+                float dis = Mathf.Abs(endV3.y - startV3.y);
+                if (dis <= (OutputPointGui.node.size.y + InputPointGui.node.size.y) * 0.5f)
+                {
+                    //距离近 都从下边绕
+                    sx = Mathf.Max(sx, oe.x + InputPointGui.node.size.x + NodeGraphDefind.ConnectionLineAddOffset);
+
+                    float cy = Mathf.Max( startV3.y + OutputPointGui.node.size.y * 0.5f + NodeGraphDefind.ConnectionLineAddOffset,
+                                    endV3.y + InputPointGui.node.size.y * 0.5f + NodeGraphDefind.ConnectionLineAddOffset);
+
+                    startV3 = new Vector3(sx, cy);
+                    endV3 = new Vector3(oe.x - (InputPointGui.index * NodeGraphDefind.ConnectionLineAddOffset + NodeGraphDefind.ConnectionLineAddOffset), cy);
+
+                }
+                else
+                {
+                    //上绕 or 下绕？
+                    float cy = (endV3.y < startV3.y ? os.y -(dis * 0.5f) :  os.y + dis * 0.5f);
+
+                    startV3 = new Vector3(sx, cy);
+                    endV3 = new Vector3(oe.x - (InputPointGui.index * NodeGraphDefind.ConnectionLineAddOffset + NodeGraphDefind.ConnectionLineAddOffset),cy);
+
+                }
+            }
+
             //中点
             m_center = startV3 + ((endV3 - startV3) / 2);
 
-            float pointDistance = (endV3.x - startV3.x) / 3f;
-            if (pointDistance < NodeGraphDefind.CONNECTION_CURVE_LENGTH) pointDistance = NodeGraphDefind.CONNECTION_CURVE_LENGTH;
-
-            Vector3 startTan = new Vector3(startV3.x + pointDistance, startV3.y, 0f);
-            Vector3 endTan = new Vector3(endV3.x - pointDistance, endV3.y, 0f);
-
-            //绘制 连线
-            Handles.DrawBezier(startV3, endV3, startTan, endTan, Color.gray, null, 4f);
-
-            //-- 绘制箭头
-            GUI.DrawTexture(
-                new Rect(
-                    endV3.x - NodeGraphDefind.CONNECTION_ARROW_WIDTH + 4f,
-                    endV3.y - (NodeGraphDefind.CONNECTION_ARROW_HEIGHT / 2f) - 1f,
-                    NodeGraphDefind.CONNECTION_ARROW_WIDTH,
-                    NodeGraphDefind.CONNECTION_ARROW_HEIGHT
-                ),
-                ConnectionGUI.connectionArrowTex
-            );
+            DrawConnction(startV3, endV3, os, oe, drawAddLine, true);
 
             //DrawCenterTip
             if (NodeGraphBase.Instance != null)

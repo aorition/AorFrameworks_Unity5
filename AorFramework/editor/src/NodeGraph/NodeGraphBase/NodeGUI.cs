@@ -18,6 +18,20 @@ namespace AorFramework.NodeGraph
     /// </summary>
     public class NodeGUI
     {
+
+        private static Texture2D m_RefreshIcon;
+        public static Texture2D RefreshIcon
+        {
+            get
+            {
+                if (m_RefreshIcon == null)
+                {
+                    m_RefreshIcon = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_REFRESH_ICON);
+                }
+                return m_RefreshIcon;
+            }
+        }
+
         public NodeGUI(INodeData nodeMData, INodeController controller, INodeGUIController GUIController)
         {
             m_data = nodeMData;
@@ -141,6 +155,8 @@ namespace AorFramework.NodeGraph
             GUILayout.EndVertical();
 
             DrawNodeConnectionPoint();
+
+            //Todo 多选后同时移动的实现不好做啊 。。。
             if (_state != NodeGUIModifyState.InResizeMode && Event.current.button < 1 && NodeGraphBase.Instance.state != NodeGraphModifyState.ConnectionDraw)
                 UnityEngine.GUI.DragWindow();
         }
@@ -333,7 +349,7 @@ namespace AorFramework.NodeGraph
                                           rect.height - NodeGraphDefind.ModeGUIRefreshIconY,
                                           NodeGraphDefind.ModeGUIRefreshIconX,
                                           NodeGraphDefind.ModeGUIRefreshIconY);
-                GUI.Box(refreshIconRect, new GUIContent(NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_REFRESH_ICON),NodeGraphLagDefind.GetLabelDefine(12)));
+                GUI.Box(refreshIconRect, new GUIContent(m_RefreshIcon, NodeGraphLagDefind.GetLabelDefine(12)));
             }
 
         }

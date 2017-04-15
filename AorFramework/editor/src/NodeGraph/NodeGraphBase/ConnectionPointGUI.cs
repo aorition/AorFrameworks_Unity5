@@ -14,116 +14,88 @@ namespace AorFramework.NodeGraph {
 
     public class ConnectionPointGUI
     {
-
-        private class ConnectionPointGUISingleton
-        {
-            // public Action<OnConnectionEvent> emitAction;
-
-            public Texture2D ConnectionPointGUIInputBGTex;
-
-            public Texture2D ConnectionPointGUIInputTex;
-
-            public Texture2D ConnectionPointGUIInputActiveTex;
-
-            //------------
-
-            public Texture2D ConnectionPointGUIOutputBGTex;
-
-            public Texture2D ConnectionPointGUIOutputTex;
-
-            public Texture2D ConnectionPointGUIOutputActiveTex;
-
-            private static ConnectionPointGUISingleton s_singleton;
-
-            public static ConnectionPointGUISingleton s
-            {
-                get
-                {
-                    if (s_singleton == null)
-                    {
-                        s_singleton = new ConnectionPointGUISingleton();
-                    }
-
-                    return s_singleton;
-                }
-            }
-        }
-
+        
+        private static Texture2D m_ConnectionPointInputBG;
         public static Texture2D ConnectionPointInputBG
         {
             get
             {
                 // load shared connection textures
-                if (ConnectionPointGUISingleton.s.ConnectionPointGUIInputBGTex == null)
+                if (m_ConnectionPointInputBG == null)
                 {
-                    ConnectionPointGUISingleton.s.ConnectionPointGUIInputBGTex = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_INPUT_BG);
+                    m_ConnectionPointInputBG = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_INPUT_BG);
                 }
-                return ConnectionPointGUISingleton.s.ConnectionPointGUIInputBGTex;
+                return m_ConnectionPointInputBG;
             }
         }
 
+        private static Texture2D m_ConnectionPointOutputBG;
         public static Texture2D ConnectionPointOutputBG
         {
             get
             {
                 // load shared connection textures
-                if (ConnectionPointGUISingleton.s.ConnectionPointGUIOutputBGTex == null)
+                if (m_ConnectionPointOutputBG == null)
                 {
-                    ConnectionPointGUISingleton.s.ConnectionPointGUIOutputBGTex = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_OUTPUT_BG);
+                    m_ConnectionPointOutputBG = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_OUTPUT_BG);
                 }
-                return ConnectionPointGUISingleton.s.ConnectionPointGUIOutputBGTex;
+                return m_ConnectionPointOutputBG;
             }
         }
 
+        private static Texture2D m_ConnectionPointInput;
         public static Texture2D ConnectionPointInput
         {
             get
             {
                 // load shared connection textures
-                if (ConnectionPointGUISingleton.s.ConnectionPointGUIInputTex == null)
+                if (m_ConnectionPointInput == null)
                 {
-                    ConnectionPointGUISingleton.s.ConnectionPointGUIInputTex = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_CONNECTIONPOINT_INPUT);
+                    m_ConnectionPointInput = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_CONNECTIONPOINT_INPUT);
                 }
-                return ConnectionPointGUISingleton.s.ConnectionPointGUIInputTex;
+                return m_ConnectionPointInput;
             }
         }
 
+        private static Texture2D m_ConnectionPointOutput;
         public static Texture2D ConnectionPointOutput
         {
             get
             {
                 // load shared connection textures
-                if (ConnectionPointGUISingleton.s.ConnectionPointGUIOutputTex == null)
+                if (m_ConnectionPointOutput == null)
                 {
-                    ConnectionPointGUISingleton.s.ConnectionPointGUIOutputTex = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_CONNECTIONPOINT_OUTPUT);
+                    m_ConnectionPointOutput = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_CONNECTIONPOINT_OUTPUT);
                 }
-                return ConnectionPointGUISingleton.s.ConnectionPointGUIOutputTex;
+                return m_ConnectionPointOutput;
             }
         }
 
+        private static Texture2D m_ConnectionPointInputLight;
         public static Texture2D ConnectionPointInputLight
         {
             get
             {
                 // load shared connection textures
-                if (ConnectionPointGUISingleton.s.ConnectionPointGUIInputActiveTex == null)
+                if (m_ConnectionPointInputLight == null)
                 {
-                    ConnectionPointGUISingleton.s.ConnectionPointGUIInputActiveTex = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_CONNECTIONPOINT_ENABLE);
+                    m_ConnectionPointInputLight = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_CONNECTIONPOINT_ENABLE);
                 }
-                return ConnectionPointGUISingleton.s.ConnectionPointGUIInputActiveTex;
+                return m_ConnectionPointInputLight;
             }
         }
 
+        private static Texture2D m_ConnectionPointOutputLight;
         public static Texture2D ConnectionPointOutputLight
         {
             get
             {
                 // load shared connection textures
-                if (ConnectionPointGUISingleton.s.ConnectionPointGUIOutputActiveTex == null)
+                if (m_ConnectionPointOutputLight == null)
                 {
-                    ConnectionPointGUISingleton.s.ConnectionPointGUIOutputActiveTex = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_CONNECTIONPOINT_OUTPUT_CONNECTED);
+                    m_ConnectionPointOutputLight = NodeGraphTool.LoadTextureFromFile(NodeGraphDefind.RESOURCE_CONNECTIONPOINT_OUTPUT_CONNECTED);
                 }
-                return ConnectionPointGUISingleton.s.ConnectionPointGUIOutputActiveTex;
+                return m_ConnectionPointOutputLight;
             }
         }
 
@@ -266,6 +238,8 @@ namespace AorFramework.NodeGraph {
         }
 
         private GUIStyle _PointLabelStyle;
+        private Texture2D PointTex;
+        private Texture2D markTex;
 
         /// <summary>
         /// 绘制ConnectionPoint
@@ -274,7 +248,7 @@ namespace AorFramework.NodeGraph {
         {
             UpdatePos();
 
-            Texture2D PointTex;
+            
             if (m_InOutType == ConnectionPointInoutType.Input || m_InOutType == ConnectionPointInoutType.MutiInput)
             {
                 PointTex = ConnectionPointInputBG;
@@ -289,7 +263,6 @@ namespace AorFramework.NodeGraph {
                         PointTex
                     );
 
-            Texture2D markTex;
             if (m_InOutType == ConnectionPointInoutType.Input || m_InOutType == ConnectionPointInoutType.MutiInput)
             {
                 if (enabled || isUsed)

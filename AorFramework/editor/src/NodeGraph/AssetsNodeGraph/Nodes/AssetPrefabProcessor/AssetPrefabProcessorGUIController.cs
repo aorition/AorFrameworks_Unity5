@@ -5,11 +5,10 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    [NodeToolItem("#<3>", 
-        "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder", 
-        "CreatePrefabProcessor",
-        "Hierarchy Tools")]
-    public class PrefabProcessorGUIController : NodeGUIController
+    [NodeToolItem("Assets#<3>", 
+        "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder",
+        "CreateAssetPrefabProcessor")]
+    public class AssetPrefabProcessorGUIController : NodeGUIController
     {
 
         private GUIStyle _describeStyle;
@@ -18,7 +17,7 @@ namespace AorFramework.NodeGraph
 
         public override string GetNodeLabel()
         {
-             return AssetNodeGraphLagDefind.GetLabelDefine(3);
+             return "Assets" + AssetNodeGraphLagDefind.GetLabelDefine(3);
         }
 
         private Vector2 _NodeMinSize = new Vector2(230, 120);
@@ -31,8 +30,8 @@ namespace AorFramework.NodeGraph
         {
             if (_ConnectionPointGUIList == null)
             {
-                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(int[]).Name, "PrefabInput", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(9) + AssetNodeGraphLagDefind.GetLabelDefine(7), new Vector2(100, 60), ConnectionPointInoutType.MutiInput);
-                ConnectionPointGUI p1 = new ConnectionPointGUI(200, 0, 1, typeof(int[]).Name, "InstancesPath", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(8), new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(string[]).Name, "PathInput", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(10) + AssetNodeGraphLagDefind.GetLabelDefine(7), new Vector2(100, 60), ConnectionPointInoutType.MutiInput);
+                ConnectionPointGUI p1 = new ConnectionPointGUI(200, 0, 1, typeof(string[]).Name, "AssetsPath", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(8), new Vector2(100, 60), ConnectionPointInoutType.Output);
 
                 _ConnectionPointGUIList = new List<ConnectionPointGUI>() {p0, p1};
             }
@@ -44,7 +43,7 @@ namespace AorFramework.NodeGraph
         {
             //string
             string info = "0";
-            int[] assetList = (int[])m_nodeGUI.data.ref_GetField_Inst_Public("InstancesPath");
+            string[] assetList = (string[])m_nodeGUI.data.ref_GetField_Inst_Public("AssetsPath");
             if (assetList != null)
             {
                 info = assetList.Length.ToString();

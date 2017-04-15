@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace AorFramework.NodeGraph
 {
-    public class PrefabProcessorData : NodeData
+    public class AssetPrefabProcessorData : NodeData
     {
 
-        public PrefabProcessorData()
+        public AssetPrefabProcessorData()
         {
         }
 
-        public PrefabProcessorData(long id):base(id)
+        public AssetPrefabProcessorData(long id):base(id)
         {
         }
 
@@ -22,7 +22,7 @@ namespace AorFramework.NodeGraph
 
         public readonly string[] CustomScriptResultInfo;
 
-        public readonly int[] InstancesPath;
+        public readonly string[] AssetsPath;
 
     }
 }

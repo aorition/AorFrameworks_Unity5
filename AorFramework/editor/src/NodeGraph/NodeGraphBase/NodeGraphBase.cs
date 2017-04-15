@@ -27,13 +27,18 @@ namespace AorFramework.NodeGraph
         DragToolItem,
     }
 
+    //TODO 目前NodeGraphBase开销很高，需要优化。某个地方存在内存泄漏 = =b
     public class NodeGraphBase : EditorWindow
     {
 
-        protected static NodeGraphBase m_Instance;
+ //       protected static NodeGraphBase m_Instance;
         public static NodeGraphBase Instance
         {
-            get { return m_Instance; }
+            //get { return m_Instance; }
+            get
+            {
+                return EditorWindow.GetWindow<NodeGraphBase>("NodeGraph");
+            }
         }
 
         //[MenuItem("Window/NodeGraphBase")]
@@ -93,7 +98,7 @@ namespace AorFramework.NodeGraph
             //set NodeGraphModifyState
             _state = NodeGraphModifyState.Default;
 
-            m_Instance = this;
+           // m_Instance = this;
 
             //初始化 工具箱
             initToolAreaItems();
@@ -429,9 +434,11 @@ namespace AorFramework.NodeGraph
 
             //向上查找
             bool result = _findCrossReferencesUpper(node, targetNode);
-            if(result) return true;
+
+            //TODO 尚不确定是否需要向下查找交叉引用，且检查交叉引用的算法不准确有逻辑bug。暂时先屏蔽向下查找
+            //if(result) return true;
             //向下查找
-            result = _findCrossReferencesDowner(node, targetNode);
+            //result = _findCrossReferencesDowner(node, targetNode);
             return result;
         }
 
@@ -464,7 +471,7 @@ namespace AorFramework.NodeGraph
             }
             return false;
         }
-
+        
         private bool _findCrossReferencesDowner(NodeGUI node, NodeGUI targetNode)
         {
             if (node == targetNode) return true;
@@ -483,7 +490,7 @@ namespace AorFramework.NodeGraph
                         int c, clen = clist.Count;
                         for (c = 0; c < clen; c++)
                         {
-                            result = _findCrossReferencesUpper(clist[c].InputPointGui.node, targetNode);
+                            result = _findCrossReferencesDowner(clist[c].InputPointGui.node, targetNode);
                             if (result)
                             {
                                 return true;
@@ -690,10 +697,10 @@ namespace AorFramework.NodeGraph
             if (_NodeGUIList == null)
             {
                 //这里有个莫名其妙的补救
-                if (m_Instance == null)
-                {
-                    setup();
-                }
+//                if (m_Instance == null)
+//                {
+//                    setup();
+//                }
 
                 _draw_welcome();
                 HandleStageEvents();
@@ -771,29 +778,7 @@ namespace AorFramework.NodeGraph
 
                     Vector3 endV3 = new Vector3(Event.current.mousePosition.x, Event.current.mousePosition.y, 0f);
 
-                    //中点
-                    Vector3 centerV3 = startV3 + ((endV3 - startV3) / 2);
-
-                    float pointDistance = (endV3.x - startV3.x) / 3f;
-                    if (pointDistance < NodeGraphDefind.CONNECTION_CURVE_LENGTH) pointDistance = NodeGraphDefind.CONNECTION_CURVE_LENGTH;
-
-                    Vector3 startTan = new Vector3(startV3.x + pointDistance, startV3.y, 0f);
-                    Vector3 endTan = new Vector3(endV3.x - pointDistance, endV3.y, 0f);
-
-                    //绘制 连线
-                    Handles.DrawBezier(startV3, endV3, startTan, endTan, Color.gray, null, 4f);
-
-                    //-- 绘制箭头
-//                    GUI.DrawTexture(
-//                        new Rect(
-//                            endV3.x - NodeGraphDefind.CONNECTION_ARROW_WIDTH + 4f,
-//                            endV3.y - (NodeGraphDefind.CONNECTION_ARROW_HEIGHT / 2f) - 1f,
-//                            NodeGraphDefind.CONNECTION_ARROW_WIDTH,
-//                            NodeGraphDefind.CONNECTION_ARROW_HEIGHT
-//                        ),
-//                        ConnectionGUI.connectionArrowTex
-//                    );
-
+                    ConnectionGUI.DrawConnction(startV3, endV3, Vector3.zero, Vector3.zero, false, false);
                 }
             }
 
@@ -1077,7 +1062,7 @@ namespace AorFramework.NodeGraph
                         Rect r = new Rect(0, stHight + innerItemHeight, currentCollection[i].rect.width, currentCollection[i].rect.height);
                         currentCollection[i].rect = r;
                         innerItemHeight += currentCollection[i].rect.height;
-                        GUI.Box(r, currentCollection[i].label, NodeGraphDefind.GetNodeToolItemStyle());
+                        GUI.Box(new Rect(r.x,r.y,r.width - 15,r.height), currentCollection[i].label, NodeGraphDefind.GetNodeToolItemStyle());
                     }
                     stHight += innerItemHeight;
                 }

@@ -29,7 +29,7 @@ namespace AorFramework.NodeGraph
         {
             //string
             string info = "0";
-            string[] assetList = (string[])m_nodeGUI.data.ref_GetField_Inst_Public("AssetsPath");
+            string[] assetList = (string[]) connection.GetConnectionValue(false);
             if (assetList != null)
             {
                 info = assetList.Length.ToString();

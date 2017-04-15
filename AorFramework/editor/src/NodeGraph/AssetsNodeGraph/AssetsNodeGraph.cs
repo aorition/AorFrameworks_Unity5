@@ -12,6 +12,13 @@ namespace AorFramework.NodeGraph
         [MenuItem(NodeGraphDefind.MENU_MAIN_DIR + "/AssetsNodeGraph")]
         public static void init()
         {
+
+//            if (NodeGraphBase.Instance != null)
+//            {
+//                NodeGraphBase.Instance.Close();
+//                return;
+//            }
+
             AssetsNodeGraph w = EditorWindow.GetWindow<AssetsNodeGraph>("AssetsNodeGraph");
             w.setup();
         }
