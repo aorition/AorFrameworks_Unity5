@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AorFramework.NodeGraph.Tool;
 using UnityEditor;
 using UnityEngine;
 
@@ -63,6 +64,7 @@ namespace AorFramework.NodeGraph
 
             GUILayout.Label(new GUIContent("Filter Key :"));
             string[] keylist = (string[])m_nodeGUI.data.ref_GetField_Inst_Public("FilterKeys");
+            bool[] icList = (bool[])m_nodeGUI.data.ref_GetField_Inst_Public("IgnoreCase");
             bool _ischanged = false;
             int len = (keylist != null ? keylist.Length : 0);
             int nlen = EditorGUILayout.IntField(len);
@@ -70,19 +72,23 @@ namespace AorFramework.NodeGraph
             if (nlen != len)
             {
                 string[] nkl = new string[nlen];
+                bool[] nic = new bool[nlen];
                 for (int i = 0; i < nlen; i++)
                 {
 
                     if (keylist != null && i < keylist.Length)
                     {
                         nkl[i] = keylist[i];
+                        nic[i] = icList[i];
                     }
                     else
                     {
                         nkl[i] = "";
+                        nic[i] = false;
                     }
 
                     keylist = nkl;
+                    icList = nic;
                     _ischanged = true;
                 }
             }
@@ -92,26 +98,44 @@ namespace AorFramework.NodeGraph
                 len = keylist.Length;
                 for (int i = 0; i < len; i++)
                 {
+                    GUILayout.BeginHorizontal();
                     string n = EditorGUILayout.TextField(keylist[i]);
                     if (n != keylist[i])
                     {
                         keylist[i] = n;
                         _ischanged = true;
                     }
+                    GUILayout.FlexibleSpace();
+                    //bool ni = EditorGUILayout.ToggleLeft(new GUIContent(AssetNodeGraphLagDefind.GetLabelDefine(14)),icList[i]);
+                    bool ni = EditorGUILayout.Toggle(new GUIContent(AssetNodeGraphLagDefind.GetLabelDefine(14)), icList[i], NodeGraphDefind.GetToggleARStyle());
+                    if (ni != icList[i])
+                    {
+                        icList[i] = ni;
+                        _ischanged = true;
+                    }
+                    GUILayout.EndHorizontal();
                 }
 
                 if (_ischanged)
                 {
                     m_nodeGUI.data.ref_SetField_Inst_Public("FilterKeys", keylist);
+                    m_nodeGUI.data.ref_SetField_Inst_Public("IgnoreCase", icList);
                 }
             }
 
             string[] assetPaths = (string[])m_nodeGUI.data.ref_GetField_Inst_Public("AssetsPath");
             if (assetPaths != null && assetPaths.Length > 0)
             {
-                GUILayout.BeginVertical("box");
+
+                GUILayout.BeginHorizontal("box");
                 GUILayout.Label("找到 " + assetPaths.Length + "个资源文件");
-                GUILayout.EndVertical();
+                GUILayout.FlexibleSpace();
+                if (GUILayout.Button("资源浏览器"))
+                {
+                    AssetPathBrowserWindow.init(assetPaths);
+                }
+                GUILayout.EndHorizontal();
+
             }
 
             if (GUILayout.Button("Update"))

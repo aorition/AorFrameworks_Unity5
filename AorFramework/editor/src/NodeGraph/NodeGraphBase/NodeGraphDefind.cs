@@ -10,6 +10,18 @@ namespace AorFramework.NodeGraph
     /// </summary>
     public class NodeGraphDefind
     {
+
+        private static GUIStyle _ToggleARALStyle;
+        public static GUIStyle GetToggleARStyle()
+        {
+            if (_ToggleARALStyle == null)
+            {
+                _ToggleARALStyle = GUI.skin.toggle.Clone();
+                _ToggleARALStyle.alignment = TextAnchor.MiddleRight;;
+            }
+            return _ToggleARALStyle;
+        }
+
         private static GUIStyle _ToolItemFoldoutStyle;
         public static GUIStyle GetToolItemFoldoutStyle()
         {

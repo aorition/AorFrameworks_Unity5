@@ -14,6 +14,8 @@ namespace AorFramework.NodeGraph
         {
         }
 
+        public readonly bool[] IgnoreCase;
+
         public readonly string[] FilterKeys;
 
         public readonly string[] AssetsPath;

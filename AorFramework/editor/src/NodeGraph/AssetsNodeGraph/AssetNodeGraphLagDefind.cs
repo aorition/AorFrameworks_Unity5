@@ -32,6 +32,7 @@ namespace AorFramework.NodeGraph
             ObjectSelector,对象选择器,//11
             Selector,选择器,//12
             Add_0_To_ShortcutMenu,添加_0_到快捷菜单,//13
+            Ignore_case,忽略大小写,//14
         }
 
 

@@ -28,6 +28,7 @@ namespace AorFramework.NodeGraph
 
                 //计算过滤结果
                 string[] fks = (string[])m_nodeGUI.data.ref_GetField_Inst_Public("FilterKeys");
+                bool[] ics = (bool[])m_nodeGUI.data.ref_GetField_Inst_Public("IgnoreCase");
                 if (fks != null)
                 {
                     List<string> result = new List<string>();
@@ -36,8 +37,12 @@ namespace AorFramework.NodeGraph
                     for (c = 0; c < clen; c++)
                     {
 
-                        if(string.IsNullOrEmpty(fks[c])) continue;
-                        
+                        if (string.IsNullOrEmpty(fks[c])) continue;
+
+                        fks[c] = fks[c].Trim();
+
+                        List<string> finded = new List<string>();
+                        bool ig = fks[c].StartsWith(".");
                         bool nt = fks[c].StartsWith("!");
                         string key;
                         if (nt)
@@ -48,27 +53,61 @@ namespace AorFramework.NodeGraph
                         {
                             key = fks[c];
                         }
-                        parentData = parentData.FindAll((s) =>
+
+                        if (ics[c] || ig)
                         {
-                            if (string.IsNullOrEmpty(s)) return true;
-                            string fn = s.Substring(s.LastIndexOf('/')+1);
-                            if (nt)
+                            finded = parentData.FindAll((s) =>
                             {
-                                return !fn.Contains(key);
-                            }
-                            else
-                            {
-                                return fn.Contains(key);
-                            }
+                                if (string.IsNullOrEmpty(s)) return true;
+                                string fn = s.Substring(s.LastIndexOf('/') + 1);
+                                if (nt)
+                                {
+                                    return !fn.ToLower().Contains(key.ToLower());
+                                }
+                                else
+                                {
+                                    return fn.ToLower().Contains(key.ToLower());
+                                }
 
-                        });
+                            });
+                        }
+                        else
+                        {
+                            finded = parentData.FindAll((s) =>
+                            {
+                                if (string.IsNullOrEmpty(s)) return true;
+                                string fn = s.Substring(s.LastIndexOf('/') + 1);
+                                if (nt)
+                                {
+                                    return !fn.Contains(key);
+                                }
+                                else
+                                {
+                                    return fn.Contains(key);
+                                }
+
+                            });
+                        }
+
+                        if (finded.Count > 0)
+                        {
+                            result.AddRange(finded);
+                        }
+
                     }
-
+                    if (result.Count > 0)
+                    {
+                        m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", result.ToArray());
+                    }
+                    else
+                    {
+                        m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", null);
+                    }
                 }
-
-                m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", parentData.ToArray());
-
-                
+                else
+                {
+                    m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", parentData.ToArray());
+                }
             }
             else
             {

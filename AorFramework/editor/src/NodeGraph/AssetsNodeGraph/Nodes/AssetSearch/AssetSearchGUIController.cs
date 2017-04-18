@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AorFramework.NodeGraph.Tool;
 using UnityEditor;
 using UnityEngine;
 
@@ -139,9 +140,14 @@ namespace AorFramework.NodeGraph
                 string[] assetPaths = (string[]) m_nodeGUI.data.ref_GetField_Inst_Public("AssetsPath");
                 if (assetPaths != null && assetPaths.Length > 0)
                 {
-                    GUILayout.BeginVertical("box");
+                    GUILayout.BeginHorizontal("box");
                     GUILayout.Label("找到 " + assetPaths.Length + "个资源文件");
-                    GUILayout.EndVertical();
+                    GUILayout.FlexibleSpace();
+                    if (GUILayout.Button("资源浏览器"))
+                    {
+                        AssetPathBrowserWindow.init(assetPaths);
+                    }
+                    GUILayout.EndHorizontal();
                 }
 
                 if ((bool)m_nodeGUI.data.ref_GetField_Inst_NonPublic("m_isDirty"))
