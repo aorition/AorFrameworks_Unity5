@@ -8,7 +8,7 @@ namespace AorBaseUtility
     /// 树状节点数据模型
     /// </summary>
     /// <typeparam name="T">泛型</typeparam>
-    public class TreeNode<T> where T : class
+    public class TreeNode<T>
     {
         /// <summary>
         /// 检查交叉引用
@@ -43,7 +43,7 @@ namespace AorBaseUtility
 
         private static bool findCrossReferencesUpper(TreeNode<T> node, T value)
         {
-            if (node.value == value) return true;
+            if (node.value.Equals(value)) return true;
 
             if (node.m_parent != null)
             {
@@ -57,7 +57,7 @@ namespace AorBaseUtility
 
         private static bool findCrossReferencesDowner(TreeNode<T> node, T value)
         {
-            if (node.value == value) return true;
+            if (node.value.Equals(value)) return true;
 
             bool result = false;
             if (node.m_children != null)

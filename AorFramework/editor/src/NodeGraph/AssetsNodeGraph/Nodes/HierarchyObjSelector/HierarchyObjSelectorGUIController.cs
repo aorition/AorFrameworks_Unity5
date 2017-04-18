@@ -199,33 +199,13 @@ namespace AorFramework.NodeGraph
 
             if (_innerActiveSet.Count > 0)
             {
-
-                GUILayout.BeginHorizontal();
-
-                if (GUILayout.Button("SelectToInnerSelectedItem"))
-                {
-                    SelectToInnerSelectedItem();
-                }
-
-                if (GUILayout.Button("ClearInnerSelected"))
-                {
-                    if (EditorUtility.DisplayDialog("提示", "取消所选对象?", "OK", "Cancel"))
-                    {
-                        ClearInnerSelected();
-                    }
-                }
-
-                GUILayout.EndHorizontal();
-
-                if (GUILayout.Button("DeleteInnerSelectedItem"))
-                {
-                    if (EditorUtility.DisplayDialog("提示", "确认移除所选对象?", "OK", "Cancel"))
-                    {
-                        DeleteInnerSelectedItem();
-                    }
-                }
-
+                _draw_btnAfterSelected(true);
             }
+            else
+            {
+                _draw_btnAfterSelected(false);
+            }
+
             List<int> selectedInstanceIDs;
             int[] d = (int[])m_nodeGUI.data.ref_GetField_Inst_Public("SelectedInstanceIDs");
             if (d != null)
@@ -292,5 +272,60 @@ namespace AorFramework.NodeGraph
 
             return _GetConnectionPointsByMode(GetMode);
         }
+
+        private void _draw_btnAfterSelected(bool active)
+        {
+            if (active)
+            {
+                GUILayout.BeginHorizontal();
+
+                if (GUILayout.Button("SelectToInnerSelectedItem"))
+                {
+                    SelectToInnerSelectedItem();
+                }
+
+                if (GUILayout.Button("ClearInnerSelected"))
+                {
+                    if (EditorUtility.DisplayDialog("提示", "取消所选对象?", "OK", "Cancel"))
+                    {
+                        ClearInnerSelected();
+                    }
+                }
+
+                GUILayout.EndHorizontal();
+
+                if (GUILayout.Button("DeleteInnerSelectedItem"))
+                {
+                    if (EditorUtility.DisplayDialog("提示", "确认移除所选对象?", "OK", "Cancel"))
+                    {
+                        DeleteInnerSelectedItem();
+                    }
+                }
+            }
+            else
+            {
+                GUI.color = Color.gray;
+                GUILayout.BeginHorizontal();
+
+                if (GUILayout.Button("SelectToInnerSelectedItem"))
+                {
+                    //do nothing ...
+                }
+
+                if (GUILayout.Button("ClearInnerSelected"))
+                {
+                    //do nothing ...
+                }
+
+                GUILayout.EndHorizontal();
+
+                if (GUILayout.Button("DeleteInnerSelectedItem"))
+                {
+                    //do nothing ...
+                }
+                GUI.color = Color.white;
+            }
+        }
+
     }
 }

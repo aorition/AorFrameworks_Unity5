@@ -31,14 +31,14 @@ namespace AorFramework.NodeGraph
     public class NodeGraphBase : EditorWindow
     {
 
- //       protected static NodeGraphBase m_Instance;
+        protected static NodeGraphBase m_Instance;
         public static NodeGraphBase Instance
         {
-            //get { return m_Instance; }
-            get
-            {
-                return EditorWindow.GetWindow<NodeGraphBase>("NodeGraph");
-            }
+            get { return m_Instance; }
+//            get
+//            {
+//                return EditorWindow.GetWindow<NodeGraphBase>("NodeGraph");
+//            }
         }
 
         //[MenuItem("Window/NodeGraphBase")]
@@ -98,7 +98,7 @@ namespace AorFramework.NodeGraph
             //set NodeGraphModifyState
             _state = NodeGraphModifyState.Default;
 
-           // m_Instance = this;
+            m_Instance = this;
 
             //初始化 工具箱
             initToolAreaItems();
@@ -697,10 +697,10 @@ namespace AorFramework.NodeGraph
             if (_NodeGUIList == null)
             {
                 //这里有个莫名其妙的补救
-//                if (m_Instance == null)
-//                {
-//                    setup();
-//                }
+                if (m_Instance == null)
+                {
+                    setup();
+                }
 
                 _draw_welcome();
                 HandleStageEvents();

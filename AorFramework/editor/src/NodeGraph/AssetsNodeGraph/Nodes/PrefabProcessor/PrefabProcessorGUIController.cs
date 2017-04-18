@@ -82,7 +82,8 @@ namespace AorFramework.NodeGraph
                     UnityEngine.Object custom = AssetDatabase.LoadMainAssetAtPath(customPath);
                     if (custom != null)
                     {
-                        UnityEngine.Object n = EditorGUILayout.ObjectField(AssetNodeGraphLagDefind.GetLabelDefine(4), custom, typeof(MonoScript), false);
+                        GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IPrefabProcess)");
+                        UnityEngine.Object n = EditorGUILayout.ObjectField(custom, typeof(MonoScript), false);
                         if (n == null)
                         {
                             m_nodeGUI.data.ref_SetField_Inst_Public("CustomScriptGUID", 0);
@@ -134,7 +135,8 @@ namespace AorFramework.NodeGraph
             }
             else
             {
-                UnityEngine.Object n = EditorGUILayout.ObjectField(AssetNodeGraphLagDefind.GetLabelDefine(4), null, typeof (MonoScript), false);
+                GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IPrefabProcess)");
+                UnityEngine.Object n = EditorGUILayout.ObjectField(null, typeof (MonoScript), false);
                 if (n != null)
                 {
                     string guid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(n));
