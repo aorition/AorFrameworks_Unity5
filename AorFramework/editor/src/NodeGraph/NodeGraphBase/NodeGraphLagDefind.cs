@@ -78,6 +78,7 @@ namespace AorFramework.NodeGraph
             Set_Node_As_MainNode,将Node设为MainNode,//15
             Cancel_Set_MainNode,取消设置为MainNode,//16
             FastFollowRun,快捷执行,//17
+            SettingsPanel,设置面板,//18
         }
     }
 }

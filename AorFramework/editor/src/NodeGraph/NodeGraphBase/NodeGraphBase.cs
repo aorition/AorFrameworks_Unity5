@@ -2,10 +2,12 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using AorBaseUtility;
 using AorFramework.core;
+using AorFramework.NodeGraph.Tool;
 
 namespace AorFramework.NodeGraph
 {
@@ -27,7 +29,6 @@ namespace AorFramework.NodeGraph
         DragToolItem,
     }
 
-    //TODO 目前NodeGraphBase开销很高，需要优化。某个地方存在内存泄漏 = =b
     public class NodeGraphBase : EditorWindow
     {
 
@@ -35,10 +36,10 @@ namespace AorFramework.NodeGraph
         public static NodeGraphBase Instance
         {
             get { return m_Instance; }
-//            get
-//            {
-//                return EditorWindow.GetWindow<NodeGraphBase>("NodeGraph");
-//            }
+            //            get
+            //            {
+            //                return EditorWindow.GetWindow<NodeGraphBase>("NodeGraph");
+            //            }
         }
 
         //[MenuItem("Window/NodeGraphBase")]
@@ -61,7 +62,7 @@ namespace AorFramework.NodeGraph
 
         public bool isShowToolArea
         {
-            get { return _isShowToolArea;}
+            get { return _isShowToolArea; }
         }
         //是否显示Inspector
         protected bool _isShowInspector = true;
@@ -73,7 +74,7 @@ namespace AorFramework.NodeGraph
 
         //---------------------------------------- NodeGraphBase settings ----------------end
         protected bool _isInit = false;
-        
+
         protected NodeGraphConnectMode _connectMode;
         public NodeGraphConnectMode connectMode
         {
@@ -81,7 +82,8 @@ namespace AorFramework.NodeGraph
         }
 
         protected NodeGraphModifyState _state = NodeGraphModifyState.Default;
-        public NodeGraphModifyState state {
+        public NodeGraphModifyState state
+        {
             get { return _state; }
         }
 
@@ -92,28 +94,138 @@ namespace AorFramework.NodeGraph
         /// </summary>
         public virtual void setup()
         {
-            //set NodeGraphConnectMode
-            _connectMode = NodeGraphConnectMode.TREE;
-
-            //set NodeGraphModifyState
-            _state = NodeGraphModifyState.Default;
+            setupNodeGraphbaseModeDefine();
 
             m_Instance = this;
 
             //初始化 工具箱
             initToolAreaItems();
 
+            //检查缓存文件夹
+            checkAndCreateCacheFolder();
+
+            _Settings = _tryGetNodeGraphBaseSettingsInCache();
+            if (_Settings == null)
+            {
+                //创建默认的Setting并保存
+                _Settings = _createDefaultSettings();
+                _saveSettingFileToCache();
+            }
+
+            //初始化Setting相关内容
+            initSettings();
+
+            OnSetup();
+           
             _isInit = true;
+        }
+
+
+
+        #region  缓存文件夹相关函数
+
+        private string _cacheFolderPath;
+        private void checkAndCreateCacheFolder()
+        {
+
+            _cacheFolderPath = NodeGraphDefind.RESCACHE_ROOTPATH;
+
+            if (!Directory.Exists(_cacheFolderPath))
+            {
+                //创建缓存文件夹
+                Directory.CreateDirectory(_cacheFolderPath);
+            }
+        }
+
+        #endregion
+
+        #region  Setting相关函数
+
+        private NodeGraphBaseSetting _Settings;
+        private string _cacheSettingsPath;
+
+        /// <summary>
+        /// 更新并保存Setting
+        /// </summary>
+        /// <param name="setting"></param>
+        public virtual void UpdateSettings(NodeGraphBaseSetting setting)
+        {
+            _Settings = setting;
+            _saveSettingFileToCache();
+            initSettings();
+        }
+
+        protected virtual void initSettings()
+        {
+            //Todo 将settings文件的数据应用到程序中来。
+        }
+
+        private NodeGraphBaseSetting _tryGetNodeGraphBaseSettingsInCache()
+        {
+            string settingDir = _cacheFolderPath + NodeGraphDefind.RESCACHE_SETTINGS;
+            if (!Directory.Exists(settingDir))
+            {
+                Directory.CreateDirectory(settingDir);
+            }
+
+            _cacheSettingsPath = settingDir + "/" + NodeGraphDefind.RESCACHE_SETTING_NAME + ".json";
+
+            if (File.Exists(_cacheSettingsPath))
+            {
+                string settingSrc = AorIO.ReadStringFormFile(_cacheSettingsPath);
+                NodeGraphBaseSetting setting = JConfigParser.ToConfig<NodeGraphBaseSetting>(settingSrc);
+                if (setting != null)
+                {
+                    return setting;
+                }
+            }
+
+            return null;
+        }
+
+        //创建默认的Setting
+        private NodeGraphBaseSetting _createDefaultSettings()
+        {
+            return new NodeGraphBaseSetting();
+        }
+
+        //保存Setting
+        private bool _saveSettingFileToCache()
+        {
+            if (_Settings == null) return false;
+
+            string settingsStr = JConfigParser.ToJSON(_Settings);
+            if (!string.IsNullOrEmpty(settingsStr))
+            {
+                return AorIO.SaveStringToFile(_cacheSettingsPath, settingsStr);
+            }
+            return false;
+        }
+
+        #endregion
+
+        protected virtual void setupNodeGraphbaseModeDefine()
+        {
+            //set NodeGraphConnectMode
+            _connectMode = NodeGraphConnectMode.TREE;
+            //set NodeGraphModifyState
+            _state = NodeGraphModifyState.Default;
+
+        }
+
+        protected virtual void OnSetup()
+        {
+            //
         }
 
         /// <summary>
         /// 设置界面相关
         /// </summary>
-        public virtual void setSettings(Dictionary<string,string> keyValue)
+        public virtual void setSettingsInFile(Dictionary<string, string> keyValue)
         {
             if (keyValue == null) return;
 
-            Type type = GetType(); 
+            Type type = GetType();
 
             foreach (string key in keyValue.Keys)
             {
@@ -142,7 +254,7 @@ namespace AorFramework.NodeGraph
             _startPointGUI = startPointGUI;
             _state = NodeGraphModifyState.ConnectionDraw;
         }
-        
+
         /// <summary>
         /// 绘制_欢迎界面
         /// </summary>
@@ -222,7 +334,7 @@ namespace AorFramework.NodeGraph
         /// <summary>
         /// 绘制_未初始化时界面的显示
         /// </summary>
-        protected  virtual void _draw_unInitScreen()
+        protected virtual void _draw_unInitScreen()
         {
             AorGUILayout.Vertical(() =>
             {
@@ -313,10 +425,16 @@ namespace AorFramework.NodeGraph
             }
             if (_NodeGUIList.Contains(node))
             {
+
+                if (_MainNode != null && _MainNode == node)
+                {
+                    _MainNode = null;
+                }
+
                 if (_NodeGUIList.Remove(node))
                 {
 
-//                    Undo.RecordObject(this, "REMOVE NODEGUI");
+                    //                    Undo.RecordObject(this, "REMOVE NODEGUI");
 
                     _nodeGuiIdSet.Remove(node.data.id);
 
@@ -471,7 +589,7 @@ namespace AorFramework.NodeGraph
             }
             return false;
         }
-        
+
         private bool _findCrossReferencesDowner(NodeGUI node, NodeGUI targetNode)
         {
             if (node == targetNode) return true;
@@ -560,7 +678,7 @@ namespace AorFramework.NodeGraph
                     if (!_ConnectionGUIList.Contains(connection))
                     {
 
-//                        Undo.RecordObject(this, "ADD CONNECTION");
+                        //                        Undo.RecordObject(this, "ADD CONNECTION");
 
                         //标识这两点已经被用过了
                         connection.SetPointUsed(true);
@@ -581,7 +699,7 @@ namespace AorFramework.NodeGraph
         /// <summary>
         /// 获取Node上ConnectionPoint List
         /// </summary>
-        public virtual List<ConnectionPointGUI> GetConnectionPointInfo(NodeGUI node,GetConnectionPointMode GetMode)
+        public virtual List<ConnectionPointGUI> GetConnectionPointInfo(NodeGUI node, GetConnectionPointMode GetMode)
         {
             return node.GUIController.GetConnectionPointInfo(GetMode);
         }
@@ -599,7 +717,7 @@ namespace AorFramework.NodeGraph
             int i, len = _connectionPointGUIList.Count;
             for (i = 0; i < len; i++)
             {
-                if (_connectionPointGUIList[i].node.data.id == NodeID && 
+                if (_connectionPointGUIList[i].node.data.id == NodeID &&
                     _connectionPointGUIList[i].id == CPointID)
                 {
                     if (inout == ConnectionPointInoutType.Output ||
@@ -654,7 +772,7 @@ namespace AorFramework.NodeGraph
             if (_ConnectionGUIList.Contains(connection))
             {
 
-//                Undo.RecordObject(this, "REMOVE CONNECTION");
+                //                Undo.RecordObject(this, "REMOVE CONNECTION");
 
                 connection.SetPointUsed(false);
                 _ConnectionGUIList.Remove(connection);
@@ -719,8 +837,8 @@ namespace AorFramework.NodeGraph
             {
                 _NodeGraphSize = new Rect(_ToolAreaWidth, NodeGraphDefind.MenuLayoutHeight, position.width - _InspectorWidth - _ToolAreaWidth, position.height - NodeGraphDefind.MenuLayoutHeight);
                 _ToolAreaSize = new Rect(0, NodeGraphDefind.MenuLayoutHeight, _ToolAreaWidth, position.height - NodeGraphDefind.MenuLayoutHeight);
-//                _ToolAreaSize = new Rect(0, 0, _ToolAreaWidth, position.height);
-//                _InspectorAreaSize = new Rect(position.width - _InspectorWidth, NodeGraphDefind.MenuLayoutHeight, _InspectorWidth, position.height - NodeGraphDefind.MenuLayoutHeight);
+                //                _ToolAreaSize = new Rect(0, 0, _ToolAreaWidth, position.height);
+                //                _InspectorAreaSize = new Rect(position.width - _InspectorWidth, NodeGraphDefind.MenuLayoutHeight, _InspectorWidth, position.height - NodeGraphDefind.MenuLayoutHeight);
                 _InspectorAreaSize = new Rect(position.width - _InspectorWidth, 0, _InspectorWidth, position.height);
 
                 Draw_ToolArea(_ToolAreaSize);
@@ -731,7 +849,7 @@ namespace AorFramework.NodeGraph
             {
                 _NodeGraphSize = new Rect(_ToolAreaWidth, NodeGraphDefind.MenuLayoutHeight, position.width - _ToolAreaWidth, position.height - NodeGraphDefind.MenuLayoutHeight);
                 _ToolAreaSize = new Rect(0, NodeGraphDefind.MenuLayoutHeight, _ToolAreaWidth, position.height - NodeGraphDefind.MenuLayoutHeight);
-//                _ToolAreaSize = new Rect(0, 0, _ToolAreaWidth, position.height);
+                //                _ToolAreaSize = new Rect(0, 0, _ToolAreaWidth, position.height);
                 _InspectorAreaSize = new Rect(0, 0, 0, 0);
 
                 Draw_ToolArea(_ToolAreaSize);
@@ -740,7 +858,7 @@ namespace AorFramework.NodeGraph
             else if (_isShowInspector)
             {
                 _ToolAreaSize = new Rect(0, 0, 0, 0);
-//                _InspectorAreaSize = new Rect(position.width - _InspectorWidth, NodeGraphDefind.MenuLayoutHeight, _InspectorWidth, position.height - NodeGraphDefind.MenuLayoutHeight);
+                //                _InspectorAreaSize = new Rect(position.width - _InspectorWidth, NodeGraphDefind.MenuLayoutHeight, _InspectorWidth, position.height - NodeGraphDefind.MenuLayoutHeight);
                 _InspectorAreaSize = new Rect(position.width - _InspectorWidth, 0, _InspectorWidth, position.height);
                 _NodeGraphSize = new Rect(0, NodeGraphDefind.MenuLayoutHeight, position.width - _InspectorWidth, position.height - NodeGraphDefind.MenuLayoutHeight);
 
@@ -772,8 +890,8 @@ namespace AorFramework.NodeGraph
                 {
                     Rect sRect = _startPointGUI.GlobalPointRect;
                     Vector3 startV3 = new Vector3(
-                        sRect.x + sRect.width*0.5f - _NodeGraphCanvasScrollPos.x + (_isShowToolArea ? _ToolAreaWidth : 0), 
-                        sRect.y + sRect.height*0.5f - _NodeGraphCanvasScrollPos.y, 
+                        sRect.x + sRect.width * 0.5f - _NodeGraphCanvasScrollPos.x + (_isShowToolArea ? _ToolAreaWidth : 0),
+                        sRect.y + sRect.height * 0.5f - _NodeGraphCanvasScrollPos.y,
                         0f);
 
                     Vector3 endV3 = new Vector3(Event.current.mousePosition.x, Event.current.mousePosition.y, 0f);
@@ -793,7 +911,7 @@ namespace AorFramework.NodeGraph
 
             AorGUILayout.Horizontal(() =>
             {
-                if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(13),NodeGraphDefind.GetToolBarBtnStyle(_isShowToolArea), GUILayout.Height(28), GUILayout.Width(_ToolAreaWidth)))
+                if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(13), NodeGraphDefind.GetToolBarBtnStyle(_isShowToolArea), GUILayout.Height(28), GUILayout.Width(_ToolAreaWidth)))
                 {
                     _isShowToolArea = !_isShowToolArea;
                 }
@@ -804,7 +922,7 @@ namespace AorFramework.NodeGraph
                     //GUILayout.Space(28);
 
                     //候选样式名： InnerShadowBg AnimationKeyframeBackground
-                    GUILayout.BeginHorizontal("AnimationEventBackground", GUILayout.Height(NodeGraphDefind.MenuLayoutHeight),GUILayout.ExpandWidth(true));
+                    GUILayout.BeginHorizontal("AnimationEventBackground", GUILayout.Height(NodeGraphDefind.MenuLayoutHeight), GUILayout.ExpandWidth(true));
 
                     //新建Graph
                     if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(2) + " Graph", GUILayout.Height(28),
@@ -883,14 +1001,14 @@ namespace AorFramework.NodeGraph
                     GUILayout.FlexibleSpace();
                 }
 
-                if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(11), NodeGraphDefind.GetInspectorBtnStyle(_isShowInspector),GUILayout.Height(28), GUILayout.Width(_InspectorWidth)))
+                if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(11), NodeGraphDefind.GetInspectorBtnStyle(_isShowInspector), GUILayout.Height(28), GUILayout.Width(_InspectorWidth)))
                 {
                     _isShowInspector = !_isShowInspector;
                 }
 
                 //if (_isShowInspector)
                 //{
-                  //  GUILayout.Space(_InspectorWidth - 120);
+                //  GUILayout.Space(_InspectorWidth - 120);
                 //}
 
             }, GUILayout.Width(Screen.width), GUILayout.Height(NodeGraphDefind.MenuLayoutHeight));
@@ -981,7 +1099,7 @@ namespace AorFramework.NodeGraph
 
             //在INodeGUIController集合中找NodeToolItemAttribute
             List<NodeToolItemAttribute> NTIlist = new List<NodeToolItemAttribute>();
-                
+
             len = GCTypes.Count;
             for (i = 0; i < len; i++)
             {
@@ -1036,9 +1154,9 @@ namespace AorFramework.NodeGraph
         protected virtual void Draw_ToolArea(Rect taRect)
         {
 
-          // GUI.BeginGroup(taRect);
+            // GUI.BeginGroup(taRect);
             _ToolAreaScrollPos = GUI.BeginScrollView(taRect, _ToolAreaScrollPos, _ToolAreaScrollCanvas, false, true);
-//            _ToolAreaScrollPos = GUILayout.BeginScrollView(_ToolAreaScrollPos, false, true, GUILayout.ExpandWidth(false), GUILayout.ExpandHeight(true), GUILayout.Width(taRect.width));
+            //            _ToolAreaScrollPos = GUILayout.BeginScrollView(_ToolAreaScrollPos, false, true, GUILayout.ExpandWidth(false), GUILayout.ExpandHeight(true), GUILayout.Width(taRect.width));
 
             float stHight = 0;
             int i, len;
@@ -1050,7 +1168,7 @@ namespace AorFramework.NodeGraph
                 NodeGraphToolItemCollection currentCollection = _ToolAreaItemCollection[u];
 
                 Rect currentCollectionRect = new Rect(0, stHight, taRect.width, NodeGraphDefind.ToolAreaItemFoldoutHeight);
-                currentCollection.isFoldout = EditorGUI.Foldout(currentCollectionRect, currentCollection.isFoldout, currentCollection.TAG,NodeGraphDefind.GetToolItemFoldoutStyle());
+                currentCollection.isFoldout = EditorGUI.Foldout(currentCollectionRect, currentCollection.isFoldout, currentCollection.TAG, NodeGraphDefind.GetToolItemFoldoutStyle());
                 stHight += currentCollectionRect.height;
 
                 if (currentCollection.isFoldout)
@@ -1062,21 +1180,21 @@ namespace AorFramework.NodeGraph
                         Rect r = new Rect(0, stHight + innerItemHeight, currentCollection[i].rect.width, currentCollection[i].rect.height);
                         currentCollection[i].rect = r;
                         innerItemHeight += currentCollection[i].rect.height;
-                        GUI.Box(new Rect(r.x,r.y,r.width - 15,r.height), currentCollection[i].label, NodeGraphDefind.GetNodeToolItemStyle());
+                        GUI.Box(new Rect(r.x, r.y, r.width - 15, r.height), currentCollection[i].label, NodeGraphDefind.GetNodeToolItemStyle());
                     }
                     stHight += innerItemHeight;
                 }
                 GUILayout.EndVertical();
             }
 
-//            GUILayout.EndScrollView();
+            //            GUILayout.EndScrollView();
             GUI.EndScrollView();
-          //  GUI.EndGroup();
+            //  GUI.EndGroup();
         }
 
         protected int _activeItemNum = -1;
         protected Vector2 _InspectorScrollPos = Vector2.zero;
-//        protected Rect _InspectorCanvas;
+        //        protected Rect _InspectorCanvas;
 
         /// <summary>
         /// 绘制_Inspector区域
@@ -1095,12 +1213,12 @@ namespace AorFramework.NodeGraph
                     _InspectorScrollPos = Vector2.zero;
                 }
 
-                 _InspectorScrollPos = GUILayout.BeginScrollView(_InspectorScrollPos, false, true, GUILayout.ExpandWidth(false),GUILayout.ExpandHeight(true),GUILayout.Width(inspRect.width));
+                _InspectorScrollPos = GUILayout.BeginScrollView(_InspectorScrollPos, false, true, GUILayout.ExpandWidth(false), GUILayout.ExpandHeight(true), GUILayout.Width(inspRect.width));
 
                 int i, len = _activeNodeGUIList.Count;
                 for (i = 0; i < len; i++)
                 {
-                    _activeNodeGUIList[i].GUIController.DrawNodeInspector(inspRect.width-25);
+                    _activeNodeGUIList[i].GUIController.DrawNodeInspector(inspRect.width - 25);
                 }
 
                 GUILayout.EndScrollView();
@@ -1170,7 +1288,7 @@ namespace AorFramework.NodeGraph
             }
 
             //标记mouseDown事件，以防止GUI.DragWindow()强行暂用mouseDown事件，使后续判断无法成立
-//            _isMouseDown = (Event.current.type == EventType.MouseDown);
+            //            _isMouseDown = (Event.current.type == EventType.MouseDown);
 
             //Begin windows and ScrollView for the nodes.
             _NodeGraphCanvasScrollPos = GUI.BeginScrollView(canvasRect, _NodeGraphCanvasScrollPos, canvas);
@@ -1322,24 +1440,24 @@ namespace AorFramework.NodeGraph
             {
                 // draw line while dragging.
                 case EventType.MouseDrag:
-                {
-                    if (_state == NodeGraphModifyState.MutiSelect)
                     {
-                        _mutiSelectRect = new Rect(_mutiSelectRect.x, _mutiSelectRect.y,
-                        _mutiSelectRect.width + Event.current.delta.x,
-                        _mutiSelectRect.height + Event.current.delta.y);
-                    }
+                        if (_state == NodeGraphModifyState.MutiSelect)
+                        {
+                            _mutiSelectRect = new Rect(_mutiSelectRect.x, _mutiSelectRect.y,
+                            _mutiSelectRect.width + Event.current.delta.x,
+                            _mutiSelectRect.height + Event.current.delta.y);
+                        }
 
-                    //连线绘制
-                    if (_state == NodeGraphModifyState.ConnectionDraw)
-                    {
-                        //Todo 这里提供连线绘制过程中所需要的数据（也许可以省略）
-                    }
+                        //连线绘制
+                        if (_state == NodeGraphModifyState.ConnectionDraw)
+                        {
+                            //Todo 这里提供连线绘制过程中所需要的数据（也许可以省略）
+                        }
 
-                    OnMouseDrag();
-                    Event.current.Use();
-                    break;
-                }
+                        OnMouseDrag();
+                        Event.current.Use();
+                        break;
+                    }
             }
 
             /*
@@ -1349,49 +1467,49 @@ namespace AorFramework.NodeGraph
             switch (Event.current.rawType)
             {
                 case EventType.MouseUp:
-                {
-                    
-                    //框选判定 (完毕)
-                    if (_state == NodeGraphModifyState.MutiSelect)
                     {
-                        _checkMutiSelect(Event.current.shift, Event.current.control);
-                    }
 
-                    //连线绘制 (完毕)
-                    if(_state == NodeGraphModifyState.ConnectionDraw)
-                    {
-                       //-- 这里判断是否成功连线
-                        if (_startPointGUI != null)
+                        //框选判定 (完毕)
+                        if (_state == NodeGraphModifyState.MutiSelect)
                         {
-                            int i, len = _connectionPointGUIList.Count;
-                            for (i = 0; i < len; i++)
-                            {
-                                Vector3 mouseInputPos = new Vector3(Event.current.mousePosition.x + _NodeGraphCanvasScrollPos.x - (_isShowToolArea ? _ToolAreaWidth : 0),
-                                                                    Event.current.mousePosition.y + _NodeGraphCanvasScrollPos.y, 
-                                                                    0f);
-                                
-                                if (_connectionPointGUIList[i].GlobalPointRect.Contains(mouseInputPos))
-                                {
+                            _checkMutiSelect(Event.current.shift, Event.current.control);
+                        }
 
-                                    ConnectionPointGUI endPoint = _connectionPointGUIList[i];
-                                    if (_startPointGUI.InOutType != endPoint.InOutType)
+                        //连线绘制 (完毕)
+                        if (_state == NodeGraphModifyState.ConnectionDraw)
+                        {
+                            //-- 这里判断是否成功连线
+                            if (_startPointGUI != null)
+                            {
+                                int i, len = _connectionPointGUIList.Count;
+                                for (i = 0; i < len; i++)
+                                {
+                                    Vector3 mouseInputPos = new Vector3(Event.current.mousePosition.x + _NodeGraphCanvasScrollPos.x - (_isShowToolArea ? _ToolAreaWidth : 0),
+                                                                        Event.current.mousePosition.y + _NodeGraphCanvasScrollPos.y,
+                                                                        0f);
+
+                                    if (_connectionPointGUIList[i].GlobalPointRect.Contains(mouseInputPos))
                                     {
-                                        ConnectionPointGUI startPoint = _startPointGUI;
-                                        //创建连接
-                                        CreateConnection(startPoint, endPoint);
+
+                                        ConnectionPointGUI endPoint = _connectionPointGUIList[i];
+                                        if (_startPointGUI.InOutType != endPoint.InOutType)
+                                        {
+                                            ConnectionPointGUI startPoint = _startPointGUI;
+                                            //创建连接
+                                            CreateConnection(startPoint, endPoint);
+                                        }
                                     }
                                 }
+                                _startPointGUI = null;
                             }
-                            _startPointGUI = null;
                         }
-                    }
 
-                    //mouseUp后，state应为NodeGraphModifyState.Default
-                    _isMouseDown = false;
-                    _state = NodeGraphModifyState.Default;
-                    OnMouseUpRaw();
-                    break;
-                }
+                        //mouseUp后，state应为NodeGraphModifyState.Default
+                        _isMouseDown = false;
+                        _state = NodeGraphModifyState.Default;
+                        OnMouseUpRaw();
+                        break;
+                    }
             }
 
             switch (Event.current.type)
@@ -1429,11 +1547,11 @@ namespace AorFramework.NodeGraph
                             }
                         }
 
-                        
+
                         if (dragSeclet > -1)
                         {
                             _state = NodeGraphModifyState.DragToolItem;
-                            
+
                             DragAndDrop.paths = new[] { data };
                             DragAndDrop.StartDrag("Dragging > " + data);
                         }
@@ -1453,143 +1571,145 @@ namespace AorFramework.NodeGraph
                     }
 
                     _isMouseDown = true;
-                    
+
                     OnMouseDown();
                     break;
                 // detect dragging script then change interface to "(+)" icon.
                 case EventType.DragUpdated:
-                {
-                    if (_state == NodeGraphModifyState.DragToolItem)
                     {
-                        DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+                        if (_state == NodeGraphModifyState.DragToolItem)
+                        {
+                            DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+                        }
+                        OnDragUpdated();
+                        break;
                     }
-                    OnDragUpdated();
-                    break;
-                }
                 case EventType.DragExited:
-                {
-                    OnDragExited();
-                    break;
-                }
+                    {
+                        OnDragExited();
+                        break;
+                    }
                 // script drop on editor.
                 case EventType.DragPerform:
-                {
-
-                    if (_state == NodeGraphModifyState.DragToolItem)
                     {
-                        if (_NodeGraphSize.Contains(Event.current.mousePosition))
-                        {
-                            OnDragToolItem(DragAndDrop.paths[0]);
-                        }
-                        _state = NodeGraphModifyState.Default;
-                    }
-                    else
-                    {
-                        //默认拖入对象识别
-                        string[] DDPaths = DragAndDrop.paths;
-                        UnityEngine.Object[] DDRefs = DragAndDrop.objectReferences;
 
-                        if (DDRefs != null && DDRefs.Length > 0 && DDPaths != null && DDPaths.Length > 0 && _NodeGraphSize.Contains(Event.current.mousePosition))
+                        if (_state == NodeGraphModifyState.DragToolItem)
                         {
-                            //Json拖入(只识别第一个对象)
-                            if (DDRefs[0] is TextAsset)
+                            if (_NodeGraphSize.Contains(Event.current.mousePosition))
                             {
-                                string suffix = DDPaths[0].Substring(DDPaths[0].LastIndexOf('.'));
-                                TextAsset textAsset = (TextAsset)DDRefs[0];
+                                OnDragToolItem(DragAndDrop.paths[0]);
+                            }
+                            _state = NodeGraphModifyState.Default;
+                        }
+                        else
+                        {
+                            //默认拖入对象识别
+                            string[] DDPaths = DragAndDrop.paths;
+                            UnityEngine.Object[] DDRefs = DragAndDrop.objectReferences;
 
-                                if (suffix.ToLower() == ".json" && JConfigParser.CheckJsonHeadTagDefind(textAsset.text))
+                            if (DDRefs != null && DDRefs.Length > 0 && DDPaths != null && DDPaths.Length > 0 && _NodeGraphSize.Contains(Event.current.mousePosition))
+                            {
+                                //Json拖入(只识别第一个对象)
+                                if (DDRefs[0] is TextAsset)
                                 {
-                                    if (_NodeGUIList != null && _NodeGUIList.Count > 0)
+                                    string suffix = DDPaths[0].Substring(DDPaths[0].LastIndexOf('.'));
+                                    TextAsset textAsset = (TextAsset)DDRefs[0];
+
+                                    if (suffix.ToLower() == ".json" && JConfigParser.CheckJsonHeadTagDefind(textAsset.text))
                                     {
-                                        if (string.IsNullOrEmpty(_saveGraphPath))
+                                        if (_NodeGUIList != null && _NodeGUIList.Count > 0)
                                         {
-                                            if (EditorUtility.DisplayDialog(NodeGraphLagDefind.GetLabelDefine(5),
-                                                "Graph " + NodeGraphLagDefind.GetLabelDefine(6) + "," + NodeGraphLagDefind.GetLabelDefine(7) +
-                                                "?", NodeGraphLagDefind.GetLabelDefine(8), NodeGraphLagDefind.GetLabelDefine(9)))
+                                            if (string.IsNullOrEmpty(_saveGraphPath))
+                                            {
+                                                if (EditorUtility.DisplayDialog(NodeGraphLagDefind.GetLabelDefine(5),
+                                                    "Graph " + NodeGraphLagDefind.GetLabelDefine(6) + "," + NodeGraphLagDefind.GetLabelDefine(7) +
+                                                    "?", NodeGraphLagDefind.GetLabelDefine(8), NodeGraphLagDefind.GetLabelDefine(9)))
+                                                {
+                                                    SaveGraphToFile();
+                                                }
+                                            }
+                                            else
                                             {
                                                 SaveGraphToFile();
                                             }
                                         }
-                                        else
-                                        {
-                                            SaveGraphToFile();
-                                        }
+
+                                        _saveGraphPath = DDPaths[0];
+                                        OpenGraphFromJSON(JConfigParser.splitJsonHeadTag(textAsset.text));
+                                        Repaint();
                                     }
 
-                                    _saveGraphPath = DDPaths[0];
-                                    OpenGraphFromJSON(JConfigParser.splitJsonHeadTag(textAsset.text));
-                                    Repaint();
                                 }
 
                             }
-
                         }
+                        DragAndDrop.AcceptDrag();
+                        OnDragPerform();
+                        break;
                     }
-                    DragAndDrop.AcceptDrag();
-                    OnDragPerform();
-                    break;
-                }
                 // show context menu
                 case EventType.ContextClick:
-                {
-                    //ContextClick后，state应为NodeGraphModifyState.Default
-                    _state = NodeGraphModifyState.Default;
-                    //Vector2 inputPos =  - new Vector2((_isShowToolArea ? _ToolAreaWidth : 0),NodeGraphDefind.MenuLayoutHeight);
-                    if (_NodeGraphSize.Contains(Event.current.mousePosition))
                     {
-                        OnContextMenu();
-                    }else if (_isShowToolArea && _ToolAreaSize.Contains(Event.current.mousePosition))
-                    {
-                        OnToolAreaContextMenu();
-                    }else if (_isShowInspector && _InspectorAreaSize.Contains(Event.current.mousePosition))
-                    {
-                        OnInspectorContextMenu();
-                    }
-
-                    if (_isShowToolArea)
-                    {
-                        int i, len;
-                        int u, ulen = _ToolAreaItemCollection.Count;
-
-                        for (u = 0; u < ulen; u++)
+                        //ContextClick后，state应为NodeGraphModifyState.Default
+                        _state = NodeGraphModifyState.Default;
+                        //Vector2 inputPos =  - new Vector2((_isShowToolArea ? _ToolAreaWidth : 0),NodeGraphDefind.MenuLayoutHeight);
+                        if (_NodeGraphSize.Contains(Event.current.mousePosition))
                         {
-                            NodeGraphToolItemCollection conllection = _ToolAreaItemCollection[u];
-                            len = conllection.Count;
-                            for (i = 0; i < len; i++)
+                            OnContextMenu();
+                        }
+                        else if (_isShowToolArea && _ToolAreaSize.Contains(Event.current.mousePosition))
+                        {
+                            OnToolAreaContextMenu();
+                        }
+                        else if (_isShowInspector && _InspectorAreaSize.Contains(Event.current.mousePosition))
+                        {
+                            OnInspectorContextMenu();
+                        }
+
+                        if (_isShowToolArea)
+                        {
+                            int i, len;
+                            int u, ulen = _ToolAreaItemCollection.Count;
+
+                            for (u = 0; u < ulen; u++)
                             {
-                                if (conllection[i].rect.Contains(new Vector2(Event.current.mousePosition.x,
-                                    Event.current.mousePosition.y - NodeGraphDefind.MenuLayoutHeight +
-                                    _ToolAreaScrollPos.y
-                                    )))
+                                NodeGraphToolItemCollection conllection = _ToolAreaItemCollection[u];
+                                len = conllection.Count;
+                                for (i = 0; i < len; i++)
                                 {
-                                    OnToolItemContextMenu(conllection[i].label, u, i);
+                                    if (conllection[i].rect.Contains(new Vector2(Event.current.mousePosition.x,
+                                        Event.current.mousePosition.y - NodeGraphDefind.MenuLayoutHeight +
+                                        _ToolAreaScrollPos.y
+                                        )))
+                                    {
+                                        OnToolItemContextMenu(conllection[i].label, u, i);
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    break;
-                }
+                        break;
+                    }
                 //Handling mouseUp at empty space. 
                 case EventType.MouseUp:
-                {
-                    DragAndDrop.PrepareStartDrag();
-                    OnMouseUp();
-                    break;
-                }
+                    {
+                        DragAndDrop.PrepareStartDrag();
+                        OnMouseUp();
+                        break;
+                    }
                 case EventType.KeyDown:
-                {
-                    OnKeyDown();
-                    break;
-                }
+                    {
+                        OnKeyDown();
+                        break;
+                    }
                 case EventType.keyUp:
                     OnKeyUp();
                     break;
                 case EventType.ValidateCommand:
-                {
-                    OnValidateCommand();
-                    break;
-                }
+                    {
+                        OnValidateCommand();
+                        break;
+                    }
                 default:
                     break;
             }
@@ -1711,12 +1831,12 @@ namespace AorFramework.NodeGraph
                 }
             }
 
-//            menu.AddItem(new GUIContent("AddNodeData"), false, () =>
-//            {
-//                //---创建 NodeGUI
-//                NodeGraphToolItemDefinder.Instance.AddNodeBase(rightClickPos);
-//                Repaint();
-//            });
+            //            menu.AddItem(new GUIContent("AddNodeData"), false, () =>
+            //            {
+            //                //---创建 NodeGUI
+            //                NodeGraphToolItemDefinder.Instance.AddNodeBase(rightClickPos);
+            //                Repaint();
+            //            });
 
             if (_activeNodeGUIList != null && _activeNodeGUIList.Count > 1)
             {
@@ -1730,15 +1850,20 @@ namespace AorFramework.NodeGraph
                     }
                 });
             }
-            menu.ShowAsContext();
 
-            //test -------- 添加Node节点 end
+            //固定显示 settingPanel
+            menu.AddItem(new GUIContent(NodeGraphLagDefind.GetLabelDefine(18)), false, () =>
+            {
+                NodeGraphSettingWindow.init(_Settings);
+            });
+
+            menu.ShowAsContext();
         }
 
         protected virtual void OnKeyDown()
         {
-//            Debug.Log("NodeGraphBase.OnKeyDown : " + Event.current.keyCode);
-            
+            //            Debug.Log("NodeGraphBase.OnKeyDown : " + Event.current.keyCode);
+
         }
 
         protected virtual void OnKeyUp()
@@ -1755,7 +1880,7 @@ namespace AorFramework.NodeGraph
 
         protected virtual void OnValidateCommand()
         {
-            
+
             switch (Event.current.commandName)
             {
 
@@ -1811,10 +1936,10 @@ namespace AorFramework.NodeGraph
                     _activeNodeGUIList.AddRange(_NodeGUIList.ToArray());
 
                     break;
-//                case "UndoRedoPerformed":
-//                    //do nothing
-//
-//                    break;
+                //                case "UndoRedoPerformed":
+                //                    //do nothing
+                //
+                //                    break;
                 case "SoftDelete":
                 case "Delete":
 
@@ -1851,7 +1976,7 @@ namespace AorFramework.NodeGraph
             //Debug.Log("NodeGraphBase.OnOpenGraph ");
         }
 
-        protected virtual void OnInstallJSONNodeGraph(Dictionary<string, Dictionary<string,string>> ParmsWithTagDic)
+        protected virtual void OnInstallJSONNodeGraph(Dictionary<string, Dictionary<string, string>> ParmsWithTagDic)
         {
             if (ParmsWithTagDic == null || ParmsWithTagDic.Count == 0) return;
             //（默认）读取“NodeGraphParms”标记参数集合
@@ -1860,7 +1985,7 @@ namespace AorFramework.NodeGraph
                 Dictionary<string, string> parms = ParmsWithTagDic["NodeGraphParms"];
                 if (parms != null && parms.Count > 0)
                 {
-                    setSettings(parms);
+                    setSettingsInFile(parms);
                 }
             }
 
@@ -1869,7 +1994,7 @@ namespace AorFramework.NodeGraph
         }
 
         //------------------------------- 新建
-        
+
         //当前Follow的TID，用于识别暂存数据
         protected string _CurrentTID;
 
@@ -1931,7 +2056,7 @@ namespace AorFramework.NodeGraph
             }
 
             //存入当前界面参数
-            Dictionary<string,string> parmsDic = new Dictionary<string, string>();
+            Dictionary<string, string> parmsDic = new Dictionary<string, string>();
             parmsDic.Add("_LAGTag", _LAGTag.ToString());
             parmsDic.Add("_isShowToolArea", _isShowToolArea.ToString());
             parmsDic.Add("_isShowInspector", _isShowInspector.ToString());
@@ -1950,7 +2075,7 @@ namespace AorFramework.NodeGraph
         //Open NodeGraph
         public virtual void OpenGraph()
         {
-            string opend = EditorUtility.OpenFilePanelWithFilters("Open Graph", "", new string[] {"json","json"});
+            string opend = EditorUtility.OpenFilePanelWithFilters("Open Graph", "", new string[] { "json", "json" });
             if (string.IsNullOrEmpty(opend)) return;
 
             OnOpenGraph();

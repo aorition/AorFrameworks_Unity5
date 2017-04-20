@@ -5,6 +5,9 @@ using UnityEditor;
 
 namespace AorFramework.NodeGraph
 {
+
+    //TODO 可能有一下东西要移动到NodeGraphBaseSetting中去。
+
     /// <summary>
     /// NodeGraph 样式定义
     /// </summary>
@@ -243,6 +246,16 @@ namespace AorFramework.NodeGraph
         /// (** 注意因路径连接需求，保留前面的一反斜杠)
         /// </summary>
         public const string RESCACHE_ROOTDIR = "/NodeGraphRESCaches";
+
+        /// <summary>
+        /// 定义NodeGraph Setting文件夹
+        /// </summary>
+        public const string RESCACHE_SETTINGS = "/settings";
+
+        /// <summary>
+        /// 定义NodeGraph Setting文件(不包含后缀名)
+        /// </summary>
+        public const string RESCACHE_SETTING_NAME = "NodeGraphSettings";
 
         /// <summary>
         /// 定义动态生成的脚本存放地址

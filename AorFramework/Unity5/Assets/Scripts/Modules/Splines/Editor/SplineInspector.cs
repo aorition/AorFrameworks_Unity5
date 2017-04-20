@@ -117,7 +117,8 @@ using UnityEngine;
             EditorGUI.BeginChangeCheck();
             if (GUILayout.Button(new GUIContent("C", "复制"),GUILayout.Width(20))) {
                 string copyStr = "{"+ point.x + "," + point.y + "," + point.z + "}";
-                _textEditor.content = new GUIContent(copyStr);
+            //                _textEditor.content = new GUIContent(copyStr);
+                _textEditor.text = copyStr;
                 _textEditor.SelectAll();
                 _textEditor.Copy();
                 Debug.Log("点数据" + copyStr + "已复制到剪贴板中了");
@@ -127,7 +128,8 @@ using UnityEngine;
                 if (GUILayout.Button(new GUIContent("P", "粘贴"), GUILayout.Width(20))) {
                     _textEditor.OnFocus();
                     _textEditor.Paste();
-                    string pasteStr = _textEditor.content.text;
+//                    string pasteStr = _textEditor.content.text;
+                    string pasteStr = _textEditor.text;
                     if (pasteStr != null || pasteStr.Trim() != "") {
                         try {
                             pasteStr = pasteStr.Replace("{", "").Replace("}", "");

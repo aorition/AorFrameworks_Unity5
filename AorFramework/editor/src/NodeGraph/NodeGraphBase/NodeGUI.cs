@@ -349,7 +349,7 @@ namespace AorFramework.NodeGraph
                                           rect.height - NodeGraphDefind.ModeGUIRefreshIconY,
                                           NodeGraphDefind.ModeGUIRefreshIconX,
                                           NodeGraphDefind.ModeGUIRefreshIconY);
-                GUI.Box(refreshIconRect, new GUIContent(m_RefreshIcon, NodeGraphLagDefind.GetLabelDefine(12)));
+                GUI.Box(refreshIconRect, new GUIContent(RefreshIcon, NodeGraphLagDefind.GetLabelDefine(12)));
             }
 
         }
