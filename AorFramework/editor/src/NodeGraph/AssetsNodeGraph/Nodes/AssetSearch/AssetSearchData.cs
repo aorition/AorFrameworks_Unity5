@@ -11,6 +11,8 @@ namespace AorFramework.NodeGraph
 
         public readonly bool IgnoreMETAFile = true;
 
+        public readonly bool AdvancedOption = false;
+
         public readonly string SearchPattern;
 
         public readonly string SearchPath;

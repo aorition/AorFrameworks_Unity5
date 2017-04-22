@@ -12,6 +12,9 @@ namespace AorFramework.NodeGraph
         "default",-99,true)]
     public class AssetFilterGUIController : NodeGUIController
     {
+
+        public static string[] FKModeLabelDefine = {"无", "预制体", "图像", "材质", "FBX", "Shader"};
+
         public override string GetNodeLabel()
         {
             return AssetNodeGraphLagDefind.GetLabelDefine(1);
@@ -62,65 +65,93 @@ namespace AorFramework.NodeGraph
 
             GUILayout.BeginVertical("box", GUILayout.Width(inspectorWidth));
 
-            GUILayout.Label(new GUIContent("Filter Key :"));
-            string[] keylist = (string[])m_nodeGUI.data.ref_GetField_Inst_Public("FilterKeys");
-            bool[] icList = (bool[])m_nodeGUI.data.ref_GetField_Inst_Public("IgnoreCase");
-            bool _ischanged = false;
-            int len = (keylist != null ? keylist.Length : 0);
-            int nlen = EditorGUILayout.IntField(len);
-            nlen = Mathf.Max(nlen, 0);
-            if (nlen != len)
+            GUILayout.BeginHorizontal();
+
+            bool Advanced = GUILayout.Toggle((bool)m_nodeGUI.data.ref_GetField_Inst_Public("AdvancedOption"), "高级选项");
+            if (Advanced != (bool)m_nodeGUI.data.ref_GetField_Inst_Public("AdvancedOption"))
             {
-                string[] nkl = new string[nlen];
-                bool[] nic = new bool[nlen];
-                for (int i = 0; i < nlen; i++)
-                {
-
-                    if (keylist != null && i < keylist.Length)
-                    {
-                        nkl[i] = keylist[i];
-                        nic[i] = icList[i];
-                    }
-                    else
-                    {
-                        nkl[i] = "";
-                        nic[i] = false;
-                    }
-
-                    keylist = nkl;
-                    icList = nic;
-                    _ischanged = true;
-                }
+                m_nodeGUI.data.ref_SetField_Inst_Public("AdvancedOption", Advanced);
+                m_nodeGUI.SetDirty();
             }
 
-            if (keylist != null)
+            GUILayout.EndHorizontal();
+
+            if (Advanced)
             {
-                len = keylist.Length;
-                for (int i = 0; i < len; i++)
+
+                GUILayout.Label(new GUIContent("Filter Key :"));
+                string[] keylist = (string[]) m_nodeGUI.data.ref_GetField_Inst_Public("FilterKeys");
+                bool[] icList = (bool[]) m_nodeGUI.data.ref_GetField_Inst_Public("IgnoreCase");
+                bool _ischanged = false;
+                int len = (keylist != null ? keylist.Length : 0);
+                int nlen = EditorGUILayout.IntField(len);
+                nlen = Mathf.Max(nlen, 0);
+                if (nlen != len)
                 {
-                    GUILayout.BeginHorizontal();
-                    string n = EditorGUILayout.TextField(keylist[i]);
-                    if (n != keylist[i])
+                    string[] nkl = new string[nlen];
+                    bool[] nic = new bool[nlen];
+                    for (int i = 0; i < nlen; i++)
                     {
-                        keylist[i] = n;
+
+                        if (keylist != null && i < keylist.Length)
+                        {
+                            nkl[i] = keylist[i];
+                            nic[i] = icList[i];
+                        }
+                        else
+                        {
+                            nkl[i] = "";
+                            nic[i] = false;
+                        }
+
+                        keylist = nkl;
+                        icList = nic;
                         _ischanged = true;
                     }
-                    GUILayout.FlexibleSpace();
-                    //bool ni = EditorGUILayout.ToggleLeft(new GUIContent(AssetNodeGraphLagDefind.GetLabelDefine(14)),icList[i]);
-                    bool ni = EditorGUILayout.Toggle(new GUIContent(AssetNodeGraphLagDefind.GetLabelDefine(14)), icList[i], NodeGraphDefind.GetToggleARStyle());
-                    if (ni != icList[i])
-                    {
-                        icList[i] = ni;
-                        _ischanged = true;
-                    }
-                    GUILayout.EndHorizontal();
                 }
 
-                if (_ischanged)
+                if (keylist != null)
                 {
-                    m_nodeGUI.data.ref_SetField_Inst_Public("FilterKeys", keylist);
-                    m_nodeGUI.data.ref_SetField_Inst_Public("IgnoreCase", icList);
+                    len = keylist.Length;
+                    for (int i = 0; i < len; i++)
+                    {
+                        GUILayout.BeginHorizontal();
+                        string n = EditorGUILayout.TextField(keylist[i]);
+                        if (n != keylist[i])
+                        {
+                            keylist[i] = n;
+                            _ischanged = true;
+                        }
+                        GUILayout.FlexibleSpace();
+                        //bool ni = EditorGUILayout.ToggleLeft(new GUIContent(AssetNodeGraphLagDefind.GetLabelDefine(14)),icList[i]);
+                        bool ni = EditorGUILayout.Toggle(new GUIContent(AssetNodeGraphLagDefind.GetLabelDefine(14)),
+                            icList[i], NodeGraphDefind.GetToggleARStyle());
+                        if (ni != icList[i])
+                        {
+                            icList[i] = ni;
+                            _ischanged = true;
+                        }
+                        GUILayout.EndHorizontal();
+                    }
+
+                    if (_ischanged)
+                    {
+                        m_nodeGUI.data.ref_SetField_Inst_Public("FilterKeys", keylist);
+                        m_nodeGUI.data.ref_SetField_Inst_Public("IgnoreCase", icList);
+                    }
                 }
+
+            }
+            else
+            {
+                int FKMode = (int)m_nodeGUI.data.ref_GetField_Inst_Public("FilterMode");
+
+                int nMode = EditorGUILayout.Popup("过滤条件", FKMode, FKModeLabelDefine);
+                if (nMode != FKMode)
+                {
+                    _changeFKMode(nMode);
+                }
+
             }
 
             string[] assetPaths = (string[])m_nodeGUI.data.ref_GetField_Inst_Public("AssetsPath");
@@ -146,6 +177,67 @@ namespace AorFramework.NodeGraph
             GUILayout.EndVertical();
 
             //base.DrawNodeInspector(inspectorWidth);
+        }
+
+        //改变
+        //{"无", "预制体", "图像", "材质", "FBX", "Shader"};
+        private void _changeFKMode(int mode)
+        {
+            m_nodeGUI.data.ref_SetField_Inst_Public("FilterMode", mode);
+
+            List<string> keys = new List<string>();
+            List<bool> IgnoreCs = new List<bool>();
+
+            switch (mode)
+            {
+                //预制体
+                case 1:
+                    keys.Add(".prefab");    IgnoreCs.Add(false);
+                    break;
+                //图像
+                case 2:
+                    keys.Add(".jpg");   IgnoreCs.Add(true);
+                    keys.Add(".gif");   IgnoreCs.Add(true);
+                    keys.Add(".bmp");   IgnoreCs.Add(true);
+                    keys.Add(".tiff");   IgnoreCs.Add(true);
+                    keys.Add(".iff");   IgnoreCs.Add(true);
+                    keys.Add(".pict");   IgnoreCs.Add(true);
+                    keys.Add(".dds");   IgnoreCs.Add(true);
+                    keys.Add(".jpeg");  IgnoreCs.Add(true);
+                    keys.Add(".png");   IgnoreCs.Add(true);
+                    keys.Add(".tga");   IgnoreCs.Add(true);
+                    keys.Add(".exr");   IgnoreCs.Add(true);
+                    keys.Add(".psd");   IgnoreCs.Add(true);
+                    break;
+                //材质
+                case 3:
+                    keys.Add(".mat"); IgnoreCs.Add(false);
+                    break;
+                //FBX
+                case 4:
+                    keys.Add(".fbx"); IgnoreCs.Add(false);
+                    break;
+                //Shader
+                case 5:
+                    keys.Add(".shader"); IgnoreCs.Add(false);
+                    break;
+                default:
+                    //
+                    break;
+            }
+
+            if (keys.Count > 0 && IgnoreCs.Count > 0)
+            {
+                m_nodeGUI.data.ref_SetField_Inst_Public("FilterKeys", keys.ToArray());
+                m_nodeGUI.data.ref_SetField_Inst_Public("IgnoreCase", IgnoreCs.ToArray());
+            }
+            else
+            {
+                m_nodeGUI.data.ref_SetField_Inst_Public("FilterKeys", null);
+                m_nodeGUI.data.ref_SetField_Inst_Public("IgnoreCase", null);
+            }
+
+            m_nodeGUI.SetDirty();
         }
 
         public override List<ConnectionPointGUI> GetConnectionPointInfo(GetConnectionPointMode GetMode)

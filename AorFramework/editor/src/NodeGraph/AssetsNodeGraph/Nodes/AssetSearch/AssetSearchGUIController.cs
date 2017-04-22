@@ -59,27 +59,41 @@ namespace AorFramework.NodeGraph
 
             GUILayout.BeginVertical("box", GUILayout.Width(inspectorWidth));
 
+            GUILayout.BeginHorizontal();
+
             bool IgnoreMETAFile = GUILayout.Toggle((bool)m_nodeGUI.data.ref_GetField_Inst_Public("IgnoreMETAFile"), "忽略META文件");
             if (IgnoreMETAFile != (bool)m_nodeGUI.data.ref_GetField_Inst_Public("IgnoreMETAFile"))
             {
                 m_nodeGUI.data.ref_SetField_Inst_Public("IgnoreMETAFile", IgnoreMETAFile);
                 m_nodeGUI.SetDirty();
             }
-
-            string SearchPattern = (string)m_nodeGUI.data.ref_GetField_Inst_Public("SearchPattern");
-            if (string.IsNullOrEmpty(SearchPattern))
+            
+            bool Advanced = GUILayout.Toggle((bool)m_nodeGUI.data.ref_GetField_Inst_Public("AdvancedOption"), "高级选项");
+            if (Advanced != (bool)m_nodeGUI.data.ref_GetField_Inst_Public("AdvancedOption"))
             {
-                SearchPattern = "*.*";
-                m_nodeGUI.data.ref_SetField_Inst_Public("SearchPattern", SearchPattern);
+                m_nodeGUI.data.ref_SetField_Inst_Public("AdvancedOption", Advanced);
+                m_nodeGUI.SetDirty();
             }
 
-            GUILayout.Label(new GUIContent("搜索匹配："));
-            string nsp = GUILayout.TextField(SearchPattern);
-            if (nsp != SearchPattern)
-            {
-                m_nodeGUI.data.ref_SetField_Inst_Public("SearchPattern", nsp);
-            }
+            GUILayout.EndHorizontal();
 
+            if (Advanced)
+            {
+                string SearchPattern = (string)m_nodeGUI.data.ref_GetField_Inst_Public("SearchPattern");
+                if (string.IsNullOrEmpty(SearchPattern))
+                {
+                    SearchPattern = "*.*";
+                    m_nodeGUI.data.ref_SetField_Inst_Public("SearchPattern", SearchPattern);
+                }
+
+                GUILayout.Label(new GUIContent("搜索匹配："));
+                string nsp = GUILayout.TextField(SearchPattern);
+                if (nsp != SearchPattern)
+                {
+                    m_nodeGUI.data.ref_SetField_Inst_Public("SearchPattern", nsp);
+                }
+            }
+            
             GUILayout.Space(5);
 
             string SearchPath = (string)m_nodeGUI.data.ref_GetField_Inst_Public("SearchPath");
