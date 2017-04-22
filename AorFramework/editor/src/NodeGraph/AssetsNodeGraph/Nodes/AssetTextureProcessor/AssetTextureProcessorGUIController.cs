@@ -5,13 +5,11 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    [NodeToolItem("Assets#<3>", 
+    [NodeToolItem("Assets#<15>", 
         "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder",
-        "CreateAssetPrefabProcessor")]
-    public class AssetPrefabProcessorGUIController : NodeGUIController
+        "CreateAssetTextureProcessor")]
+    public class AssetTextureProcessorGUIController : NodeGUIController
     {
-
-        private string[] _actionLabelDefine = {"无"};
 
         private GUIStyle _describeStyle;
 
@@ -19,7 +17,7 @@ namespace AorFramework.NodeGraph
 
         public override string GetNodeLabel()
         {
-             return "Assets" + AssetNodeGraphLagDefind.GetLabelDefine(3);
+             return "Assets" + AssetNodeGraphLagDefind.GetLabelDefine(15);
         }
 
         private Vector2 _NodeMinSize = new Vector2(230, 120);
@@ -71,17 +69,10 @@ namespace AorFramework.NodeGraph
         public override void DrawNodeInspector(float inspectorWidth)
         {
             if (m_nodeGUI == null) return;
-            
+
             GUILayout.BeginVertical("box", GUILayout.Width(inspectorWidth));
-
-            int aId = (int)m_nodeGUI.data.ref_GetField_Inst_Public("ActionId");
-            int actionId = EditorGUILayout.Popup("预制处理动作", aId, _actionLabelDefine);
-            if (actionId != aId)
-            {
-                m_nodeGUI.data.ref_SetField_Inst_Public("ActionId", actionId);
-            }
-
             string oguid = (string)m_nodeGUI.data.ref_GetField_Inst_Public("CustomScriptGUID");
+            
             if (!string.IsNullOrEmpty(oguid))
             {
                 string customPath = AssetDatabase.GUIDToAssetPath(oguid);
@@ -90,7 +81,7 @@ namespace AorFramework.NodeGraph
                     UnityEngine.Object custom = AssetDatabase.LoadMainAssetAtPath(customPath);
                     if (custom != null)
                     {
-                        GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IPrefabProcess)");
+                        GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(ITexturePrecess)");
                         UnityEngine.Object n = EditorGUILayout.ObjectField(custom, typeof(MonoScript), false);
                         if (n == null)
                         {
@@ -143,7 +134,7 @@ namespace AorFramework.NodeGraph
             }
             else
             {
-                GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IPrefabProcess)");
+                GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(ITexturePrecess)");
                 UnityEngine.Object n = EditorGUILayout.ObjectField(null, typeof (MonoScript), false);
                 if (n != null)
                 {
@@ -174,6 +165,7 @@ namespace AorFramework.NodeGraph
                 {
                     GUILayout.Label(rid + ":");
                 }
+
                 GUILayout.Space(6);
                 GUILayout.BeginVertical("box");
 

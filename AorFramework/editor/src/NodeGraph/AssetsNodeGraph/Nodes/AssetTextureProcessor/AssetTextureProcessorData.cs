@@ -3,18 +3,16 @@ using System.Collections.Generic;
 
 namespace AorFramework.NodeGraph
 {
-    public class AssetPrefabProcessorData : NodeData
+    public class AssetTextureProcessorData : NodeData
     {
 
-        public AssetPrefabProcessorData()
+        public AssetTextureProcessorData()
         {
         }
 
-        public AssetPrefabProcessorData(long id):base(id)
+        public AssetTextureProcessorData(long id):base(id)
         {
         }
-
-        public readonly int ActionId;
 
         public readonly string CustomScriptGUID;
 

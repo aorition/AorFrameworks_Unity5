@@ -84,6 +84,9 @@
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetSearch\AssetSearchData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetSearch\AssetSearchController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetSearch\AssetSearchGUIController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\AssetTextureProcessorController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\AssetTextureProcessorData.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\AssetTextureProcessorGUIController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\HierarchyObjSelector\HierarchyObjSelectorController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\HierarchyObjSelector\HierarchyObjSelectorData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\HierarchyObjSelector\HierarchyObjSelectorGUIController.cs" />

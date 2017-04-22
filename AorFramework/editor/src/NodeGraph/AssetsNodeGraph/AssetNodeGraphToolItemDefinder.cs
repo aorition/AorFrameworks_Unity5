@@ -103,6 +103,25 @@ namespace AorFramework.NodeGraph
             NodeGraphBase.Instance.AddNodeGUI(node);
         }
 
+        //
+        public static void CreateAssetTextureProcessor(Vector2 inputPos)
+        {
+            //---创建 AssetTextureProcessor
+            AssetTextureProcessorData nodedata = new AssetTextureProcessorData(NodeGraphBase.Instance.GetNewNodeID());
+            nodedata.name = typeof(AssetTextureProcessorData).Name;
+
+            AssetTextureProcessorController ctrl = new AssetTextureProcessorController();
+            AssetTextureProcessorGUIController GUICtrl = new AssetTextureProcessorGUIController();
+
+            NodeGUI node = new NodeGUI(nodedata, ctrl, GUICtrl);
+            node.position = inputPos;
+
+            ctrl.setup(node);
+            GUICtrl.setup(node);
+
+            NodeGraphBase.Instance.AddNodeGUI(node);
+        }
+
         #endregion
     }
 }
