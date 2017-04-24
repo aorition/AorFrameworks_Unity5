@@ -79,6 +79,9 @@ namespace AorFramework.NodeGraph
             int i = 0;
             int len;
 
+            //获取ActionID
+            int actionID = (int)m_nodeGUI.data.ref_GetField_Inst_Public("ActionId");
+
             //获取自定义脚本
             if (!_hasCustomScript)
             {
@@ -121,7 +124,22 @@ namespace AorFramework.NodeGraph
 
                 if (gameObjectList.Count > 0)
                 {
-                   // m_nodeGUI.data.ref_SetField_Inst_Public("InputAssetsPath", inputPathList.ToArray());
+                    // m_nodeGUI.data.ref_SetField_Inst_Public("InputAssetsPath", inputPathList.ToArray());
+
+                    //预制动作
+                    if (actionID > 0)
+                    {
+
+                        switch (actionID)
+                        {
+
+                            //Todo 预制动作处理
+
+                            default: //0
+                                break;
+                        }
+
+                    }
 
                     //自定义脚本
                     if (_hasCustomScript)

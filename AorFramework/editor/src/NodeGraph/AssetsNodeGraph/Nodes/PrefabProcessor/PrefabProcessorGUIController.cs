@@ -12,6 +12,8 @@ namespace AorFramework.NodeGraph
     public class PrefabProcessorGUIController : NodeGUIController
     {
 
+        private string[] _actionLabelDefine = { "无" };
+
         private GUIStyle _describeStyle;
 
         private GUIStyle _resultInfoStyle;
@@ -72,6 +74,14 @@ namespace AorFramework.NodeGraph
             if (m_nodeGUI == null) return;
 
             GUILayout.BeginVertical("box", GUILayout.Width(inspectorWidth));
+
+            int aId = (int)m_nodeGUI.data.ref_GetField_Inst_Public("ActionId");
+            int actionId = EditorGUILayout.Popup("预制处理动作", aId, _actionLabelDefine);
+            if (actionId != aId)
+            {
+                m_nodeGUI.data.ref_SetField_Inst_Public("ActionId", actionId);
+            }
+
             string oguid = (string)m_nodeGUI.data.ref_GetField_Inst_Public("CustomScriptGUID");
             
             if (!string.IsNullOrEmpty(oguid))
