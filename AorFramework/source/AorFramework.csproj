@@ -70,13 +70,8 @@
     <Compile Include="src\Core\IManager.cs" />
     <Compile Include="src\Core\PrefabLightmapData.cs" />
     <Compile Include="src\Core\SetPropertyAttribute.cs" />
-    <Compile Include="src\Extends\AorRefExtends.cs" />
-    <Compile Include="src\Extends\ArrayExtends.cs" />
-    <Compile Include="src\Extends\FloatExtends.cs" />
     <Compile Include="src\Extends\GameObjectExtends.cs" />
     <Compile Include="src\Extends\GUIStyleExtends.cs" />
-    <Compile Include="src\Extends\ListEntends.cs" />
-    <Compile Include="src\Extends\StringExtends.cs" />
     <Compile Include="src\Extends\TransformExtends.cs" />
     <Compile Include="src\Facade\AorFacede.cs" />
     <Compile Include="src\Core\ManagerBase.cs" />

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using AorBaseUtility;
+using AorFramework.DataWrapers;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,7 +13,7 @@ namespace AorFramework.NodeGraph
     public class AssetTextureProcessorGUIController : NodeGUIController
     {
 
-        private string[] _actionLabelDefine = { "无" };
+        private string[] _actionLabelDefine = { "无","批量修改图片" };
 
         private GUIStyle _describeStyle;
 
@@ -75,10 +77,21 @@ namespace AorFramework.NodeGraph
             GUILayout.BeginVertical("box", GUILayout.Width(inspectorWidth));
 
             int aId = (int)m_nodeGUI.data.ref_GetField_Inst_Public("ActionId");
-            int actionId = EditorGUILayout.Popup("预制处理动作", aId, _actionLabelDefine);
+            int actionId = EditorGUILayout.Popup("预设处理动作", aId, _actionLabelDefine);
             if (actionId != aId)
             {
                 m_nodeGUI.data.ref_SetField_Inst_Public("ActionId", actionId);
+            }
+
+            //TODO预设动作操作
+            if (actionId > 0)
+            {
+                draw_presetActionGUI(actionId);
+            }
+            else
+            {
+                //移除所有数据
+                m_nodeGUI.data.ref_SetField_Inst_Public("PresetActionData_TextureImporterDatawraper", null);//移除PresetActionData
             }
 
             string oguid = (string)m_nodeGUI.data.ref_GetField_Inst_Public("CustomScriptGUID");
@@ -206,6 +219,34 @@ namespace AorFramework.NodeGraph
 
            // base.DrawNodeInspector(inspectorWidth);
         }
+
+        /// <summary>
+        /// 绘制并处理相应Id的预设动作GUI（包括处理数据）
+        /// </summary>
+        /// <param name="actionId"></param>
+        private void draw_presetActionGUI(int actionId)
+        {
+            switch (actionId)
+            {
+                //同一修改TextureImporter
+                case 1:
+                    TextureImporterDatawraper TIDwraper = (TextureImporterDatawraper)m_nodeGUI.data.ref_GetField_Inst_Public("PresetActionData_TextureImporterDatawraper");
+                    if (TIDwraper == null)
+                    {
+
+                        TIDwraper = new TextureImporterDatawraper();
+                        m_nodeGUI.data.ref_SetField_Inst_Public("PresetActionData_TextureImporterDatawraper", TIDwraper);
+                    }
+                    //TODO TextureImporterDatawraper 编辑界面显示
+
+
+
+                    //TODO 移除其他PresetActionData （如果有 。。。）
+                    //
+                    break;
+            }
+        }
+
     }
 
 }

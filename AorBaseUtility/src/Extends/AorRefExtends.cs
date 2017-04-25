@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
 
 /// <summary>
 /// 常用反射Extends;
@@ -11,57 +10,6 @@ public static class AorRefExtends
 
     // -- Field get
     #region Field Get
-
- 
-
-
-    public static void GetAllSerializeFieldFields(Type t, ref Dictionary<string, FieldInfo> infos)
-    {
-        FieldInfo[] fields = t.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
-
-
-        foreach (FieldInfo each in fields)
-        {
-            if (each.IsPublic)
-            {
-                if (!infos.ContainsKey(each.Name))
-                {
-                    infos.Add(each.Name, each);
-                }
-
-            }
-            else
-            {
-
-                //序列化标识获得
-                // Attribute[] attrs = Attribute.GetCustomAttributes(each);
-                object[] attrs = each.GetCustomAttributes(typeof(SerializeField), true);
-
-                if (attrs.Length > 0)
-                {
-                    if (!infos.ContainsKey(each.Name))
-                    {
-                        infos.Add(each.Name, each);
-                    }
-                }
-
-
-            }
-
-        }
-
-
-        if (t.BaseType != null)
-        {
-            GetAllSerializeFieldFields(t.BaseType, ref infos);
-        }
-
-
-    }
-
-
-
- 
 
     public static object ref_GetField_Inst_NonPublic(this object obj, string fieldName)
     {

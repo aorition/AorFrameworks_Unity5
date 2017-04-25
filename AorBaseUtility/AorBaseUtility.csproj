@@ -42,6 +42,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\AsyncCombiner\AsyncCombiner.cs" />
     <Compile Include="src\Config\ConfigManager.cs" />
+    <Compile Include="src\Extends\AorRefExtends.cs" />
+    <Compile Include="src\Extends\ArrayExtends.cs" />
+    <Compile Include="src\Extends\ConfigExtends.cs" />
+    <Compile Include="src\Extends\FloatExtends.cs" />
+    <Compile Include="src\Extends\ListEntends.cs" />
+    <Compile Include="src\Extends\StringExtends.cs" />
     <Compile Include="src\IO\AorIO.cs" />
     <Compile Include="src\Config\Config.cs" />
     <Compile Include="src\Config\ConfigInstCreater.cs" />

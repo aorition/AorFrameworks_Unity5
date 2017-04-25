@@ -10,6 +10,8 @@ namespace AorFramework.NodeGraph
 {
     public class AssetTextureProcessorController : NodeController
     {
+        
+        private static List<string> _filtSuffixDefine = new List<string>() { ".jpg", ".gif", ".bmp", ".tiff", ".iff", ".pict", ".dds", ".jpeg", ".png", ".tga", ".exr", ".psd" };
 
         private Type _customScriptType;
         private object _customScript;
@@ -108,14 +110,14 @@ namespace AorFramework.NodeGraph
                         parentData.AddRange(pd);
                     }
                 }
-                
-                //查找Prefab
+
+                //查找Texture2D
                 List<string> inputPathList = new List<string>();
                 len = parentData.Count;
                 for (i = 0; i < len; i++)
                 {
                     EditorAssetInfo info = new EditorAssetInfo(parentData[i]);
-                    if (info.suffix.ToLower() == ".prefab")
+                    if (_filtSuffixDefine.Contains(info.suffix.ToLower()))
                     {
                         inputPathList.Add(info.path);
                     }
@@ -131,7 +133,10 @@ namespace AorFramework.NodeGraph
 
                         switch (actionID)
                         {
-
+                            //
+                            case 1:
+                                
+                                break;
                             //Todo 预制动作处理
 
                             default: //0
@@ -149,13 +154,13 @@ namespace AorFramework.NodeGraph
                         {
                             EditorUtility.DisplayProgressBar("Processing ...", "Processing ..." + i + " / " + len,
                                 Mathf.Round((float) i/len*10000)*0.01f);
-                            GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(inputPathList[i]);
-                            if (go)
+                            Texture2D t2d = AssetDatabase.LoadAssetAtPath<Texture2D>(inputPathList[i]);
+                            if (t2d)
                             {
 
                                 if (
                                     (bool)
-                                        _customScriptMethodInfo.Invoke(_customScript, new object[] {go, resultInfoList}))
+                                        _customScriptMethodInfo.Invoke(_customScript, new object[] { t2d, resultInfoList}))
                                 {
                                     resultPathList.Add(inputPathList[i]);
                                 }

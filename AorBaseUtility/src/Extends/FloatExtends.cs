@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 public static class FloatExtends
 {
@@ -13,7 +12,7 @@ public static class FloatExtends
     /// <returns>是否在误差内</returns>
     public static bool FloatEquel(this float f1, float f2, float epsilon = float.Epsilon)
     {
-        return Mathf.Abs(f1 - f2) < epsilon;
+        return Math.Abs(f1 - f2) < epsilon;
     }
 
 }

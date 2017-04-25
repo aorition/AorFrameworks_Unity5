@@ -328,7 +328,7 @@ namespace AorFramework.core
 
         private static string _ClassToJSON(object obj, Type type)
         {
-            if (obj == null) return "NULL";
+            if (obj == null) return "null";
 
             StringBuilder _result = new StringBuilder("{");
 
@@ -363,7 +363,7 @@ namespace AorFramework.core
         public static string _ObjToJSON(object obj, Type type)
         {
 
-            if (obj == null) return "NULL";
+            if (obj == null) return "null";
 
             StringBuilder _result = new StringBuilder();
 
@@ -434,7 +434,7 @@ namespace AorFramework.core
         private static string _ArrayToJSON(object arrayObj)
         {
 
-            if (arrayObj == null) return "NULL";
+            if (arrayObj == null) return "null";
 
             StringBuilder _result = new StringBuilder("[");
 
@@ -462,7 +462,7 @@ namespace AorFramework.core
 
         private static string _ListToJSON(object listObj)
         {
-            if (listObj == null) return "NULL";
+            if (listObj == null) return "null";
 
             StringBuilder _result = new StringBuilder("[");
 
@@ -488,7 +488,7 @@ namespace AorFramework.core
 
         private static string _DicToJSON(object dicObj)
         {
-            if (dicObj == null) return "NULL";
+            if (dicObj == null) return "null";
 
             StringBuilder _result = new StringBuilder("[");
 

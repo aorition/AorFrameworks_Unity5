@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Reflection;
 
 namespace AorBaseUtility
 {
 
     public class Config
     {
+
         [ConfigComment("ID")]
         public readonly long id;
     }

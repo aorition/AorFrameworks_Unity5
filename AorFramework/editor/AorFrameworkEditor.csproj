@@ -66,6 +66,8 @@
     <Compile Include="src\Config\ConfigSaveUtility.cs" />
     <Compile Include="src\Config\CreateField.cs" />
     <Compile Include="src\Config\CreateSpecialField.cs" />
+    <Compile Include="src\Config\DataWrapers\SpriteMetaDataWraper.cs" />
+    <Compile Include="src\Config\DataWrapers\TextureImporterDatawraper.cs" />
     <Compile Include="src\Config\EditorConfigCreater.cs" />
     <Compile Include="src\Config\GenerateConfig.cs" />
     <Compile Include="src\Core\EditorAssetInfo.cs" />
@@ -131,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\AorUI\" />
+    <Folder Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\PresetDatas\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\NodeGraph\NodeGraphBase\Bitmaps\AssetGraph_Arrow.png" />

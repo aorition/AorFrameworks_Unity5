@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using AorBaseUtility;
+using AorFramework.DataWrapers;
 
 namespace AorFramework.NodeGraph
 {
@@ -15,6 +17,9 @@ namespace AorFramework.NodeGraph
         }
 
         public readonly int ActionId;
+
+        //ActionId = 1:
+        public readonly TextureImporterDatawraper PresetActionData_TextureImporterDatawraper;
 
         public readonly string CustomScriptGUID;
 
