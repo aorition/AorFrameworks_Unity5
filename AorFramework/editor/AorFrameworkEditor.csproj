@@ -77,12 +77,18 @@
     <Compile Include="src\Extends\EditorExtends.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\AssetNodeGraphToolItemDefinder.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\AssetsNodeGraph.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetDepend\AssetDependController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetDepend\AssetDependData.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetDepend\AssetDependGUIController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetFilter\AssetFilterController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetFilter\AssetFilterData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetFilter\AssetFilterGUIController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetPrefabProcessor\AssetPrefabProcessorController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetPrefabProcessor\AssetPrefabProcessorData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetPrefabProcessor\AssetPrefabProcessorGUIController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetProcessor\AssetProcessorController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetProcessor\AssetProcessorData.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetProcessor\AssetProcessorGUIController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetSearch\AssetSearchData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetSearch\AssetSearchController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetSearch\AssetSearchGUIController.cs" />
@@ -92,6 +98,9 @@
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\HierarchyObjSelector\HierarchyObjSelectorController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\HierarchyObjSelector\HierarchyObjSelectorData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\HierarchyObjSelector\HierarchyObjSelectorGUIController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\InfoOutputTxt\InfoOutputTxtController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\InfoOutputTxt\InfoOutputTxtData.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\InfoOutputTxt\InfoOutputTxtGUIController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\PrefabProcessor\PrefabProcessorController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\PrefabProcessor\PrefabProcessorData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\PrefabProcessor\PrefabProcessorGUIController.cs" />
@@ -118,6 +127,7 @@
     <Compile Include="src\NodeGraph\NodeGraphBase\NodeGUI.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\NodeGUIController.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\Utility\LayoutUtility.cs" />
+    <Compile Include="src\NodeGraph\NodeGraphBase\Utility\REFUtility.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\windows\AssetPathBrowserWindow.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\windows\NodeGraphSettingWindow.cs" />
     <Compile Include="src\Tools\AssetsFindEditorWindow.cs" />
@@ -133,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\AorUI\" />
+    <Folder Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleTagSetter\" />
     <Folder Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\PresetDatas\" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +167,14 @@
       <Name>AorFramework</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetDepend\AssetDependController.cs.meta" />
+    <None Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetDepend\AssetDependData.cs.meta" />
+    <None Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetDepend\AssetDependGUIController.cs.meta" />
+    <None Include="src\NodeGraph\AssetsNodeGraph\Nodes\InfoOutputTxt\InfoOutputTxtController.cs.meta" />
+    <None Include="src\NodeGraph\AssetsNodeGraph\Nodes\InfoOutputTxt\InfoOutputTxtData.cs.meta" />
+    <None Include="src\NodeGraph\AssetsNodeGraph\Nodes\InfoOutputTxt\InfoOutputTxtGUIController.cs.meta" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

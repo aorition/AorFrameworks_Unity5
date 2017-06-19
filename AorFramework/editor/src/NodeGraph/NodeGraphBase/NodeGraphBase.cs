@@ -653,7 +653,7 @@ namespace AorFramework.NodeGraph
         /// <param name="intputPoint">输入点(结束点)</param>
         /// <param name="allowCross">是否允许交叉连线，默认不允许</param>
         /// <returns></returns>
-        public virtual bool CreateConnection(ConnectionPointGUI outputPoint, ConnectionPointGUI inputPoint)
+        public virtual bool CreateConnection(ConnectionPointGUI outputPoint, ConnectionPointGUI inputPoint,bool autoUpdate = true)
         {
 
             ConnectionPointGUI o, i;
@@ -684,9 +684,11 @@ namespace AorFramework.NodeGraph
                         connection.SetPointUsed(true);
                         _ConnectionGUIList.Add(connection);
 
-                        //更新子节点
-                        inputPoint.node.controller.update();
-
+                        if (autoUpdate)
+                        {
+                            //更新子节点
+                            inputPoint.node.controller.update();
+                        }
                     }
                 }
 

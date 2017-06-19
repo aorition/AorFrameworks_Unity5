@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using AorFramework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,7 +36,8 @@ namespace AorFramework.NodeGraph
             if (_ConnectionPointGUIList == null)
             {
                 ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(int[]).Name, "PrefabInput", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(9) + AssetNodeGraphLagDefind.GetLabelDefine(7), new Vector2(100, 60), ConnectionPointInoutType.MutiInput);
-                ConnectionPointGUI p1 = new ConnectionPointGUI(200, 0, 1, typeof(int[]).Name, "InstancesPath", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(8), new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p1 = new ConnectionPointGUI(200, 0, 2, typeof(int[]).Name, "InstancesPath", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(8), new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p2 = new ConnectionPointGUI(201, 1, 2, typeof(int[]).Name, "CustomScriptResultInfo", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(16), new Vector2(120, 60), ConnectionPointInoutType.Output);
 
                 _ConnectionPointGUIList = new List<ConnectionPointGUI>() {p0, p1};
             }
@@ -126,6 +129,22 @@ namespace AorFramework.NodeGraph
                             }
 
                             GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(5) + " : " + des, _describeStyle);
+                        }
+
+                        //显示自定义脚本字段
+                        object cs = m_nodeGUI.controller.ref_GetField_Inst_NonPublic("_customScript");
+                        if (cs != null)
+                        {
+                            //FieldInfo[] _customScriptFieldInfos
+                            FieldInfo[] fieldInfos = (FieldInfo[])m_nodeGUI.controller.ref_GetField_Inst_NonPublic("_customScriptFieldInfos");
+                            if (fieldInfos != null && fieldInfos.Length > 0)
+                            {
+
+                                for (int i = 0; i < fieldInfos.Length; i++)
+                                {
+                                    REFUtility.DrawFieldByFieldInfo(fieldInfos[i], cs);
+                                }
+                            }
                         }
 
                     }

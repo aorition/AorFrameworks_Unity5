@@ -237,15 +237,45 @@ namespace AorFramework.NodeGraph
                         TIDwraper = new TextureImporterDatawraper();
                         m_nodeGUI.data.ref_SetField_Inst_Public("PresetActionData_TextureImporterDatawraper", TIDwraper);
                     }
-                    //TODO TextureImporterDatawraper 编辑界面显示
-
-
+                    //TextureImporterDatawraper 编辑界面显示
+                    draw_presetActionGUI_1_GUI(TIDwraper);
 
                     //TODO 移除其他PresetActionData （如果有 。。。）
                     //
                     break;
             }
         }
+
+        private void draw_presetActionGUI_1_GUI(TextureImporterDatawraper TIDwraper)
+        {
+            GUILayout.BeginVertical("box");
+            bool isChanged = false;
+            //textureType
+            TextureImporterDatawraper.inner_TextureImporterType oType = (TextureImporterDatawraper.inner_TextureImporterType)Enum.Parse(typeof(TextureImporterDatawraper.inner_TextureImporterType), TIDwraper.textureType);
+            TextureImporterDatawraper.inner_TextureImporterType nType = (TextureImporterDatawraper.inner_TextureImporterType) EditorGUILayout.EnumPopup("Texture Type", oType);
+            if (nType != oType)
+            {
+                TIDwraper.updateConfigValue("textureType", nType.ToString());
+                isChanged = true;
+            }
+            //textureShape
+            TextureImporterShape oShape = (TextureImporterShape)Enum.Parse(typeof(TextureImporterShape), TIDwraper.textureShape);
+            TextureImporterShape nShape = (TextureImporterShape)EditorGUILayout.EnumPopup("Texture Shape", oShape);
+            if (nShape != oShape)
+            {
+                TIDwraper.updateConfigValue("textureShape", nShape.ToString());
+                isChanged = true;
+            }
+
+            GUILayout.Space(10);
+
+
+
+            GUILayout.EndVertical();
+        }
+
+        
+
 
     }
 

@@ -14,6 +14,8 @@ namespace AorFramework.NodeGraph
         private Type _customScriptType;
         private object _customScript;
         private MethodInfo _customScriptMethodInfo;
+        private MethodInfo _customScriptResetMethodInfo;
+        private FieldInfo[] _customScriptFieldInfos; 
 
         private bool _getCustomScript(string GUID)
         {
@@ -27,6 +29,10 @@ namespace AorFramework.NodeGraph
                 {
                     _customScript = _customScriptType.Assembly.CreateInstance(_customScriptType.FullName);
                     _customScriptMethodInfo = _customScriptType.GetMethod("PrefabProcess", BindingFlags.Instance | BindingFlags.Public | BindingFlags.InvokeMethod);
+                    _customScriptResetMethodInfo = _customScriptType.GetMethod("Reset", BindingFlags.Instance | BindingFlags.Public | BindingFlags.InvokeMethod);
+
+                    //获取设置字段
+                    _customScriptFieldInfos = _customScriptType.GetFields(BindingFlags.Instance| BindingFlags.Public| BindingFlags.GetField);
 
                     //获取CustomScriptDescribeAttribute
                     Attribute[] attributes = Attribute.GetCustomAttributes(_customScriptMethodInfo);
@@ -145,11 +151,12 @@ namespace AorFramework.NodeGraph
                     if (_hasCustomScript)
                     {
 
+                        _customScriptResetMethodInfo.Invoke(_customScript, null);
+
                         len = inputPathList.Count;
                         for (i = 0; i < len; i++)
                         {
-                            EditorUtility.DisplayProgressBar("Processing ...", "Processing ..." + i + " / " + len,
-                                Mathf.Round((float) i/len*10000)*0.01f);
+                            EditorUtility.DisplayProgressBar("Processing ...", "Processing ..." + i + " / " + len, (float)i/len);
                             GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(inputPathList[i]);
                             if (go)
                             {
@@ -160,6 +167,8 @@ namespace AorFramework.NodeGraph
                                 {
                                     resultPathList.Add(inputPathList[i]);
                                 }
+
+                                EditorUtility.UnloadUnusedAssetsImmediate(true);
                             }
                         }
 

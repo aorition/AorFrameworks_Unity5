@@ -14,6 +14,7 @@ namespace AorFramework.NodeGraph
         private Type _customScriptType;
         private object _customScript;
         private MethodInfo _customScriptMethodInfo;
+        private MethodInfo _customScriptResetMethodInfo;
 
         private bool _getCustomScript(string GUID)
         {
@@ -27,6 +28,7 @@ namespace AorFramework.NodeGraph
                 {
                     _customScript = _customScriptType.Assembly.CreateInstance(_customScriptType.FullName);
                     _customScriptMethodInfo = _customScriptType.GetMethod("PrefabProcess", BindingFlags.Instance | BindingFlags.Public | BindingFlags.InvokeMethod);
+                    _customScriptResetMethodInfo = _customScriptType.GetMethod("Reset", BindingFlags.Instance | BindingFlags.Public | BindingFlags.InvokeMethod);
 
                     //获取CustomScriptDescribeAttribute
                     Attribute[] attributes = Attribute.GetCustomAttributes(_customScriptMethodInfo);
@@ -144,6 +146,8 @@ namespace AorFramework.NodeGraph
                     //自定义脚本
                     if (_hasCustomScript)
                     {
+
+                        _customScriptResetMethodInfo.Invoke(_customScript, null);
 
                         len = gameObjectList.Count;
                         for (i = 0; i < len; i++)

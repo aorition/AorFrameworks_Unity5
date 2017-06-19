@@ -112,7 +112,7 @@ namespace AorFramework.NodeGraph
                     long pid_in = long.Parse(cDic["InPoint"].ToString());
                     ConnectionPointGUI input = manager.GetConnectionPointGui(nid_in, pid_in, ConnectionPointInoutType.Input);
 
-                    manager.CreateConnection(output, input);
+                    manager.CreateConnection(output, input, false);
                 }
 
                 //创建 ParmsDics

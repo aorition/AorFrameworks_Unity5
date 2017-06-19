@@ -7,6 +7,17 @@ namespace AorFramework.NodeGraph
     public class AssetNodeGraphToolItemDefinder
     {
 
+        private static void CreateNode(Vector2 inputPos, INodeData nodedata, INodeController ctrl, INodeGUIController GUICtrl)
+        {
+            NodeGUI node = new NodeGUI(nodedata, ctrl, GUICtrl);
+            node.position = inputPos;
+
+            ctrl.setup(node);
+            GUICtrl.setup(node);
+
+            NodeGraphBase.Instance.AddNodeGUI(node);
+        }
+
         #region ToolItem指令集合, 所有方法必须带有Vector2作为输入坐标的形参
 
         /// <summary>
@@ -18,17 +29,10 @@ namespace AorFramework.NodeGraph
             //---创建 AssetSearch
             AssetSearchData nodedata = new AssetSearchData(NodeGraphBase.Instance.GetNewNodeID());
             nodedata.name = typeof(AssetSearchData).Name;
-
             AssetSearchController ctrl = new AssetSearchController();
             AssetSearchGUIController GUICtrl = new AssetSearchGUIController();
 
-            NodeGUI node = new NodeGUI(nodedata, ctrl, GUICtrl);
-            node.position = inputPos - new Vector2(node.size.x, node.size.y / 2);
-
-            ctrl.setup(node);
-            GUICtrl.setup(node);
-
-            NodeGraphBase.Instance.AddNodeGUI(node);
+            CreateNode(inputPos, nodedata, ctrl, GUICtrl);
         }
 
         public static void CreateAssetFilter(Vector2 inputPos)
@@ -40,13 +44,7 @@ namespace AorFramework.NodeGraph
             AssetFilterController ctrl = new AssetFilterController();
             AssetFilterGUIController GUICtrl = new AssetFilterGUIController();
 
-            NodeGUI node = new NodeGUI(nodedata, ctrl, GUICtrl);
-            node.position = inputPos;
-
-            ctrl.setup(node);
-            GUICtrl.setup(node);
-
-            NodeGraphBase.Instance.AddNodeGUI(node);
+            CreateNode(inputPos, nodedata, ctrl, GUICtrl);
         }
 
         public static void CreateAssetPrefabProcessor(Vector2 inputPos)
@@ -58,13 +56,7 @@ namespace AorFramework.NodeGraph
             AssetPrefabProcessorController ctrl = new AssetPrefabProcessorController();
             AssetPrefabProcessorGUIController GUICtrl = new AssetPrefabProcessorGUIController();
 
-            NodeGUI node = new NodeGUI(nodedata, ctrl, GUICtrl);
-            node.position = inputPos;
-
-            ctrl.setup(node);
-            GUICtrl.setup(node);
-
-            NodeGraphBase.Instance.AddNodeGUI(node);
+            CreateNode(inputPos, nodedata, ctrl, GUICtrl);
         }
 
         public static void CreatePrefabProcessor(Vector2 inputPos)
@@ -76,13 +68,7 @@ namespace AorFramework.NodeGraph
             PrefabProcessorController ctrl = new PrefabProcessorController();
             PrefabProcessorGUIController GUICtrl = new PrefabProcessorGUIController();
 
-            NodeGUI node = new NodeGUI(nodedata, ctrl, GUICtrl);
-            node.position = inputPos;
-
-            ctrl.setup(node);
-            GUICtrl.setup(node);
-
-            NodeGraphBase.Instance.AddNodeGUI(node);
+            CreateNode(inputPos, nodedata, ctrl, GUICtrl);
         }
 
         public static void CreateHierarchySelector(Vector2 inputPos)
@@ -94,32 +80,43 @@ namespace AorFramework.NodeGraph
             HierarchyObjSelectorController ctrl = new HierarchyObjSelectorController();
             HierarchyObjSelectorGUIController GUICtrl = new HierarchyObjSelectorGUIController();
 
-            NodeGUI node = new NodeGUI(nodedata, ctrl, GUICtrl);
-            node.position = inputPos;
-
-            ctrl.setup(node);
-            GUICtrl.setup(node);
-
-            NodeGraphBase.Instance.AddNodeGUI(node);
+            CreateNode(inputPos, nodedata, ctrl, GUICtrl);
         }
 
-        //
-        public static void CreateAssetTextureProcessor(Vector2 inputPos)
+        public static void CreateAssetProcessor(Vector2 inputPos)
         {
-            //---创建 AssetTextureProcessor
-            AssetTextureProcessorData nodedata = new AssetTextureProcessorData(NodeGraphBase.Instance.GetNewNodeID());
-            nodedata.name = typeof(AssetTextureProcessorData).Name;
+            //---创建 AssetProcessor
+            AssetProcessorData nodedata = new AssetProcessorData(NodeGraphBase.Instance.GetNewNodeID());
+            nodedata.name = typeof(AssetProcessorData).Name;
 
-            AssetTextureProcessorController ctrl = new AssetTextureProcessorController();
-            AssetTextureProcessorGUIController GUICtrl = new AssetTextureProcessorGUIController();
+            AssetProcessorController ctrl = new AssetProcessorController();
+            AssetProcessorGUIController GUICtrl = new AssetProcessorGUIController();
 
-            NodeGUI node = new NodeGUI(nodedata, ctrl, GUICtrl);
-            node.position = inputPos;
+            CreateNode(inputPos, nodedata, ctrl, GUICtrl);
+        }
 
-            ctrl.setup(node);
-            GUICtrl.setup(node);
+        public static void CreateAssetDepend(Vector2 inputPos)
+        {
+            //---创建 AssetDepend
+            AssetDependData nodedata = new AssetDependData(NodeGraphBase.Instance.GetNewNodeID());
+            nodedata.name = typeof(AssetDependData).Name;
 
-            NodeGraphBase.Instance.AddNodeGUI(node);
+            AssetDependController ctrl = new AssetDependController();
+            AssetDependGUIController GUICtrl = new AssetDependGUIController();
+
+            CreateNode(inputPos, nodedata, ctrl, GUICtrl);
+        }
+
+        public static void CreateInfoOutput(Vector2 inputPos)
+        {
+            //---创建 InfoOutput
+            InfoOutputTxtData nodedata = new InfoOutputTxtData(NodeGraphBase.Instance.GetNewNodeID());
+            nodedata.name = typeof(InfoOutputTxtData).Name;
+
+            InfoOutputTxtController ctrl = new InfoOutputTxtController();
+            InfoOutputTxtGUIController GUICtrl = new InfoOutputTxtGUIController();
+
+            CreateNode(inputPos, nodedata, ctrl, GUICtrl);
         }
 
         #endregion

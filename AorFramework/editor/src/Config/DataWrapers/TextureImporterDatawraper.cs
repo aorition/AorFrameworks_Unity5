@@ -6,17 +6,45 @@ using UnityEngine;
 
 namespace AorFramework.DataWrapers
 {
+
     /// <summary>
     /// TextureImporter Config包装类
+    /// 
+    /// 对口Unity 版本 ： 5.5.x
+    /// 
     /// </summary>
     public class TextureImporterDatawraper : Config
     {
+        #region inner_enum_s 
+        //解决 GUI显示问题
 
+        public enum inner_TextureImporterType
+        {
+            Default = 0,
+            NormalMap = 1,
+            GUI = 2,
+            Cookie = 4,
+            Lightmap = 6,
+            Cursor = 7,
+            Sprite = 8,
+            SingleChannel = 10,
+        }
+        
+        public enum inner_TextureImporterGenerateCubemap
+        {
+            Spheremap = 1,
+            Cylindrical = 2,
+            FullCubemap = 5,
+            AutoCubemap = 6,
+        } 
+
+        #endregion
+        
         public static TextureImporterDatawraper CreateFormTextureImporter(TextureImporter textureImporter)
         {
 
             TextureImporterDatawraper dw = new TextureImporterDatawraper();
-
+            dw.updateConfigValue("textureType", textureImporter.textureType.ToString());
             dw.updateConfigValue("allowAlphaSplitting", textureImporter.allowAlphaSplitting);
             dw.updateConfigValue("alphaIsTransparency", textureImporter.alphaIsTransparency);
             dw.updateConfigValue("alphaSource", textureImporter.alphaSource.ToString());
@@ -74,6 +102,28 @@ namespace AorFramework.DataWrapers
         }
 
         public TextureImporterDatawraper(){}
+
+
+        /*
+         public enum TextureImporterType
+        {
+            Default = 0,
+            [Obsolete("Use Default (UnityUpgradable) -> Default")] Image = 0,
+            [Obsolete("Use NormalMap (UnityUpgradable) -> NormalMap")] Bump = 1,
+            NormalMap = 1,
+            GUI = 2,
+            [Obsolete("Use importer.textureShape = TextureImporterShape.TextureCube")] Cubemap = 3,
+            [Obsolete("Use a texture setup as a cubemap with glossy reflection instead")] Reflection = 3,
+            Cookie = 4,
+            [Obsolete("Use Default instead. All texture types now have an Advanced foldout (UnityUpgradable) -> Default")] Advanced = 5,
+            Lightmap = 6,
+            Cursor = 7,
+            Sprite = 8,
+            [Obsolete("HDRI is not supported anymore")] HDRI = 9,
+            SingleChannel = 10,
+        }
+         */
+        public readonly string textureType = "Default"; //=> TextureImporterType
 
         public readonly bool allowAlphaSplitting = true;
         public readonly bool alphaIsTransparency = true;
@@ -191,6 +241,7 @@ namespace AorFramework.DataWrapers
         {
 
             TextureImporter ti = new TextureImporter();
+            ti.textureType = (TextureImporterType)Enum.Parse(typeof(TextureImporterType), textureType);
             ti.allowAlphaSplitting = allowAlphaSplitting;
             ti.alphaIsTransparency = alphaIsTransparency;
             ti.alphaSource = (TextureImporterAlphaSource)Enum.Parse(typeof(TextureImporterAlphaSource), alphaSource);

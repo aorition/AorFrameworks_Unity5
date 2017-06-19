@@ -8,6 +8,9 @@ namespace AorFramework.DataWrapers
 {
     /// <summary>
     /// SpriteMetaData Config包装类
+    /// 
+    /// 对口Unity 版本 ： 5.5.x
+    /// 
     /// </summary>
     public class SpriteMetaDataWraper : Config
     {

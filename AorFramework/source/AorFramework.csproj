@@ -62,6 +62,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\AssetsNodeGraph\CustomScriptDescribeAttribute.cs" />
     <Compile Include="src\AssetsNodeGraph\Interfaces\IPrefabProcess.cs" />
+    <Compile Include="src\AssetsNodeGraph\Interfaces\IProcess.cs" />
     <Compile Include="src\AssetsNodeGraph\Interfaces\ITexturePrecess.cs" />
     <Compile Include="src\Config\Base\JConfigParser.cs" />
     <Compile Include="src\Config\RoleViewConfig.cs" />

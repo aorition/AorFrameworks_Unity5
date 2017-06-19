@@ -21,7 +21,7 @@ namespace AorFramework.NodeGraph
             ImportRes, 资源输入,//0
             ResFilter, 资源过滤,//1
             RemoveActiveNodes, 删除选中节点,//2
-            PrefabProcessor, Prefab处理器,//3
+            Processor, 处理器,//3
             CustomScript, 自定义脚本,//4
             Description,描述,//5
             ResultInfo,结果信息,//6
@@ -34,6 +34,8 @@ namespace AorFramework.NodeGraph
             Add_0_To_ShortcutMenu,添加_0_到快捷菜单,//13
             Ignore_case,忽略大小写,//14
             TextureProcessor, Texture处理器,//15
+            Info,信息,//16
+            Depend,资源依赖,//17
         }
 
 

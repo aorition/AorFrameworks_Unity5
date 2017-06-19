@@ -6,6 +6,10 @@ namespace AorFramework.NodeGraph
 {
     public interface IPrefabProcess
     {
+        /// <summary>
+        /// 重置IPrefabProcess以便于初始化一系列标记/变量
+        /// </summary>
+        void Reset();
 
         /// <summary>
         /// 处理结果描述

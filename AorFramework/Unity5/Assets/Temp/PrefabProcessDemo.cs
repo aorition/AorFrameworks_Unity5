@@ -8,6 +8,8 @@ using UnityEngine;
 public class PrefabProcessDemo : UnityEngine.Object, IPrefabProcess
 {
 
+    public string TestKey;
+
     [CustomScriptDescribe("通过所有包含Renderer的预制体")]
     public bool PrefabProcess(GameObject prefab, ref List<string> ResultInfoList)
     {
@@ -24,6 +26,11 @@ public class PrefabProcessDemo : UnityEngine.Object, IPrefabProcess
             return true;
         }
         return false;
+    }
+
+    public void Reset()
+    {
+        //
     }
 
     public string ResultInfoDescribe()
