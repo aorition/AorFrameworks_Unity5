@@ -1138,7 +1138,7 @@ namespace AorFramework.NodeGraph
                 NodeToolItemAttribute ntItemAttribute = NTIlist[i];
                 //
                 Rect itemRect = new Rect(0, 0, _ToolAreaWidth, NodeGraphDefind.ToolAreaItemHeight);
-                string data = ntItemAttribute.reflectionClass + "@" + ntItemAttribute.reflectionMethodName;
+                string data = ntItemAttribute.getFullReflectionParams();
                 string label = _GetToolItemLabel(ntItemAttribute.labelDefine);
                 string tag = ntItemAttribute.collectionTag;
                 if (ntItemAttribute.defaultIntoShortcutMenu)

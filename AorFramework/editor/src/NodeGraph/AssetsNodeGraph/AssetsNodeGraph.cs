@@ -28,15 +28,23 @@ namespace AorFramework.NodeGraph
 
         protected override string _GetToolItemLabel(string label)
         {
-            string itemLabel = null;
+            string itemLabel = label;
 
             if (TALabelLagIDReg.IsMatch(label))
             {
-                Match m = TALabelLagIDReg.Match(label);
-                string t = m.Value.Substring(2);
-                t = t.Substring(0, t.Length - 1);
-                int lagId = int.Parse(t);
-                return label.Replace(m.Value, AssetNodeGraphLagDefind.GetLabelDefine(lagId));
+                MatchCollection mc = TALabelLagIDReg.Matches(label);
+                int i, len = mc.Count;
+                for (i = 0; i < len; i++)
+                {
+                    Match m = mc[i];
+                    string t = m.Value.Substring(2);
+                    t = t.Substring(0, t.Length - 1);
+                    int lagId = int.Parse(t);
+                    itemLabel = itemLabel.Replace(m.Value, AssetNodeGraphLagDefind.GetLabelDefine(lagId));
+                }
+
+                return itemLabel;
+
             }
             else
             {

@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    [NodeToolItem("Assets#<3>", 
-        "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder",
-        "CreateAssetProcessor")]
+    [NodeToolItem("Assets#<3>",
+        "AorFramework.NodeGraph",
+        "AssetProcessorData|AssetProcessorController|AssetProcessorGUIController")]
     public class AssetProcessorGUIController : NodeGUIController
     {
 
@@ -85,7 +85,7 @@ namespace AorFramework.NodeGraph
                     UnityEngine.Object custom = AssetDatabase.LoadMainAssetAtPath(customPath);
                     if (custom != null)
                     {
-                        GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IProcess)");
+                        GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IAssetProcess)");
                         UnityEngine.Object n = EditorGUILayout.ObjectField(custom, typeof(MonoScript), false);
                         if (n == null)
                         {
@@ -154,7 +154,7 @@ namespace AorFramework.NodeGraph
             }
             else
             {
-                GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IProcess)");
+                GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IAssetProcess)");
                 UnityEngine.Object n = EditorGUILayout.ObjectField(null, typeof (MonoScript), false);
                 if (n != null)
                 {

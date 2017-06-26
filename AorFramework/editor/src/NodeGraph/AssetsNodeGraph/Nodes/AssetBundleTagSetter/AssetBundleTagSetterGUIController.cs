@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    [NodeToolItem("#AssetBundleLabel<16>", 
-        "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder",
-        "CreateAssetBundleTagSetter",
+    [NodeToolItem("#AssetBundleLabel<16>",
+        "AorFramework.NodeGraph",
+        "AssetBundleTagSetterData|AssetBundleTagSetterController|AssetBundleTagSetterGUIController",
         "AssetBundleTools")]
     public class AssetBundleTagSetterGUIController : NodeGUIController
     {

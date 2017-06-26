@@ -24,8 +24,8 @@ namespace AorFramework.NodeGraph
             {
                 MonoScript ms = cso as MonoScript;
                 _customScriptType = ms.GetClass();
-                //检查 自定义脚本 是否是 IPrefabProcess
-                if (_customScriptType.GetInterface("IPrefabProcess") != null)
+                //检查 自定义脚本 是否是 IGameObjectProcess
+                if (_customScriptType.GetInterface("IGameObjectProcess") != null)
                 {
                     _customScript = _customScriptType.Assembly.CreateInstance(_customScriptType.FullName);
                     _customScriptMethodInfo = _customScriptType.GetMethod("PrefabProcess", BindingFlags.Instance | BindingFlags.Public | BindingFlags.InvokeMethod);
@@ -111,7 +111,14 @@ namespace AorFramework.NodeGraph
                     string[] pd = (string[])clist[i].GetConnectionValue(updateParentLoop);
                     if (pd != null)
                     {
-                        parentData.AddRange(pd);
+                        //去重复
+                        for (int a = 0; a < pd.Length; a++)
+                        {
+                            if (!parentData.Contains(pd[a]))
+                            {
+                                parentData.Add(pd[a]);
+                            }
+                        }
                     }
                 }
                 

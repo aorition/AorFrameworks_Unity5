@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    public interface IPrefabProcess
+    public interface IGameObjectProcess
     {
         /// <summary>
         /// 重置IPrefabProcess以便于初始化一系列标记/变量

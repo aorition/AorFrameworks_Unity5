@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    [NodeToolItem("#<1>", 
-        "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder",
-        "CreateAssetFilter",
+    [NodeToolItem("#<1>",
+        "AorFramework.NodeGraph",
+        "AssetFilterData|AssetFilterController|AssetFilterGUIController",
         "default",-99,true)]
     public class AssetFilterGUIController : NodeGUIController
     {

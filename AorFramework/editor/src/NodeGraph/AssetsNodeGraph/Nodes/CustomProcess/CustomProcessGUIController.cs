@@ -5,18 +5,18 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    [NodeToolItem("Hierarchy #<12>",
+    [NodeToolItem("CustomProcess",
         "AorFramework.NodeGraph",
-        "HierarchyObjSelectorData|HierarchyObjSelectorController|HierarchyObjSelectorGUIController",
-        "Hierarchy Tools",-100)]
-    public class HierarchyObjSelectorGUIController : NodeGUIController
+        "CustomProcessData|CustomProcessController|CustomProcessGUIController",
+        "ProcessAction")]
+    public class CustomProcessGUIController : NodeGUIController
     {
 
         private GUIStyle _guiContentTextStyle;
 
         public override string GetNodeLabel()
         {
-            return "Hierarchy" + AssetNodeGraphLagDefind.GetLabelDefine(11);
+            return "CustomProcess";
         }
 
         private Vector2 _MinSizeDefind = new Vector2(160, 120);

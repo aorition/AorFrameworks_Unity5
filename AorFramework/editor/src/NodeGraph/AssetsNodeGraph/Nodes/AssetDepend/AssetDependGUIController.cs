@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    [NodeToolItem("#<17>", 
-        "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder",
-        "CreateAssetDepend")]
+    [NodeToolItem("#<17>",
+        "AorFramework.NodeGraph",
+        "AssetDependData|AssetDependController|AssetDependGUIController")]
     public class AssetDependGUIController : NodeGUIController
     {
 

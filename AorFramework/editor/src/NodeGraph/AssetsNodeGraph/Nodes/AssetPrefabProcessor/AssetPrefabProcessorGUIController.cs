@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    [NodeToolItem("AssetsPrefab#<3>", 
-        "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder",
-        "CreateAssetPrefabProcessor")]
+    [NodeToolItem("AssetsPrefab#<3>",
+        "AorFramework.NodeGraph",
+        "AssetPrefabProcessorData|AssetPrefabProcessorController|AssetPrefabProcessorGUIController")]
     public class AssetPrefabProcessorGUIController : NodeGUIController
     {
 
@@ -95,7 +95,7 @@ namespace AorFramework.NodeGraph
                     if (custom != null)
                     {
 
-                        GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IPrefabProcess)");
+                        GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IGameObjectProcess)");
                         UnityEngine.Object n = EditorGUILayout.ObjectField(custom, typeof(MonoScript), false);
                         if (n == null)
                         {
@@ -164,7 +164,7 @@ namespace AorFramework.NodeGraph
             }
             else
             {
-                GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IPrefabProcess)");
+                GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IGameObjectProcess)");
                 UnityEngine.Object n = EditorGUILayout.ObjectField(null, typeof (MonoScript), false);
                 if (n != null)
                 {

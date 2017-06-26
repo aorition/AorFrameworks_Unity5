@@ -25,7 +25,14 @@ namespace AorFramework.NodeGraph
                     string[] pd = (string[]) clist[i].GetConnectionValue(updateParentLoop);
                     if (pd != null)
                     {
-                        parentData.AddRange(pd);
+                        //去重复
+                        for (int a = 0; a < pd.Length; a++)
+                        {
+                            if (!parentData.Contains(pd[a]))
+                            {
+                                parentData.Add(pd[a]);
+                            }
+                        }
                     }
                 }
 

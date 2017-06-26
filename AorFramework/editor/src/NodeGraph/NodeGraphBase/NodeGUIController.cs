@@ -16,7 +16,7 @@ namespace AorFramework.NodeGraph
     /// <summary>
     /// NodeData GUI内容绘制器
     /// </summary>
-    //[NodeToolItem("Test", "AddNodeBase")]
+    //[NodeToolItem("NodeBase", "AorFramework.NodeGraph.NodeData|AorFramework.NodeGraph.NodeController|AorFramework.NodeGraph.NodeGUIController")]
     public class NodeGUIController : INodeGUIController
     {
 

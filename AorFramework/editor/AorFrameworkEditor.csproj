@@ -75,7 +75,6 @@
     <Compile Include="src\Core\EditorGUIUtility.cs" />
     <Compile Include="src\Core\EditorPlusMethods.cs" />
     <Compile Include="src\Extends\EditorExtends.cs" />
-    <Compile Include="src\NodeGraph\AssetsNodeGraph\AssetNodeGraphToolItemDefinder.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\AssetsNodeGraph.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetDepend\AssetDependController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetDepend\AssetDependData.cs" />
@@ -95,6 +94,9 @@
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\AssetTextureProcessorController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\AssetTextureProcessorData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\AssetTextureProcessorGUIController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\CustomProcess\CustomProcessController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\CustomProcess\CustomProcessData.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\CustomProcess\CustomProcessGUIController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\HierarchyObjSelector\HierarchyObjSelectorController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\HierarchyObjSelector\HierarchyObjSelectorData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\HierarchyObjSelector\HierarchyObjSelectorGUIController.cs" />
@@ -122,7 +124,6 @@
     <Compile Include="src\NodeGraph\NodeGraphBase\NodeGraphTool.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\NodeGraphToolItemCollection.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\NodeGraphToolItemData.cs" />
-    <Compile Include="src\NodeGraph\NodeGraphBase\NodeGraphToolItemDefinder.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\NodeGraphToolItemUtility.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\NodeGUI.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\NodeGUIController.cs" />
@@ -167,14 +168,6 @@
       <Name>AorFramework</Name>
       <Private>False</Private>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetDepend\AssetDependController.cs.meta" />
-    <None Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetDepend\AssetDependData.cs.meta" />
-    <None Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetDepend\AssetDependGUIController.cs.meta" />
-    <None Include="src\NodeGraph\AssetsNodeGraph\Nodes\InfoOutputTxt\InfoOutputTxtController.cs.meta" />
-    <None Include="src\NodeGraph\AssetsNodeGraph\Nodes\InfoOutputTxt\InfoOutputTxtData.cs.meta" />
-    <None Include="src\NodeGraph\AssetsNodeGraph\Nodes\InfoOutputTxt\InfoOutputTxtGUIController.cs.meta" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

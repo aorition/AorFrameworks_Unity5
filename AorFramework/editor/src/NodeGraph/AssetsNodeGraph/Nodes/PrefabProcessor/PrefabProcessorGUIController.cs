@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    [NodeToolItem("#<3>", 
-        "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder", 
-        "CreatePrefabProcessor",
+    [NodeToolItem("GameObject#<3>",
+        "AorFramework.NodeGraph",
+        "PrefabProcessorData|PrefabProcessorController|PrefabProcessorGUIController",
         "Hierarchy Tools")]
     public class PrefabProcessorGUIController : NodeGUIController
     {
@@ -22,7 +22,7 @@ namespace AorFramework.NodeGraph
 
         public override string GetNodeLabel()
         {
-             return AssetNodeGraphLagDefind.GetLabelDefine(3);
+             return "GameObject" + AssetNodeGraphLagDefind.GetLabelDefine(3);
         }
 
         private Vector2 _NodeMinSize = new Vector2(230, 120);
@@ -95,7 +95,7 @@ namespace AorFramework.NodeGraph
                     UnityEngine.Object custom = AssetDatabase.LoadMainAssetAtPath(customPath);
                     if (custom != null)
                     {
-                        GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IPrefabProcess)");
+                        GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IGameObjectProcess)");
                         UnityEngine.Object n = EditorGUILayout.ObjectField(custom, typeof(MonoScript), false);
                         if (n == null)
                         {
@@ -164,7 +164,7 @@ namespace AorFramework.NodeGraph
             }
             else
             {
-                GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IPrefabProcess)");
+                GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IGameObjectProcess)");
                 UnityEngine.Object n = EditorGUILayout.ObjectField(null, typeof (MonoScript), false);
                 if (n != null)
                 {

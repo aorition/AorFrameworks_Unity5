@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    [NodeToolItem("#<0>", 
-        "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder",
-        "CreateAssetSearch",
+    [NodeToolItem("#<0>",
+        "AorFramework.NodeGraph",
+        "AssetSearchData|AssetSearchController|AssetSearchGUIController",
         "default", -100, true)]
     public class AssetSearchGUIController : NodeGUIController
     {

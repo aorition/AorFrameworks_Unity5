@@ -6,11 +6,10 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    [NodeToolItem("#<16>输出", 
-        "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder",
-        "CreateInfoOutput",
-        "default",
-        -97,true)]
+    [NodeToolItem("#<16>#<8>",
+        "AorFramework.NodeGraph",
+        "InfoOutputTxtData|InfoOutputTxtController|InfoOutputTxtGUIController"
+        )]
     public class InfoOutputTxtGUIController : NodeGUIController
     {
 

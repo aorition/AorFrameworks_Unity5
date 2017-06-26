@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    [NodeToolItem("Assets#<15>", 
-        "AorFramework.NodeGraph.AssetNodeGraphToolItemDefinder",
-        "CreateAssetTextureProcessor")]
+    [NodeToolItem("Assets#<15>",
+        "AorFramework.NodeGraph",
+        "AssetTextureProcessorData|AssetTextureProcessorController|AssetTextureProcessorGUIController")]
     public class AssetTextureProcessorGUIController : NodeGUIController
     {
 

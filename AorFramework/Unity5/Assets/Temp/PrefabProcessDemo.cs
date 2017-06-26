@@ -5,7 +5,7 @@ using AorFramework.NodeGraph;
 using UnityEditor;
 using UnityEngine;
 
-public class PrefabProcessDemo : UnityEngine.Object, IPrefabProcess
+public class PrefabProcessDemo : UnityEngine.Object, IGameObjectProcess
 {
 
     public string TestKey;
