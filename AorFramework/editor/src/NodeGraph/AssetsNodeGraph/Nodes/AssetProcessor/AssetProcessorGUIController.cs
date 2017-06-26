@@ -9,7 +9,8 @@ namespace AorFramework.NodeGraph
 {
     [NodeToolItem("Assets#<3>",
         "AorFramework.NodeGraph",
-        "AssetProcessorData|AssetProcessorController|AssetProcessorGUIController")]
+        "AssetProcessorData|AssetProcessorController|AssetProcessorGUIController",
+        "Advanced")]
     public class AssetProcessorGUIController : NodeGUIController
     {
 

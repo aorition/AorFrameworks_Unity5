@@ -106,6 +106,9 @@
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\PrefabProcessor\PrefabProcessorController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\PrefabProcessor\PrefabProcessorData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\PrefabProcessor\PrefabProcessorGUIController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\ProcessPredefinedAction\ProcessPredefinedActionController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\ProcessPredefinedAction\ProcessPredefinedActionData.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\ProcessPredefinedAction\ProcessPredefinedActionGUIController.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\Attributes\NodeToolItemAttribute.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\ConnectionGUI.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\ConnectionPointGUI.cs" />

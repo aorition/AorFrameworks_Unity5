@@ -14,7 +14,7 @@ namespace AorFramework.NodeGraph
     public class PrefabProcessorGUIController : NodeGUIController
     {
 
-        private string[] _actionLabelDefine = { "无" };
+        private string[] _actionLabelDefine = { "无","包含脚本" };
 
         private GUIStyle _describeStyle;
 
@@ -83,6 +83,23 @@ namespace AorFramework.NodeGraph
             if (actionId != aId)
             {
                 m_nodeGUI.data.ref_SetField_Inst_Public("ActionId", actionId);
+            }
+
+            if (actionId > 0)
+            {
+
+                //包含脚本 GUI显示
+                if (actionId == 1)
+                {
+                    string p = (string)m_nodeGUI.data.ref_GetField_Inst_Public("Action1Param");
+                    string np = EditorGUILayout.TextField("包含脚本名称", p);
+                    if (np != p)
+                    {
+                        m_nodeGUI.data.ref_SetField_Inst_Public("Action1Param", np);
+                    }
+                }
+
+
             }
 
             string oguid = (string)m_nodeGUI.data.ref_GetField_Inst_Public("CustomScriptGUID");

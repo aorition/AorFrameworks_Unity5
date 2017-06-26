@@ -147,7 +147,7 @@ namespace AorFramework.NodeGraph {
                 }
                 else
                 {
-                    m_isUsed = true;
+                    m_isUsed = value;
                 }
             }
         }
