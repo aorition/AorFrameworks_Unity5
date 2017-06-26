@@ -95,6 +95,10 @@ namespace AorFramework.NodeGraph
                 }
             }
             _innerActiveSet.Clear();
+
+            m_nodeGUI.data.ref_SetField_Inst_Public("SelectedInstanceIDs", nIIDs.ToArray());
+            m_nodeGUI.SetDirty();
+
         }
 
         private void AddSelectionGameObjects(bool incudeChildren = false)

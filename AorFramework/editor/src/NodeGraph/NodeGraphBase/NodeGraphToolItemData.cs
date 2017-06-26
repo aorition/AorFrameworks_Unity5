@@ -9,6 +9,8 @@ namespace AorFramework.NodeGraph
 
         public NodeGraphToolItemData(Rect rect, string label, string data, bool isDefaultIntoShortcutMenu = false)
         {
+            this._DefineWidth = rect.width;
+            this._DefineHeight = rect.height;
             this.rect = rect;
             this.label = label;
             this.data = data;
@@ -23,6 +25,16 @@ namespace AorFramework.NodeGraph
         public float width
         {
             get { return rect.width; }
+        }
+
+        private float _DefineWidth;
+        public float DefineWidth {
+            get { return _DefineWidth; }
+        }
+        private float _DefineHeight;
+        public float DefineHeight
+        {
+            get { return _DefineHeight; }
         }
 
         public Rect rect;

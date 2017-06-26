@@ -1179,12 +1179,22 @@ namespace AorFramework.NodeGraph
                     len = currentCollection.Count;
                     for (i = 0; i < len; i++)
                     {
-                        Rect r = new Rect(0, stHight + innerItemHeight, currentCollection[i].rect.width, currentCollection[i].rect.height);
+                        Rect r = new Rect(0, stHight + innerItemHeight, currentCollection[i].DefineWidth,
+                            currentCollection[i].DefineHeight);
                         currentCollection[i].rect = r;
-                        innerItemHeight += currentCollection[i].rect.height;
-                        GUI.Box(new Rect(r.x, r.y, r.width - 15, r.height), currentCollection[i].label, NodeGraphDefind.GetNodeToolItemStyle());
+                        innerItemHeight += currentCollection[i].DefineHeight;
+                        GUI.Box(new Rect(r.x, r.y, r.width - 15, r.height), currentCollection[i].label,
+                            NodeGraphDefind.GetNodeToolItemStyle());
                     }
                     stHight += innerItemHeight;
+                }
+                else
+                {
+                    len = currentCollection.Count;
+                    for (i = 0; i < len; i++)
+                    {
+                        currentCollection[i].rect = new Rect(0, 0, 0, 0);
+                    }
                 }
                 GUILayout.EndVertical();
             }

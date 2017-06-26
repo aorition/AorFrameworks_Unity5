@@ -10,7 +10,7 @@ namespace AorFramework.NodeGraph
 
         public HierarchyObjSelectorData(long id) : base(id) {}
 
-        public readonly TreeNode<int> SelectedTreeNode; 
+        //public readonly TreeNode<int> SelectedTreeNode; 
 
         public readonly int[] SelectedInstanceIDs;
 
