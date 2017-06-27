@@ -24,6 +24,7 @@ namespace AorFramework.NodeGraph
             {
                 MonoScript ms = cso as MonoScript;
                 _customScriptType = ms.GetClass();
+
                 //检查 自定义脚本 是否是 IGameObjectProcess
                 if (_customScriptType.GetInterface("IGameObjectProcess") != null)
                 {

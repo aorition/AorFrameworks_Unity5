@@ -77,12 +77,6 @@ namespace AorFramework.NodeGraph
             List<string> resultPathList = new List<string>();
             List<string> resultInfoList = new List<string>();
 
-            int i = 0;
-            int len;
-
-            //获取ActionID
-            int actionID = (int)m_nodeGUI.data.ref_GetField_Inst_Public("ActionId");
-
             //获取自定义脚本
             if (!_hasCustomScript)
             {
@@ -93,11 +87,32 @@ namespace AorFramework.NodeGraph
                 }
             }
 
+            //获取ActionID
+            int actionID = 0;
+            MethodInfo PreActionMI;
+            object PreActionTarget;
+            ConnectionPointGUI cpg0 = NodeGraphBase.Instance.GetConnectionPointGui(m_nodeGUI.id, 101, ConnectionPointInoutType.Input);
+            List<ConnectionGUI> clist0 = NodeGraphBase.Instance.GetContainsConnectionGUI(cpg0);
+            if (clist0 != null)
+            {
+                actionID = (int)clist0[0].GetConnectionValue(false);
+                PreActionTarget = clist0[0].OutputPointGui.node.controller;
+                PreActionMI = PreActionTarget.GetType().GetMethod("PredefinedAction", BindingFlags.Instance | BindingFlags.Public | BindingFlags.InvokeMethod);
+            }
+            else
+            {
+                PreActionMI = null;
+                PreActionTarget = null;
+            }
+
             //获取上级节点数据 (PathInput)
             ConnectionPointGUI cpg = NodeGraphBase.Instance.GetConnectionPointGui(m_nodeGUI.id, 100, ConnectionPointInoutType.MutiInput);
             List<ConnectionGUI> clist = NodeGraphBase.Instance.GetContainsConnectionGUI(cpg);
             if (clist != null)
             {
+
+                int i = 0;
+                int len;
 
                 List<string> parentData = new List<string>();
 
@@ -125,55 +140,49 @@ namespace AorFramework.NodeGraph
 
                 if (inputPathList.Count > 0)
                 {
-                    //m_nodeGUI.data.ref_SetField_Inst_Public("InputAssetsPath", inputPathList.ToArray());
-
-                    //预制动作
-                    if (actionID > 0)
+                    len = inputPathList.Count;
+                    for (i = 0; i < len; i++)
                     {
-
-                        switch (actionID)
+                        EditorUtility.DisplayProgressBar("Processing ...", "Processing ..." + i + " / " + len,
+                            Mathf.Round((float)i / len * 10000) * 0.01f);
+                        Texture2D t2d = AssetDatabase.LoadAssetAtPath<Texture2D>(inputPathList[i]);
+                        if (t2d)
                         {
-                            //
-                            case 1:
-                                
-                                break;
-                            //Todo 预制动作处理
 
-                            default: //0
-                                break;
-                        }
+                            bool n1 = true;
+                            bool n2 = true;
 
-                    }
-
-                    //自定义脚本
-                    if (_hasCustomScript)
-                    {
-
-                        len = inputPathList.Count;
-                        for (i = 0; i < len; i++)
-                        {
-                            EditorUtility.DisplayProgressBar("Processing ...", "Processing ..." + i + " / " + len,
-                                Mathf.Round((float) i/len*10000)*0.01f);
-                            Texture2D t2d = AssetDatabase.LoadAssetAtPath<Texture2D>(inputPathList[i]);
-                            if (t2d)
+                            //预制动作
+                            if (actionID > 0 && PreActionMI != null)
                             {
-
-                                if (
-                                    (bool)
-                                        _customScriptMethodInfo.Invoke(_customScript, new object[] { t2d, resultInfoList}))
+                                n1 = false;
+                                if ((bool)PreActionMI.Invoke(PreActionTarget, new object[] { actionID, t2d, resultInfoList }))
                                 {
                                     resultPathList.Add(inputPathList[i]);
                                 }
                             }
+
+
+                            if (_hasCustomScript)
+                            {
+
+                                n2 = false;
+                                if ((bool)_customScriptMethodInfo.Invoke(_customScript, new object[] {t2d, resultInfoList}))
+                                {
+                                    resultPathList.Add(inputPathList[i]);
+                                }
+                            }
+
+                            //如果该处理器既没有预设动作也没有自定义脚本，则视为通过
+                            if (n1 && n2)
+                            {
+                                resultPathList.Add(inputPathList[i]);
+                            }
+
                         }
-
-                        EditorUtility.ClearProgressBar();
-
                     }
-                    else
-                    {
-                        m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", inputPathList.ToArray());
-                    }
+
+                    EditorUtility.ClearProgressBar();
 
                 }
                 else

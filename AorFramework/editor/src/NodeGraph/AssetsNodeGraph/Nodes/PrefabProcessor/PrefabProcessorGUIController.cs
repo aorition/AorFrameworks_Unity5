@@ -14,8 +14,6 @@ namespace AorFramework.NodeGraph
     public class PrefabProcessorGUIController : NodeGUIController
     {
 
-        private string[] _actionLabelDefine = { "无","包含脚本" };
-
         private GUIStyle _describeStyle;
 
         private GUIStyle _resultInfoStyle;
@@ -35,11 +33,12 @@ namespace AorFramework.NodeGraph
         {
             if (_ConnectionPointGUIList == null)
             {
-                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(int[]).Name, "PrefabInput", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(9) + AssetNodeGraphLagDefind.GetLabelDefine(7), new Vector2(100, 60), ConnectionPointInoutType.MutiInput);
-                ConnectionPointGUI p1 = new ConnectionPointGUI(200, 0, 2, typeof(int[]).Name, "InstancesPath", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(8), new Vector2(120, 60), ConnectionPointInoutType.Output);
-                ConnectionPointGUI p2 = new ConnectionPointGUI(201, 1, 2, typeof(int[]).Name, "CustomScriptResultInfo", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(16), new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 2, typeof(int[]).Name, "PrefabInput", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(9) + AssetNodeGraphLagDefind.GetLabelDefine(7), new Vector2(100, 60), ConnectionPointInoutType.MutiInput);
+                ConnectionPointGUI p1 = new ConnectionPointGUI(101, 1, 2, typeof(int).Name, "PredefinedAction", m_nodeGUI, "PredefinedAction", new Vector2(100, 60), ConnectionPointInoutType.Input);
+                ConnectionPointGUI p2 = new ConnectionPointGUI(200, 0, 2, typeof(int[]).Name, "InstancesPath", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(8), new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p3 = new ConnectionPointGUI(201, 1, 2, typeof(int[]).Name, "CustomScriptResultInfo", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(16), new Vector2(120, 60), ConnectionPointInoutType.Output);
 
-                _ConnectionPointGUIList = new List<ConnectionPointGUI>() {p0, p1};
+                _ConnectionPointGUIList = new List<ConnectionPointGUI>() {p0, p1, p2, p3};
             }
 
             return _GetConnectionPointsByMode(GetMode);
@@ -77,30 +76,6 @@ namespace AorFramework.NodeGraph
             if (m_nodeGUI == null) return;
 
             GUILayout.BeginVertical("box", GUILayout.Width(inspectorWidth));
-
-            int aId = (int)m_nodeGUI.data.ref_GetField_Inst_Public("ActionId");
-            int actionId = EditorGUILayout.Popup("预制处理动作", aId, _actionLabelDefine);
-            if (actionId != aId)
-            {
-                m_nodeGUI.data.ref_SetField_Inst_Public("ActionId", actionId);
-            }
-
-            if (actionId > 0)
-            {
-
-                //包含脚本 GUI显示
-                if (actionId == 1)
-                {
-                    string p = (string)m_nodeGUI.data.ref_GetField_Inst_Public("Action1Param");
-                    string np = EditorGUILayout.TextField("包含脚本名称", p);
-                    if (np != p)
-                    {
-                        m_nodeGUI.data.ref_SetField_Inst_Public("Action1Param", np);
-                    }
-                }
-
-
-            }
 
             string oguid = (string)m_nodeGUI.data.ref_GetField_Inst_Public("CustomScriptGUID");
             

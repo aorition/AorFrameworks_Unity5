@@ -8,13 +8,14 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    [NodeToolItem("ProcessPredefinedAction",
+    [NodeToolItem("TextureProcessPredefinedAction",
         "AorFramework.NodeGraph",
-        "ProcessPredefinedActionData|ProcessPredefinedActionController|ProcessPredefinedActionGUIController")]
-    public class ProcessPredefinedActionGUIController : NodeGUIController
+        "ProcessPredefinedActionData|TextureProcessPredefinedActionController|TextureProcessPredefinedActionGUIController",
+        "Texture")]
+    public class TextureProcessPredefinedActionGUIController : NodeGUIController
     {
 
-        private string[] _actionLabelDefine = {"无","FindMissing", "FindActiveFalse" };
+        private string[] _actionLabelDefine = {"无","Action1", "Action2" };
 
         private GUIStyle _describeStyle;
         private GUIStyle _resultInfoStyle;

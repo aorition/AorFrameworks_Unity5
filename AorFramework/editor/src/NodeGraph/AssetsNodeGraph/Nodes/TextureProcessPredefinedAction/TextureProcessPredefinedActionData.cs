@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace AorFramework.NodeGraph
 {
-    public class ProcessPredefinedActionData : NodeData
+    public class TextureProcessPredefinedActionData : NodeData
     {
 
-        public ProcessPredefinedActionData()
+        public TextureProcessPredefinedActionData()
         {
         }
 
-        public ProcessPredefinedActionData(long id):base(id)
+        public TextureProcessPredefinedActionData(long id):base(id)
         {
         }
 
