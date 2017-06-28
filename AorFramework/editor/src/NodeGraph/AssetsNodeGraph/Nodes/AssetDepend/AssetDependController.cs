@@ -60,6 +60,7 @@ namespace AorFramework.NodeGraph
                 m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", null);
             }
 
+            NodeGraphBase.TimeInterval_Request_SAVESHOTCUTGRAPH = true; //申请延迟保存快照
             base.update(updateParentLoop);
         }
     }

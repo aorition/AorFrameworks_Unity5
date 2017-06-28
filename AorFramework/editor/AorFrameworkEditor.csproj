@@ -76,6 +76,15 @@
     <Compile Include="src\Core\EditorPlusMethods.cs" />
     <Compile Include="src\Extends\EditorExtends.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\AssetsNodeGraph.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleBuilder\AssetBundleBuilderController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleBuilder\AssetBundleBuilderData.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleBuilder\AssetBundleBuilderGUIController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleSeceneBuilder\AssetBundleSeceneBuilderController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleSeceneBuilder\AssetBundleSeceneBuilderData.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleSeceneBuilder\AssetBundleSeceneBuilderGUIController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleTagSetter\AssetBundleTagSetterController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleTagSetter\AssetBundleTagSetterData.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleTagSetter\AssetBundleTagSetterGUIController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetDepend\AssetDependController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetDepend\AssetDependData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetDepend\AssetDependGUIController.cs" />
@@ -147,7 +156,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\AorUI\" />
-    <Folder Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleTagSetter\" />
     <Folder Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\PresetDatas\" />
   </ItemGroup>
   <ItemGroup>

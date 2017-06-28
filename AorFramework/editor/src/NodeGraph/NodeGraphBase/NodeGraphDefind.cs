@@ -204,6 +204,11 @@ namespace AorFramework.NodeGraph
             get { return new Vector2(960,600);}
         }
 
+        /// <summary>
+        /// 定义自动行为每隔多少秒执行一次
+        /// </summary>
+        public const float NodeApp_Time_Interval = 3f; 
+
         public const float ConnectCenterTipMargin = 5f;
         public const float ConnectCenterTipLabelPreHeight = 26f;
         public const float ConnectCenterTipLabelPreWidth = 8f;
@@ -251,6 +256,14 @@ namespace AorFramework.NodeGraph
         /// 定义NodeGraph Setting文件夹
         /// </summary>
         public const string RESCACHE_SETTINGS = "/settings";
+
+
+        /// <summary>
+        /// 定义NodeGraph 最后快照数据路径
+        /// </summary>
+        public const string RESCACHE_LASTSHOTCUT_DIR = "/lastShotcut";
+
+        public const string RESCACHE_LASTSHOTCUT_NAME = "lastShotcutGraph";
 
         /// <summary>
         /// 定义NodeGraph Setting文件(不包含后缀名)

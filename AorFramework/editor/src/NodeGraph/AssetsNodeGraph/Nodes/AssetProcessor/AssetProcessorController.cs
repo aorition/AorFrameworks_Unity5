@@ -168,6 +168,7 @@ namespace AorFramework.NodeGraph
                 m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", resultPathList.ToArray());
             }
 
+            NodeGraphBase.TimeInterval_Request_SAVESHOTCUTGRAPH = true; //申请延迟保存快照
             base.update(updateParentLoop);
         }
     }

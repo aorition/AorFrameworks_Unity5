@@ -6,16 +6,18 @@ using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    [NodeToolItem("#AssetBundleLabel<16>",
+    [NodeToolItem("AssetBundleLabel#<18>",
         "AorFramework.NodeGraph",
         "AssetBundleTagSetterData|AssetBundleTagSetterController|AssetBundleTagSetterGUIController",
         "AssetBundleTools")]
     public class AssetBundleTagSetterGUIController : NodeGUIController
     {
 
+        private static string[] _TagSetRuleStrDefind = new[] {"GUID", "assets", "resources"};
+
         public override string GetNodeLabel()
         {
-            return "AssetBundleLabel" + AssetNodeGraphLagDefind.GetLabelDefine(16);
+            return "AssetBundleLabel" + AssetNodeGraphLagDefind.GetLabelDefine(18);
         }
 
         private Vector2 _MinSizeDefind = new Vector2(200, 120);
@@ -62,6 +64,67 @@ namespace AorFramework.NodeGraph
             if (m_nodeGUI == null) return;
 
             GUILayout.BeginVertical("box", GUILayout.Width(inspectorWidth));
+
+            //Todo 使用说明。。 
+
+            bool adv = (bool) m_nodeGUI.data.ref_GetField_Inst_Public("AdvancedOpt");
+            bool nadv = EditorGUILayout.Toggle("高级", adv);
+            if (nadv != adv)
+            {
+                m_nodeGUI.data.ref_SetField_Inst_Public("AdvancedOpt", nadv);
+            }
+
+            if (nadv)
+            {
+                //高级设置 GUI
+                string abKey = (string)m_nodeGUI.data.ref_GetField_Inst_Public("ABNameKey");
+                string nabKey = EditorGUILayout.TextField("ABName关键字", abKey);
+                if (nabKey != abKey)
+                {
+                    m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", nabKey);
+                }
+
+                string vKey = (string)m_nodeGUI.data.ref_GetField_Inst_Public("VariantKey");
+                string nvKey = EditorGUILayout.TextField("Variant关键字", vKey);
+                if (nvKey != vKey)
+                {
+                    m_nodeGUI.data.ref_SetField_Inst_Public("VariantKey", nvKey);
+                }
+
+            }
+            else
+            {
+
+                int ri = (int)m_nodeGUI.data.ref_GetField_Inst_Public("RuleIndex");
+                int nri = EditorGUILayout.Popup("ABName命名规则", ri, _TagSetRuleStrDefind);
+                if (nri != ri)
+                {
+                    m_nodeGUI.data.ref_SetField_Inst_Public("RuleIndex", nri);
+                }
+
+                switch (nri)
+                {
+
+                    case 1: //使用assets路径为ABName
+                        m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", "{AP}");
+                        break;
+                    case 2: //使用resources路径为ABName
+                        m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", "{RP}");
+                        break;
+                    default: //默认TagSet处理规则
+                        m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", "{GUID}");
+                        break;
+
+                }
+
+                string vKey = (string)m_nodeGUI.data.ref_GetField_Inst_Public("VariantKey");
+                string nvKey = EditorGUILayout.TextField("Variant关键字", vKey);
+                if (nvKey != vKey)
+                {
+                    m_nodeGUI.data.ref_SetField_Inst_Public("VariantKey", nvKey);
+                }
+
+            }
 
             if (GUILayout.Button("Update"))
             {

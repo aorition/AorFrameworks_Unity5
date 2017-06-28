@@ -32,6 +32,40 @@ namespace AorFramework.NodeGraph
     public class NodeGraphBase : EditorWindow
     {
 
+        public static bool TimeInterval_Request_SAVESHOTCUTGRAPH = false;
+
+        private static double NGB_Time_Start;
+        private static double NGB_time_Delay;
+        private static double NGB_time;
+        private static void NodeGraphBaseUpdate()
+        {
+            if (m_Instance == null)
+            {
+                EditorApplication.update -= NodeGraphBaseUpdate;
+                return;
+            }
+
+            NGB_time_Delay = EditorApplication.timeSinceStartup - NGB_Time_Start;
+            NGB_Time_Start = EditorApplication.timeSinceStartup;
+            NGB_time += NGB_time_Delay;
+
+            if (NGB_time > NodeGraphDefind.NodeApp_Time_Interval)
+            {
+                 
+                //Debug.Log("** Time Interval!!");
+                                
+                //每隔单位时间检查自动处理的事物
+                if (TimeInterval_Request_SAVESHOTCUTGRAPH)
+                {
+                    m_Instance.SaveLastShotcutGraph();
+                    TimeInterval_Request_SAVESHOTCUTGRAPH = false;
+                }
+
+
+                NGB_time = 0;
+            }
+        }
+
         protected static NodeGraphBase m_Instance;
         public static NodeGraphBase Instance
         {
@@ -96,6 +130,12 @@ namespace AorFramework.NodeGraph
         {
             setupNodeGraphbaseModeDefine();
 
+            if (m_Instance == null)
+            {
+                NGB_Time_Start = EditorApplication.timeSinceStartup;
+                EditorApplication.update += NodeGraphBaseUpdate;
+            }
+
             m_Instance = this;
 
             //初始化 工具箱
@@ -116,10 +156,12 @@ namespace AorFramework.NodeGraph
             initSettings();
 
             OnSetup();
-           
+
+            //尝试加载最后一次快照
+            _tryOpenLastShotcutGraph();
+            
             _isInit = true;
         }
-
 
 
         #region  缓存文件夹相关函数
@@ -155,10 +197,40 @@ namespace AorFramework.NodeGraph
             initSettings();
         }
 
+        //保存快照数据
+        public virtual void SaveLastShotcutGraph()
+        {
+            if (_NodeGUIList == null || _NodeGUIList.Count == 0) return;
+
+            string lsgDir = _cacheFolderPath + NodeGraphDefind.RESCACHE_LASTSHOTCUT_DIR;
+            if (!Directory.Exists(lsgDir))
+            {
+                Directory.CreateDirectory(lsgDir);
+            }
+
+            string lsgPath = lsgDir +"/" + NodeGraphDefind.RESCACHE_LASTSHOTCUT_NAME + ".json";
+
+            SaveGraphToFile(lsgPath);
+        }
+
+        //尝试读取快照数据
+        private void _tryOpenLastShotcutGraph()
+        {
+
+            string lsgPath = _cacheFolderPath + NodeGraphDefind.RESCACHE_LASTSHOTCUT_DIR + "/" + NodeGraphDefind.RESCACHE_LASTSHOTCUT_NAME + ".json";
+            
+            if (!File.Exists(lsgPath)) return;
+
+            OpenGraph(lsgPath);
+        }
+
         protected virtual void initSettings()
         {
             //Todo 将settings文件的数据应用到程序中来。
         }
+
+
+
 
         private NodeGraphBaseSetting _tryGetNodeGraphBaseSettingsInCache()
         {
@@ -1508,7 +1580,7 @@ namespace AorFramework.NodeGraph
                                         {
                                             ConnectionPointGUI startPoint = _startPointGUI;
                                             //创建连接
-                                            CreateConnection(startPoint, endPoint);
+                                            CreateConnection(startPoint, endPoint, false);
                                         }
                                     }
                                 }
@@ -2029,6 +2101,8 @@ namespace AorFramework.NodeGraph
 
         protected string _saveGraphPath;
 
+        
+
         //SAVE 当前NodeGraph
         public virtual bool SaveGraphToFile(bool saveAs = false)
         {
@@ -2053,6 +2127,11 @@ namespace AorFramework.NodeGraph
             //事件调用
             OnSaveGraph();
 
+            return SaveGraphToFile(_saveGraphPath);
+        }
+
+        private bool SaveGraphToFile(string savePath)
+        {
             NodeGraphFile f = new NodeGraphFile(_CurrentTID);
 
             int i, len = _NodeGUIList.Count;
@@ -2081,7 +2160,7 @@ namespace AorFramework.NodeGraph
             //save
             string fileStr = f.fileToString();
             string fileHead = JConfigParser.wirteJsonHeadTag("NodeGraph File");
-            return AorIO.SaveStringToFile(_saveGraphPath, fileHead + fileStr);
+            return AorIO.SaveStringToFile(savePath, fileHead + fileStr);
         }
 
         //Open NodeGraph

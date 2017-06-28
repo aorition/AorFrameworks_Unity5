@@ -13,7 +13,7 @@ namespace AorFramework.NodeGraph
     public class AssetFilterGUIController : NodeGUIController
     {
 
-        public static string[] FKModeLabelDefine = {"无", "预制体", "图像", "材质", "FBX", "Shader"};
+        public static string[] FKModeLabelDefine = {"无", "预制体", "场景", "图像", "材质", "FBX", "Shader", "字体"};
 
         public override string GetNodeLabel()
         {
@@ -192,10 +192,14 @@ namespace AorFramework.NodeGraph
             {
                 //预制体
                 case 1:
-                    keys.Add(".prefab");    IgnoreCs.Add(false);
+                    keys.Add(".prefab");    IgnoreCs.Add(true);
+                    break;
+                //场景
+                case 2:
+                    keys.Add(".unity"); IgnoreCs.Add(true);
                     break;
                 //图像
-                case 2:
+                case 3:
                     keys.Add(".jpg");   IgnoreCs.Add(true);
                     keys.Add(".gif");   IgnoreCs.Add(true);
                     keys.Add(".bmp");   IgnoreCs.Add(true);
@@ -210,16 +214,21 @@ namespace AorFramework.NodeGraph
                     keys.Add(".psd");   IgnoreCs.Add(true);
                     break;
                 //材质
-                case 3:
-                    keys.Add(".mat"); IgnoreCs.Add(false);
+                case 4:
+                    keys.Add(".mat"); IgnoreCs.Add(true);
                     break;
                 //FBX
-                case 4:
-                    keys.Add(".fbx"); IgnoreCs.Add(false);
+                case 5:
+                    keys.Add(".fbx"); IgnoreCs.Add(true);
                     break;
                 //Shader
-                case 5:
-                    keys.Add(".shader"); IgnoreCs.Add(false);
+                case 6:
+                    keys.Add(".shader"); IgnoreCs.Add(true);
+                    break;
+                //Font
+                case 7:
+                    keys.Add(".ttf"); IgnoreCs.Add(true);
+                    keys.Add(".otf"); IgnoreCs.Add(true);
                     break;
                 default:
                     //

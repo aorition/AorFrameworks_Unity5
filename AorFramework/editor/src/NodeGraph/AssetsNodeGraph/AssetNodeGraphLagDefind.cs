@@ -36,6 +36,7 @@ namespace AorFramework.NodeGraph
             TextureProcessor, Texture处理器,//15
             Info,信息,//16
             Depend,资源依赖,//17
+            setup,设置//18
         }
 
 

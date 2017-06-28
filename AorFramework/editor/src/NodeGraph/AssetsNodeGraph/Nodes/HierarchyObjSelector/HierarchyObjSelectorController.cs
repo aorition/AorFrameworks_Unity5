@@ -9,6 +9,7 @@ namespace AorFramework.NodeGraph
 
         public override void update(bool updateParentLoop = true)
         {
+            NodeGraphBase.TimeInterval_Request_SAVESHOTCUTGRAPH = true; //申请延迟保存快照
             base.update(false);
         }
     }

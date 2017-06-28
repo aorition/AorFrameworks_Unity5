@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,8 +8,13 @@ namespace AorFramework.NodeGraph
 {
     public class AssetBundleTagSetterController : NodeController
     {
+
+
+       // private static Regex GUIDMatch = new Regex("{");
+
         public override void update(bool updateParentLoop = true)
         {
+
             //获取上级节点数据
             ConnectionPointGUI cpg = NodeGraphBase.Instance.GetConnectionPointGui(m_nodeGUI.id, 100, ConnectionPointInoutType.MutiInput);
             List<ConnectionGUI> clist = NodeGraphBase.Instance.GetContainsConnectionGUI(cpg);
@@ -23,7 +29,14 @@ namespace AorFramework.NodeGraph
                     string[] pd = (string[]) clist[i].GetConnectionValue(updateParentLoop);
                     if (pd != null)
                     {
-                        parentData.AddRange(pd);
+                        //去重复
+                        for (int a = 0; a < pd.Length; a++)
+                        {
+                            if (!parentData.Contains(pd[a]))
+                            {
+                                parentData.Add(pd[a]);
+                            }
+                        }
                     }
                 }
 
@@ -47,16 +60,29 @@ namespace AorFramework.NodeGraph
                         string path = parentData[i];
 
                         if (path.EndsWith(".cs") || path.EndsWith(".js")) continue;
-                        
-                        //Todo 计算abName
+
+                        //计算abName
                         abName = abNameKey;
-                        //Todo 计算variant
+                        //GUID
+                        if (abNameKey.Contains("{GUID}"))
+                        {
+                            string guid = AssetDatabase.AssetPathToGUID(path);
+                            abName = abName.Replace("{GUID}", guid);
+                        }
+                        if (abNameKey.Contains("{AP}"))
+                        {
+                            string ap = path.Substring(0, path.LastIndexOf('/'));
+                            abName = abName.Replace("{AP}", ap);
+                        }
+                        if (abNameKey.Contains("{RP}"))
+                        {
+                            string rp = path.Substring(17, path.LastIndexOf('/')-17);
+                            abName = abName.Replace("{RP}", rp);
+                        }
+                        //计算variant
                         variant = variantKey;
 
                         AssetImporter ai = AssetImporter.GetAtPath(path);
-
-//                        ai.assetBundleName = abName;
-//                        ai.assetBundleVariant = variant;
                         ai.SetAssetBundleNameAndVariant(abName, variant);
 
                         EditorUtility.SetDirty(ai);
@@ -71,6 +97,7 @@ namespace AorFramework.NodeGraph
                     if (assetList != null && assetList.Count > 0)
                     {
                         m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", assetList.ToArray());
+
                     }
 
                 }
@@ -87,6 +114,7 @@ namespace AorFramework.NodeGraph
                 m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", null);
             }
 
+            NodeGraphBase.TimeInterval_Request_SAVESHOTCUTGRAPH = true; //申请延迟保存快照
             base.update(updateParentLoop);
         }
     }

@@ -7,7 +7,6 @@ using System.Reflection;
 /// </summary>
 public static class AorRefExtends
 {
-
     // -- Field get
     #region Field Get
 

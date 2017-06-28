@@ -49,7 +49,8 @@ namespace AorFramework.NodeGraph
                         fks[c] = fks[c].Trim();
 
                         List<string> finded = new List<string>();
-                        bool ig = fks[c].StartsWith(".");
+                        bool sx = fks[c].StartsWith(".");
+                        bool ig = ics[c];
                         bool nt = fks[c].StartsWith("!");
                         string key;
                         if (nt)
@@ -61,39 +62,58 @@ namespace AorFramework.NodeGraph
                             key = fks[c];
                         }
 
-                        if (ics[c] || ig)
+                        if (sx)
                         {
                             finded = parentData.FindAll((s) =>
                             {
-                                if (string.IsNullOrEmpty(s)) return true;
+                               // if (string.IsNullOrEmpty(s)) return true;
                                 string fn = s.Substring(s.LastIndexOf('/') + 1);
                                 if (nt)
                                 {
-                                    return !fn.ToLower().Contains(key.ToLower());
+                                    return !fn.ToLower().EndsWith(key.ToLower());
                                 }
                                 else
                                 {
-                                    return fn.ToLower().Contains(key.ToLower());
+                                    return fn.ToLower().EndsWith(key.ToLower());
                                 }
-
                             });
                         }
                         else
                         {
-                            finded = parentData.FindAll((s) =>
+                            if (ig)
                             {
-                                if (string.IsNullOrEmpty(s)) return true;
-                                string fn = s.Substring(s.LastIndexOf('/') + 1);
-                                if (nt)
+                                finded = parentData.FindAll((s) =>
                                 {
-                                    return !fn.Contains(key);
-                                }
-                                else
-                                {
-                                    return fn.Contains(key);
-                                }
+                                 //   if (string.IsNullOrEmpty(s)) return true;
+                                    string fn = s.Substring(s.LastIndexOf('/') + 1);
+                                    if (nt)
+                                    {
+                                        return !fn.ToLower().Contains(key.ToLower());
+                                    }
+                                    else
+                                    {
+                                        return fn.ToLower().Contains(key.ToLower());
+                                    }
 
-                            });
+                                });
+                            }
+                            else
+                            {
+                                finded = parentData.FindAll((s) =>
+                                {
+                                   // if (string.IsNullOrEmpty(s)) return true;
+                                    string fn = s.Substring(s.LastIndexOf('/') + 1);
+                                    if (nt)
+                                    {
+                                        return !fn.Contains(key);
+                                    }
+                                    else
+                                    {
+                                        return fn.Contains(key);
+                                    }
+
+                                });
+                            }
                         }
 
                         if (finded.Count > 0)
@@ -121,6 +141,7 @@ namespace AorFramework.NodeGraph
                 m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", null);
             }
 
+            NodeGraphBase.TimeInterval_Request_SAVESHOTCUTGRAPH = true; //申请延迟保存快照
             base.update(updateParentLoop);
         }
     }
