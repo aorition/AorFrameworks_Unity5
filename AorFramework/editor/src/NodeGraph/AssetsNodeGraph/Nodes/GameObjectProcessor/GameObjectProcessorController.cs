@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Reflection;
 using AorFramework.AssetsNodeGraph;
-using AorFramework.editor;
 using UnityEditor;
 using UnityEngine;
 
 namespace AorFramework.NodeGraph
 {
-    public class PrefabProcessorController : NodeController
+    public class GameObjectProcessorController : NodeController
     {
 
         private Type _customScriptType;

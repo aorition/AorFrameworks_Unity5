@@ -6,6 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 简化原有GUILayout区块语句的语法糖
 /// </summary>
+[Obsolete("此类封装在部分情况下会报错")]
 public static class AorGUILayout
 {
 

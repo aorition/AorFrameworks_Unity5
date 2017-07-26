@@ -9,9 +9,9 @@ namespace AorFramework.NodeGraph
 {
     [NodeToolItem("GameObject#<3>",
         "AorFramework.NodeGraph",
-        "PrefabProcessorData|PrefabProcessorController|PrefabProcessorGUIController",
+        "GameObjectProcessorData|GameObjectProcessorController|GameObjectProcessorGUIController",
         "Hierarchy Tools")]
-    public class PrefabProcessorGUIController : NodeGUIController
+    public class GameObjectProcessorGUIController : NodeGUIController
     {
 
         private GUIStyle _describeStyle;
@@ -36,7 +36,7 @@ namespace AorFramework.NodeGraph
                 ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 2, typeof(int[]).Name, "PrefabInput", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(9) + AssetNodeGraphLagDefind.GetLabelDefine(7), new Vector2(100, 60), ConnectionPointInoutType.MutiInput);
                 ConnectionPointGUI p1 = new ConnectionPointGUI(101, 1, 2, typeof(int).Name, "PredefinedAction", m_nodeGUI, "PredefinedAction", new Vector2(100, 60), ConnectionPointInoutType.Input);
                 ConnectionPointGUI p2 = new ConnectionPointGUI(200, 0, 2, typeof(int[]).Name, "InstancesPath", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(8), new Vector2(120, 60), ConnectionPointInoutType.Output);
-                ConnectionPointGUI p3 = new ConnectionPointGUI(201, 1, 2, typeof(int[]).Name, "CustomScriptResultInfo", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(16), new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p3 = new ConnectionPointGUI(201, 1, 2, typeof(string[]).Name, "CustomScriptResultInfo", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(16), new Vector2(120, 60), ConnectionPointInoutType.Output);
 
                 _ConnectionPointGUIList = new List<ConnectionPointGUI>() {p0, p1, p2, p3};
             }
@@ -48,10 +48,13 @@ namespace AorFramework.NodeGraph
         {
             //string
             string info = "0";
-            int[] assetList = (int[])m_nodeGUI.data.ref_GetField_Inst_Public("InstancesPath");
-            if (assetList != null)
+            object ConnectionValue = connection.GetConnectionValue(false);
+            if (ConnectionValue != null)
             {
-                info = assetList.Length.ToString();
+                if (ConnectionValue is Array)
+                {
+                    info = (ConnectionValue as Array).Length.ToString();
+                }
             }
 
             //size

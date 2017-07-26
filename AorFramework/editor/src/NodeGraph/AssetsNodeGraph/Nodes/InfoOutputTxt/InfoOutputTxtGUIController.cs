@@ -28,10 +28,13 @@ namespace AorFramework.NodeGraph
         {
             //string
             string info = "0";
-            string[] assetList = (string[]) connection.GetConnectionValue(false);
-            if (assetList != null)
+            object ConnectionValue = connection.GetConnectionValue(false);
+            if (ConnectionValue != null)
             {
-                info = assetList.Length.ToString();
+                if (ConnectionValue is Array)
+                {
+                    info = (ConnectionValue as Array).Length.ToString();
+                }
             }
 
             //size

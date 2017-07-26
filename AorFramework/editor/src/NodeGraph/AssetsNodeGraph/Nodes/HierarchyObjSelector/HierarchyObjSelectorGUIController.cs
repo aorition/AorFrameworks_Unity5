@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace AorFramework.NodeGraph
 {
@@ -29,10 +30,13 @@ namespace AorFramework.NodeGraph
         {
             //string
             string info = "0";
-            int[] assetList = (int[]) connection.GetConnectionValue(false);
-            if (assetList != null)
+            object ConnectionValue = connection.GetConnectionValue(false);
+            if (ConnectionValue != null)
             {
-                info = assetList.Length.ToString();
+                if (ConnectionValue is Array)
+                {
+                    info = (ConnectionValue as Array).Length.ToString();
+                }
             }
 
             //size
@@ -105,6 +109,34 @@ namespace AorFramework.NodeGraph
 
         }
 
+        private void SelectAllInHierarchy()
+        {
+
+            List<int> nIIDs = new List<int>();
+
+            int i, len = SceneManager.sceneCount;
+            for (i = 0; i < len; i++)
+            {
+                Scene scene = SceneManager.GetSceneAt(i);
+                if (scene.isLoaded)
+                {
+                    GameObject[] roots = scene.GetRootGameObjects();
+                    if (roots != null && roots.Length > 0)
+                    {
+                        for (int a = 0; a < roots.Length; a++)
+                        {
+                            GameObject root = roots[a];
+
+                            _addGameObjectsToList(root, true, ref nIIDs);
+                        }
+                    }
+                }
+            }
+
+            m_nodeGUI.data.ref_SetField_Inst_Public("SelectedInstanceIDs", nIIDs.ToArray());
+            m_nodeGUI.SetDirty();
+        }
+
         private void AddSelectionGameObjects(bool incudeChildren = false)
         {
             if (Selection.gameObjects != null && Selection.gameObjects.Length > 0)
@@ -121,20 +153,24 @@ namespace AorFramework.NodeGraph
                 int i, len = Selection.gameObjects.Length;
                 for (i = 0; i < len; i++)
                 {
-                  //  Selection.gameObjects[i]
-                    int iid = Selection.gameObjects[i].GetInstanceID();
+                    _addGameObjectsToList(Selection.gameObjects[i], incudeChildren, ref nIIDs);
+                }
+
+                m_nodeGUI.data.ref_SetField_Inst_Public("SelectedInstanceIDs", nIIDs.ToArray());
+                m_nodeGUI.SetDirty();
+            }
+        }
+
+        private void _addGameObjectsToList(GameObject go, bool incudeChildren, ref List<int> nIIDs)
+        {
+            int iid = go.GetInstanceID();
                     if (!nIIDs.Contains(iid))
                     {
                         nIIDs.Add(iid);
                     }
                     if (incudeChildren)
                     {
-                        _addAddChildrenLoop(Selection.gameObjects[i].transform, ref nIIDs);
-                    }
-                }
-
-                m_nodeGUI.data.ref_SetField_Inst_Public("SelectedInstanceIDs", nIIDs.ToArray());
-                m_nodeGUI.SetDirty();
+                _addAddChildrenLoop(go.transform, ref nIIDs);
             }
         }
 
@@ -193,6 +229,11 @@ namespace AorFramework.NodeGraph
             if (m_nodeGUI == null) return;
 
             GUILayout.BeginVertical("box", GUILayout.Width(inspectorWidth));
+
+            if (GUILayout.Button("SelectAllInHierarchy"))
+            {
+                SelectAllInHierarchy();
+            }
 
             GUILayout.BeginHorizontal();
 

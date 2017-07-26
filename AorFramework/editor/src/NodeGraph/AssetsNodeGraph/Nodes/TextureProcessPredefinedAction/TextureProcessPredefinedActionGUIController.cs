@@ -71,14 +71,7 @@ namespace AorFramework.NodeGraph
             
             GUILayout.BeginVertical("box", GUILayout.Width(inspectorWidth));
 
-            int aId = (int)m_nodeGUI.data.ref_GetField_Inst_Public("ActionId");
-            int actionId = EditorGUILayout.Popup("预制处理动作", aId, _actionLabelDefine);
-            if (actionId != aId)
-            {
-                m_nodeGUI.data.ref_SetField_Inst_Public("ActionId", actionId);
-               // m_nodeGUI.SetDirty();
-            }
-
+            NodeGraphUtility.Draw_NG_Popup(m_nodeGUI.data, "ActionId", _actionLabelDefine);
 //            switch (actionId)
 //            {
 //                //Action2 附加参数GUI显示

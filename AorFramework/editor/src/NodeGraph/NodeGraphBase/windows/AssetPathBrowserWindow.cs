@@ -77,6 +77,22 @@ namespace AorFramework.NodeGraph.Tool
                 
                 GUILayout.Label("输入" + _AssetsPath.Count + "个资源 ：共 " + _pageNum + "页（每页最多" + _MaxPrePage + "条)" ,GetAssetItemLabelStyle());
 
+                if (GUILayout.Button(new GUIContent("SelectAll"), GUILayout.Width(100)))
+                {
+                    //Todo 
+                    List<UnityEngine.Object> pathList = new List<UnityEngine.Object>();
+                    for (int i = 0; i < _AssetsPath.Count; i++)
+                    {
+                        UnityEngine.Object pathOb = AssetDatabase.LoadMainAssetAtPath(_AssetsPath[i]);
+                        if (pathOb != null)
+                        {
+                            pathList.Add(pathOb);
+                        }
+                    }
+                    Selection.objects = pathList.ToArray();
+
+                }
+
                 GUILayout.EndHorizontal();
 
                 draw_main();

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace AorFramework.NodeGraph
 {
-    public class PrefabProcessorData : NodeData
+    public class GameObjectProcessorData : NodeData
     {
 
-        public PrefabProcessorData()
+        public GameObjectProcessorData()
         {
         }
 
-        public PrefabProcessorData(long id):base(id)
+        public GameObjectProcessorData(long id):base(id)
         {
         }
 

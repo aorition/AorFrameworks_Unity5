@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using AorFramework.editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -57,37 +58,42 @@ namespace AorFramework.NodeGraph
                     for (i = 0; i < len; i++)
                     {
 
-                        string path = parentData[i];
+                        EditorAssetInfo pathInfo = new EditorAssetInfo(parentData[i]);
 
-                        if (path.EndsWith(".cs") || path.EndsWith(".js")) continue;
+                        if (pathInfo.suffix == ".cs" || pathInfo.suffix == ".js") continue;
 
                         //计算abName
                         abName = abNameKey;
                         //GUID
                         if (abNameKey.Contains("{GUID}"))
                         {
-                            string guid = AssetDatabase.AssetPathToGUID(path);
+                            string guid = AssetDatabase.AssetPathToGUID(pathInfo.path);
                             abName = abName.Replace("{GUID}", guid);
                         }
                         if (abNameKey.Contains("{AP}"))
                         {
-                            string ap = path.Substring(0, path.LastIndexOf('/'));
+                            string ap = pathInfo.dirPath.Replace("Assets/","");
                             abName = abName.Replace("{AP}", ap);
                         }
                         if (abNameKey.Contains("{RP}"))
                         {
-                            string rp = path.Substring(17, path.LastIndexOf('/')-17);
+                            string rp = pathInfo.resDirPath.Replace("Resources/", "");
                             abName = abName.Replace("{RP}", rp);
+                        }
+                        if (abNameKey.Contains("{N}"))
+                        {
+                            string n = pathInfo.name;
+                            abName = abName.Replace("{N}", n);
                         }
                         //计算variant
                         variant = variantKey;
 
-                        AssetImporter ai = AssetImporter.GetAtPath(path);
+                        AssetImporter ai = AssetImporter.GetAtPath(pathInfo.path);
                         ai.SetAssetBundleNameAndVariant(abName, variant);
 
                         EditorUtility.SetDirty(ai);
 
-                        assetList.Add(path);
+                        assetList.Add(pathInfo.path);
                     }
 
                     AssetDatabase.Refresh();

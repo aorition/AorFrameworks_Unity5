@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorFramework.NodeGraph.Tool;
+using AorFramework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
@@ -30,10 +31,13 @@ namespace AorFramework.NodeGraph
         {
             //string
             string info = "0";
-            string[] assetList = (string[]) connection.GetConnectionValue(false);
-            if (assetList != null)
+            object ConnectionValue = connection.GetConnectionValue(false);
+            if (ConnectionValue != null)
             {
-                info = assetList.Length.ToString();
+                if (ConnectionValue is Array)
+                {
+                    info = (ConnectionValue as Array).Length.ToString();
+                }
             }
 
             //size
@@ -61,19 +65,15 @@ namespace AorFramework.NodeGraph
 
             GUILayout.BeginHorizontal();
 
-            bool IgnoreMETAFile = GUILayout.Toggle((bool)m_nodeGUI.data.ref_GetField_Inst_Public("IgnoreMETAFile"), "忽略META文件");
-            if (IgnoreMETAFile != (bool)m_nodeGUI.data.ref_GetField_Inst_Public("IgnoreMETAFile"))
+            NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "IgnoreMETAFile",new GUIContent("忽略META文件"), (b) =>
             {
-                m_nodeGUI.data.ref_SetField_Inst_Public("IgnoreMETAFile", IgnoreMETAFile);
                 m_nodeGUI.SetDirty();
-            }
-            
-            bool Advanced = GUILayout.Toggle((bool)m_nodeGUI.data.ref_GetField_Inst_Public("AdvancedOption"), "高级选项");
-            if (Advanced != (bool)m_nodeGUI.data.ref_GetField_Inst_Public("AdvancedOption"))
+            });
+
+            bool Advanced = NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "AdvancedOption", new GUIContent("高级选项"), (b) =>
             {
-                m_nodeGUI.data.ref_SetField_Inst_Public("AdvancedOption", Advanced);
                 m_nodeGUI.SetDirty();
-            }
+            });
 
             GUILayout.EndHorizontal();
 

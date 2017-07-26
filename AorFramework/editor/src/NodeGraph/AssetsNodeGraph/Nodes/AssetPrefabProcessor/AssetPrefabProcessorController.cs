@@ -84,9 +84,7 @@ namespace AorFramework.NodeGraph
 
             int i = 0;
             int len;
-
-
-
+            
             //获取自定义脚本
             if (!_hasCustomScript)
             {

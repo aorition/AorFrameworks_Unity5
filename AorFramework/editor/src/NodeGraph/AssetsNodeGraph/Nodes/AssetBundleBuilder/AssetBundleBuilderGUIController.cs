@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorFramework.NodeGraph.Tool;
+using AorFramework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
@@ -28,10 +29,13 @@ namespace AorFramework.NodeGraph
         {
             //string
             string info = "0";
-            string[] assetList = (string[]) connection.GetConnectionValue(false);
-            if (assetList != null)
+            object ConnectionValue = connection.GetConnectionValue(false);
+            if (ConnectionValue != null)
             {
-                info = assetList.Length.ToString();
+                if (ConnectionValue is Array)
+                {
+                    info = (ConnectionValue as Array).Length.ToString();
+                }
             }
 
             //size
@@ -64,30 +68,14 @@ namespace AorFramework.NodeGraph
             GUILayout.BeginVertical("box", GUILayout.Width(inspectorWidth));
 
             //AddonsPacking
-            bool addp = (bool) m_nodeGUI.data.ref_GetField_Inst_Public("AddonsPacking");
-            bool naddp = EditorGUILayout.Toggle("增量打包模式", addp);
-            if (naddp != addp)
-            {
-                m_nodeGUI.data.ref_SetField_Inst_Public("AddonsPacking", naddp);
-            }
-
-            if (naddp)
+            bool addp = NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "AddonsPacking", new GUIContent("增量打包模式"));
+            if (addp)
             {
                 //APBundleName
-                string apbn = (string)m_nodeGUI.data.ref_GetField_Inst_Public("APBundleName");
-                string napbn = EditorGUILayout.TextField("AssetBundleName", apbn);
-                if (napbn != apbn)
-                {
-                    m_nodeGUI.data.ref_SetField_Inst_Public("APBundleName", napbn);
-                }
+                NodeGraphUtility.Draw_NG_TextField(m_nodeGUI.data, "APBundleName", new GUIContent("AssetBundleName"));
 
                 //APVariantName
-                string apvn = (string)m_nodeGUI.data.ref_GetField_Inst_Public("APBundleName");
-                string napvn = EditorGUILayout.TextField("VariantName", apvn);
-                if (napvn != apvn)
-                {
-                    m_nodeGUI.data.ref_SetField_Inst_Public("APVariantName", napvn);
-                }
+                NodeGraphUtility.Draw_NG_TextField(m_nodeGUI.data, "APVariantName", new GUIContent("VariantName"));
             }
             else
             {
@@ -96,28 +84,13 @@ namespace AorFramework.NodeGraph
             }
 
             //BuildAssetBundleOptions
-            BuildAssetBundleOptions bbo = (BuildAssetBundleOptions)Enum.Parse(typeof(BuildAssetBundleOptions), (string)m_nodeGUI.data.ref_GetField_Inst_Public("BBOEnum"));
-            BuildAssetBundleOptions nbbo = (BuildAssetBundleOptions)EditorGUILayout.EnumPopup("BuildAssetBundleOptions", bbo);
-            if (nbbo != bbo)
-            {
-                m_nodeGUI.data.ref_SetField_Inst_Public("BBOEnum", nbbo.ToString());
-            }
+            NodeGraphUtility.Draw_NG_EnumPopup<BuildAssetBundleOptions>(m_nodeGUI.data, "BBOEnum",new GUIContent("BuildAssetBundleOptions"));
 
             //BuildTarget
-            BuildTarget bt = (BuildTarget)Enum.Parse(typeof(BuildTarget), (string)m_nodeGUI.data.ref_GetField_Inst_Public("BTEnum"));
-            BuildTarget nbt = (BuildTarget)EditorGUILayout.EnumPopup("BuildTarget", bt);
-            if (nbt != bt)
-            {
-                m_nodeGUI.data.ref_SetField_Inst_Public("BTEnum", nbt.ToString());
-            }
+            NodeGraphUtility.Draw_NG_EnumPopup<BuildAssetBundleOptions>(m_nodeGUI.data, "BTEnum", new GUIContent("BuildTarget"));
 
             //save路径
-            string sp = (string)m_nodeGUI.data.ref_GetField_Inst_Public("SubPath");
-            string nsp = EditorGUILayout.TextField("APBundleSave路径(默认为空)", sp);
-            if (nsp != sp)
-            {
-                m_nodeGUI.data.ref_SetField_Inst_Public("SubPath", nsp);
-            }
+            NodeGraphUtility.Draw_NG_TextField(m_nodeGUI.data, "SubPath", new GUIContent("APBundleSave路径(默认为空)"));
 
             if (GUILayout.Button("Build AssetBundle"))
             {

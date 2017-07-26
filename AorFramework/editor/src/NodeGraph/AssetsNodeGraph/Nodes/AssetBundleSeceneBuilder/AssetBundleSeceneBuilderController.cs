@@ -61,7 +61,7 @@ namespace AorFramework.NodeGraph
                     for (int b = 0; b < parentData.Count; b++)
                     {
                         //验证文件格式
-                        EditorAssetInfo spi = new EditorAssetInfo(parentData[i]);
+                        EditorAssetInfo spi = new EditorAssetInfo(parentData[b]);
                         if (spi.suffix == ".unity")
                         {
                             scenePaths.Add(spi);
@@ -82,10 +82,11 @@ namespace AorFramework.NodeGraph
 
                             string[] levels = new [] { scenePaths[s].path };
                             BuildPipeline.BuildPlayer(levels, path + "/" + n + ".unity3d", bt, bo);
-                            // 刷新，可以直接在Unity工程中看见打包后的文件
-                            AssetDatabase.Refresh();
-
+                            
                         }
+
+                        // 刷新，可以直接在Unity工程中看见打包后的文件
+                        AssetDatabase.Refresh();
                     }
 
                 }

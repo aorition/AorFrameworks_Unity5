@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using AorFramework.NodeGraph.Tool;
+using AorFramework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
@@ -28,10 +28,13 @@ namespace AorFramework.NodeGraph
         {
             //string
             string info = "0";
-            string[] assetList = (string[]) connection.GetConnectionValue(false);
-            if (assetList != null)
+            object ConnectionValue = connection.GetConnectionValue(false);
+            if (ConnectionValue != null)
             {
-                info = assetList.Length.ToString();
+                if (ConnectionValue is Array)
+                {
+                    info = (ConnectionValue as Array).Length.ToString();
+                }
             }
 
             //size
@@ -64,28 +67,13 @@ namespace AorFramework.NodeGraph
             GUILayout.BeginVertical("box", GUILayout.Width(inspectorWidth));
 
             //BuildOptions
-            BuildOptions bo = (BuildOptions)Enum.Parse(typeof(BuildOptions), (string)m_nodeGUI.data.ref_GetField_Inst_Public("BOEnum"));
-            BuildOptions nbo = (BuildOptions)EditorGUILayout.EnumPopup("BuildOptions", bo);
-            if (nbo != bo)
-            {
-                m_nodeGUI.data.ref_SetField_Inst_Public("BOEnum", nbo.ToString());
-            }
+            NodeGraphUtility.Draw_NG_EnumPopup<BuildAssetBundleOptions>(m_nodeGUI.data, "BOEnum", new GUIContent("BuildOptions"));
 
             //BuildTarget
-            BuildTarget bt = (BuildTarget)Enum.Parse(typeof(BuildTarget), (string)m_nodeGUI.data.ref_GetField_Inst_Public("BTEnum"));
-            BuildTarget nbt = (BuildTarget)EditorGUILayout.EnumPopup("BuildTarget", bt);
-            if (nbt != bt)
-            {
-                m_nodeGUI.data.ref_SetField_Inst_Public("BTEnum", nbt.ToString());
-            }
+            NodeGraphUtility.Draw_NG_EnumPopup<BuildAssetBundleOptions>(m_nodeGUI.data, "BTEnum", new GUIContent("BuildTarget"));
 
             //save路径
-            string sp = (string)m_nodeGUI.data.ref_GetField_Inst_Public("SubPath");
-            string nsp = EditorGUILayout.TextField("Save路径", sp);
-            if (nsp != sp)
-            {
-                m_nodeGUI.data.ref_SetField_Inst_Public("SubPath", nsp);
-            }
+            NodeGraphUtility.Draw_NG_TextField(m_nodeGUI.data, "SubPath", new GUIContent("Save路径"));
 
             if (GUILayout.Button("Build AssetBundle"))
             {

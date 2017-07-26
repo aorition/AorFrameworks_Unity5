@@ -983,8 +983,10 @@ namespace AorFramework.NodeGraph
         protected virtual void Draw_menu()
         {
 
-            AorGUILayout.Horizontal(() =>
-            {
+            
+            GUILayout.BeginHorizontal(GUILayout.Width(Screen.width), GUILayout.Height(NodeGraphDefind.MenuLayoutHeight));
+//            AorGUILayout.Horizontal(() =>
+//            {
                 if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(13), NodeGraphDefind.GetToolBarBtnStyle(_isShowToolArea), GUILayout.Height(28), GUILayout.Width(_ToolAreaWidth)))
                 {
                     _isShowToolArea = !_isShowToolArea;
@@ -1055,8 +1057,8 @@ namespace AorFramework.NodeGraph
                             SaveGraphToFile(true);
                         }
                     }
-                    GUILayout.FlexibleSpace();
 
+                    GUILayout.FlexibleSpace();
 
                     if (_MainNode != null)
                     {
@@ -1085,7 +1087,9 @@ namespace AorFramework.NodeGraph
                 //  GUILayout.Space(_InspectorWidth - 120);
                 //}
 
-            }, GUILayout.Width(Screen.width), GUILayout.Height(NodeGraphDefind.MenuLayoutHeight));
+//            }, GUILayout.Width(Screen.width), GUILayout.Height(NodeGraphDefind.MenuLayoutHeight));
+
+            GUILayout.EndHorizontal();
 
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorFramework.NodeGraph.Tool;
+using AorFramework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
@@ -30,10 +31,13 @@ namespace AorFramework.NodeGraph
         {
             //string
             string info = "0";
-            string[] assetList = (string[]) connection.GetConnectionValue(false);
-            if (assetList != null)
+            object ConnectionValue = connection.GetConnectionValue(false);
+            if (ConnectionValue != null)
             {
-                info = assetList.Length.ToString();
+                if (ConnectionValue is Array)
+                {
+                    info = (ConnectionValue as Array).Length.ToString();
+                }
             }
 
             //size
@@ -67,12 +71,10 @@ namespace AorFramework.NodeGraph
 
             GUILayout.BeginHorizontal();
 
-            bool Advanced = GUILayout.Toggle((bool)m_nodeGUI.data.ref_GetField_Inst_Public("AdvancedOption"), "高级选项");
-            if (Advanced != (bool)m_nodeGUI.data.ref_GetField_Inst_Public("AdvancedOption"))
+            bool Advanced = NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "AdvancedOption", new GUIContent("高级选项"), (b) =>
             {
-                m_nodeGUI.data.ref_SetField_Inst_Public("AdvancedOption", Advanced);
                 m_nodeGUI.SetDirty();
-            }
+            });
 
             GUILayout.EndHorizontal();
 
@@ -144,14 +146,10 @@ namespace AorFramework.NodeGraph
             }
             else
             {
-                int FKMode = (int)m_nodeGUI.data.ref_GetField_Inst_Public("FilterMode");
-
-                int nMode = EditorGUILayout.Popup("过滤条件", FKMode, FKModeLabelDefine);
-                if (nMode != FKMode)
+                NodeGraphUtility.Draw_NG_Popup(m_nodeGUI.data, "FilterMode", new GUIContent("过滤条件"), FKModeLabelDefine, (p) =>
                 {
-                    _changeFKMode(nMode);
-                }
-
+                    _changeFKMode(p);
+                });
             }
 
             string[] assetPaths = (string[])m_nodeGUI.data.ref_GetField_Inst_Public("AssetsPath");
@@ -183,7 +181,7 @@ namespace AorFramework.NodeGraph
         //{"无", "预制体", "图像", "材质", "FBX", "Shader"};
         private void _changeFKMode(int mode)
         {
-            m_nodeGUI.data.ref_SetField_Inst_Public("FilterMode", mode);
+            //m_nodeGUI.data.ref_SetField_Inst_Public("FilterMode", mode);
 
             List<string> keys = new List<string>();
             List<bool> IgnoreCs = new List<bool>();

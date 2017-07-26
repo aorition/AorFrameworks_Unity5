@@ -48,10 +48,13 @@ namespace AorFramework.NodeGraph
         {
             //string
             string info = "0";
-            string[] assetList = (string[])m_nodeGUI.data.ref_GetField_Inst_Public("AssetsPath");
-            if (assetList != null)
+            object ConnectionValue = connection.GetConnectionValue(false);
+            if (ConnectionValue != null)
             {
-                info = assetList.Length.ToString();
+                if (ConnectionValue is Array)
+                {
+                    info = (ConnectionValue as Array).Length.ToString();
+                }
             }
 
             //size
@@ -91,7 +94,7 @@ namespace AorFramework.NodeGraph
                         UnityEngine.Object n = EditorGUILayout.ObjectField(custom, typeof(MonoScript), false);
                         if (n == null)
                         {
-                            m_nodeGUI.data.ref_SetField_Inst_Public("CustomScriptGUID", 0);
+                            m_nodeGUI.data.ref_SetField_Inst_Public("CustomScriptGUID", null);
                             m_nodeGUI.SetDirty();
                         }
                         else if (n != custom)

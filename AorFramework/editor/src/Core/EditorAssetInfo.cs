@@ -10,6 +10,30 @@ namespace AorFramework.editor
     {
 
         /// <summary>
+        /// Assets路径转Resoures路径
+        /// </summary>
+        public static string AssetPathToResourcePath(string path)
+        {
+            if (path.LastIndexOf('.') != -1)
+            {
+                path = path.Substring(0, path.LastIndexOf('.'));
+            }
+            return path.Replace("Assets/", "");
+        }
+
+        /// <summary>
+        /// Resoures路径转Assets路径
+        /// 
+        /// ** suffix形参 必须以 . 开头
+        /// 
+        /// </summary>
+        public static string ResourcePathToAssetPath(string path, string suffix)
+        {
+            return "Assets/" + path + suffix;
+        }
+
+
+        /// <summary>
         /// 在Selection中获取EditorAssetInfo列表,包含选中的文件夹下的所有文件
         /// </summary>
         public static List<EditorAssetInfo> FindEditorAssetInfosInSelection()
@@ -206,16 +230,14 @@ namespace AorFramework.editor
         }
 
         private UnityEngine.Object _asset;
-
         public UnityEngine.Object asset
         {
             get { return _asset; }
         }
 
         private string _name;
-
         /// <summary>
-        /// 文件名称(不包含后缀名)
+        /// 文件名(不包含后缀名)
         /// </summary>
         public string name
         {
@@ -223,9 +245,8 @@ namespace AorFramework.editor
         }
 
         private string _suffix;
-
         /// <summary>
-        /// 后缀名(已.开始)
+        /// 后缀名(以.开始)
         /// </summary>
         public string suffix
         {
@@ -233,19 +254,31 @@ namespace AorFramework.editor
         }
 
         private string _dirPath;
-
         /// <summary>
-        /// 文件夹路径(已Assets开头)
+        /// 文件夹路径(以Assets开头)
         /// </summary>
         public string dirPath
         {
             get { return _dirPath; }
         }
 
-        private string _path;
-
         /// <summary>
-        /// 已Assets开头的路径(包含后缀名)
+        /// 文件夹路径(以Resources开头)
+        /// </summary>
+        public string resDirPath {
+            get
+            {
+                if (_path.Contains("Assets/Resources/"))
+                {
+                    return _dirPath.Replace("Assets/", "");
+                }
+                return null;
+            }
+        }
+
+        private string _path;
+        /// <summary>
+        /// 以Assets开头的文件路径(包含后缀名)
         /// </summary>
         public string path
         {
@@ -253,7 +286,7 @@ namespace AorFramework.editor
         }
 
         /// <summary>
-        /// 完整路径
+        /// 完整文件路径(包含全路径,文件名,后缀名)
         /// </summary>
         public string FullPath
         {
@@ -261,7 +294,7 @@ namespace AorFramework.editor
         }
 
         /// <summary>
-        /// 已Resources开头的路径(不包含后缀名)
+        /// 以Resources开头的文件路径(不包含后缀名)
         /// </summary>
         public string resPath
         {
@@ -276,7 +309,7 @@ namespace AorFramework.editor
         }
 
         /// <summary>
-        /// 所在文件夹名称(已Assets开头)
+        /// 文件所在文件夹名称(以Assets开头)
         /// </summary>
         public string dirName
         {
@@ -288,7 +321,7 @@ namespace AorFramework.editor
         }
 
         /// <summary>
-        /// 上级文件夹路径(已Assets开头)
+        /// 文件所在上级文件夹路径(已Assets开头)
         /// </summary>
         public string parentDirPath
         {

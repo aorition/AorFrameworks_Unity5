@@ -16,6 +16,8 @@ namespace AorFramework.NodeGraph
 
         public readonly int ActionId;
 
-
+        public readonly bool Action3UseCustomScript;
+        public readonly int Action3ComponentID;
+        public readonly string Action3CustomScriptGUID;
     }
 }

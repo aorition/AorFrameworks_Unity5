@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorFramework.NodeGraph.Tool;
+using AorFramework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace AorFramework.NodeGraph
     public class AssetBundleTagSetterGUIController : NodeGUIController
     {
 
-        private static string[] _TagSetRuleStrDefind = new[] {"GUID", "assets", "resources"};
+        private static string[] _TagSetRuleStrDefind = new[] {"GUID", "assets", "resources", "name"};
 
         public override string GetNodeLabel()
         {
@@ -30,10 +31,13 @@ namespace AorFramework.NodeGraph
         {
             //string
             string info = "0";
-            string[] assetList = (string[]) connection.GetConnectionValue(false);
-            if (assetList != null)
+            object ConnectionValue = connection.GetConnectionValue(false);
+            if (ConnectionValue != null)
             {
-                info = assetList.Length.ToString();
+                if (ConnectionValue is Array)
+                {
+                    info = (ConnectionValue as Array).Length.ToString();
+                }
             }
 
             //size
@@ -67,42 +71,19 @@ namespace AorFramework.NodeGraph
 
             //Todo 使用说明。。 
 
-            bool adv = (bool) m_nodeGUI.data.ref_GetField_Inst_Public("AdvancedOpt");
-            bool nadv = EditorGUILayout.Toggle("高级", adv);
-            if (nadv != adv)
-            {
-                m_nodeGUI.data.ref_SetField_Inst_Public("AdvancedOpt", nadv);
-            }
-
-            if (nadv)
+            bool adv = NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "AdvancedOpt", new GUIContent("高级"));
+            if (adv)
             {
                 //高级设置 GUI
-                string abKey = (string)m_nodeGUI.data.ref_GetField_Inst_Public("ABNameKey");
-                string nabKey = EditorGUILayout.TextField("ABName关键字", abKey);
-                if (nabKey != abKey)
-                {
-                    m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", nabKey);
-                }
+                NodeGraphUtility.Draw_NG_TextField(m_nodeGUI.data, "ABNameKey", new GUIContent("ABName关键字"));
 
-                string vKey = (string)m_nodeGUI.data.ref_GetField_Inst_Public("VariantKey");
-                string nvKey = EditorGUILayout.TextField("Variant关键字", vKey);
-                if (nvKey != vKey)
-                {
-                    m_nodeGUI.data.ref_SetField_Inst_Public("VariantKey", nvKey);
-                }
+                NodeGraphUtility.Draw_NG_TextField(m_nodeGUI.data, "VariantKey", new GUIContent("Variant关键字"));
 
             }
             else
             {
-
-                int ri = (int)m_nodeGUI.data.ref_GetField_Inst_Public("RuleIndex");
-                int nri = EditorGUILayout.Popup("ABName命名规则", ri, _TagSetRuleStrDefind);
-                if (nri != ri)
-                {
-                    m_nodeGUI.data.ref_SetField_Inst_Public("RuleIndex", nri);
-                }
-
-                switch (nri)
+                int ri = NodeGraphUtility.Draw_NG_Popup(m_nodeGUI.data, "RuleIndex", _TagSetRuleStrDefind);
+                switch (ri)
                 {
 
                     case 1: //使用assets路径为ABName
@@ -111,19 +92,16 @@ namespace AorFramework.NodeGraph
                     case 2: //使用resources路径为ABName
                         m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", "{RP}");
                         break;
+                    case 3: //使用name作为ABName
+                        m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", "{N}");
+                        break;
                     default: //默认TagSet处理规则
                         m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", "{GUID}");
                         break;
 
                 }
 
-                string vKey = (string)m_nodeGUI.data.ref_GetField_Inst_Public("VariantKey");
-                string nvKey = EditorGUILayout.TextField("Variant关键字", vKey);
-                if (nvKey != vKey)
-                {
-                    m_nodeGUI.data.ref_SetField_Inst_Public("VariantKey", nvKey);
-                }
-
+                NodeGraphUtility.Draw_NG_TextField(m_nodeGUI.data, "VariantKey", new GUIContent("Variant关键字"));
             }
 
             if (GUILayout.Button("Update"))
