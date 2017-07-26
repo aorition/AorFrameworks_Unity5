@@ -6,19 +6,19 @@ using UnityEngine;
 namespace AorFramework.NodeGraph
 {
 
-    public enum HOTransformTypeEnum {
-
+    public enum HOTransformTypeEnum
+    { 
         Relative,//相对
         Absolutely,//绝对
         Overlying,//叠加
         AbsOverlying,//绝对叠加
         OverlyingRate,//等比叠加
         AbsOverlyingRate,//绝对等比叠加
+        Circle,//圆环叠加
     }
 
     public enum HORotationTypeEnum
     {
-
         Relative,//相对
         Absolutely,//绝对
         Overlying,//叠加
@@ -29,10 +29,16 @@ namespace AorFramework.NodeGraph
 
     public enum HOScaleTypeEnum
     {
-
         Relative,//相对
         Overlying,//叠加
         OverlyingRate,//等比叠加
+    }
+
+    public enum HOCircleType
+    {
+        X,
+        Y,
+        Z
     }
 
     public class HierarchyObjTransformData : NodeData
@@ -52,6 +58,13 @@ namespace AorFramework.NodeGraph
         public readonly Vector3 Transform = Vector3.zero;
         public readonly Vector3 TransformOffset = Vector3.zero;
         public readonly Vector3 TransformRate = Vector3.one;
+
+        public readonly float CircleDistance = 0f;
+        public readonly float CircleDistanceRate = 1f;
+        public readonly float CircleAngleStart = 0f;
+        public readonly float CircleAngle = 0f;
+        public readonly float CircleAngleRate = 1f;
+        public readonly string HOCircleType = "Y";
 
         public readonly string RotationType = "Relative";
         public readonly Vector3 Rotation = Vector3.zero;

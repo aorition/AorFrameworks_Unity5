@@ -70,6 +70,21 @@ namespace AorFramework.NodeGraph.Utility
             return nValue;
         }
 
+        public static float Draw_NG_FloatField(object data, string refFieldName, GUIContent labelContent, Action<float> changedAction = null)
+        {
+            float value = (float)data.ref_GetField_Inst_Public(refFieldName);
+            float nValue = EditorGUILayout.FloatField(labelContent, value);
+            if (nValue != value)
+            {
+                data.ref_SetField_Inst_Public(refFieldName, nValue);
+                if (changedAction != null)
+                {
+                    changedAction(nValue);
+                }
+            }
+            return nValue;
+        }
+
         public static Vector2 Draw_NG_Vector2Field(object data, string refFieldName, GUIContent labelContent, Action<Vector2> changedAction = null)
         {
             Vector2 value = (Vector2)data.ref_GetField_Inst_Public(refFieldName);

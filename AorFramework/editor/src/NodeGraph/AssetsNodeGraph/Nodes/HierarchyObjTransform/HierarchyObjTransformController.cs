@@ -1,8 +1,5 @@
-﻿using AorFramework.editor;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,6 +12,13 @@ namespace AorFramework.NodeGraph
         private Vector3 TransformValue;
         private Vector3 TransformOffset;
         private Vector3 TransformRate;
+
+        private float CircleDistance = 0f;
+        private float CircleDistanceRate = 1f;
+        private float CircleAngleStart = 0f;
+        private float CircleAngle = 0f;
+        private float CircleAngleRate = 1f;
+        private HOCircleType HOCircleType;
 
         private HORotationTypeEnum RotationType;
         private Vector3 RotationValue;
@@ -40,6 +44,13 @@ namespace AorFramework.NodeGraph
             TransformValue = (Vector3)nodeGUI.data.ref_GetField_Inst_Public("Transform");
             TransformOffset = (Vector3)nodeGUI.data.ref_GetField_Inst_Public("TransformOffset");
             TransformRate = (Vector3)nodeGUI.data.ref_GetField_Inst_Public("TransformRate");
+
+            CircleDistance = (float)nodeGUI.data.ref_GetField_Inst_Public("CircleDistance");
+            CircleDistanceRate = (float)nodeGUI.data.ref_GetField_Inst_Public("CircleDistanceRate");
+            CircleAngleStart = (float)nodeGUI.data.ref_GetField_Inst_Public("CircleAngleStart");
+            CircleAngle = (float)nodeGUI.data.ref_GetField_Inst_Public("CircleAngle");
+            CircleAngleRate = (float)nodeGUI.data.ref_GetField_Inst_Public("CircleAngleRate");
+            HOCircleType = (HOCircleType) Enum.Parse(typeof(HOCircleType),(string) nodeGUI.data.ref_GetField_Inst_Public("HOCircleType"));
 
             RotationType = (HORotationTypeEnum)Enum.Parse(typeof(HORotationTypeEnum), (string)nodeGUI.data.ref_GetField_Inst_Public("RotationType"));
             RotationValue = (Vector3)nodeGUI.data.ref_GetField_Inst_Public("Rotation");
@@ -230,6 +241,35 @@ namespace AorFramework.NodeGraph
                     TransformOffset = new Vector3(TransformOffset.x * TransformRate.x, TransformOffset.y * TransformRate.y, TransformOffset.z * TransformRate.z);
                     TransformValue += TransformOffset;
                     g.transform.localPosition = TransformValue;
+                    break;
+                case HOTransformTypeEnum.Circle:
+                    CircleAngle *= CircleAngleRate;
+                    CircleAngleStart += CircleAngle;
+
+                    CircleDistance *= CircleDistanceRate;
+                    Vector3 TCValue;
+                    float x = Mathf.Cos(CircleAngleStart*Mathf.Deg2Rad)*CircleDistance;
+                    float y = Mathf.Sin(CircleAngleStart*Mathf.Deg2Rad)*CircleDistance;
+                    switch (HOCircleType)
+                    {
+                        case HOCircleType.X:
+                            TCValue = new Vector3(0, x, y);
+                        break;
+                        case HOCircleType.Y:
+                            TCValue = new Vector3(x, 0, y);
+                            break;
+                        case HOCircleType.Z:
+                            TCValue = new Vector3(x, y, 0);
+                            break;
+                        default:
+                            TCValue = Vector3.zero;
+                            break;
+                    }
+
+                    TransformOffset = new Vector3(TransformOffset.x * TransformRate.x, TransformOffset.y * TransformRate.y, TransformOffset.z * TransformRate.z);
+                    TransformValue += TransformOffset;
+                    g.transform.localPosition = TransformValue + TCValue;
+
                     break;
                 default:
                     g.transform.localPosition = TransformValue;

@@ -108,6 +108,7 @@ namespace AorFramework.NodeGraph
                 || transformType == HOTransformTypeEnum.AbsOverlying
                 || transformType == HOTransformTypeEnum.OverlyingRate
                 || transformType == HOTransformTypeEnum.AbsOverlyingRate
+                || transformType == HOTransformTypeEnum.Circle
                 )
             {
                 NodeGraphUtility.Draw_NG_Vector3Field(nodeGUI.data, "TransformOffset", new GUIContent("TransformOffset"));
@@ -115,9 +116,22 @@ namespace AorFramework.NodeGraph
 
             if (transformType == HOTransformTypeEnum.OverlyingRate
                 || transformType == HOTransformTypeEnum.AbsOverlyingRate
+                || transformType == HOTransformTypeEnum.Circle
                 )
             {
                 NodeGraphUtility.Draw_NG_Vector3Field(nodeGUI.data, "TransformRate", new GUIContent("TransformRate"));
+            }
+
+            if (transformType == HOTransformTypeEnum.Circle
+                )
+            {
+
+                NodeGraphUtility.Draw_NG_FloatField(nodeGUI.data, "CircleDistance", new GUIContent("CircleDistance"));
+                NodeGraphUtility.Draw_NG_FloatField(nodeGUI.data, "CircleDistanceRate", new GUIContent("CircleDistanceRate"));
+                NodeGraphUtility.Draw_NG_FloatField(nodeGUI.data, "CircleAngleStart", new GUIContent("CircleAngleStart"));
+                NodeGraphUtility.Draw_NG_FloatField(nodeGUI.data, "CircleAngle", new GUIContent("CircleAngle"));
+                NodeGraphUtility.Draw_NG_FloatField(nodeGUI.data, "CircleAngleRate", new GUIContent("CircleAngleRate"));
+                NodeGraphUtility.Draw_NG_EnumPopup<HOCircleType>(nodeGUI.data, "HOCircleType", new GUIContent("HOCircleType"));
             }
 
             //Rotation
