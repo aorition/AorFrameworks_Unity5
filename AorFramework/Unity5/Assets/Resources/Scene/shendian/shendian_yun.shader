@@ -1,4 +1,6 @@
-﻿//@@@DynamicShaderInfoStart
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+//@@@DynamicShaderInfoStart
 //神殿云层shader,支持lightMap
 //@@@DynamicShaderInfoEnd
 
@@ -63,7 +65,7 @@ Shader "Hidden/shendian_Cloud" {
 				VertexOutput vert(VertexInput v) {
 					VertexOutput o = (VertexOutput)0;
 					o.uv0 = v.texcoord0;
-					o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+					o.pos = UnityObjectToClipPos(v.vertex);
 
 
 					#ifdef LIGHTMAP_ON

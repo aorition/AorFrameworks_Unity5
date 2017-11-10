@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //@@@DynamicShaderInfoStart
 //自发光贴图材质 支持上色和亮度 一般特效贴图用此shader
 //@@@DynamicShaderInfoEnd
@@ -71,7 +73,7 @@ _Lighting ("Lighting",  float) = 1
          v2f vert(appdata_t IN)
          {
              v2f OUT;
-             OUT.vertex = mul(UNITY_MATRIX_MVP,  IN.vertex);
+             OUT.vertex = UnityObjectToClipPos(IN.vertex);
              OUT.texcoord = IN.texcoord;
              OUT.color = IN.color ;
              #ifdef PIXELSNAP_ON

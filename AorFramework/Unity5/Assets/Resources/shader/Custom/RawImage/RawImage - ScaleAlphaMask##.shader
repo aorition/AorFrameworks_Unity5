@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //@@@DynamicShaderInfoStart
 //AlphaMask
 //@@@DynamicShaderInfoEnd
@@ -77,7 +79,7 @@ Shader "Custom/RawImage/RawImage-ScaleAlphaMask##" {
 	v2f vert(appdata_t IN)
 	{
 		v2f OUT;
-		OUT.vertex = mul(UNITY_MATRIX_MVP,  IN.vertex);
+		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 		OUT.texcoord = TRANSFORM_TEX(IN.texcoord,_MainTex);
 		OUT.maskcoord = TRANSFORM_TEX(IN.texcoord,_MaskTex);
 		OUT.color = IN.color;

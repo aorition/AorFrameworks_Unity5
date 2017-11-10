@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Custom/NoLight/Unlit - AlphaByPicAdd_uvMove" {
     Properties {
         _MainTex ("Texture", 2D) = "white" { }
@@ -50,7 +52,7 @@ Shader "Custom/NoLight/Unlit - AlphaByPicAdd_uvMove" {
             v2f vert (appdata_base v)
             {
                 v2f o;
-                o.pos = mul(UNITY_MATRIX_MVP,v.vertex);
+                o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv =    TRANSFORM_TEX(v.texcoord,_MainTex);
                 o.uv2 =    TRANSFORM_TEX(v.texcoord,_AlphaTex);
                 return o;

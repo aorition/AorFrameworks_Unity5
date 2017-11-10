@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //注意：Shader须配合UITextture使用
 //@@@DynamicShaderInfoStart
 //自发光贴图材质 支持上色和亮度 一般特效贴图用此shader
@@ -60,7 +62,7 @@ Shader "Custom/NGUI/NGUI-Color-lighting##" {
 
 			v2f vert (appdata_t v)
 			{
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.texcoord = v.texcoord;
 				o.color = v.color;
 				return o;

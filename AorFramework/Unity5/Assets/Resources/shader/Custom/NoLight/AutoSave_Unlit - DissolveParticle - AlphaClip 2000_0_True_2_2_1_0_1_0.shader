@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //@@@DynamicShaderInfoStart
 //写深度的单面的的shader,层:Geometry
 //@@@DynamicShaderInfoEnd
@@ -54,7 +56,7 @@ ZTest Less
             v2f vert (appdata v)
             {
                 v2f o;
-                o.pos = mul(UNITY_MATRIX_MVP,v.vertex);
+                o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);
                 o.Color=v.Color;
                 return o;

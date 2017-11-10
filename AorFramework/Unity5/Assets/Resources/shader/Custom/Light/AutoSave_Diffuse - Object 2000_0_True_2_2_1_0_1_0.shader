@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 // Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
 // Upgrade NOTE: replaced tex2D unity_Lightmap with UNITY_SAMPLE_TEX2D
@@ -99,7 +101,7 @@ ZTest Less
 			v2f_base vert (appdata_lm v)
 			{
 				v2f_base o;
-				o.vertex = mul(UNITY_MATRIX_MVP,v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
 				half4  worldPos = mul( unity_ObjectToWorld, v.vertex );
 				half3 normal=mul(SCALED_NORMAL, (float3x3)unity_WorldToObject);
@@ -121,7 +123,7 @@ ZTest Less
 				float2 pos = frac(v.vertex.xy / 128.0f) * 128.0f + float2(-64.340622f, -72.465622f);
 			    float c=  frac(dot(pos.xyx * pos.xyy, float3(20.390625f, 60.703125f, 2.4281209f)));
 				v.vertex.xyz += vColor.rgb*v.normal*sin(_Time*c*_wind)*_power;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				#else
 				#endif
 						

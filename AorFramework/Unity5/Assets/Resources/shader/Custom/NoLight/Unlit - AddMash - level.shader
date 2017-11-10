@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Custom/NoLight/Unlit - AddMash - level"
 {
 	Properties
@@ -66,7 +68,7 @@ Shader "Custom/NoLight/Unlit - AddMash - level"
 
 			v2f vert (appdata_t v)
 			{
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 			//	o.texcoord = v.texcoord;
 				    o.texcoord = TRANSFORM_TEX(v.texcoord,_MainTex);
 						    o.uv2 = TRANSFORM_TEX(v.texcoord,_moveTex);	   

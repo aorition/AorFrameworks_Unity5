@@ -1,4 +1,6 @@
-﻿//@@@DynamicShaderInfoStart
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+//@@@DynamicShaderInfoStart
 //支持自定义图集的Billbord
 //@@@DynamicShaderInfoEnd
 
@@ -42,7 +44,7 @@ Shader "Custom/Other/YKSprite" {
 			{
 			    v2f o;
 
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.pos = UnityObjectToClipPos(v.vertex);
 			  	o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);
 				o.color = v.color;
 				#ifdef FOG_ON

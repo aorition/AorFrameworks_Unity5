@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{14AFDF8D-858D-4A6B-8BCC-7B228A1A5CAA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AorUI</RootNamespace>
+    <AssemblyName>AorUI</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DOTween">
+      <HintPath>..\..\IncludeLibs\DOTween\DOTween.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>..\..\IncludeLibs\DOTween\DOTween43.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DOTween46">
+      <HintPath>..\..\IncludeLibs\DOTween\DOTween46.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\IncludeLibs\Unity5.6.3p3\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\IncludeLibs\Unity5.6.3p3\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\AorUIBase\AorText.cs" />
+    <Compile Include="src\AorUIBase\textIncSprites\SpriteAsset.cs" />
+    <Compile Include="src\AorUIBase\textIncSprites\SpriteAssetInfo.cs" />
+    <Compile Include="src\AorUIBase\textIncSprites\AorEmojiHandler.cs" />
+    <Compile Include="src\AorUIBase\textIncSprites\AorTextIncSprites.cs" />
+    <Compile Include="src\AorUIBase\textIncSprites\SpriteGraphic.cs" />
+    <Compile Include="src\AorUIBase\textIncSprites\TextPlusData.cs" />
+    <Compile Include="src\UGUISRC\UGUI_FontUpdateTracker_SC.cs" />
+    <Compile Include="src\UGUISRC\UGUI_Text_SC.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AorBaseUtility\AorBaseUtility.csproj">
+      <Project>{cff766b5-aaf1-4638-a423-f71ea26e70e5}</Project>
+      <Name>AorBaseUtility</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AorFramework\source\AorFramework.csproj">
+      <Project>{b05094bf-0efc-4835-a998-ea8a3198a46e}</Project>
+      <Name>AorFramework</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

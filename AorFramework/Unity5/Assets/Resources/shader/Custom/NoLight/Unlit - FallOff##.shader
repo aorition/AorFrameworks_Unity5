@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //@@@DynamicShaderInfoStart
 //自发光的边缘高光材质 混合模式可以改叠加 不可写深度，不可选无Alpha的叠加模式
 //@@@DynamicShaderInfoEnd
@@ -54,7 +56,7 @@ Shader "Custom/NoLight/Unlit - FallOff##" {
             v2f vert (appdata_base v)
             {
                 v2f o;
-                o.pos = mul(UNITY_MATRIX_MVP,v.vertex);
+                o.pos = UnityObjectToClipPos(v.vertex);
 				o.normal=v.normal;
 				o.uv =TRANSFORM_TEX(v.texcoord,_MainTex);
 				o.worldvertpos = ObjSpaceViewDir(v.vertex).xyz;

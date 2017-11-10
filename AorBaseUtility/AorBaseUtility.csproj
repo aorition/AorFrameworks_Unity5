@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\AsyncCombiner\AsyncCombiner.cs" />
+    <Compile Include="src\Config\AorConfigManager.cs" />
     <Compile Include="src\Config\ConfigManager.cs" />
     <Compile Include="src\Extends\AorRefExtends.cs" />
     <Compile Include="src\Extends\ArrayExtends.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="src\Units\YKVector2f.cs" />
     <Compile Include="src\Units\YKVector3d.cs" />
     <Compile Include="src\Units\YKVector3f.cs" />
+    <Compile Include="src\Utility\BaseUtility.cs" />
     <Compile Include="src\Zip\ZIPUtil.cs" />
   </ItemGroup>
   <ItemGroup />

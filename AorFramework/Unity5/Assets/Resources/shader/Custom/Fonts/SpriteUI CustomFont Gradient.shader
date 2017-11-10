@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Custom/Fonts/SpriteUI CustomFont Gradient" {
 	Properties {
 		_MainTex ("Font Texture", 2D) = "white" {}
@@ -75,7 +77,7 @@ Shader "Custom/Fonts/SpriteUI CustomFont Gradient" {
 			v2f vert (appdata_t v)
 			{
 				v2f o;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.color = v.vertex;// * _Color;
 				o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
                 o.texcoord1 = v.texcoord1;
@@ -253,7 +255,7 @@ Shader "Custom/Fonts/SpriteUI CustomFont Gradient" {
 		v2f vert(appdata_t v)
 		{
 			v2f o;
-			o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+			o.vertex = UnityObjectToClipPos(v.vertex);
 			o.color = v.color * (_ColorT * v.texcoord1.y + _ColorB * (1 - v.texcoord1.y));
 			o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
 			o.tangent = v.tangent;

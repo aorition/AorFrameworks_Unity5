@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //@@@DynamicShaderInfoStart
 //不写深度的双面的Alpha混合的shader,层:Transparent
 //@@@DynamicShaderInfoEnd
@@ -72,7 +74,7 @@ ZTest Less
             v2f vert (appdata v)
             {
                 v2f o;
-                o.pos = mul(UNITY_MATRIX_MVP,v.vertex);
+                o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);
                 o.color=v.color;
 

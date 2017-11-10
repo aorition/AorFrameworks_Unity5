@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Custom/NGUI/NGUI-SoftClip"
 {
 	Properties
@@ -59,7 +61,7 @@ Shader "Custom/NGUI/NGUI-SoftClip"
 
 				v2f vert(appdata_t v)
 				{
-					o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+					o.vertex = UnityObjectToClipPos(v.vertex);
 					o.color = v.color;
 					o.texcoord = v.texcoord;
 					o.gray = step(dot(v.color, fixed4(1,1,1,0)),0);

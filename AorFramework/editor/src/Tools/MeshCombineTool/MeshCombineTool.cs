@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+//using YoukiaUnity.Graphics.FastShadowProjector;
 
 public class MeshCombineTool
 {
-    [MenuItem("FrameworkTools/Mesh合并工具/MeshCombineInScene")]
+    [MenuItem("Youkia/Mesh合并工具/MeshCombineInScene")]
     public static void MeshCombineInScene()
     {
         GameObject root = Selection.activeGameObject;
@@ -51,7 +49,7 @@ public class MeshCombineTool
 
         removeTransWidthEditorOnlyTag(combined.transform);
 
-        PrefabLightmapData[] prefabLightmapDatas = combined.FindComponentsInChildren<PrefabLightmapData>();
+        PrefabLightmapData[] prefabLightmapDatas = combined.FindAllComponents<PrefabLightmapData>();
         if (prefabLightmapDatas.Length > 0)
         {
             int i, len = prefabLightmapDatas.Length;
@@ -68,9 +66,9 @@ public class MeshCombineTool
         StaticBatchingUtility.Combine(combined);
 
         //恢复本体(Active/MeshRenderEnable设置以及移除PrefabLightmapData)
-        restoreMeshCombineObjOriginal(srcRoot,unActiveList, unMeshRenderEnableList, pldList);
+        restoreMeshCombineObjOriginal(srcRoot, unActiveList, unMeshRenderEnableList, pldList);
         //恢复复制体的Active/MeshRenderEnable设置
-        restoreMeshCombineObjOriginal(combined.transform,unActiveList, unMeshRenderEnableList, null);
+        restoreMeshCombineObjOriginal(combined.transform, unActiveList, unMeshRenderEnableList, null);
 
         srcRoot.gameObject.SetActive(false);
 
@@ -120,14 +118,13 @@ public class MeshCombineTool
                 unMeshRenderEnableList.Add(_getSubPathInRoot(root, sub));
             }
 
-            
+
             PrefabLightmapData PLMdata = mr.gameObject.GetComponent<PrefabLightmapData>();
             if (!PLMdata)
             {
                 PLMdata = mr.gameObject.AddComponent<PrefabLightmapData>();
+                PLMdata.SaveLightmap();
             }
-
-            PLMdata.SaveLightmap();
 
             pldList.Add(_getSubPathInRoot(root, mr.transform));
 
@@ -188,7 +185,7 @@ public class MeshCombineTool
                     PrefabLightmapData pld = t.GetComponent<PrefabLightmapData>();
                     if (pld)
                     {
-                        GameObject.DestroyImmediate(pld);
+                        //GameObject.DestroyImmediate(pld);
                     }
                 }
             }
@@ -197,7 +194,7 @@ public class MeshCombineTool
 
     //-------------------------------------------------------------------
 
-    [MenuItem("FrameworkTools/Mesh合并工具/MeshCombineToAsset")]
+    [MenuItem("Youkia/Mesh合并工具/MeshCombineToAsset")]
     public static void MeshComineToAsset()
     {
         GameObject root = Selection.activeGameObject;
@@ -233,7 +230,7 @@ public class MeshCombineTool
 
         GameObject combined = MeshCombineInScene(tran);
 
-        List<MeshFilter> mfs = combined.FindComponentListInChildren<MeshFilter>();
+        List<MeshFilter> mfs = combined.FindAllComponentList<MeshFilter>();
 
         if (mfs.Count > 0)
         {
@@ -278,7 +275,7 @@ public class MeshCombineTool
 
     //--------------------------------------------------------------
 
-    [MenuItem("FrameworkTools/Mesh合并工具/MeshMergeInScene")]
+    [MenuItem("Youkia/Mesh合并工具/MeshMergeInScene")]
     public static void MeshMerge()
     {
         GameObject root = Selection.activeGameObject;
@@ -291,7 +288,7 @@ public class MeshCombineTool
 
         MeshMerge(root.transform);
     }
-    
+
     private struct MeshKey
     {
         public MeshKey(Material m, int i)
@@ -306,12 +303,13 @@ public class MeshCombineTool
 
     public static GameObject MeshMerge(Transform root)
     {
-        
-        List<MeshFilter> MeshFilterList = root.FindComponentListInChildren<MeshFilter>();
+        //List<GameObject> recieverObjLs = new List<GameObject>();    //有ShadowReciever的物体列表
+
+        List<MeshFilter> MeshFilterList = root.FindAllComponentList<MeshFilter>();
 
         if (MeshFilterList != null && MeshFilterList.Count > 0)
         {
-            
+
             GameObject rootGameObject = new GameObject(root.name + "_MeshMeraged");
             rootGameObject.transform.localScale = root.localScale;
             rootGameObject.transform.localRotation = root.localRotation;
@@ -325,6 +323,7 @@ public class MeshCombineTool
             for (i = 0; i < len; i++)
             {
                 MeshRenderer mr = MeshFilterList[i].gameObject.GetComponent<MeshRenderer>();
+
                 if (mr)
                 {
                     MeshKey mk = new MeshKey(mr.sharedMaterial, mr.lightmapIndex);
@@ -339,7 +338,7 @@ public class MeshCombineTool
                         List<MeshFilter> list = new List<MeshFilter>();
                         list.Add(MeshFilterList[i]);
                         MerageGroup.Add(mk, list);
-                        
+
                         List<string> nList = new List<string>();
                         nList.Add(MeshFilterList[i].gameObject.name);
                         NameGroup.Add(mk, nList);
@@ -351,10 +350,19 @@ public class MeshCombineTool
             {
                 foreach (MeshKey mk in MerageGroup.Keys)
                 {
-                    GameObject sub = MeshMerge(MerageGroup[mk], NameGroup[mk], mk.material);
-                    if (sub)
+
+                    List<GameObject> subs = MeshMerge(MerageGroup[mk], NameGroup[mk], mk.material);
+                    if (subs.Count > 0)
                     {
-                        sub.transform.SetParent(rootGameObject.transform);
+
+                        foreach (GameObject o in subs)
+                        {
+                            if (o)
+                            {
+                                o.transform.SetParent(rootGameObject.transform);
+                            }
+                        }
+
                     }
                 }
             }
@@ -376,56 +384,104 @@ public class MeshCombineTool
         return null;
     }
 
-    public static GameObject MeshMerge(List<MeshFilter> meshes, List<string> names, Material useMaterial)
+    public static List<GameObject> MeshMerge(List<MeshFilter> meshes, List<string> names, Material useMaterial)
     {
         if (meshes == null || meshes.Count == 0) return null;
 
-        string name = names[0] + "_merge_" + names.Count;
+        List<GameObject> RtGameObjects = new List<GameObject>();
 
-        CombineInstance[] combineInstances = new CombineInstance[meshes.Count];
+        //判断meshes的顶点数是否大于Mesh的上限 64K（65536）
+        List<List<MeshFilter>> spList = _splitOverTexMeshes(meshes);
+        int g, glen = spList.Count;
+        for (g = 0; g < glen; g++)
+        {
 
-        bool hasLightmap = false;
-        bool ckLM = false;
+            string name = names[0] + "_merge_" + spList[g].Count + (spList.Count > 0 ? "_" + g : "");
 
+            CombineInstance[] combineInstances = new CombineInstance[spList[g].Count];
+
+            bool hasLightmap = false;
+            bool ckLM = false;
+
+            int i, len = spList[g].Count;
+            for (i = 0; i < len; i++)
+            {
+                Mesh sMesh = _copyMeshFromMeshFilter(spList[g][i], ref ckLM);
+                if (sMesh == null) continue;
+                combineInstances[i].mesh = sMesh;
+                combineInstances[i].transform = spList[g][i].transform.localToWorldMatrix;
+                if (ckLM)
+                {
+                    hasLightmap = true;
+                }
+            }
+
+            Mesh newMesh = new Mesh();
+            newMesh.name = name;
+            newMesh.CombineMeshes(combineInstances, true);
+
+            GameObject meshGameObject = new GameObject(name);
+
+            MeshFilter mf = meshGameObject.AddComponent<MeshFilter>();
+            mf.sharedMesh = newMesh;
+
+            MeshRenderer srcMr = spList[g][0].gameObject.GetComponent<MeshRenderer>();
+            MeshRenderer mr = meshGameObject.AddComponent<MeshRenderer>();
+            mr.sharedMaterial = useMaterial;
+
+            if (hasLightmap)
+            {
+                mr.lightmapIndex = srcMr.lightmapIndex;
+                mr.lightmapScaleOffset = new Vector4(1, 1, 0, 0);
+
+                PrefabLightmapData prefabLightmapData = meshGameObject.AddComponent<PrefabLightmapData>();
+                prefabLightmapData.SaveLightmap(mr.lightmapIndex, mr.lightmapScaleOffset);
+            }
+
+            RtGameObjects.Add(meshGameObject);
+
+        }
+
+        return RtGameObjects;
+    }
+
+    private static List<List<MeshFilter>> _splitOverTexMeshes(List<MeshFilter> meshes)
+    {
+        List<List<MeshFilter>> subList = new List<List<MeshFilter>>();
+        subList.Add(new List<MeshFilter>());
+        int toallTx = 0;
+        int s = 0;
         int i, len = meshes.Count;
         for (i = 0; i < len; i++)
         {
-            Mesh sMesh = _copyMeshFromMeshFilter(meshes[i], ref ckLM);
-            combineInstances[i].mesh = sMesh;
-            combineInstances[i].transform = meshes[i].transform.localToWorldMatrix;
-            if (ckLM)
+
+            //
+            if(meshes[i] == null || meshes[i].sharedMesh == null) continue;
+            
+            toallTx += meshes[i].sharedMesh.vertexCount;
+
+            if (toallTx > 65536)
             {
-                hasLightmap = true;
+                subList.Add(new List<MeshFilter>());
+                s++;
+
+                subList[s].Add(meshes[i]);
+                toallTx = meshes[i].sharedMesh.vertexCount;
+
             }
+            else
+            {
+                subList[s].Add(meshes[i]);
+            }
+
         }
-
-        Mesh newMesh = new Mesh();
-        newMesh.name = name;
-        newMesh.CombineMeshes(combineInstances, true);
-
-        GameObject meshGameObject = new GameObject(name);
-
-        MeshFilter mf = meshGameObject.AddComponent<MeshFilter>();
-        mf.sharedMesh = newMesh;
-
-        MeshRenderer srcMr = meshes[0].gameObject.GetComponent<MeshRenderer>();
-        MeshRenderer mr = meshGameObject.AddComponent<MeshRenderer>();
-        mr.sharedMaterial = useMaterial;
-
-        if (hasLightmap)
-        {
-            mr.lightmapIndex = srcMr.lightmapIndex;
-            mr.lightmapScaleOffset = new Vector4(1, 1, 0, 0);
-
-            PrefabLightmapData prefabLightmapData = meshGameObject.AddComponent<PrefabLightmapData>();
-            prefabLightmapData.SaveLightmap(mr.lightmapIndex, mr.lightmapScaleOffset);
-        }
-
-        return meshGameObject;
+        return subList;
     }
 
-    private static Mesh _copyMeshFromMeshFilter(MeshFilter src,ref bool hasLightmap)
+    private static Mesh _copyMeshFromMeshFilter(MeshFilter src, ref bool hasLightmap)
     {
+
+        if (src.sharedMesh == null) return null;
 
         MeshRenderer mr = src.gameObject.GetComponent<MeshRenderer>();
 
@@ -440,8 +496,8 @@ public class MeshCombineTool
             for (i = 0; i < len; i++)
             {
                 lmUV[i] =
-                    new Vector2(srcUV[i].x*mr.lightmapScaleOffset.x,
-                        srcUV[i].y*mr.lightmapScaleOffset.y) +
+                    new Vector2(srcUV[i].x * mr.lightmapScaleOffset.x,
+                        srcUV[i].y * mr.lightmapScaleOffset.y) +
                     new Vector2(mr.lightmapScaleOffset.z, mr.lightmapScaleOffset.w);
             }
             newMesh.uv2 = lmUV;
@@ -457,7 +513,7 @@ public class MeshCombineTool
 
     //-------------------------------------------------------------------
 
-    [MenuItem("FrameworkTools/Mesh合并工具/MeshMergeToAsset")]
+    [MenuItem("Youkia/Mesh合并工具/MeshMergeToAsset")]
     public static void MeshMergeToAsset()
     {
         GameObject root = Selection.activeGameObject;
@@ -502,7 +558,7 @@ public class MeshCombineTool
         if (meragedGameObject)
         {
 
-            List<MeshFilter> mfList = meragedGameObject.FindComponentListInChildren<MeshFilter>();
+            List<MeshFilter> mfList = meragedGameObject.FindAllComponentList<MeshFilter>();
 
             if (mfList != null && mfList.Count > 0)
             {

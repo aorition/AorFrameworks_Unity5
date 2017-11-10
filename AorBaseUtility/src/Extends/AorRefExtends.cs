@@ -10,10 +10,26 @@ public static class AorRefExtends
     // -- Field get
     #region Field Get
 
+    private static FieldInfo _getFieldLoop(Type type, string fieldName, BindingFlags bingdFlags)
+    {
+        FieldInfo fieldInfo = type.GetField(fieldName, bingdFlags);
+        if (fieldInfo != null)
+        {
+            return fieldInfo;
+        }
+        else
+        {
+            if (type.BaseType != null)
+            {
+                return _getFieldLoop(type.BaseType, fieldName, bingdFlags);
+            }
+            return null;
+        }
+    }
     public static object ref_GetField_Inst_NonPublic(this object obj, string fieldName)
     {
         Type t = obj.GetType();
-        FieldInfo fieldInfo = t.GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
+        FieldInfo fieldInfo = _getFieldLoop(t,fieldName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
         if (fieldInfo != null)
         {
             return fieldInfo.GetValue(obj);
@@ -27,7 +43,7 @@ public static class AorRefExtends
     public static object ref_GetField_Inst_Public(this object obj, string fieldName)
     {
         Type t = obj.GetType();
-        FieldInfo fieldInfo = t.GetField(fieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetField);
+        FieldInfo fieldInfo = _getFieldLoop(t,fieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetField);
         if (fieldInfo != null)
         {
             return fieldInfo.GetValue(obj);
@@ -42,7 +58,7 @@ public static class AorRefExtends
     public static object ref_GetField_Static_NonPublic(this object obj, string fieldName)
     {
         Type t = obj.GetType();
-        FieldInfo fieldInfo = t.GetField(fieldName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.GetField);
+        FieldInfo fieldInfo = _getFieldLoop(t,fieldName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.GetField);
         if (fieldInfo != null)
         {
             return fieldInfo.GetValue(null);
@@ -57,7 +73,7 @@ public static class AorRefExtends
     public static object ref_GetField_Static_Public(this object obj, string fieldName)
     {
         Type t = obj.GetType();
-        FieldInfo fieldInfo = t.GetField(fieldName, BindingFlags.Static | BindingFlags.Public | BindingFlags.GetField);
+        FieldInfo fieldInfo = _getFieldLoop(t,fieldName, BindingFlags.Static | BindingFlags.Public | BindingFlags.GetField);
         if (fieldInfo != null)
         {
             return fieldInfo.GetValue(null);
@@ -75,7 +91,7 @@ public static class AorRefExtends
     public static bool ref_SetField_Inst_NonPublic(this object obj, string fieldName, object value)
     {
         Type t = obj.GetType();
-        FieldInfo fieldInfo = t.GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
+        FieldInfo fieldInfo = _getFieldLoop(t,fieldName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
         if (fieldInfo != null)
         {
             fieldInfo.SetValue(obj, value);
@@ -90,7 +106,7 @@ public static class AorRefExtends
     public static bool ref_SetField_Inst_Public(this object obj, string fieldName, object value)
     {
         Type t = obj.GetType();
-        FieldInfo fieldInfo = t.GetField(fieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetField);
+        FieldInfo fieldInfo = _getFieldLoop(t,fieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetField);
         if (fieldInfo != null)
         {
             fieldInfo.SetValue(obj, value);
@@ -106,7 +122,7 @@ public static class AorRefExtends
     public static bool ref_SetField_Static_NonPublic(this object obj, string fieldName, object value)
     {
         Type t = obj.GetType();
-        FieldInfo fieldInfo = t.GetField(fieldName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.GetField);
+        FieldInfo fieldInfo = _getFieldLoop(t,fieldName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.GetField);
         if (fieldInfo != null)
         {
             fieldInfo.SetValue(null, value);
@@ -122,7 +138,7 @@ public static class AorRefExtends
     public static bool ref_SetField_Static_Public(this object obj, string fieldName, object value)
     {
         Type t = obj.GetType();
-        FieldInfo fieldInfo = t.GetField(fieldName, BindingFlags.Static | BindingFlags.Public | BindingFlags.GetField);
+        FieldInfo fieldInfo = _getFieldLoop(t,fieldName, BindingFlags.Static | BindingFlags.Public | BindingFlags.GetField);
         if (fieldInfo != null)
         {
             fieldInfo.SetValue(null, value);
@@ -139,10 +155,27 @@ public static class AorRefExtends
     // -- InvokeMethod
     #region InvokeMethod
 
+    private static MethodInfo _getMethodLoop(Type type, string MethodName, BindingFlags bingdFlags)
+    {
+        MethodInfo methodInfo = type.GetMethod(MethodName, bingdFlags);
+        if (methodInfo != null)
+        {
+            return methodInfo;
+        }
+        else
+        {
+            if (type.BaseType != null)
+            {
+                return _getMethodLoop(type.BaseType, MethodName, bingdFlags);
+            }
+            return null;
+        }
+    }
+
     public static object ref_InvokeMethod_Inst_NonPublic(this object obj, string MethodName, object[] parameters)
     {
         Type t = obj.GetType();
-        MethodInfo methodInfo = t.GetMethod(MethodName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod);
+        MethodInfo methodInfo = _getMethodLoop(t,MethodName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.InvokeMethod);
         if (methodInfo != null)
         {
             return methodInfo.Invoke(obj, parameters);
@@ -156,7 +189,7 @@ public static class AorRefExtends
     public static object ref_InvokeMethod_Inst_Public(this object obj, string MethodName, object[] parameters)
     {
         Type t = obj.GetType();
-        MethodInfo methodInfo = t.GetMethod(MethodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.InvokeMethod);
+        MethodInfo methodInfo = _getMethodLoop(t,MethodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.InvokeMethod);
         if (methodInfo != null)
         {
             return methodInfo.Invoke(obj, parameters);
@@ -170,7 +203,7 @@ public static class AorRefExtends
     public static object ref_InvokeMethod_Static_NonPublic(this object obj, string MethodName, object[] parameters)
     {
         Type t = obj.GetType();
-        MethodInfo methodInfo = t.GetMethod(MethodName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod);
+        MethodInfo methodInfo = _getMethodLoop(t,MethodName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod);
         if (methodInfo != null)
         {
             return methodInfo.Invoke(null, parameters);
@@ -184,7 +217,7 @@ public static class AorRefExtends
     public static object ref_InvokeMethod_Static_Public(this object obj, string MethodName, object[] parameters)
     {
         Type t = obj.GetType();
-        MethodInfo methodInfo = t.GetMethod(MethodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.InvokeMethod);
+        MethodInfo methodInfo = _getMethodLoop(t,MethodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.InvokeMethod);
         if (methodInfo != null)
         {
             return methodInfo.Invoke(null, parameters);

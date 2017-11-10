@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //@@@DynamicShaderInfoStart
 //按UV Y方向做半透明过度 可反向
 //@@@DynamicShaderInfoEnd
@@ -73,7 +75,7 @@ _mask("Mask", Range(0,1))=0
          v2f vert(appdata_t IN)
          {
              v2f OUT;
-             OUT.vertex = mul(UNITY_MATRIX_MVP,  IN.vertex);
+             OUT.vertex = UnityObjectToClipPos(IN.vertex);
              OUT.texcoord = IN.texcoord;
              OUT.color = IN.color ;
              #ifdef PIXELSNAP_ON

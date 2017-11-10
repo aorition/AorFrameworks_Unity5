@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 // Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
 
@@ -80,7 +82,7 @@ SubShader {
 			{
                 v2f o;
              //TANGENT_SPACE_ROTATION;
-                o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+                o.vertex = UnityObjectToClipPos(v.vertex);
                 o.pos=	v.vertex;
                 o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
                 o.normal = mul(SCALED_NORMAL, (float3x3)unity_WorldToObject);

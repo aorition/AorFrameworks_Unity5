@@ -1,4 +1,6 @@
-﻿//自定义部分变灰
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+//自定义部分变灰
 
 Shader "Custom/NGUI/NGUI-RegionMapping-sGray" {
 
@@ -50,7 +52,7 @@ Shader "Custom/NGUI/NGUI-RegionMapping-sGray" {
 				v2f o;
 
 				o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.pos = UnityObjectToClipPos(v.vertex);
 
 				return o;
 			}

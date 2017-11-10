@@ -1,4 +1,6 @@
-﻿//@@@DynamicShaderInfoStart
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+//@@@DynamicShaderInfoStart
 //简单的UV双色控制
 //@@@DynamicShaderInfoEnd
 
@@ -55,7 +57,7 @@ SubShader {
             v2f vert (appdata_t v)
             {
                 v2f o;
-                o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+                o.vertex = UnityObjectToClipPos(v.vertex);
                 o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
                 return o;
             }

@@ -1,4 +1,6 @@
-﻿//径向模糊后处理
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+//径向模糊后处理
 Shader "Hidden/PostEffect/RadialBlur" {
          Properties {
                  _MainTex ("Base (RGB)", 2D) = "white" {}
@@ -30,7 +32,7 @@ Shader "Hidden/PostEffect/RadialBlur" {
                          v2f vert (appdata_t v)
                          {
                                  v2f o;
-                                 o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+                                 o.vertex = UnityObjectToClipPos(v.vertex);
                                  o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
                                  return o;
                          }

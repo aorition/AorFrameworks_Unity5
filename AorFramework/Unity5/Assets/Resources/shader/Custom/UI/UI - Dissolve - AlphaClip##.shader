@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //@@@DynamicShaderInfoStart
 //溶解 ,像素丢弃模式，边缘粗，支持写深度
 //@@@DynamicShaderInfoEnd
@@ -77,7 +79,7 @@ Properties {
          v2f vert(appdata_t IN)
          {
              v2f OUT;
-             OUT.vertex = mul(UNITY_MATRIX_MVP,  IN.vertex);
+             OUT.vertex = UnityObjectToClipPos(IN.vertex);
              OUT.uv = IN.texcoord;
              OUT.color = IN.color ;
              #ifdef PIXELSNAP_ON

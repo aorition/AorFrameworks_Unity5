@@ -50,11 +50,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="UnityEngine">
-      <HintPath>..\..\IncludeLibs\Unity5.5.1P2\UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\IncludeLibs\Unity5.5.1P2\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\IncludeLibs\Unity5.6.3p3\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -82,11 +78,8 @@
     <ProjectReference Include="..\..\AorBaseUtility\AorBaseUtility.csproj">
       <Project>{cff766b5-aaf1-4638-a423-f71ea26e70e5}</Project>
       <Name>AorBaseUtility</Name>
-      <Private>True</Private>
+      <Private>False</Private>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\AorUI\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

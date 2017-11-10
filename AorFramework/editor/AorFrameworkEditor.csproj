@@ -31,29 +31,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DOTween">
+      <HintPath>..\..\IncludeLibs\DOTween\DOTween.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>..\..\IncludeLibs\DOTween\DOTween43.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DOTween46">
+      <HintPath>..\..\IncludeLibs\DOTween\DOTween46.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEditor">
-      <HintPath>..\..\IncludeLibs\Unity5.5.1P2\UnityEditor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.Graphs">
-      <HintPath>..\..\IncludeLibs\Unity5.5.1P2\UnityEditor.Graphs.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>..\..\IncludeLibs\Unity5.5.1P2\UnityEditor.UI.dll</HintPath>
+      <HintPath>..\..\IncludeLibs\Unity5.6.3p3\UnityEditor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\IncludeLibs\Unity5.5.1P2\UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\IncludeLibs\Unity5.5.1P2\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\IncludeLibs\Unity5.6.3p3\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -162,7 +162,6 @@
     <Compile Include="src\Tools\TransformRecorderEditor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src\AorUI\" />
     <Folder Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\PresetDatas\" />
   </ItemGroup>
   <ItemGroup>

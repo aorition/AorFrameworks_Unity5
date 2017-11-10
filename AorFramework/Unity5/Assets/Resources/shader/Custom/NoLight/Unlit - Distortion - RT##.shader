@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //@@@DynamicShaderInfoStart
 //空气扭曲,请配合DistortionSupport脚本使用,用了此shader的物体层级设置为postEffect
 //@@@DynamicShaderInfoEnd
@@ -61,7 +63,7 @@ Properties {
             v2f vert (appdata v)
             {
                 v2f o;
-                o.pos = mul(UNITY_MATRIX_MVP,v.vertex);
+                o.pos = UnityObjectToClipPos(v.vertex);
 				o.uvMask = TRANSFORM_TEX(v.texcoord, _MaskTex);
                  o.uvNoise = TRANSFORM_TEX(v.texcoord, _NoiseTex);
 

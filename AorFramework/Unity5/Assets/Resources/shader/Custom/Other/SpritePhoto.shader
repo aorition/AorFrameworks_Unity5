@@ -1,4 +1,6 @@
-﻿Shader "Custom/SpritePhoto" 
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/SpritePhoto" 
 {
 	Properties{
 		_MainTex ("MainTex", 2D) = "white" {}
@@ -38,7 +40,7 @@
 				v2f o;
 
 				o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.pos = UnityObjectToClipPos(v.vertex);
 				o.color = v.color;
 
 				return o;

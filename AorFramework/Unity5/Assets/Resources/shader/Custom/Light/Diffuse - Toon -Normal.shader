@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Custom/Light/Diffuse - Toon - Normal" {
 	Properties{
 	_MainTex("MainTex", 2D) = "white" {}
@@ -51,7 +53,7 @@ Shader "Custom/Light/Diffuse - Toon - Normal" {
 				v2f vert(appdata_full v) {
 					v2f o;
 					o.uv0 = TRANSFORM_TEX(v.texcoord,_MainTex);
-					o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+					o.pos = UnityObjectToClipPos(v.vertex);
 					o.color = v.color;
 					o.normal = normalize(mul(v.normal, (float3x3)unity_WorldToObject));
 					half3  worldN = mul((float3x3)unity_ObjectToWorld, v.normal * 1.0);

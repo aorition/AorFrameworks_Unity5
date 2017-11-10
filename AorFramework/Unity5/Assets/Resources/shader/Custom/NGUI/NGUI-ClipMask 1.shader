@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //注意：Shader须配合UITextture使用
 //@@@DynamicShaderInfoStart
 //定义一张黑白图片作为Mask (可裁剪)
@@ -62,7 +64,7 @@ Shader "Custom/NGUI/NGUI-ClipMask 1" {
 
 			v2f vert (appdata_t v)
 			{
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.texcoord = v.texcoord;
 				o.color = v.color;
 				o.gray =step( dot(v.color, fixed4(1,1,1,0)),0); 

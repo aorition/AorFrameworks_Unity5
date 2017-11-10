@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //@@@DynamicShaderInfoStart
 //根据另外一张贴图的RGB扭曲最终效果
 //@@@DynamicShaderInfoEnd
@@ -75,7 +77,7 @@ Properties {
          v2f vert(appdata_t IN)
          {
              v2f OUT;
-             OUT.vertex = mul(UNITY_MATRIX_MVP,  IN.vertex);
+             OUT.vertex = UnityObjectToClipPos(IN.vertex);
              OUT.texcoord = IN.texcoord;
              OUT.color = IN.color ;
              #ifdef PIXELSNAP_ON

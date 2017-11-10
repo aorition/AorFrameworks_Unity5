@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 #warning Upgrade NOTE: unity_Scale shader variable was removed; replaced 'unity_Scale.w' with '1.0'
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
@@ -45,7 +47,7 @@ Shader "Custom/NoLight/Unlit - Holographic" {
             v2f vert (appdata_tan v) {
                 v2f o;
                 o.uv0 = TRANSFORM_TEX(v.texcoord,_MainTex);
-                o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+                o.pos = UnityObjectToClipPos(v.vertex);
                 o.normal = normalize( mul( unity_ObjectToWorld, half4( v.normal, 0 ) ).xyz );
                 float3 worldN = mul((float3x3)unity_ObjectToWorld, v.normal * 1.0);
                 float3 viewDir = WorldSpaceViewDir( v.vertex );
@@ -100,7 +102,7 @@ Shader "Custom/NoLight/Unlit - Holographic" {
 		uniform float4 _OutlineColor;
 		v2f vert(appdata v) {
 			v2f o;
-			o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+			o.pos = UnityObjectToClipPos(v.vertex);
 			float3 norm   = mul ((float3x3)UNITY_MATRIX_IT_MV, v.normal);
 			float2 offset = TransformViewToProjection(norm.xy);
 			o.pos.xy += offset * o.pos.z * _Outline/o.pos.w;

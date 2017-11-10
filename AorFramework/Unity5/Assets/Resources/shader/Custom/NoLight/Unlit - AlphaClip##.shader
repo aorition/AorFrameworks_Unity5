@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //@@@DynamicShaderInfoStart
 //AlphaClip 通过设置Clip图（灰度）确定被裁减的区域
 //@@@DynamicShaderInfoEnd
@@ -65,7 +67,7 @@ Shader "Custom/NoLight/Unlit - AlphaClip##" {
 	v2f vert(appdata_t IN)
 	{
 		v2f OUT;
-		OUT.vertex = mul(UNITY_MATRIX_MVP,  IN.vertex);
+		OUT.vertex = UnityObjectToClipPos(IN.vertex);
 		OUT.texcoord = TRANSFORM_TEX(IN.texcoord,_MainTex);
 		OUT.clipcoord = TRANSFORM_TEX(IN.texcoord,_ClipTex);
 		OUT.color = IN.color;

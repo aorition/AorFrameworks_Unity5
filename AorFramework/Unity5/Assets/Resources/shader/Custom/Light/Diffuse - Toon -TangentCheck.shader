@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //#warning Upgrade NOTE: unity_Scale shader variable was removed; replaced 'unity_Scale.w' with '1.0'
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 // Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
@@ -54,7 +56,7 @@ Shader "Custom/Light/Diffuse - Toon - TangentCheck" {
 				v2f vert(appdata_full v) {
 					v2f o;
 					o.uv0 = TRANSFORM_TEX(v.texcoord,_MainTex);
-					o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+					o.pos = UnityObjectToClipPos(v.vertex);
 					o.color = v.color;
 					o.normal = normalize( mul(v.normal, (float3x3)unity_WorldToObject));
 					half3  worldN = mul((float3x3)unity_ObjectToWorld, v.normal * 1.0);

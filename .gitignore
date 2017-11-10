@@ -1,4 +1,3 @@
-/AorUI
 /AorBaseUtility/obj
 /AorFramework/editor/obj
 /AorFramework/source/.vs
@@ -18,3 +17,5 @@
 /AorFramework/Unity5/Unity5.CSharp.Editor.csproj
 /AorFramework/Unity5/Unity5.CSharp.Editor.csproj.user
 /AorFramework/Unity5/Unity5.sln
+/AorUI/editor/obj
+/AorUI/source/obj

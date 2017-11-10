@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //注意：Shader须配合UITextture使用
 //@@@DynamicShaderInfoStart
 //按UV Y方向做半透明过度 可反向
@@ -65,7 +67,7 @@ Shader "Custom/NGUI/NGUI-UVMask##" {
 
 	v2f vert(appdata_t v)
 	{
-		o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+		o.vertex = UnityObjectToClipPos(v.vertex);
 		o.texcoord = v.texcoord;
 		o.color = v.color;
 		return o;

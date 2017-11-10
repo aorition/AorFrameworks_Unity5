@@ -1,4 +1,6 @@
-﻿Shader "Hidden/PostEffect/UIDrawShader" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Hidden/PostEffect/UIDrawShader" {
 Properties {
 	_MainTex ("MainRt", 2D) = "white" {}
 	_MaskColor("MaskColor", Color) =(0,0,0,0)
@@ -63,7 +65,7 @@ SubShader {
             v2f vert (appdata_t v)
             {
                 v2f o;
-             o.pos = mul(UNITY_MATRIX_MVP,v.vertex);
+             o.pos = UnityObjectToClipPos(v.vertex);
 				o.uv =TRANSFORM_TEX(v.texcoord,_MainTex);
 				 o.pos = UnityPixelSnap ( o.pos);
 				 o.color=v.color;

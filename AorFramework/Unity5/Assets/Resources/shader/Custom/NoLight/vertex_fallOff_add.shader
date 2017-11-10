@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Saint/model/vertex - lerp_add" {
     Properties {
         _MainTex ("Texture", 2D) = "white" { }
@@ -35,7 +37,7 @@ Shader "Saint/model/vertex - lerp_add" {
             v2f vert (appdata_base v)
             {
                 v2f o;
-                   o.pos = mul(UNITY_MATRIX_MVP,v.vertex);
+                   o.pos = UnityObjectToClipPos(v.vertex);
      
                    o.normal=v.normal;
               	  o.uv =    TRANSFORM_TEX(v.texcoord,_MainTex);

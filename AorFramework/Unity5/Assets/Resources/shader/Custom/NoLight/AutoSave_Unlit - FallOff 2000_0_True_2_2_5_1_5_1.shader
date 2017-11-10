@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //@@@DynamicShaderInfoStart
 //写深度的单面的柔和叠加(忽略Alpha)的shader,层:Geometry
 //@@@DynamicShaderInfoEnd
@@ -57,7 +59,7 @@ ZTest Less
             v2f vert (appdata_base v)
             {
                 v2f o;
-                o.pos = mul(UNITY_MATRIX_MVP,v.vertex);
+                o.pos = UnityObjectToClipPos(v.vertex);
 				o.normal=v.normal;
 				o.uv =TRANSFORM_TEX(v.texcoord,_MainTex);
 				o.worldvertpos = ObjSpaceViewDir(v.vertex).xyz;
