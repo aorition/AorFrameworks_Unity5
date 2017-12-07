@@ -34,6 +34,9 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\AorFramework\Unity5\Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
     <Reference Include="zlib.net">
       <HintPath>lib\zlib.net.dll</HintPath>
     </Reference>
@@ -43,6 +46,7 @@
     <Compile Include="src\AsyncCombiner\AsyncCombiner.cs" />
     <Compile Include="src\Config\AorConfigManager.cs" />
     <Compile Include="src\Config\ConfigManager.cs" />
+    <Compile Include="src\Events\AorEventManager.cs" />
     <Compile Include="src\Extends\AorRefExtends.cs" />
     <Compile Include="src\Extends\ArrayExtends.cs" />
     <Compile Include="src\Extends\ConfigExtends.cs" />
