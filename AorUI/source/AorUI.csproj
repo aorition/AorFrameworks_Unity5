@@ -64,6 +64,8 @@
     <Compile Include="src\AorUIBase\textIncSprites\AorTextIncSprites.cs" />
     <Compile Include="src\AorUIBase\textIncSprites\SpriteGraphic.cs" />
     <Compile Include="src\AorUIBase\textIncSprites\TextPlusData.cs" />
+    <Compile Include="src\Extends\RectTransformExtends.cs" />
+    <Compile Include="src\UGUIHelper\RTSizeListener.cs" />
     <Compile Include="src\UGUISRC\UGUI_FontUpdateTracker_SC.cs" />
     <Compile Include="src\UGUISRC\UGUI_Text_SC.cs" />
   </ItemGroup>
@@ -79,6 +81,7 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

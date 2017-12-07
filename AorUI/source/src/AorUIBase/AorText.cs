@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using AorBaseUtility;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -492,7 +491,6 @@ public class AorText : UGUI_Text_SC, IPointerClickHandler
             }
             o += "\n";
         }
-
         return o;
     }
 

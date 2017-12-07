@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\AorUIBase\AorTextEditor.cs" />
+    <Compile Include="src\AorUIBase\DecoratorEditor.cs" />
     <Compile Include="src\AorUIBase\textIncSprites\UGUICreateSpriteAsset.cs" />
     <Compile Include="src\AorUIBase\textIncSprites\UGUISpriteAssetEditor.cs" />
     <Compile Include="src\UGUISRC\UGUI_Text_SCEditor.cs" />
