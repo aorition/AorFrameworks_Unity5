@@ -9,34 +9,50 @@ Shader "Custom/NoLight/Unlit - UVMask##" {
 //@@@DynamicShaderTitleRepaceEnd
 Properties {
 	_MainTex ("Texture", 2D) = "white" {}
-    _color("Color", Color)=(1,1,1,1)
-    _mask("Mask", Range(0,1))=0
-     _range("Range", Range(0.01,1))=0
-    [MaterialToggle] _reverse ("MaskReverse", Float) = 0
-          
+	_mask("Mask", Range(0,1)) = 0
+	 _range("Range", Range(0.01,1)) = 0
+		_TintColor("Color", Color) = (1,1,1,1)
+		_Lighting("Lighting",  float) = 1
+
+	[MaterialToggle] _reverse("MaskReverse", Float) = 0
+		[Enum(Off, 0, On, 1)] _ZWrite("ZWrite", Float) = 1
+		[Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 4
+		[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("Src Blend Mode", Float) = 5
+		[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("Dst Blend Mode", Float) = 10
+		[Enum(UnityEngine.Rendering.BlendMode)] _SrcAlphaBlend("Src Alpha Blend Mode", Float) = 1
+		[Enum(UnityEngine.Rendering.BlendMode)] _DstAlphaBlend("Dst Alpha Blend Mode", Float) = 10
+		[Enum(UnityEngine.Rendering.CullMode)] _Cull("Cull Mode", Float) = 2
+
 }
 
 
-	SubShader {
+SubShader{
 
-		 //@@@DynamicShaderTagsRepaceStart
-        Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
-			 //@@@DynamicShaderTagsRepaceEnd
-	 Lighting Off 
 
-	       Pass
-        {
-		
-			Blend SrcAlpha OneMinusSrcAlpha 
+	Tags { "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
 
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            #include "UnityCG.cginc"
-       
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
+
+
+	 Pass
+	{
+
+	Blend[_SrcBlend][_DstBlend],[_SrcAlphaBlend][_DstAlphaBlend]
+	ZWrite[_ZWrite]
+	ZTest[_ZTest]
+	Cull[_Cull]
+
+		CGPROGRAM
+		#pragma vertex vert
+		#pragma fragment frag
+#include "UnityCG.cginc"
+
+		float4 _TintColor;
+	float _Lighting;
            float _range;
+		   sampler2D _MainTex;
+		   float4 _MainTex_ST;
+		   float _mask;
+		   float _reverse;
             struct v2f {
                 float4  pos : SV_POSITION;
                 float2  uv : TEXCOORD0;
@@ -56,16 +72,15 @@ Properties {
                 o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);
                 return o;
             }
+
+	 
  
-		 float4 _color;
-		  float _mask;
-		  float _reverse;	 
             float4 frag (v2f i) : COLOR
             {
 
 
                  _mask = _mask * (1.0 +_range) - _range;  		
-                float4 col= tex2D(_MainTex,i.uv)*_color;
+                float4 col= tex2D(_MainTex,i.uv)*_TintColor*_Lighting;
                 col.a=min(col.a, saturate((i.uv.y * (1.0 - _reverse) + (1.0- i.uv.y) * _reverse - _mask)/_range));
    
                    clip(col.a);

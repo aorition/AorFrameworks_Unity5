@@ -37,7 +37,7 @@ Shader "Custom/Light/Diffuse - Toon - TangentCheck" {
 
 				float _Outline;
 				float4	_OutlineColor;
-				int _HideFace;
+				float _HideFace;
 				sampler2D _ToonShade;
 				sampler2D _MaskTex;
 				sampler2D _NormalTex;

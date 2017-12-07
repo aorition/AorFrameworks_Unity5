@@ -1,7 +1,7 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+ï»¿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 //@@@DynamicShaderInfoStart
-//AlphaClip Í¨¹ıÉèÖÃClipÍ¼£¨»Ò¶È£©È·¶¨±»²Ã¼õµÄÇøÓò
+//AlphaClip é€šè¿‡è®¾ç½®Clipå›¾ï¼ˆç°åº¦ï¼‰ç¡®å®šè¢«è£å‡çš„åŒºåŸŸ
 //@@@DynamicShaderInfoEnd
 
 
@@ -19,23 +19,29 @@ Shader "Custom/NoLight/Unlit - AlphaClip##" {
 		_Clip_Scale("Main Scale", Range(0.001, 10)) = 1
 
 		[MaterialToggle] CLIPSCALE2C("CLIPSCALE2C", Float) = 0
-
+			[Enum(Off, 0, On, 1)] _ZWrite("ZWrite", Float) = 0
+			[Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 4
+			[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("Src Blend Mode", Float) = 5
+			[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("Dst Blend Mode", Float) = 10
+			[Enum(UnityEngine.Rendering.BlendMode)] _SrcAlphaBlend("Src Alpha Blend Mode", Float) = 1
+			[Enum(UnityEngine.Rendering.BlendMode)] _DstAlphaBlend("Dst Alpha Blend Mode", Float) = 10
+			[Enum(UnityEngine.Rendering.CullMode)] _Cull("Cull Mode", Float) = 2
 	}
 
-		SubShader{
+SubShader{
 
-		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+			Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
 
-		Pass
-	{
-		Lighting Off
-		Fog{ Mode Off }
-			//@@@DynamicShaderBlendRepaceStart
-			Cull Off
-			ZWrite Off
-			ZTest[unity_GUIZTestMode]
-			Blend SrcAlpha OneMinusSrcAlpha
-			//@@@DynamicShaderBlendRepaceEnd
+	Pass
+		{
+ 
+			Blend[_SrcBlend][_DstBlend],[_SrcAlphaBlend][_DstAlphaBlend]
+			ZWrite[_ZWrite]
+			ZTest[_ZTest]
+			Cull[_Cull]
+			Lighting Off
+			Fog{ Mode Off }
+
 			CGPROGRAM
 
 			#pragma vertex vert

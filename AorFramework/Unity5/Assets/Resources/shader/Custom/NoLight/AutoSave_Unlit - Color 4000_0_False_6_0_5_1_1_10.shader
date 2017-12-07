@@ -55,7 +55,7 @@ ZTest Always
             struct v2f {
                 float4  pos : SV_POSITION;
                 float2  uv : TEXCOORD0;
-                float4 color : color;
+                float4 color : COLOR;
 				#ifdef FOG_ON		
  				half fogFactor: TEXCOORD1;
  				#endif
@@ -66,7 +66,7 @@ ZTest Always
             struct appdata {
                 float4 vertex : POSITION;
                 float2 texcoord:TEXCOORD0;
-                float4 color : color;
+                float4 color : COLOR;
             }
 
 ;

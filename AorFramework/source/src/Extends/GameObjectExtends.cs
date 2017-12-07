@@ -20,6 +20,11 @@ public static class GameObjectExtends
         }
     }
 
+    public static void DisposeChildren(this GameObject obj)
+    {
+        obj.transform.DisposeChildren();
+    }
+
     /// <summary>
     /// 获取对象在Hierarchy中的节点路径
     /// </summary>
@@ -35,10 +40,7 @@ public static class GameObjectExtends
     {
         obj.transform.SetLayer(layer);
     }
-
-
-
-
+    
     /// <summary>
     /// 获取当前Transform对象上挂载的接口
     /// </summary>

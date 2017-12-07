@@ -65,7 +65,7 @@ namespace YoukiaUnity.View
             if (FbxRoot == null) return;
 
             //找 hit
-            Transform Bip001Spine1 = FbxRoot.FindChild("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Spine1");
+            Transform Bip001Spine1 = FbxRoot.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 Spine1");
             if (Bip001Spine1 != null)
             {
                 _dataList.Add(Bip001Spine1.gameObject);

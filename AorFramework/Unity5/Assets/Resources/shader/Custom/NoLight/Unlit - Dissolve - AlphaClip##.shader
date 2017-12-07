@@ -16,24 +16,29 @@ Properties {
     _lineSize("LineSize", Range(0.01,0.1))=0.1
     _mask("Mask", Range(0,1))=0 
           
+		[Enum(Off, 0, On, 1)] _ZWrite("ZWrite", Float) = 1
+		[Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 4
+		[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("Src Blend Mode", Float) = 5
+		[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("Dst Blend Mode", Float) = 10
+		[Enum(UnityEngine.Rendering.BlendMode)] _SrcAlphaBlend("Src Alpha Blend Mode", Float) = 1
+		[Enum(UnityEngine.Rendering.BlendMode)] _DstAlphaBlend("Dst Alpha Blend Mode", Float) = 10
+		[Enum(UnityEngine.Rendering.CullMode)] _Cull("Cull Mode", Float) = 2
 }
 	SubShader {
-//@@@DynamicShaderTagsRepaceStart
-	Tags {
-	"Queue"="Geometry"
-	 "IgnoreProjector"="True" 
-	 "RenderType"="Geometry"
-	 }
-//@@@DynamicShaderTagsRepaceEnd
+ 
 
- 	Lighting Off
+		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+
 
   Pass {
+ 
 
 
-  	 //@@@DynamicShaderBlendRepaceStart
-
-	 //@@@DynamicShaderBlendRepaceEnd
+		Blend[_SrcBlend][_DstBlend],[_SrcAlphaBlend][_DstAlphaBlend]
+		ZWrite[_ZWrite]
+		ZTest[_ZTest]
+		Cull[_Cull]
+		Lighting Off
 
             CGPROGRAM
             #pragma vertex vert

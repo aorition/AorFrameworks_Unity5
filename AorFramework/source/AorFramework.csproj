@@ -67,12 +67,15 @@
     <Compile Include="src\Core\IManager.cs" />
     <Compile Include="src\Core\PrefabLightmapData.cs" />
     <Compile Include="src\Core\SetPropertyAttribute.cs" />
+    <Compile Include="src\Extends\ColorExtends.cs" />
     <Compile Include="src\Extends\GameObjectExtends.cs" />
     <Compile Include="src\Extends\GUIStyleExtends.cs" />
     <Compile Include="src\Extends\TransformExtends.cs" />
     <Compile Include="src\Facade\AorFacede.cs" />
     <Compile Include="src\Core\ManagerBase.cs" />
     <Compile Include="src\Tools\TransformRecorder.cs" />
+    <Compile Include="src\Utility\AorResourceLoader.cs" />
+    <Compile Include="src\Utility\CameraMathUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AorBaseUtility\AorBaseUtility.csproj">

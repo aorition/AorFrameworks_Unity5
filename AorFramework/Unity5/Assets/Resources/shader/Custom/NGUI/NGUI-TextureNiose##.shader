@@ -87,9 +87,11 @@ Shader "Custom/NGUI/NGUI-TextureNoise##" {
 
 				mainUV += noiseCol*0.2*_size*_Scale;
 
-				fixed4 mainCol = tex2D(_MainTex,mainUV);
+				fixed4 col = tex2D(_MainTex,mainUV);
 
-				return mainCol*IN.color*fixed4(1,1,1,_alpha);
+				col.a = max(0, col.a);
+
+				return col*IN.color*fixed4(1,1,1,_alpha);
 
 			}
 			ENDCG

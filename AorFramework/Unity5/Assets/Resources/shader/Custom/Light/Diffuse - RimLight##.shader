@@ -22,6 +22,8 @@ Properties {
     _RimPower ("Rim Power", Range(0.5,8.0)) = 3.0
 	
 	_CutOut("CutOut", float) = 0.1
+
+	[Toggle] _HasNight("HasNight?", Float) = 0    //夜晚效果开关
 }
 
 SubShader {
@@ -57,6 +59,7 @@ SubShader {
 			//#pragma multi_compile_fwdbase  
 			#pragma multi_compile CLIP_OFF CLIP_ON
 			#pragma multi_compile FOG_OFF FOG_ON 
+			#pragma shader_feature _HASNIGHT_ON
 			#include "Assets/ObjectBaseShader.cginc"
 
 
@@ -104,7 +107,9 @@ SubShader {
 			half rim = 1.0 - diff;
 			col.rgb= diff*col*_Lighting*_Color+_RimColor.rgb * pow (rim, _RimPower);
 		
-			 
+			#ifdef _HASNIGHT_ON
+				col.rgb*= _HdrIntensity+_DirectionalLightColor*_DirectionalLightDir.w+ col.rgb*UNITY_LIGHTMODEL_AMBIENT.xyz;    //夜晚效果
+		    #endif
 			  			
  				//先clip，再fog 不然会出错	
  			#ifdef CLIP_ON

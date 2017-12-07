@@ -1,21 +1,16 @@
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-#warning Upgrade NOTE: unity_Scale shader variable was removed; replaced 'unity_Scale.w' with '1.0'
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
-
 
 Shader "Custom/Light/Diffuse - Toon - CubeMap" {
 	Properties{
 	_MainTex("MainTex", 2D) = "white" {}
-	_OutlineColor("Outline Color", Color) = (0,0,0,1)
 	_Outline("Outline Range", float) = 4
 	_ToonShade("ToonShader", 2D) = "white" {}
 	_Cube("Reflection Cubemap", Cube) = "_Skybox" { TexGen CubeReflect }
 	_RefPower("Reflection Power", float) = 1
-	_Color("Color", Color) = (1,1,1,1)
-	_Lighting("Lighting", float) = 1
 
+		[HideInInspector] _Color("Color", Color) = (1,1,1,1)
+		[HideInInspector] _Lighting("Lighting", float) = 1
 		[HideInInspector] _CutOut("CutOut", float) = 0.1
 
 	}
@@ -113,12 +108,17 @@ Shader "Custom/Light/Diffuse - Toon - CubeMap" {
 							 
 							final.rgb = mainlight+ reflcol.rgb*_RefPower;
 							 
-							final.rgb = lerp(final.rgb, _OutlineColor*_OutlineColor.a * 10, outlight);
+							final.rgb = lerp(final.rgb, i.color* i.color*0.8, outlight);
  
 						#ifdef CLIP_ON
 							clip(col.a - _CutOut);
 						#endif
-							final.rgb *= (_Lighting + _HdrIntensity)*_Color.rgb;
+//							final.rgb *= (_Lighting + _HdrIntensity)*_Color.rgb;
+
+							final.rgb *= (_Lighting + _HdrIntensity);
+							float isGray = step(dot(_Color.rgb, fixed4(1, 1, 1, 0)), 0);
+							float3 grayCol = dot(final.rgb, float3(0.299, 0.587, 0.114));
+							final.rgb = lerp(final.rgb*_Color.rgb, grayCol.rgb, isGray);
 
 							return  final;
 

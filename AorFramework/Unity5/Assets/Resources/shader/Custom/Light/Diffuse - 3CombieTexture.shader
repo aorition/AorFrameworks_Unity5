@@ -1,10 +1,8 @@
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
-// Upgrade NOTE: replaced tex2D unity_Lightmap with UNITY_SAMPLE_TEX2D
-
-//支持两个点灯
+//@@@DynamicShaderInfoStart
+//支持点光源的3层混合地表贴图
+//@@@DynamicShaderInfoEnd
 Shader "Custom/Light/Diffuse - 3CombieTexture" {
 Properties {
     _Splat0 ("Layer1 (RGB)", 2D) = "white" {}
@@ -13,11 +11,12 @@ Properties {
 	_Control ("Control (RGBA)", 2D) = "white" {}
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_Lighting ("Lighting",  float) = 1
+		[Toggle] _Fog("Fog?", Float) = 1
 }
 SubShader {
 	Tags { "Queue"="Geometry" "IgnoreProjector"="True"  "RenderType"="Geometry"}
 
-
+	LOD 600
 Pass {
   Tags {
        "LightMode" = "Vertex" }
@@ -34,9 +33,9 @@ Pass {
 		#pragma vertex vert
 		#pragma fragment frag
 		#pragma multi_compile LIGHTMAP_ON LIGHTMAP_OFF
-		#pragma multi_compile FOG_OFF FOG_ON  
-	//	#pragma multi_compile LIGHTMAP_LOGLUV LIGHTMAP_SCALE
-	//	#pragma multi_compile_fwdbase  
+#pragma shader_feature _FOG_ON
+#pragma multi_compile_fog
+ 
 		#include "Assets/ObjectBaseShader.cginc"
 
 
@@ -48,14 +47,12 @@ Pass {
 		struct v2f {
 			half4  pos : SV_POSITION;
 			half2  uv[5]:TEXCOORD0;
-			fixed3 lightColor:TEXCOORD6;  
+			fixed3 lightColor:COLOR;  
+			half4 normal : TEXCOORD6;
 
-
-				#ifdef FOG_ON		
-					fixed4 normal : TEXCOORD7;
-				#else
-					fixed3 normal : TEXCOORD7;
-				#endif
+#if _FOG_ON
+			UNITY_FOG_COORDS(7)
+#endif
 		};
 
 		half4 _Splat0_ST;
@@ -76,24 +73,18 @@ Pass {
             	o.uv[4] = v.texcoord1.xy * unity_LightmapST.xy + unity_LightmapST.zw;
             #endif
             
-            o.normal.xyz = mul(SCALED_NORMAL, (float3x3)unity_WorldToObject);
-			#ifdef FOG_ON	
-				o.normal.w = 1;
-			#endif
+            o.normal.xyz = mul(SCALED_NORMAL, (float3x3)unity_WorldToObject);	
+			o.normal.w = 1;
+
  			half4 worldPos = mul( unity_ObjectToWorld, v.vertex );
 
  			o.lightColor = Shade4PointLights (worldPos, o.normal.xyz);
  
 
 
-			#ifdef FOG_ON		
-				float4 viewpos=mul(UNITY_MATRIX_MV, v.vertex);
-
-				//体积雾
-				o.normal.w = -(mul(unity_ObjectToWorld, v.vertex).y + _volumeFogOffset) * _volumeFogDestiy;
-				// 大气雾
-				o.normal.w= max(length(viewpos.xyz) + _fogDestance, o.normal.w);
- 			#endif
+#if _FOG_ON
+			UNITY_TRANSFER_FOG(o, o.pos);
+#endif
 				    
 			return o;
 		}
@@ -119,10 +110,10 @@ Pass {
 			c.rgb+=i.lightColor;
 			c=c* _Color*(_Lighting+ _HdrIntensity);
 			
-			#ifdef FOG_ON
-		//	c.a=i.fogFactor;
-			c.a = saturate(exp2(-i.normal.w / _fogDestiy)) ;
-			#endif
+			c.a = 1;
+#if _FOG_ON
+			UNITY_APPLY_FOG(i.fogCoord, c);
+#endif
 				return c;
 		}
 		ENDCG
@@ -130,4 +121,16 @@ Pass {
     
  
 }
+
+SubShader{
+	Tags{
+	"RenderType" = "Transparent"
+}
+
+LOD 200
+
+UsePass "Custom/NoLight/Unlit - 3CombieTexture/BASECOMBIE"
+
+}
+
 } 

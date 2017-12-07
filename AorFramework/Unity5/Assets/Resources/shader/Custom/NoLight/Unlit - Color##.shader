@@ -1,7 +1,7 @@
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 //@@@DynamicShaderInfoStart
-//自发光贴图材质 支持上色和亮度 一般特效贴图用此shader
+//自发光贴图材质 支持上色和亮度
 //@@@DynamicShaderInfoEnd
 
 
@@ -11,50 +11,56 @@ Shader "Custom/NoLight/Unlit - Color##" {
 
 Properties {
  _MainTex ("Texture", 2D) = "white" { }
-_TintColor ("Color", Color) = (0.5,0.5,0.5,0.5)
+_TintColor ("Color", Color) = (1,1,1,1)
 _Lighting ("Lighting",  float) = 1
-_CutOut("CutOut", float) = 0.1
 
+[Toggle] _Fog("Fog?", Float) = 0
+[Toggle] _HasNight("HasNight?", Float) = 0    //夜晚效果开关
+
+[HideInInspector]_CutOut("CutOut", float) = 0.1
+
+[Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 4
+[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("Src Blend Mode", Float) = 5
+[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("Dst Blend Mode", Float) = 10
+[Enum(UnityEngine.Rendering.BlendMode)] _SrcAlphaBlend("Src Alpha Blend Mode", Float) = 1
+[Enum(UnityEngine.Rendering.BlendMode)] _DstAlphaBlend("Dst Alpha Blend Mode", Float) = 10
+[Enum(UnityEngine.Rendering.CullMode)] _Cull("Cull Mode", Float) = 2
 }
 
 
 	SubShader {
-        //@@@DynamicShaderTagsRepaceStart
-    Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
-	 //@@@DynamicShaderTagsRepaceEnd
+ 
+  
+	Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+ 
 	
 	Pass
     {
-      //@@@DynamicShaderBlendRepaceStart
-	 //@@@DynamicShaderBlendRepaceEnd
+
+
+	Blend[_SrcBlend][_DstBlend],[_SrcAlphaBlend][_DstAlphaBlend]
+	ZWrite Off
+	ZTest[_ZTest]
+	Cull[_Cull]
 
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #include "UnityCG.cginc"
+			#include "Assets/ObjectBaseShader.cginc"
        		#pragma multi_compile CLIP_OFF CLIP_ON
-			#pragma multi_compile FOG_OFF FOG_ON 
+       		#pragma shader_feature _HASNIGHT_ON
+			#pragma shader_feature _FOG_ON
+			#pragma multi_compile_fog
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
-			float _Lighting;
-						
-			#ifdef FOG_ON
-        	float _fogDestiy;
-        	float _fogDestance;
-			#endif
-
-			#ifdef CLIP_ON
-			fixed _CutOut;
-			#endif
+ 
 
             struct v2f {
                 float4  pos : SV_POSITION;
                 float2  uv : TEXCOORD0;
-                float4 color : color;
-				#ifdef FOG_ON		
-				float3 viewpos: TEXCOORD1;
- 				#endif
+                float4 color : COLOR;
+				#if _FOG_ON
+				UNITY_FOG_COORDS(2)
+				#endif
 
             }
 
@@ -62,7 +68,7 @@ _CutOut("CutOut", float) = 0.1
             struct appdata {
                 float4 vertex : POSITION;
                 float2 texcoord:TEXCOORD0;
-                float4 color : color;
+                float4 color : COLOR;
             }
 
 ;
@@ -74,34 +80,41 @@ _CutOut("CutOut", float) = 0.1
                 o.uv = TRANSFORM_TEX(v.texcoord,_MainTex);
                 o.color=v.color;
 
-				#ifdef FOG_ON		
-				o.viewpos = mul(UNITY_MATRIX_MV, v.vertex);
+				#if _FOG_ON
+				UNITY_TRANSFER_FOG(o, o.pos);
 				#endif
                 return o;
             }
-
-
-            
-             fixed4 _TintColor;
+			
+            fixed4 _TintColor;
             float4 frag (v2f i) : COLOR
             {
                 float4 col= tex2D(_MainTex,i.uv);
-                col=col* _TintColor*i.color;
-				col.rgb*=_Lighting;
-	 
-                //先clip，再fog 不然会出错	
- 			#ifdef CLIP_ON
-			clip(  col.a-_CutOut);
-            #endif
+                
+				col.rgb *= _Lighting;
+
+				float isGray = step(dot(_TintColor.rgb, fixed4(1, 1, 1, 0)), 0);
+				
+				float3 grayCol = dot(col.rgb, float3(0.299, 0.587, 0.114));
 			
+				col.rgb = lerp(col.rgb* _TintColor*i.color, grayCol.rgb, isGray);
 
+				#ifdef _HASNIGHT_ON
+					col.rgb*= _HdrIntensity+_DirectionalLightColor*_DirectionalLightDir.w+ col.rgb*UNITY_LIGHTMODEL_AMBIENT.xyz;    //夜晚效果
+				#endif
 
- 			#ifdef FOG_ON
-			float fogFactor = max(length(i.viewpos.xyz) + _fogDestance, 0.0);
-			col.a = col.a* exp2(-fogFactor / _fogDestiy);
-             #endif
+				//先clip，再fog 不然会出错	
+ 				#ifdef CLIP_ON
+					clip(col.a-_CutOut);
+				#endif
+				
+				#if _FOG_ON
+					UNITY_APPLY_FOG(i.fogCoord, col);
+				#endif
 
-			return col;
+				col.a*=_TintColor.a*i.color.a;
+
+				return max(col, 0);
             }
 
 

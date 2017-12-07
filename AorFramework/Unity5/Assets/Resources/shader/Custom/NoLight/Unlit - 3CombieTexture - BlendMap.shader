@@ -13,6 +13,7 @@ Shader "Custom/NoLight/Unlit - 3CombieTexture - BlendMap" {
 		_BlendTex("BlendMap(RGB)", 2D) = "white" {}
 		_Color("Main Color", Color) = (1,1,1,1)
 		_Lighting("Lighting",  float) = 1
+			[Toggle] _Fog("Fog?", Float) = 1
 	}
 		SubShader{
 			Tags { "Queue" = "Geometry" "IgnoreProjector" = "True"  "RenderType" = "Geometry"}
@@ -33,10 +34,9 @@ Shader "Custom/NoLight/Unlit - 3CombieTexture - BlendMap" {
 				CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
-				#pragma multi_compile LIGHTMAP_ON LIGHTMAP_OFF
-				#pragma multi_compile FOG_OFF FOG_ON  
-				#pragma multi_compile LIGHTMAP_LOGLUV LIGHTMAP_SCALE
-			//	#pragma multi_compile_fwdbase  
+				#pragma multi_compile ___ LIGHTMAP_ON
+				#pragma shader_feature _FOG_ON
+				#pragma multi_compile_fog
 				#include "Assets/ObjectBaseShader.cginc"
 
 
@@ -50,8 +50,10 @@ Shader "Custom/NoLight/Unlit - 3CombieTexture - BlendMap" {
 				struct v2f {
 					half4  pos : SV_POSITION;
 					half2  uv[5]:TEXCOORD0;
-					half4 normal : TEXCOORD6;
-
+ 
+#if _FOG_ON
+					UNITY_FOG_COORDS(7)
+#endif
 				};
 
 				half4 _Splat0_ST;
@@ -68,23 +70,15 @@ Shader "Custom/NoLight/Unlit - 3CombieTexture - BlendMap" {
 					o.uv[1] = TRANSFORM_TEX(v.texcoord, _Splat1);
 					o.uv[2] = TRANSFORM_TEX(v.texcoord, _Splat2);
 					o.uv[3] = TRANSFORM_TEX(v.texcoord, _Control);
+					o.uv[4] = half2(0, 0);
 					#ifdef LIGHTMAP_ON
 						o.uv[4] = v.texcoord1.xy * unity_LightmapST.xy + unity_LightmapST.zw;
 					#endif
-						o.normal = half4(1, 1, 1, 1);
-						//  o.normal = mul(SCALED_NORMAL, (float3x3)_World2Object);
-					  //half4 worldPos = mul( _Object2World, v.vertex );
-						  //o.lightColor = Shade4PointLights (worldPos, o.normal.xyz);
-
-
-
-						  #ifdef FOG_ON		
-							  float4 viewpos = mul(UNITY_MATRIX_MV, v.vertex);
-							  //体积雾
-							  o.normal.w = -(mul(unity_ObjectToWorld, v.vertex).y + _volumeFogOffset) * _volumeFogDestiy;
-							  // 大气雾
-							  o.normal.w = max(length(viewpos.xyz) + _fogDestance, o.normal.w);
-						  #endif
+					 
+#if _FOG_ON
+						UNITY_TRANSFER_FOG(o, o.pos);
+#endif
+ 
 
 						  return o;
 					  }
@@ -110,12 +104,11 @@ Shader "Custom/NoLight/Unlit - 3CombieTexture - BlendMap" {
 
 								  //	c.rgb+=i.lightColor;
 									  c = c* _Color*_Lighting;
+									  c.a = 1;
 
-
-									  #ifdef FOG_ON
-									  //	c.a=i.fogFactor;
-										  c.a = saturate(exp2(-i.normal.w / _fogDestiy));
-										  #endif
+#if _FOG_ON
+									  UNITY_APPLY_FOG(i.fogCoord, c);
+#endif
 											  return c;
 									  }
 									  ENDCG

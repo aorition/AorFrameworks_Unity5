@@ -81,7 +81,8 @@ namespace AorFramework
         }
 
         #endregion
-
+/*\
+ 废弃 : 请使用 AorAssetLoader
 #region ========================== AssetLoad 资源下载方法和注入接口 ========================== 
 
         /// <summary>
@@ -229,7 +230,7 @@ namespace AorFramework
         }
 
 #endregion
-
+*/
 
 
     }

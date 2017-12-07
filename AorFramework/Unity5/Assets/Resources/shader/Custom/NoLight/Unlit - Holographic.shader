@@ -19,10 +19,10 @@ Shader "Custom/NoLight/Unlit - Holographic" {
  
         
 
-		
+			 Tags{ "Queue" = "Geometry" "IgnoreProjector" = "True" "RenderType" = "Geometry" }
 		
         Pass {
-            Tags { "Queue"="Geometry" "IgnoreProjector"="True" "RenderType"="Geometry" }
+           
             		   	//		ColorMask RGB // alpha not used
             CGPROGRAM
 			#pragma vertex vert
@@ -76,7 +76,7 @@ Shader "Custom/NoLight/Unlit - Holographic" {
         
  Pass {
 	
-	Tags { "Queue"="AlphaTest+1" "IgnoreProjector"="True" "RenderType"="AlphaTest" }
+	//Tags { "Queue"="AlphaTest+1" "IgnoreProjector"="True" "RenderType"="AlphaTest" }
 	Cull back
 	ZWrite Off
 	ZTest Always//始终通过深度测试，即可以渲染

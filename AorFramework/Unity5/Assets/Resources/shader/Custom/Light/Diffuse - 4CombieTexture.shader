@@ -36,7 +36,7 @@ Pass {
 		#pragma exclude_renderers d3d11 xbox360
 		#pragma vertex vert
 		#pragma fragment frag
-		#pragma multi_compile LIGHTMAP_ON LIGHTMAP_OFF
+		#pragma multi_compile ___ LIGHTMAP_ON
 		#pragma multi_compile FOG_OFF FOG_ON  
 	//	#pragma multi_compile LIGHTMAP_LOGLUV LIGHTMAP_SCALE
 		//#pragma multi_compile_fwdbase  

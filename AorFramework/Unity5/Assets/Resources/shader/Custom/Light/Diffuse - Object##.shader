@@ -1,19 +1,12 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
-// Upgrade NOTE: replaced tex2D unity_Lightmap with UNITY_SAMPLE_TEX2D
-
 //@@@DynamicShaderInfoStart
 //经典物体实时光照材质 支持lightMap 定点动画
 //@@@DynamicShaderInfoEnd
 
-//@@@DynamicShaderTitleRepaceStart
+
 Shader "Custom/Light/Diffuse - Object##"  {  
-//@@@DynamicShaderTitleRepaceEnd
 
-
- //@@@DynamicShaderPropRepaceStart
 Properties {
 	_Color ("Main Color", Color) = (1,1,1,1)
 	_Lighting ("Lighting",  float) = 1
@@ -23,11 +16,10 @@ Properties {
 	[HideInInspector] _power ("noise Power",  Range(0.001,0.1)) = 0.2
 	[HideInInspector] _wind ("wind",  Range(1,10)) = 1
 }
- //@@@DynamicShaderPropRepaceEndxx xxxx 
+
 
 SubShader {
-
- //@@@DynamicShaderTagsRepaceStart
+		LOD 600
 	Tags {
 	"Queue"="Geometry"
 	 "IgnoreProjector"="True" 
@@ -35,9 +27,6 @@ SubShader {
 	 }
 
 
- //@@@DynamicShaderTagsRepaceEnd
-
-	// 顶点光照模式xxx
 	Pass {
 	
 		Tags { "LightMode" = "Vertex" }
@@ -48,10 +37,6 @@ SubShader {
 Pass {  
  	Tags { "LightMode" = "ForwardBase"} 
  
-	 //@@@DynamicShaderBlendRepaceStart
-
-	 //@@@DynamicShaderBlendRepaceEnd
-
 
 
 			CGPROGRAM
@@ -61,7 +46,7 @@ Pass {
 			#pragma multi_compile CLIP_OFF CLIP_ON 
 			#pragma multi_compile FOG_OFF FOG_ON
 			#pragma multi_compile ANIM_OFF ANIM_ON
-			#pragma multi_compile LIGHTMAP_ON LIGHTMAP_OFF
+			#pragma multi_compile ___ LIGHTMAP_ON
 		//	#pragma multi_compile LIGHTMAP_LOGLUV LIGHTMAP_SCALE
 
 			#pragma vertex vert
@@ -183,5 +168,16 @@ Pass {
 	
 
 }
+SubShader{
+	Tags{
+	"RenderType" = "Transparent"
+}
+
+LOD 200
+
+UsePass "Custom/NoLight/Unlit - BaseObject/BASEOBJECT"
+
+}
+
 
 }

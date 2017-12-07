@@ -17,6 +17,22 @@ public static class TransformExtends
         trans.gameObject.Dispose();
     }
 
+    public static void DisposeChildren(this Transform tran)
+    {
+        List<GameObject> dels = new List<GameObject>();
+        int i, len = tran.childCount;
+        for (i = 0; i < len; i++)
+        {
+            GameObject d = tran.GetChild(i).gameObject;
+            dels.Add(d);
+        }
+        len = dels.Count;
+        for (i = 0; i < len; i++)
+        {
+            dels[i].Dispose();
+        }
+    }
+
     /// <summary>
     /// 获取对象在Hierarchy中的节点路径
     /// </summary>

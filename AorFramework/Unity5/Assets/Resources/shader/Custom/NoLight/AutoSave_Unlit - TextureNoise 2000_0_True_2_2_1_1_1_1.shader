@@ -47,14 +47,14 @@ _noiseTex("Noise(RGB)",2D)="white"{}
             struct v2f {
                 float4  pos : SV_POSITION;
                 float2  uv : TEXCOORD0;
-                 float4 color : color;
+                 float4 color : COLOR;
             };
            
            
            struct appdata {
     float4 vertex : POSITION;
     float2 texcoord:TEXCOORD0;
-    float4 color : color;
+    float4 color : COLOR;
 };
 
             //顶点函数没什么特别的，和常规一样

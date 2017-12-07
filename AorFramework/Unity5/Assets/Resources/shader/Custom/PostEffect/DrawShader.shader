@@ -6,7 +6,7 @@ Shader "Hidden/PostEffect/DrawShader" {
 		_MaskColor("_MaskColor", Color) = (0,0,0,0)
 		_HdrTex("_HdrTex", 2D) = "white" {}
 		_CurveTex("_CurveTex", 2D) = "Black" {}
-		_Exposure("_Exposure", float) = 0
+		_Exposure("_Exposure", float) = 1
 
 	}
 
@@ -15,7 +15,7 @@ Shader "Hidden/PostEffect/DrawShader" {
 #include "UnityCG.cginc"
 
 
-			sampler2D _MainTex;
+		sampler2D _MainTex;
 		sampler2D _SmallTex;
 
 		sampler2D _SkyTex;
@@ -25,8 +25,7 @@ Shader "Hidden/PostEffect/DrawShader" {
 		float4 _MaskColor;
 		float _Exposure;
 		float4 _HdrParams;
-
-
+ 
 		struct v2f {
 			float4  pos : SV_POSITION;
 			float2  uv : TEXCOORD2;
@@ -39,6 +38,7 @@ Shader "Hidden/PostEffect/DrawShader" {
 			v2f o;
 			o.pos = UnityObjectToClipPos(v.vertex);
 			o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+ 
 			return o;
 		}
 
@@ -85,8 +85,13 @@ Shader "Hidden/PostEffect/DrawShader" {
 
 						float4 frag(v2f i) : COLOR
 					  {
+						float2 uv = i.uv;
+								#if UNITY_UV_STARTS_AT_TOP
+									uv.y = 1 - uv.y;
+								#endif
+
 						 float4 mainCol = tex2D(_MainTex, i.uv);
-						 fixed4 curveCol = tex2D(_CurveTex, i.uv);
+						 fixed4 curveCol = tex2D(_CurveTex, uv);
 						 mainCol.rgb = mainCol.rgb + curveCol.rgb + _MaskColor.rgb;
 						 return  mainCol*_Exposure;
 						 }
@@ -112,9 +117,14 @@ Shader "Hidden/PostEffect/DrawShader" {
 
 						 float4 frag(v2f i) : COLOR
 						 {
+
+							 float2 uv = i.uv;
+							 #if UNITY_UV_STARTS_AT_TOP
+							 uv.y = 1 - uv.y;
+							#endif
 							 float4 mainCol = tex2D(_MainTex, i.uv);
 
-							 fixed4 curveCol = tex2D(_CurveTex, i.uv);
+							 fixed4 curveCol = tex2D(_CurveTex, uv);
 							 mainCol.rgb = mainCol.rgb + curveCol.rgb + _MaskColor.rgb;
 							 mainCol = fragAdaptive(i, mainCol);
 							 return  mainCol*_Exposure;

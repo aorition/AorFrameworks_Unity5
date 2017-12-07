@@ -55,7 +55,7 @@ ZTest Less
             struct v2f {
                 float4  pos : SV_POSITION;
                 float2  uv : TEXCOORD0;
-                float4 color : color;
+                float4 color : COLOR;
 				#ifdef FOG_ON		
 				float3 viewpos: TEXCOORD1;
  				#endif
@@ -66,7 +66,7 @@ ZTest Less
             struct appdata {
                 float4 vertex : POSITION;
                 float2 texcoord:TEXCOORD0;
-                float4 color : color;
+                float4 color : COLOR;
             }
 
 ;

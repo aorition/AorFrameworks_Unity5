@@ -91,6 +91,8 @@ Shader "Custom/NGUI/NGUI-SoftClip 1"
  				col2.a = col.a* IN.color.a;
 				col = lerp(col* IN.color, col2, IN.gray);
 				
+				col.a = max(0, col.a);
+
 				return col;
 			}
 			ENDCG

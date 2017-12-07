@@ -24,6 +24,11 @@ Properties {
 	[HideInInspector]_StencilReadMask ("Stencil Read Mask", Float) = 255
 	[HideInInspector]_ColorMask ("Color Mask", Float) = 15
 
+		[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("Src Blend Mode", Float) = 5
+		[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("Dst Blend Mode", Float) = 10
+		[Enum(UnityEngine.Rendering.BlendMode)] _SrcAlphaBlend("Src Alpha Blend Mode", Float) = 1
+		[Enum(UnityEngine.Rendering.BlendMode)] _DstAlphaBlend("Dst Alpha Blend Mode", Float) = 10
+
 }
 
 	SubShader {
@@ -47,7 +52,7 @@ Properties {
 	      Cull Off
 	     ZWrite Off
 		 ZTest [unity_GUIZTestMode]
-		 Blend SrcAlpha OneMinusSrcAlpha
+		Blend[_SrcBlend][_DstBlend],[_SrcAlphaBlend][_DstAlphaBlend]
 		 //@@@DynamicShaderBlendRepaceEnd
 		CGPROGRAM
          #pragma vertex vert

@@ -26,7 +26,7 @@ Shader "Custom/NoLight/Unlit - water - 3LayerCombine"{
 				#pragma fragment frag
 				#include "Assets/ObjectBaseShader.cginc"
 				#pragma multi_compile FOG_OFF FOG_ON
-				#pragma multi_compile LIGHTMAP_ON LIGHTMAP_OFF
+				#pragma multi_compile ___ LIGHTMAP_ON
 
 
 			uniform sampler2D _MoveTex;

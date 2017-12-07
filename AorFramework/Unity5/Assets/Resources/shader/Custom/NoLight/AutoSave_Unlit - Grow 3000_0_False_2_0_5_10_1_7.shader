@@ -23,7 +23,7 @@ Shader "Hidden/Custom/NoLight/Unlit - Grow 3000_0_False_2_0_5_10_1_7"  {
 	SubShader {
 
 		   //@@@DynamicShaderTagsRepaceStart
-Tags {   "Queue"="Transparent0" } 
+Tags {   "Queue"="Transparent" } 
 //@@@DynamicShaderTagsRepaceEnd
        	
        		Lighting Off

@@ -1,68 +1,67 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
-// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
-// Upgrade NOTE: replaced tex2D unity_Lightmap with UNITY_SAMPLE_TEX2D
-
 //@@@DynamicShaderInfoStart
-//无光照物体材质 支持lightMap 定点动画
+//无光照物体材质 支持lightMap 顶点动画 荧幕跳动
 //@@@DynamicShaderInfoEnd
 
-//@@@DynamicShaderTitleRepaceStart
+
 Shader "Custom/NoLight/Unlit - Object##"  {
-	//@@@DynamicShaderTitleRepaceEnd
 
-
-	 //@@@DynamicShaderPropRepaceStart
 	Properties{
 		_Color("Main Color", Color) = (1,1,1,1)
 		_Lighting("Lighting",  float) = 1
 		_MainTex("Base (RGB) Trans (A)", 2D) = "white" {}
+		[Toggle] _Fog("Fog?", Float) = 1
+		[Enum(UnityEngine.Rendering.CullMode)] _Cull("Cull Mode", Float) = 2
+		[Enum(Off, 0, On, 1)] _ZWrite("ZWrite", Float) = 1
+		[Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 4
 
 		[HideInInspector] _CutOut("CutOut", float) = 0.1
 		[HideInInspector] _power("noise Power",  Range(0.001,0.1)) = 0.2
 		[HideInInspector] _wind("wind",  Range(1,10)) = 1
+
+		//荧幕跳动
+		[HideInInspector] _ScreenFlickSpeed("Flicker Speed", range(0,50)) = 5
+		[HideInInspector] _ScreenFlickLevel("Flicker Level", range(0,1)) = 0.1
+		[HideInInspector] _ScreenScrollSpeed("Scrolling Speed", range(0,2)) = 0.04
+		[HideInInspector] _ScreenScrollTiling("Scrolling Tiling", range(0,25)) = 8
+		[HideInInspector] _ScreenScrollColor("Scrolling Color", Color) = (1,1,1,1)
+		[HideInInspector] _ScreenScrollTex("Scrolling Texture", 2D) = "white" {}
 	}
-		//@@@DynamicShaderPropRepaceEndxx xxxx 
 
-			SubShader{
+	SubShader{
+ 
 
-			//@@@DynamicShaderTagsRepaceStart
-			   Tags {
+			Tags {
 			   "Queue" = "Geometry"
 				"IgnoreProjector" = "True"
 				"RenderType" = "Geometry"
-				}
-
-
-			//@@@DynamicShaderTagsRepaceEnd
-
-			   // 顶点光照模式xxx
-			   Pass {
-
-				   Tags { "LightMode" = "Vertex" }
-				   Lighting Off
-				   SetTexture[_MainTex] { combine texture }
-			   }
-
+		    }
+ 
 		   Pass {
+	 
 			   Tags { "LightMode" = "ForwardBase"}
+			   ZWrite[_ZWrite]
+			   ZTest[_ZTest]
+			   Cull[_Cull]
 
-			   //@@@DynamicShaderBlendRepaceStart
 
-			   //@@@DynamicShaderBlendRepaceEnd
-
-					  CGPROGRAM
-
+				CGPROGRAM
 
 			//	#pragma target 3.0
 				#pragma multi_compile CLIP_OFF CLIP_ON 
-				#pragma multi_compile FOG_OFF FOG_ON
+			//	#pragma multi_compile FOG_OFF FOG_ON
 				#pragma multi_compile ANIM_OFF ANIM_ON
-				#pragma multi_compile LIGHTMAP_ON LIGHTMAP_OFF
+				#pragma multi_compile ___ LIGHTMAP_ON
 				#pragma vertex vert
 				#pragma fragment frag
-			//	#pragma multi_compile_fwdbase  
+				#pragma shader_feature _FOG_ON
+				#pragma multi_compile_fog
+
+				//荧幕跳动
+				#pragma multi_compile ___ SCREENJUMP_ON
+
+			//	#pragma multi_compile_fwdbase 
 				#include "Assets/ObjectBaseShader.cginc"
 
 
@@ -84,13 +83,13 @@ Shader "Custom/NoLight/Unlit - Object##"  {
 				struct v2f_base {
 					float4 vertex : SV_POSITION;
 					half2 texcoord : TEXCOORD0;
-		 
+
 					#ifdef LIGHTMAP_ON
 					float2 lightmapUV : TEXCOORD2;
 					#endif
 
-					#ifdef FOG_ON		
-					half fogFactor: TEXCOORD3;
+					#if _FOG_ON
+					UNITY_FOG_COORDS(3)
 					#endif
 				};
 
@@ -101,33 +100,29 @@ Shader "Custom/NoLight/Unlit - Object##"  {
 					o.vertex = UnityObjectToClipPos(v.vertex);
 					o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
 					//half4  worldPos = mul(_Object2World, v.vertex);
-				
-		 
+
+
 
 				#ifdef LIGHTMAP_ON
-					o.lightmapUV = v.lightmapUV.xy *unity_LightmapST.xy + unity_LightmapST.zw;
+				    o.lightmapUV = v.lightmapUV.xy * unity_LightmapST.xy + unity_LightmapST.zw;
 				#endif
 
 
 				//顶点动画
 				#ifdef ANIM_ON
-				float4 vColor = v.vertexColor;
-				float2 pos = frac(v.vertex.xy / 128.0f) * 128.0f + float2(-64.340622f, -72.465622f);
-				float c = frac(dot(pos.xyx * pos.xyy, float3(20.390625f, 60.703125f, 2.4281209f)));
-				half3 normal = mul(SCALED_NORMAL, (float3x3)unity_WorldToObject);
-				v.vertex.xyz += vColor.rgb*v.normal*sin(_Time*c*_wind)*_power;
-				o.vertex = UnityObjectToClipPos(v.vertex);
+				    float4 vColor = v.vertexColor;
+				    float2 pos = frac(v.vertex.xy / 128.0f) * 128.0f + float2(-64.340622f, -72.465622f);
+				    float c = frac(dot(pos.xyx * pos.xyy, float3(20.390625f, 60.703125f, 2.4281209f)));
+				    half3 normal = mul(SCALED_NORMAL, (float3x3)unity_WorldToObject);
+				    v.vertex.xyz += vColor.rgb*v.normal*sin(_Time*c*_wind)*_power;
+				    o.vertex = UnityObjectToClipPos(v.vertex);
 				#else
 				#endif
 
-				#ifdef FOG_ON		
-				float4 viewpos = mul(UNITY_MATRIX_MV, v.vertex);
-
-				//体积雾
-				o.fogFactor = -(mul(unity_ObjectToWorld, v.vertex).y + _volumeFogOffset) * _volumeFogDestiy;
-				//大气雾
-				o.fogFactor = max(length(viewpos.xyz) + _fogDestance, o.fogFactor);
+				#if _FOG_ON
+				    UNITY_TRANSFER_FOG(o, o.vertex);
 				#endif
+
 				return o;
 			}
 
@@ -135,42 +130,40 @@ Shader "Custom/NoLight/Unlit - Object##"  {
 			{
 
 				fixed4 col = tex2D(_MainTex, i.texcoord);
-				
-				//return float4(i.texcoord.xy, 0, 1);
-				
-				fixed3 lm = fixed3(0,0,0);
-			#ifdef LIGHTMAP_ON
-				lm = DecodeLightmap(UNITY_SAMPLE_TEX2D(unity_Lightmap, i.lightmapUV));
-				col.rgb *= lm;
-				//return float4(i.lightmapUV.xy, 0, 1);
+
+			//荧幕跳动
+			#ifdef SCREENJUMP_ON
+			    fixed4 screenCol =tex2D(_ScreenScrollTex, float2(i.texcoord.x, i.texcoord.y*_ScreenScrollTiling + _ScreenScrollSpeed * _Time.y));
+				col += screenCol * _ScreenScrollColor;
+				float flicker = lerp(1, sin(_Time.y* _ScreenFlickSpeed), _ScreenFlickLevel);
+				col *= flicker;
 			#endif
 
-
-				col.rgb *= (_Lighting + _HdrIntensity);
+		    #ifdef LIGHTMAP_ON
+				fixed3	 lm = DecodeLightmap(UNITY_SAMPLE_TEX2D(unity_Lightmap, i.lightmapUV.xy));
+				col.rgb *= lm;
+			#endif
+	 
+				col.rgb *= (_Lighting + _HdrIntensity)*_DirectionalLightColor*_DirectionalLightDir.w + UNITY_LIGHTMODEL_AMBIENT.xyz;
+				
+				#ifdef CLIP_ON
+					clip(col.a - _CutOut);
+				#endif
+				
 				col *= _Color;
 
-
-			#ifdef CLIP_ON
-				clip(col.a - _CutOut);
+			#if _FOG_ON
+				UNITY_APPLY_FOG(i.fogCoord , col);
 			#endif
-
-
-			#ifdef FOG_ON
-				col.a = saturate( exp2(-i.fogFactor / _fogDestiy));
-			#else
-				col.a = _Color.a;
-			#endif
-
 
 			return col;
 
 
 			}
-		ENDCG
+		    ENDCG
+	    }
+
 	}
 
-
-
-		}
 
 }

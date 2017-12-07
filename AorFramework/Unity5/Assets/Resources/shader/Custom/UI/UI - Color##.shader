@@ -21,6 +21,12 @@ _Lighting ("Lighting",  float) = 1
 	[HideInInspector]_StencilReadMask ("Stencil Read Mask", Float) = 255
 	[HideInInspector]_ColorMask ("Color Mask", Float) = 15
 
+	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("Src Blend Mode", Float) = 5
+	[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("Dst Blend Mode", Float) = 10
+	[Enum(UnityEngine.Rendering.BlendMode)] _SrcAlphaBlend("Src Alpha Blend Mode", Float) = 1
+	[Enum(UnityEngine.Rendering.BlendMode)] _DstAlphaBlend("Dst Alpha Blend Mode", Float) = 10
+
+
 }
 
 	SubShader {
@@ -42,12 +48,12 @@ _Lighting ("Lighting",  float) = 1
     {
     	 Lighting Off
     	 Fog { Mode Off }
-      	//@@@DynamicShaderBlendRepaceStart
+  
 	      Cull Off
 	     ZWrite Off
 		 ZTest [unity_GUIZTestMode]
-		 Blend SrcAlpha OneMinusSrcAlpha
-		 //@@@DynamicShaderBlendRepaceEnd
+	Blend[_SrcBlend][_DstBlend],[_SrcAlphaBlend][_DstAlphaBlend]
+		 
 		CGPROGRAM
          #pragma vertex vert
          #pragma fragment frag

@@ -34,7 +34,7 @@ Pass {
 		CGPROGRAM
 		#pragma vertex vert
 		#pragma fragment frag
-		#pragma multi_compile LIGHTMAP_ON LIGHTMAP_OFF
+		#pragma multi_compile ___ LIGHTMAP_ON
 		#pragma multi_compile FOG_OFF FOG_ON  
 		//#pragma multi_compile LIGHTMAP_LOGLUV LIGHTMAP_SCALE
 	//	#pragma multi_compile_fwdbase  
@@ -52,13 +52,8 @@ Pass {
 			half4  pos : SV_POSITION;
 			half2  uv[5]:TEXCOORD0;
 			fixed3 lightColor:TEXCOORD6;  
+			fixed4 normal : TEXCOORD7;
 
-
-			#ifdef FOG_ON		
-				fixed4 normal : TEXCOORD7;
-			#else
-				fixed3 normal : TEXCOORD7;
- 			#endif
 		};
 
 		half4 _Splat0_ST;
@@ -75,14 +70,14 @@ Pass {
 			o.uv[1] = TRANSFORM_TEX (v.texcoord, _Splat1);
 			o.uv[2] = TRANSFORM_TEX (v.texcoord, _Splat2);
 			o.uv[3] = TRANSFORM_TEX (v.texcoord, _Control);
+			o.uv[4] = half2(0, 0);
 			#ifdef LIGHTMAP_ON
             	o.uv[4] = v.texcoord1.xy * unity_LightmapST.xy + unity_LightmapST.zw;
             #endif
-            
+	 
             o.normal.xyz = mul(SCALED_NORMAL, (float3x3)unity_WorldToObject);
-			#ifdef FOG_ON	
-				o.normal.w = 1;
-			#endif
+			o.normal.w = 1;
+ 
  			half4 worldPos = mul( unity_ObjectToWorld, v.vertex );
 
  			o.lightColor = Shade4PointLights (worldPos, o.normal.xyz);

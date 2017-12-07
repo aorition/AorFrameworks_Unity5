@@ -52,7 +52,7 @@ Shader "Hidden/Sky"  {
 				struct v2f {
 					float4  pos : SV_POSITION;
 					float2  uv : TEXCOORD0;
-					float4 color : color;
+					float4 color : COLOR;
 
 
 				}
@@ -61,7 +61,7 @@ Shader "Hidden/Sky"  {
 				struct appdata {
 					float4 vertex : POSITION;
 					float2 texcoord:TEXCOORD0;
-					float4 color : color;
+					float4 color : COLOR;
 				}
 
 	;

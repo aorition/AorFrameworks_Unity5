@@ -20,7 +20,7 @@ _CutOut("CutOut", float) = 0.1
 
 	SubShader {
         //@@@DynamicShaderTagsRepaceStart
-Tags {   "Queue"="Transparent0" } 
+Tags {   "Queue"="Transparent" } 
 //@@@DynamicShaderTagsRepaceEnd
 	
 	Pass
@@ -55,7 +55,7 @@ ZTest Less
             struct v2f {
                 float4  pos : SV_POSITION;
                 float2  uv : TEXCOORD0;
-                float4 color : color;
+                float4 color : COLOR;
 				#ifdef FOG_ON		
 				float3 viewpos: TEXCOORD1;
  				#endif
@@ -66,7 +66,7 @@ ZTest Less
             struct appdata {
                 float4 vertex : POSITION;
                 float2 texcoord:TEXCOORD0;
-                float4 color : color;
+                float4 color : COLOR;
             }
 
 ;
@@ -89,10 +89,14 @@ ZTest Less
              fixed4 _TintColor;
             float4 frag (v2f i) : COLOR
             {
+
                 float4 col= tex2D(_MainTex,i.uv);
-                col=col* _TintColor*i.color;
 				col.rgb*=_Lighting;
-	 
+				
+				float isGray = step(dot(_TintColor.rgb, fixed4(1, 1, 1, 0)), 0);
+				float3 grayCol = dot(col.rgb, float3(0.299, 0.587, 0.114));
+				col.rgb = lerp(col.rgb* _TintColor*i.color, grayCol.rgb, isGray);
+
                 //先clip，再fog 不然会出错	
  			#ifdef CLIP_ON
 			clip(  col.a-_CutOut);

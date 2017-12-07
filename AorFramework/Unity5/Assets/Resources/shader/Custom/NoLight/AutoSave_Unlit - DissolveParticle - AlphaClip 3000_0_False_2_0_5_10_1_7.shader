@@ -16,7 +16,7 @@ Properties {
 }
 	SubShader {
 //@@@DynamicShaderTagsRepaceStart
-Tags {   "Queue"="Transparent0" } 
+Tags {   "Queue"="Transparent" } 
 //@@@DynamicShaderTagsRepaceEnd
 
  	Lighting Off

@@ -87,6 +87,9 @@ Shader "Custom/NGUI/NGUI-AlphaMask##" {
 
 				float4 col = tex2D(_MainTex,IN.texcoord) * IN.color;
 				col.a *= mask.a;
+
+				col.a = max(0, col.a);
+
 				return col;
 			}
 			ENDCG

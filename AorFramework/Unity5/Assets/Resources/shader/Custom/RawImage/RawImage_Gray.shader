@@ -14,6 +14,12 @@ Shader "Custom/RawImage/RawImage Gray"
 
 		_ColorMask ("Color Mask", Float) = 15
 		_Gray("_Gray", Float) = 0
+
+			[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("Src Blend Mode", Float) = 5
+			[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("Dst Blend Mode", Float) = 10
+			[Enum(UnityEngine.Rendering.BlendMode)] _SrcAlphaBlend("Src Alpha Blend Mode", Float) = 1
+			[Enum(UnityEngine.Rendering.BlendMode)] _DstAlphaBlend("Dst Alpha Blend Mode", Float) = 10
+
 	}
 	
 	SubShader
@@ -43,7 +49,7 @@ Shader "Custom/RawImage/RawImage Gray"
 		ZTest [unity_GUIZTestMode]
 		Offset -1, -1
 		Fog { Mode Off }
-		Blend SrcAlpha OneMinusSrcAlpha
+		Blend[_SrcBlend][_DstBlend],[_SrcAlphaBlend][_DstAlphaBlend]
 		ColorMask [_ColorMask]
 
 		Pass

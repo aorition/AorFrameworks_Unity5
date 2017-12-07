@@ -14,6 +14,8 @@ Shader "Custom/longzhu/Unlit - Coastline" {
 	_Lighting("Lighting",  float) = 1
 	_CutOut("CutOut", float) = 0.1
 
+	[Toggle] _HasNight("HasNight?", Float) = 0    //夜晚效果开关
+
 	}
 
 
@@ -34,6 +36,7 @@ Shader "Custom/longzhu/Unlit - Coastline" {
 				#pragma fragment frag
 				#include "Assets/ObjectBaseShader.cginc"
 				#pragma multi_compile FOG_OFF FOG_ON 
+				#pragma shader_feature _HASNIGHT_ON
 
 				float _WaveLoop;
 
@@ -41,7 +44,7 @@ Shader "Custom/longzhu/Unlit - Coastline" {
 				struct v2f {
 					half4  pos : SV_POSITION;
 					float2  uv : TEXCOORD0;
-					fixed4 color : color;
+					fixed4  color : COLOR;
 					#ifdef FOG_ON		
 					float3 viewpos: TEXCOORD1;
 					#endif
@@ -51,7 +54,7 @@ Shader "Custom/longzhu/Unlit - Coastline" {
 				struct appdata {
 					float4 vertex : POSITION;
 					float2 texcoord:TEXCOORD0;
-					fixed4 color : color;
+					fixed4  color : COLOR;
 				};
 
 				//顶点函数没什么特别的，和常规一样 
@@ -78,10 +81,14 @@ Shader "Custom/longzhu/Unlit - Coastline" {
 					float y1 = i.uv.y - y*(1 - i.color.r);
 					fixed4 col = tex2D(_MainTex,float2(i.uv.x,max(i.color.r,y1)));
 					// return fixed4(max(i.color.r, i.uv.y - y), max(i.color.r, i.uv.y - y), max(i.color.r, i.uv.y - y), 1);
-					col = col* _Color;
+					col *= _Color;
 					col.rgb *= _Lighting + _HdrIntensity;
 					col.a = min(i.color.a , col.a);
 					col.a = min(max(0,1 - y), col.a);
+
+				#ifdef _HASNIGHT_ON
+					col.rgb*= _HdrIntensity+_DirectionalLightColor*_DirectionalLightDir.w+ col.rgb*UNITY_LIGHTMODEL_AMBIENT.xyz;    //夜晚效果  
+				#endif
 
 				#ifdef FOG_ON
 				float fogFactor = max(length(i.viewpos.xyz) + _fogDestance, 0.0);

@@ -77,6 +77,9 @@ Shader "Custom/NGUI/NGUI-ClipMask" {
 				col=lerp(col* IN.color,col2, IN.gray);
 
 				col.a *= mask.r;
+
+				col.a = max(0, col.a);
+
 				return col;
 			}
 			ENDCG

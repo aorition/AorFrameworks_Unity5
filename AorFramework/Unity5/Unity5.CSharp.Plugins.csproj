@@ -1,0 +1,443 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AB30E458-46C0-5BE4-B69A-93F72523722D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+    <CompilerResponseFile></CompilerResponseFile>
+    <UnityProjectType>GamePlugins:3</UnityProjectType>
+    <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
+    <UnityVersion>5.6.3p3</UnityVersion>
+    <RootNamespace></RootNamespace>
+    <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_3;UNITY_5_6;UNITY_5;UNITY_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;DEVELOPMENT_BUILD;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE;TMP_PRESENT;CROSS_PLATFORM_INPUT</DefineConstants>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
+    <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_3;UNITY_5_6;UNITY_5;UNITY_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;DEVELOPMENT_BUILD;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE;TMP_PRESENT;CROSS_PLATFORM_INPUT</DefineConstants>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="Boo.Lang" />
+    <Reference Include="UnityScript.Lang" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TestRunner">
+      <HintPath>Library\UnityAssemblies\UnityEngine.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Analytics">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.HoloLens">
+      <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.VR">
+      <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="AorBaseUtility">
+      <HintPath>Assets\Resources\Plugins\AorBaseUtility.dll</HintPath>
+    </Reference>
+    <Reference Include="AorFramework">
+      <HintPath>Assets\Resources\Plugins\AorFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="AorUI">
+      <HintPath>Assets\Resources\Plugins\AorUI.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>Assets\Resources\Plugins\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween43">
+      <HintPath>Assets\Resources\Plugins\DOTween43.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween46">
+      <HintPath>Assets\Resources\Plugins\DOTween46.dll</HintPath>
+    </Reference>
+    <Reference Include="zlib.net">
+      <HintPath>Assets\Resources\Plugins\zlib.net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\AxisTouchButton.cs" />
+    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\ButtonHandler.cs" />
+    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\CrossPlatformInputManager.cs" />
+    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\InputAxisScrollbar.cs" />
+    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\Joystick.cs" />
+    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\MobileControlRig.cs" />
+    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\PlatformSpecific\MobileInput.cs" />
+    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\PlatformSpecific\StandaloneInput.cs" />
+    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\TiltInput.cs" />
+    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\TouchPad.cs" />
+    <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\VirtualInput.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Water (Basic)\Scripts\WaterBasic.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\Displace.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\GerstnerDisplace.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\MeshContainer.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\PlanarReflection.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\SpecularLighting.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\Water.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\WaterBase.cs" />
+    <Compile Include="Assets\Standard Assets\Environment\Water\Water\Scripts\WaterTile.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\ActivateTrigger.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\AlphaButtonClickMask.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\AutoMobileShaderSwitch.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\AutoMoveAndRotate.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\CameraRefocus.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\CurveControlledBob.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\DragRigidbody.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\DynamicShadowSettings.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\EventSystemChecker.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\FOVKick.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\FPSCounter.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\FollowTarget.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\ForcedReset.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\LerpControlledBob.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\ObjectResetter.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\ParticleSystemDestroyer.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\PlatformSpecificContent.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\SimpleActivatorMenu.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\SimpleMouseRotator.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\SmoothFollow.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\TimedObjectActivator.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\TimedObjectDestructor.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\WaypointCircuit.cs" />
+    <Compile Include="Assets\Standard Assets\Utility\WaypointProgressTracker.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\AorTile3D\Resources\Shaders\DefaultCube.shader" />
+    <None Include="Assets\AorTile3D\Resources\Shaders\DefaultTile.shader" />
+    <None Include="Assets\AorTile3D\Resources\Shaders\TestSurfaceShader.shader" />
+    <None Include="Assets\AorTile3D\Resources\TestData\expMap.txt" />
+    <None Include="Assets\OBJImport\readme.txt" />
+    <None Include="Assets\ObjectBaseShader.cginc" />
+    <None Include="Assets\Resources\Scene\babidi\mod\Materials\buou_dan.shader" />
+    <None Include="Assets\Resources\Scene\shendian\shendian_yun.shader" />
+    <None Include="Assets\Resources\config\RoleViewConfig.txt" />
+    <None Include="Assets\Resources\shader\Custom\FastShadow\FastShadowProjectorAdd.shader" />
+    <None Include="Assets\Resources\shader\Custom\FastShadow\FastShadowProjectorMultiply.shader" />
+    <None Include="Assets\Resources\shader\Custom\FastShadow\FastShadowProjectorMultiplyAlpha.shader" />
+    <None Include="Assets\Resources\shader\Custom\FastShadow\FastShadowProjectorPreModel.shader" />
+    <None Include="Assets\Resources\shader\Custom\FastShadow\FastShadowProjectorPreModelAlpha.shader" />
+    <None Include="Assets\Resources\shader\Custom\Fonts\DefaultFont Gray.shader" />
+    <None Include="Assets\Resources\shader\Custom\Fonts\SpriteUI CustomFont Gradient.shader" />
+    <None Include="Assets\Resources\shader\Custom\Fonts\SpriteUI CustomFont.shader" />
+    <None Include="Assets\Resources\shader\Custom\Hidden\Alpha.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - 3CombieTexture - BlendMap - UnityLight.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - 3CombieTexture - BlendMap.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - 3CombieTexture - DirectionalLight.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - 3CombieTexture.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - 4CombieTexture - DirectionalLight.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - 4CombieTexture.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Object##.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - RimLight##.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon - line.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -CubeMap.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -Normal - BattleLow.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -Normal - BlendAlpha.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -Normal - BossFog.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -Normal - NoLine.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -Normal -line - Dragon.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -Normal -line - Rock.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -Normal -line -Hight.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -Normal -line -UI.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -Normal -line.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -Normal -lineVmask.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -Normal.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -SimpleObject.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -SimpleObject_Crystal.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon -TangentCheck.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse - Toon.shader" />
+    <None Include="Assets\Resources\shader\Custom\Light\Diffuse -Toon -Normal -line -VisableMask.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI - AlphaByPic - UvMove## 1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI - AlphaByPic - UvMove##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI - ClipParticle##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI - Color## 1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI - Color##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI - GaussBlur.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI - RegionMappingGray.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-AlphaMask##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-ClipMask 1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-ClipMask.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-ClipMaskUvMove 1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-ClipMaskUvMove.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-Dissolve-AlphaBlend##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-Dissolve-AlphaClip##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-Grow##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-ScreenChange 1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-ScreenChange.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-SoftClip 1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-SoftClip.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-SoftClipMask 1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-SoftClipMask.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-SoftClipMaskUvMove 1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-SoftClipMaskUvMove.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-TextureNiose##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-UVColor##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-UVMask##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NGUI\NGUI-UVMask-Clip.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 1000_-1_True_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 1000_0_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-10_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-10_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-10_True_2_2_1_0_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-1_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-1_False_2_0_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-1_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-1_True_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-1_True_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-50_True_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_False_2_0_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_False_2_2_1_0_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_True_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_True_2_2_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_True_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_True_2_2_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_10_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_15_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_25_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_5_False_2_2_1_0_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 2000_5_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-10_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-10_False_2_2_1_0_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-10_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-150_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-15_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-1_False_2_0_1_0_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-1_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-1_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-1_True_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-1_True_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-20_False_2_1_1_0_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-20_False_2_2_1_0_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-50_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-50_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_0_1_1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_0_2_0_1_1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_0_2_0_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_0_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_1_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_2_1_0_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_2_1_1_1_1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_2_2_0_1_1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_2_2_0_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_2_5_10_5_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_2_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_6_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_6_0_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_6_2_1_1_1_1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_6_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_6_2_5_1_5_1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_True_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_True_2_0_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_True_2_2_1_0_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_True_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_True_2_2_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_True_6_0_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_100_False_2_2_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_10_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_10_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_1_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_1_True_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_200_True_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_2_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_50_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 3000_50_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 4000_-1_True_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 4000_0_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 4000_0_False_2_0_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 4000_0_False_6_0_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 4000_0_False_6_2_1_1_1_1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 4000_0_True_6_2_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Color 4000_200_False_6_0_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Dissolve - AlphaBlend 2000_0_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Dissolve - AlphaBlend 4000_1_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - DissolveParticle - AlphaClip 2000_0_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - DissolveParticle - AlphaClip 2000_0_True_2_2_1_0_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - DissolveParticle - AlphaClip 3000_0_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - DissolveParticle - AlphaClip 3000_0_False_2_0_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - DissolveParticle - AlphaClip 3000_0_False_6_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - DissolveParticle - AlphaClip 3000_0_False_6_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - FallOff 2000_0_True_2_2_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - FallOff 2000_0_True_2_2_5_1_5_1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - FallOff 3000_0_False_2_0_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Grow 2000_0_False_2_0_1_0_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Grow 2000_0_True_2_2_1_1_1_1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Grow 2000_0_True_2_2_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Grow 3000_-1_False_2_2_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Grow 3000_0_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Grow 3000_0_False_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Grow 3000_0_False_2_2_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Grow 3000_0_True_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Holographic 2000_0_True_2_2_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Holographic 3000_0_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - Object 2000_0_True_2_0_1_0_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - TextureClip 1000_0_True_2_2_1_0_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - TextureNoise 2000_0_False_2_0_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - TextureNoise 2000_0_True_2_2_1_0_1_0.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - TextureNoise 2000_0_True_2_2_1_1_1_1.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - TextureNoise 3000_0_False_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - TextureNoise 3000_0_False_2_0_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - TextureNoise 3000_0_True_2_2_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\AutoSave_Unlit - shu.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unilit - GrowFallOff.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - 3CombieTexture - BlendMap.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - 3CombieTexture.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - 4CombieTexture.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - AddMash - level.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - AlphaByPic - UvMove##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - AlphaClip##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - BaseObject.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - Black - line.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - Color - Scale.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - Color - line.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - Color##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - Dissolve - AlphaBlend##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - Dissolve - AlphaClip##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - DissolveParticle - AlphaClip##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - Distortion - RT##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - FallOff##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - FallOff.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - Grow##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - Holographic##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - Holographic.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - Object - Normal - Cubemap##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - Object##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - ParticleMaskRotate##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - ScaleAlphaMask##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - ScaleTexture##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - TextureNiose##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - Tornado##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - UVColor##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - UVMask##.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - water - 3LayerCombine.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - water - CubeMap - alpha.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - water - CubeMap.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - water - simple.shader" />
+    <None Include="Assets\Resources\shader\Custom\NoLight\Unlit - water.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\Billbord - Mesh.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\Billbord - QuadSprite.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\Billbord - Sprites.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\DarkOcclusion.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\DigitalProjector.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\EdgeDraw.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\EdgeDrawWithBlend.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\Phantom.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\SpritePhoto.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\Tonemapper.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\YKSprite.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\buou_dan.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\lightMapCover.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\lightMapCoverHight.shader" />
+    <None Include="Assets\Resources\shader\Custom\Other\lightMapCoverLow.shader" />
+    <None Include="Assets\Resources\shader\Custom\PostEffect\DrawShader.shader" />
+    <None Include="Assets\Resources\shader\Custom\PostEffect\FastBloom.shader" />
+    <None Include="Assets\Resources\shader\Custom\PostEffect\GaussBlur.shader" />
+    <None Include="Assets\Resources\shader\Custom\PostEffect\Inversion.shader" />
+    <None Include="Assets\Resources\shader\Custom\PostEffect\RadialBlur.shader" />
+    <None Include="Assets\Resources\shader\Custom\PostEffect\Sky.shader" />
+    <None Include="Assets\Resources\shader\Custom\PostEffect\reverse.shader" />
+    <None Include="Assets\Resources\shader\Custom\RawImage\RawImage - AlphaMask##.shader" />
+    <None Include="Assets\Resources\shader\Custom\RawImage\RawImage - ScaleAlphaMask##.shader" />
+    <None Include="Assets\Resources\shader\Custom\RawImage\RawImage_Gray.shader" />
+    <None Include="Assets\Resources\shader\Custom\UI\AutoSave_UI - Color 3000_0_False_2_0_5_1_1_10.shader" />
+    <None Include="Assets\Resources\shader\Custom\UI\AutoSave_UI - Color 4000_0_True_2_0_5_10_1_7.shader" />
+    <None Include="Assets\Resources\shader\Custom\UI\UI - AlphaMask##.shader" />
+    <None Include="Assets\Resources\shader\Custom\UI\UI - Color##.shader" />
+    <None Include="Assets\Resources\shader\Custom\UI\UI - Dissolve - AlphaBlend##.shader" />
+    <None Include="Assets\Resources\shader\Custom\UI\UI - Dissolve - AlphaClip##.shader" />
+    <None Include="Assets\Resources\shader\Custom\UI\UI - Grow##.shader" />
+    <None Include="Assets\Resources\shader\Custom\UI\UI - ScaleAlphaMask##.shader" />
+    <None Include="Assets\Resources\shader\Custom\UI\UI - TextureNiose##.shader" />
+    <None Include="Assets\Resources\shader\Custom\UI\UI - UVColor##.shader" />
+    <None Include="Assets\Resources\shader\Custom\UI\UI - UVMask##.shader" />
+    <None Include="Assets\Resources\shader\Custom\YoukiaExShadowShader\YoukiaExShadowProjectorMultiply.shader" />
+    <None Include="Assets\Resources\shader\Custom\YoukiaExShadowShader\YoukiaExShadowProjectorMultiplyAlpha.shader" />
+    <None Include="Assets\Resources\shader\Custom\YoukiaExShadowShader\YoukiaExShadowProjectorPreModel.shader" />
+    <None Include="Assets\Resources\shader\Custom\YoukiaExShadowShader\YoukiaExShadowProjectorPreModelAlpha.shader" />
+    <None Include="Assets\Resources\shader\Custom\longzhu\BreahtingLamp.shader" />
+    <None Include="Assets\Resources\shader\Custom\longzhu\Chest.shader" />
+    <None Include="Assets\Resources\shader\Custom\longzhu\Cloud.shader" />
+    <None Include="Assets\Resources\shader\Custom\longzhu\CrystalBall.shader" />
+    <None Include="Assets\Resources\shader\Custom\longzhu\CrystalBall2.shader" />
+    <None Include="Assets\Resources\shader\Custom\longzhu\NGUI-PowerGlassse.shader" />
+    <None Include="Assets\Resources\shader\Custom\longzhu\NGUI-PowerGlassseScan.shader" />
+    <None Include="Assets\Resources\shader\Custom\longzhu\Planet-RimOutLine.shader" />
+    <None Include="Assets\Resources\shader\Custom\longzhu\TVScreen.shader" />
+    <None Include="Assets\Resources\shader\Custom\longzhu\Treasure.shader" />
+    <None Include="Assets\Resources\shader\Custom\longzhu\Unlit - Coastline.shader" />
+    <None Include="Assets\Resources\shader\Custom\sprite2D\SpriteUI Alpha Blur.shader" />
+    <None Include="Assets\Resources\shader\Custom\sprite2D\SpriteUI Alpha.shader" />
+    <None Include="Assets\Resources\shader\Custom\sprite2D\SpriteUI Alpha_Gray.shader" />
+    <None Include="Assets\Resources\shader\Custom\sprite2D\SpriteUI Blur.shader" />
+    <None Include="Assets\Resources\shader\Custom\sprite2D\SpriteUI CustomFont.shader" />
+    <None Include="Assets\Resources\shader\Custom\sprite2D\SpriteUI.shader" />
+    <None Include="Assets\Resources\shader\Custom\sprite2D\sprite2DAdd.shader" />
+    <None Include="Assets\Resources\shader\Custom\sprite2D\sprite2DBase Fog.shader" />
+    <None Include="Assets\Resources\shader\Custom\sprite2D\sprite2DBase.shader" />
+    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+    <None Include="Assets\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />
+    <None Include="Assets\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />
+    <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Advanced.shader" />
+    <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
+    <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\WaterInclude.cginc" />
+    <None Include="Assets\Temp\IllustationShader.shader" />
+    <None Include="Assets\Temp\shadertoy\shader\Heart.shader" />
+    <None Include="Assets\Temp\shadertoy\shader\SimpleCircle.shader" />
+    <None Include="Assets\Temp\shadertoy\shader\SimpleLine.shader" />
+    <None Include="Assets\Temp\shadertoy\shader\Template.shader" />
+    <None Include="Assets\Temp\tmd.txt" />
+    <None Include="Assets\Temp\tmd_info.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
+</Project>

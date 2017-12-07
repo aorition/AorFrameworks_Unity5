@@ -1154,6 +1154,24 @@ namespace YoukiaUnity.Graphics
             CurrentSubCamera.camera.enabled = false;
         }
 
+        public float EffectLum = 1;
+        private float _applyEffectLum = 0;
+
+        void Update()
+        {
+
+            // 设置公共shader属性 _CircleTime 用于支持所有Shader动画做Time参数
+            Shader.SetGlobalFloat("_CircleTime", Time.time % 10 * 0.1f);
+
+//            UpdateRoleLight();
+            if (EffectLum != _applyEffectLum)
+            {
+                Shader.SetGlobalFloat("_EffectScale", EffectLum);
+                _applyEffectLum = EffectLum;
+            }
+
+        }
+
 
         // Update is called once per frame
         void LateUpdate()

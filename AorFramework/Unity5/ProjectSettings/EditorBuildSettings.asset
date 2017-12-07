@@ -5,5 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Temp/StaticBatchingTest/staticbatchingtest.unity
+  - enabled: 1
+    path: Assets/Scenes/AorTile3DMain.unity
+    guid: 4b32afaa0c739b340a25c343bcd6797b

@@ -14,25 +14,27 @@ Properties {
 	_Scale("Distortion Scale", Float) =1
 		_SpeedX("Distortion SpeedX", Float) = 1
 		_SpeedY("Distortion SpeedY", Float) = 1
+		[Enum(Off, 0, On, 1)] _ZWrite("ZWrite", Float) = 1
+		[Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 4
+		[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("Src Blend Mode", Float) = 5
+		[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("Dst Blend Mode", Float) = 10
+		[Enum(UnityEngine.Rendering.BlendMode)] _SrcAlphaBlend("Src Alpha Blend Mode", Float) = 1
+		[Enum(UnityEngine.Rendering.BlendMode)] _DstAlphaBlend("Dst Alpha Blend Mode", Float) = 10
+		[Enum(UnityEngine.Rendering.CullMode)] _Cull("Cull Mode", Float) = 2
+
 }
 	SubShader {
-//@@@DynamicShaderTagsRepaceStart
-	Tags {
-	"Queue"="Geometry"
-	 "IgnoreProjector"="True" 
-	 "RenderType"="Geometry"
-	 }
-//@@@DynamicShaderTagsRepaceEnd
 
+		Tags{"Queue" = "Geometry" "IgnoreProjector" = "True" "RenderType" = "Geometry"}
 
 
   Pass {
 
-	Lighting Off
-  	 //@@@DynamicShaderBlendRepaceStart
-	//Blend SrcAlpha OneMinusSrcAlpha
-	ZWrite Off
-	 //@@@DynamicShaderBlendRepaceEnd
+
+		Blend[_SrcBlend][_DstBlend],[_SrcAlphaBlend][_DstAlphaBlend]
+		ZWrite[_ZWrite]
+		ZTest[_ZTest]
+		Cull[_Cull]
 
             CGPROGRAM
             #pragma vertex vert

@@ -14,16 +14,28 @@ _noiseTex("Noise(RGB)",2D)="white"{}
    _Scale("wave Scale",range(0.01,2))=1
   _alpha("wave  alpha", float)=1
 
+	  [Enum(Off, 0, On, 1)] _ZWrite("ZWrite", Float) = 1
+	  [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 4
+	  [Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("Src Blend Mode", Float) = 5
+	  [Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("Dst Blend Mode", Float) = 10
+	  [Enum(UnityEngine.Rendering.BlendMode)] _SrcAlphaBlend("Src Alpha Blend Mode", Float) = 1
+	  [Enum(UnityEngine.Rendering.BlendMode)] _DstAlphaBlend("Dst Alpha Blend Mode", Float) = 10
+	  [Enum(UnityEngine.Rendering.CullMode)] _Cull("Cull Mode", Float) = 2
+
 
  }
 // 	PC
 	SubShader {
 	 	Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
-
-		LOD 100
-	Blend SrcAlpha OneMinusSrcAlpha,One DstAlpha
-	Cull Off Lighting Off ZWrite Off Fog { Color (0,0,0,0) }
+ 
 		Pass {
+ 
+	  Blend[_SrcBlend][_DstBlend],[_SrcAlphaBlend][_DstAlphaBlend]
+	  ZWrite[_ZWrite]
+	  ZTest[_ZTest]
+	  Cull[_Cull]
+
+ 
             CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
@@ -47,14 +59,14 @@ _noiseTex("Noise(RGB)",2D)="white"{}
             struct v2f {
                 float4  pos : SV_POSITION;
                 float2  uv : TEXCOORD0;
-                 float4 color : color;
+                 float4 color : COLOR;
             };
            
            
            struct appdata {
     float4 vertex : POSITION;
     float2 texcoord:TEXCOORD0;
-    float4 color : color;
+    float4 color : COLOR;
 };
 
             //顶点函数没什么特别的，和常规一样

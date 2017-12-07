@@ -35,7 +35,7 @@ Pass {
 			#pragma fragment frag
 			#include "Assets/ObjectBaseShader.cginc"
 			#pragma multi_compile FOG_OFF FOG_ON
-			#pragma multi_compile LIGHTMAP_ON LIGHTMAP_OFF
+			#pragma multi_compile ___ LIGHTMAP_ON
  
     		
                      		     
@@ -146,9 +146,6 @@ Pass {
  
 			 		#endif
 
-
-           		// mainCol.rgb*= DecodeLogLuv(tex2D(unity_Lightmap,lightMapUV));
-            	#endif
 
 				#ifdef FOG_ON
  				float fogFactor=max(length(i.viewpos.xyz) + _fogDestance, 0.0);

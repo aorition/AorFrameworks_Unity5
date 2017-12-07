@@ -17,10 +17,15 @@ Properties{
 	_Scale("wave Scale",range(0.01,1))=1
 	_Color("Color", Color) = (1,1,1,1)
 	_Lighting("Lighting",  float) = 1
+	[Toggle] _Fog("Fog?", Float) = 1
+
+	[Toggle] _HasNight("HasNight?", Float) = 0    //夜晚效果开关
+
  }
 	SubShader {
 
 		Lighting Off 
+		LOD 600
 	
 Pass {
 	Tags { "LightMode" = "ForwardBase" }
@@ -29,23 +34,26 @@ Pass {
 			#pragma vertex vert
 			#pragma fragment frag
 			#include "Assets/ObjectBaseShader.cginc"
-			#pragma multi_compile FOG_OFF FOG_ON
-			#pragma multi_compile LIGHTMAP_ON LIGHTMAP_OFF
+			//#pragma multi_compile FOG_OFF FOG_ON
+            #pragma shader_feature _FOG_ON
+            #pragma multi_compile_fog
+			#pragma multi_compile ___ LIGHTMAP_ON
+			#pragma shader_feature _HASNIGHT_ON
  
 
                      		
-	sampler2D _underGroundTex;
+	  sampler2D _underGroundTex;
 	  sampler2D _noiseTex;
 	  sampler2D _MaskTex;
 
-	float4 _noiseTex_ST;
-	float4 _MaskTex_ST;
-	float4 _underGroundTex_ST;
-	uniform samplerCUBE _Cube;
+	  float4 _noiseTex_ST;
+	  float4 _MaskTex_ST;
+	  float4 _underGroundTex_ST;
+	  uniform samplerCUBE _Cube;
 
-    half  _speed; 
-    half  _Scale;              
-	half  _landLight;
+      half  _speed; 
+      half  _Scale;              
+	  half  _landLight;
         
            
             struct v2f {
@@ -59,9 +67,10 @@ Pass {
 				 half2  lightMapUV : TEXCOORD4;
 				#endif
  
-				#ifdef FOG_ON
-				float4 viewpos:TEXCOORD5;		
- 				#endif
+
+#if _FOG_ON
+				 UNITY_FOG_COORDS(5)
+#endif
 				float2  uv1 : TEXCOORD6;
 				float2  uv2 : TEXCOORD7;
             };
@@ -94,16 +103,17 @@ Pass {
             	o.lightMapUV = v.lightmapUV.xy * unity_LightmapST.xy + unity_LightmapST.zw;
            		 #endif
             
-            	#ifdef FOG_ON		
-					 o.viewpos=mul(UNITY_MATRIX_MV, v.vertex);
- 				#endif
+#if _FOG_ON
+				UNITY_TRANSFER_FOG(o, o.pos);
+#endif
                 return o;
             }
+
 			
 			float2 clampUV(float2 uv) {
-			
 				return 	uv = float2(uv.x - floor(uv.x), uv.y - floor(uv.y));
 			}
+
 
 			fixed4 frag(v2f i) : COLOR {
 
@@ -139,8 +149,9 @@ Pass {
 				half3 ref=reflect(normalize(i.viewDir), i.normal);
 				 
 				  fixed4 reflcol = texCUBE( _Cube, ref   + noiseCol + noiseCol2 );
+
 				 
-				mainCol.a=0;
+				mainCol.a=1;
  
 
 				 fixed3 lm = fixed3(0, 0, 0);
@@ -152,13 +163,6 @@ Pass {
 			#endif
 
 
-				#ifdef FOG_ON
- 				float fogFactor=max(length(i.viewpos.xyz) + _fogDestance, 0.0);
-				mainCol.a = exp2(- fogFactor /_fogDestiy);
-				#else
-				mainCol.a=1;
-				#endif
-
 
 				float c =1- abs(dot(i.normal, i.viewDir));
 				c = pow(c, 8);
@@ -167,11 +171,30 @@ Pass {
 				 mainCol.rgb *= maskCol.rgb*_Lighting;
 				 mainCol.rgb *= (1 + _HdrIntensity);
 				mainCol.rgb = lerp(mainCol.rgb, underCol.rgb*(_landLight+_HdrIntensity),  maskCol.a);
+
+
+				#ifdef _HASNIGHT_ON
+					mainCol.rgb*= _HdrIntensity+_DirectionalLightColor*_DirectionalLightDir.w+ mainCol.rgb*UNITY_LIGHTMODEL_AMBIENT.xyz;    //夜晚效果
+				#endif
+
+
+
+#if _FOG_ON
+				UNITY_APPLY_FOG(i.fogCoord, mainCol);
+#endif
+
 				return mainCol;
             }
 			ENDCG
 		}
 	
+	}
+
+	SubShader {
+
+		LOD 200
+		UsePass "Custom/NoLight/Unlit - Water/BASEWATER"
+
 	}
 
 	
