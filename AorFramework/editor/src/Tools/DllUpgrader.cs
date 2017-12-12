@@ -240,7 +240,7 @@ namespace AorFramework.editor.tools
             return false;
         }
 
-        [MenuItem("FrameworkTools/辅助工具/更新DLL文件")]
+        [MenuItem("FrameworkTools/DLLs Update",false,101)]
         public static void UpgradeDllsMenu()
         {
             UpgradeDlls();
