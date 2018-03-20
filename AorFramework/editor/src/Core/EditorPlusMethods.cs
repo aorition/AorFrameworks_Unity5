@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
-using UnityEngine;
-
 
 /// <summary>
 /// 提供Editor下常用功能静态方法
@@ -28,7 +26,10 @@ public class EditorPlusMethods
 
     // ------------------------------------------ UsedTags 
 
-    private static Dictionary<string, int> UsedTags; 
+    #region 计数方法集合
+
+    private static Dictionary<string, int> UsedTags;
+
     /// <summary>
     /// 计数Tag机制
     /// 
@@ -46,7 +47,7 @@ public class EditorPlusMethods
 
         if (UsedTags.ContainsKey(tag))
         {
-            UsedTags[tag] ++; 
+            UsedTags[tag] ++;
             return UsedTags[tag];
         }
         else
@@ -89,8 +90,14 @@ public class EditorPlusMethods
         }
     }
 
+    #endregion
+
     // ------------------------------------------ UsedTags End
     
+    // ------------------------------------------ PlusDefindWindow 
+
+    #region 关于Unity编辑界面预制窗口的方法集合
+
     public enum PlusDefindWindow
     {
         AnimationWindow,
@@ -108,7 +115,7 @@ public class EditorPlusMethods
 
     public static EditorWindow GetPlusDefindWindow(PlusDefindWindow defind)
     {
-        Assembly assembly = Assembly.GetAssembly(typeof(EditorWindow));
+        Assembly assembly = Assembly.GetAssembly(typeof (EditorWindow));
         string fullName = _getPlusDefindWindowFullName(defind);
         if (string.IsNullOrEmpty(fullName)) return null;
         Type t = assembly.GetType(fullName);
@@ -117,5 +124,9 @@ public class EditorPlusMethods
         if (aw == null) return null;
         return aw;
     }
+
+    #endregion
+
+    // ------------------------------------------ PlusDefindWindow End
 
 }

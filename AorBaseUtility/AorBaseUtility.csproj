@@ -34,10 +34,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="UnityEngine">
-      <HintPath>..\AorFramework\Unity5\Library\UnityAssemblies\UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="zlib.net">
       <HintPath>lib\zlib.net.dll</HintPath>
     </Reference>
@@ -71,6 +67,9 @@
     <Compile Include="src\QuadTree\UQuadTree.cs" />
     <Compile Include="src\Random\RandomBase.cs" />
     <Compile Include="src\NodeDefined\TreeNode.cs" />
+    <Compile Include="src\Units\Int2.cs" />
+    <Compile Include="src\Units\Int3.cs" />
+    <Compile Include="src\Units\Int4.cs" />
     <Compile Include="src\Units\YKAABB2d.cs" />
     <Compile Include="src\Units\YKAABB2f.cs" />
     <Compile Include="src\Units\YKAABB3d.cs" />
@@ -86,7 +85,9 @@
     <Compile Include="src\Utility\BaseUtility.cs" />
     <Compile Include="src\Zip\ZIPUtil.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="src\Math\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

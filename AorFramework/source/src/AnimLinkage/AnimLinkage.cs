@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 using UnityEngine;
-using YoukiaUnity.Misc;
 
 [Serializable]
 public struct ActiveTimeKey
@@ -61,8 +60,13 @@ public class AnimLinkage : MonoBehaviour ,IEditorOnlyScript
             Animation am = gameObject.GetComponent<Animation>();
             if (am != null)
             {
+#if UNITY_4
                 AnimationState state = am.GetCurrentState();
                 return (state != null ? state.clip.frameRate : 0);
+#endif
+#if UNITY_5
+                return (am.clip != null ? am.clip.frameRate : 0);
+#endif
             }
 
             return 0;
@@ -89,8 +93,13 @@ public class AnimLinkage : MonoBehaviour ,IEditorOnlyScript
             Animation am = gameObject.GetComponent<Animation>();
             if (am != null)
             {
+#if UNITY_4
                 AnimationState state = am.GetCurrentState();
                 return (state != null ? state.length : 0);
+#endif
+#if UNITY_5
+                return (am.clip != null ? am.clip.length : 0);
+#endif
             }
 
             return 0;

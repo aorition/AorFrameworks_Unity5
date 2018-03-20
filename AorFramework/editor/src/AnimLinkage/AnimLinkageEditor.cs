@@ -14,20 +14,20 @@ using UnityEngine;
 public class AnimLinkageEditor : Editor
 {
 
-    [MenuItem("Youkia/角色动画工具/添加动画联动解算器(编辑器功能)")]
-    public static void AnimLinkageEditorMenu()
-    {
-        if (Selection.activeGameObject != null)
-        {
-            GameObject select = Selection.activeGameObject;
-            select.AddComponent<AnimLinkage>();
-            EditorUtility.DisplayDialog("提示", "添加成功,用完输出成品时，记得删除AnimLinkage", "我知道了");
-        }
-        else
-        {
-            EditorUtility.DisplayDialog("提示", "你好并没有选中一个可以添加该工具的东东.", "OK");
-        }
-    }
+//    [MenuItem("Youkia/角色动画工具/添加动画联动解算器(编辑器功能)")]
+//    public static void AnimLinkageEditorMenu()
+//    {
+//        if (Selection.activeGameObject != null)
+//        {
+//            GameObject select = Selection.activeGameObject;
+//            select.AddComponent<AnimLinkage>();
+//            EditorUtility.DisplayDialog("提示", "添加成功,用完输出成品时，记得删除AnimLinkage", "我知道了");
+//        }
+//        else
+//        {
+//            EditorUtility.DisplayDialog("提示", "你好并没有选中一个可以添加该工具的东东.", "OK");
+//        }
+//    }
 
     private AnimLinkage _target;
     

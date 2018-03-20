@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Reflection;
 
-namespace AorBaseUtility
+namespace AorBaseUtility.Config
 {
 
     public class Config

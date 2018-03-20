@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UNITY_5</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -34,6 +34,10 @@
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AorBaseUtility">
+      <HintPath>..\..\..\..\SVN\shengdoushi2\Client\Project\Demo\Dev\Unity_SDS2_Demo\Assets\Plugins\AorBaseUtility.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="DOTween, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\IncludeLibs\DOTween\DOTween.dll</HintPath>
@@ -53,6 +57,10 @@
       <HintPath>..\..\IncludeLibs\Unity5.6.3p3\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\..\GitLib\Youkia-5\LinkedDlls\5.6.3\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,26 +71,82 @@
     <Compile Include="src\Config\Base\JConfigParser.cs" />
     <Compile Include="src\Config\RoleViewConfig.cs" />
     <Compile Include="src\Core\AorGUILayout.cs" />
-    <Compile Include="src\Core\IEditorOnlyScript.cs" />
+    <Compile Include="src\Extends\QuaternionExtends.cs" />
+    <Compile Include="src\GameBaseInterfaces\ICustomTimeScale.cs" />
+    <Compile Include="src\GameBaseInterfaces\IEditorOnlyScript.cs" />
+    <Compile Include="src\GameBaseInterfaces\IGameAnimObject.cs" />
+    <Compile Include="src\GameBaseInterfaces\IGameObject.cs" />
     <Compile Include="src\Core\IManager.cs" />
     <Compile Include="src\Core\PrefabLightmapData.cs" />
     <Compile Include="src\Core\SetPropertyAttribute.cs" />
+    <Compile Include="src\GraphicsManager\Components\RTPostEffect\RTPostEffectBase.cs" />
+    <Compile Include="src\GraphicsManager\Components\RenderTextureCombine\RenderTextureCaptureCamera.cs" />
+    <Compile Include="src\GraphicsManager\Components\RenderTextureCombine\Scripts\RenderTextureCombine.cs" />
+    <Compile Include="src\GraphicsManager\CustomLightSystem\Scripts\CustomLightInfo.cs" />
+    <Compile Include="src\GraphicsManager\CustomLightSystem\Scripts\CustomLightManager.cs" />
+    <Compile Include="src\GraphicsManager\CustomLightSystem\Scripts\CustomLightSupports.cs" />
+    <Compile Include="src\GraphicsManager\GMEffect\GMEffect.cs" />
+    <Compile Include="src\GraphicsManager\Interfaces\IGMPostEffectComponent.cs" />
+    <Compile Include="src\GraphicsManager\Scripts\GraphicBase.cs" />
+    <Compile Include="src\GraphicsManager\Scripts\GraphicsManager.cs" />
+    <Compile Include="src\GraphicsManager\Scripts\GraphicsManagerLuncher.cs" />
+    <Compile Include="src\GraphicsManager\Scripts\Models\GraphicsSettingAsset.cs" />
+    <Compile Include="src\GraphicsManager\Scripts\Utility\GraphicsCamUtility.cs" />
+    <Compile Include="src\GraphicsManager\Scripts\Utility\RenderTextureUtility.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Components\BasicNoisePerlin.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Components\Composer.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Components\FramingTransposer.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Components\HardLockToTarget.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Components\HardLookAt.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Components\interfaces\IVisualCameraComponents.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Components\OrbitalTransposer.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Components\SameAsFollowObject.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Components\TrackedDolly.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Components\Transposer.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Core\AxisState.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Core\CinemachinePropertyAttribute.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Core\GaussianFilter.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Core\GEVPathBase.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Core\NoiseSettings.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Core\Predictor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Core\ReflectionHelpers.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Core\SplineHelpers.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Core\UnityVectorExtensions.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Core\VCETargetGroup.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Core\VisualCameraComponentBase.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Core\VisualCameraExtension.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Path\DollyCart.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Path\GEVPath.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Path\GEVSmoothPath.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\VisualCamera.cs" />
+    <Compile Include="src\Tools\EditorSupport\PrefabLinker\PrefabLinker.cs" />
     <Compile Include="src\Extends\ColorExtends.cs" />
     <Compile Include="src\Extends\GameObjectExtends.cs" />
     <Compile Include="src\Extends\GUIStyleExtends.cs" />
     <Compile Include="src\Extends\TransformExtends.cs" />
-    <Compile Include="src\Facade\AorFacede.cs" />
-    <Compile Include="src\Core\ManagerBase.cs" />
-    <Compile Include="src\Tools\TransformRecorder.cs" />
-    <Compile Include="src\Utility\AorResourceLoader.cs" />
+    <Compile Include="src\Extends\VecterExtends.cs" />
+    <Compile Include="src\Misc\TransformRecorder.cs" />
+    <Compile Include="src\Bridges\AddComponentBridge.cs" />
+    <Compile Include="src\Bridges\ResourcesLoadBridge.cs" />
     <Compile Include="src\Utility\CameraMathUtility.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\AorBaseUtility\AorBaseUtility.csproj">
-      <Project>{cff766b5-aaf1-4638-a423-f71ea26e70e5}</Project>
-      <Name>AorBaseUtility</Name>
-      <Private>False</Private>
-    </ProjectReference>
+    <None Include="src\GraphicsManager\Components\RenderTextureCombine\Shaders\PEOverride.shader" />
+    <None Include="src\GraphicsManager\Components\RenderTextureCombine\Shaders\PEOverrideAdd.shader" />
+    <None Include="src\GraphicsManager\Components\RenderTextureCombine\Shaders\PEOverrideMultiply.shader" />
+    <None Include="src\GraphicsManager\Resources\data\DemoPPAssetData.asset" />
+    <None Include="src\GraphicsManager\Resources\data\GraphicsSetting.asset" />
+    <None Include="src\GraphicsManager\Resources\data\RoleGlowSetting.asset" />
+    <None Include="src\GraphicsManager\Resources\data\RoleShadowSetting.asset" />
+    <None Include="src\GraphicsManager\VisualCamera\Presets\Noise\Handheld_normal_extreme.asset" />
+    <None Include="src\GraphicsManager\VisualCamera\Presets\Noise\Handheld_normal_mild.asset" />
+    <None Include="src\GraphicsManager\VisualCamera\Presets\Noise\Handheld_normal_strong.asset" />
+    <None Include="src\GraphicsManager\VisualCamera\Presets\Noise\Handheld_tele_mild.asset" />
+    <None Include="src\GraphicsManager\VisualCamera\Presets\Noise\Handheld_tele_strong.asset" />
+    <None Include="src\GraphicsManager\VisualCamera\Presets\Noise\Handheld_wideangle_mild.asset" />
+    <None Include="src\GraphicsManager\VisualCamera\Presets\Noise\Handheld_wideangle_strong.asset" />
+    <None Include="src\GraphicsManager\VisualCamera\Presets\Noise\Vibration.asset" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
+using AorBaseUtility.Config;
 using AorFramework.core;
 
 namespace AorFramework.NodeGraph

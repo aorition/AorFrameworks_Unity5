@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ce708032f481754bb7ac6400709850f, type: 3}
+  m_Name: RoleShadowSetting
+  m_EditorClassIdentifier: 
+  Enable: 1
+  RTSize: 2
+  ShadowOffsetX: 0.24
+  ShadowOffestY: 0.25
+  ShadowOffestW: 0.2
+  PxThreshold: 0.008
+  ShadowPower: 0.45
+  EnableBlur: 1
+  ShadowBlurRadius: 0.001

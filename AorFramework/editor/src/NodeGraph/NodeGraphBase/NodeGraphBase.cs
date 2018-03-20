@@ -333,16 +333,19 @@ namespace AorFramework.NodeGraph
         //
         protected virtual void _draw_welcome()
         {
-            AorGUILayout.Vertical(() =>
-            {
+
+            GUILayout.BeginVertical(GUILayout.Height(Screen.height - 50));
+
                 GUILayout.FlexibleSpace();
-                AorGUILayout.Horizontal(() =>
-                {
+                
+                GUILayout.BeginHorizontal();
+
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(NodeGraphLagDefind.GetLabelDefine(1), "HeaderLabel");
                     GUILayout.FlexibleSpace();
-                });
 
+                GUILayout.EndHorizontal();
+                
                 //test 新建工作流
                 if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(2) + " Graph"))
                 {
@@ -357,13 +360,17 @@ namespace AorFramework.NodeGraph
                 }
 
                 GUILayout.FlexibleSpace();
-            }, GUILayout.Height(Screen.height - 50));
-            AorGUILayout.Horizontal(() =>
-            {
+
+            GUILayout.EndVertical();
+            
+            GUILayout.BeginHorizontal(GUILayout.Height(50));
+
                 GUILayout.FlexibleSpace();
                 GUILayout.Label("w:" + Screen.width + " , h:" + Screen.height);
                 GUILayout.Space(10);
-            }, GUILayout.Height(50));
+
+            GUILayout.EndHorizontal();
+
         }
 
         /// <summary>
@@ -408,23 +415,29 @@ namespace AorFramework.NodeGraph
         /// </summary>
         protected virtual void _draw_unInitScreen()
         {
-            AorGUILayout.Vertical(() =>
-            {
+
+            GUILayout.BeginVertical(GUILayout.Height(Screen.height - 50));
+
                 GUILayout.FlexibleSpace();
-                AorGUILayout.Horizontal(() =>
-                {
+
+                GUILayout.BeginHorizontal();
+
                     GUILayout.FlexibleSpace();
                     GUILayout.Label(NodeGraphLagDefind.GetLabelDefine(4), "HeaderLabel");
                     GUILayout.FlexibleSpace();
-                });
-                GUILayout.FlexibleSpace();
-            }, GUILayout.Height(Screen.height - 50));
-            AorGUILayout.Horizontal(() =>
-            {
+
+                GUILayout.EndHorizontal();
+
+            GUILayout.EndVertical();
+
+            GUILayout.BeginHorizontal(GUILayout.Height(50));
+
                 GUILayout.FlexibleSpace();
                 GUILayout.Label("w:" + Screen.width + " , h:" + Screen.height);
                 GUILayout.Space(10);
-            }, GUILayout.Height(50));
+
+            GUILayout.EndHorizontal();
+
         }
 
         protected NodeGUI _MainNode;

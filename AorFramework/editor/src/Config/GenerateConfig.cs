@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using AorBaseUtility;
+using AorBaseUtility.Config;
 
 public class GenerateConfig : EditorWindow {
     //用于寻找配置表保存的数据
@@ -21,7 +22,7 @@ public class GenerateConfig : EditorWindow {
         new Dictionary<Type, Dictionary<Type, List<string>>>();
     private static List<string> RelationalTypeNameList = new List<string>();
 
-    [MenuItem("FrameworkTools/配置表管理/配置表编辑器")]
+    [MenuItem("FrameworkTools/配置表管理/配置表编辑器",false,110)]
     static void AddWindow()
     {
         //创建窗口

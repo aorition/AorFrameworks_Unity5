@@ -1,0 +1,26 @@
+Unity对您的脚本支持的平台定义有:
+
+UNITY_EDITOR		用于执行UnityEditor模式下的脚本的定义.
+UNITY_STANDALONE_OSX	用于编译和执行专门针对Mac OS的代码的平台定义.
+UNITY_DASHBOARD_WIDGET	为创建Dashboard widget工具的代码的平台定义.
+UNITY_STANDALONE_WIN	专门为Windows的独立应用程序编译/执行代码的平台定义.
+UNITY_STANDALONE_LINUX	专门为Linux的独立应用程序编译/执行代码的平台定义.
+UNITY_STANDALONE	为任何平台的独立应用程序编译/执行代码的平台定义（包括Windows、Mac、Linux）.
+UNITY_WEBPLAYER		网页播放器的内容的平台定义?(这包括Windows和Mac的Web播放器的可执行文件).
+UNITY_WII		专门为Wii游戏机编译和执行代码的平台定义.
+UNITY_IPHONE		为iPhone平台的编译和执行代码的平台定义.
+UNITY_ANDROID		为安卓平台的编译和执行代码的平台定义.
+UNITY_PS3		为PS3编译和执行代码的平台定义.
+UNITY_XBOX360		为XBOX360编译和执行代码的平台定义.
+UNITY_NACL		为谷歌客户端编译和执行代码的平台定义.?(这是对?UNITY_WEBPLAYER的补充).
+UNITY_FLASH		为AdobeFlash编译和执行代码的平台定义.
+
+
+
+你也可以为了区分Unity引擎的不同版本有选择的编译代码.
+常用版本定义宏:
+
+UNITY_4_7	Unity 4.7版本.
+UNITY_5_6	UNITY 5.6版本
+UNITY_5_6_3	UNITY 5.6.3版本
+UNITY_5_6_OR_NEWER	Unity 5.6或者后续版本.

@@ -87,6 +87,9 @@ public static class TransformExtends
         }
     }
 
+
+
+
     /// <summary>
     /// 获取当前Transform对象上挂载的接口
     /// </summary>
@@ -164,7 +167,7 @@ public static class TransformExtends
         {
             return null;
         }
-        //return inObj.GetComponents<Component>().OfType<T>().FirstOrDefault();
+
         Component[] cp = tran.gameObject.GetComponentsInChildren<Component>();
         int i, length = cp.Length;
         for (i = 0; i < length; i++)
@@ -179,12 +182,94 @@ public static class TransformExtends
     }
 
     /// <summary>
+    /// 获取当前Transform父集上挂载的接口
+    /// 
+    /// 默认API扩展，GetComponentInParent
+    /// 
+    /// </summary>
+    public static T GetInterfaceInParent<T>(this Transform tran) where T : class
+    {
+        if (!typeof(T).IsInterface)
+        {
+            return null;
+        }
+
+        Component[] cp = tran.gameObject.GetComponentsInParent<Component>();
+        if (cp != null && cp.Length > 0)
+        {
+            int i, len = cp.Length;
+            for (i = 0; i < len; i++)
+            {
+                if (cp[i] is T)
+                {
+                    T t = cp[i] as T;
+                    return t;
+                }
+            }
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// 获取当前Transform子集上挂载的接口
+    /// 包含隐藏或者未激活的节点
+    /// </summary>
+    public static T FindInterfaceInChildren<T>(this Transform tran, bool incudeSelf = false) where T : class
+    {
+        if (!typeof(T).IsInterface)
+        {
+            return null;
+        }
+
+        List<Component> cp = tran.FindComponentListInChildren<Component>(incudeSelf);
+        if (cp != null && cp.Count > 0)
+        {
+            int i, len = cp.Count;
+            for (i = 0; i < len; i++)
+            {
+                if (cp[i] is T)
+                {
+                    T t = cp[i] as T;
+                    return t;
+                }
+            }
+        }
+        return null;
+    }
+    /// <summary>
+    /// 获取当前Transform父集上挂载的接口
+    /// 包含隐藏或者未激活的节点
+    /// </summary
+    public static T FindInterfaceInParent<T>(this Transform tran, bool incudeSelf = false) where T : class
+    {
+        if (!typeof(T).IsInterface)
+        {
+            return null;
+        }
+
+        List<Component> cp = tran.FindComponentListInParent<Component>();
+        if (cp != null && cp.Count > 0)
+        {
+            int i, len = cp.Count;
+            for (i = 0; i < len; i++)
+            {
+                if (cp[i] is T)
+                {
+                    T t = cp[i] as T;
+                    return t;
+                }
+            }
+        }
+        return null;
+    }
+    
+    /// <summary>
     /// 获取当前Transform对象上挂载的接口集合
     /// 
     ///默认API扩展，GetComponentsInChildren
     /// 
     /// </summary>
-    public static List<T> GetInterfacesListInChlidren<T>(this Transform tran) where T : class
+    public static List<T> GetInterfaceListInChlidren<T>(this Transform tran) where T : class
     {
         if (!typeof(T).IsInterface)
         {
@@ -222,7 +307,7 @@ public static class TransformExtends
     /// </summary>
     public static T[] GetInterfacesInChlidren<T>(this Transform tran) where T : class
     {
-        List<T> list = tran.GetInterfacesListInChlidren<T>();
+        List<T> list = tran.GetInterfaceListInChlidren<T>();
         if (list != null)
         {
             return list.ToArray();
@@ -233,10 +318,10 @@ public static class TransformExtends
     /// <summary>
     /// 获取当前Transform对象上挂载的接口集合
     /// 
-    /// 默认API扩展，搜索精度同GetComponentsInParent
+    /// 默认API扩展，GetComponentsInParent
     /// 
     /// </summary>
-    public static List<T> GetInterfacesListInParent<T>(this Transform tran) where T : class
+    public static List<T> GetInterfaceListInParent<T>(this Transform tran) where T : class
     {
         if (!typeof(T).IsInterface)
         {
@@ -268,12 +353,12 @@ public static class TransformExtends
     /// <summary>
     /// 获取当前Transform对象上挂载的接口集合
     /// 
-    /// 默认API扩展，搜索精度同GetComponentsInParent
+    /// 默认API扩展，GetComponentsInParent
     /// 
     /// </summary>
     public static T[] GetInterfacesInParent<T>(this Transform tran) where T : class
     {
-        List<T> list = tran.GetInterfacesListInParent<T>();
+        List<T> list = tran.GetInterfaceListInParent<T>();
         if (list != null)
         {
             return list.ToArray();
@@ -343,6 +428,69 @@ public static class TransformExtends
         }
         return null;
     }
+    
+    /// <summary>
+    /// 返回当前节点以下的Interface,包含隐藏或者未激活的节点
+    /// <param name="incudeSelf">是否包含自身节点</param>
+    /// <param name="filter">过滤器：返回True为通过过滤</param>
+    /// <param name="doSomething">遍历时附加行为</param>
+    /// </summary>
+    public static List<T> FindInterfaceListInParent<T>(this Transform tran, bool incudeSelf = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
+    {
+        if (!typeof(T).IsInterface)
+        {
+            return null;
+        }
+
+        List<Component> cp = tran.FindComponentListInParent<Component>(incudeSelf);
+        if (cp != null && cp.Count > 0)
+        {
+            List<T> list = new List<T>();
+            int i, len = cp.Count;
+            for (i = 0; i < len; i++)
+            {
+                if (cp[i] is T)
+                {
+                    T t = cp[i] as T;
+                    if (filter != null)
+                    {
+                        if (filter(t))
+                        {
+                            list.Add(t);
+                            if (doSomething != null) doSomething(t);
+                        }
+                    }
+                    else
+                    {
+                        list.Add(t);
+                        if (doSomething != null) doSomething(t);
+                    }
+                }
+            }
+            if (list.Count > 0)
+            {
+                return list;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// 返回当前节点以下的Interface,包含隐藏或者未激活的节点
+    /// <param name="incudeSelf">是否包含自身节点</param>
+    /// <param name="filter">过滤器：返回True为通过过滤</param>
+    /// <param name="doSomething">遍历时附加行为</param>
+    /// </summary>
+    public static T[] FindInterfacesInParent<T>(this Transform tran, bool incudeSelf = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
+    {
+        List<T> list = FindInterfaceListInParent(tran, incudeSelf, filter, doSomething);
+        if (list != null)
+        {
+            return list.ToArray();
+        }
+        return null;
+    }
 
     /// <summary>
     /// 返回Root节点以下的所有Interface,包含隐藏或者未激活的节点
@@ -350,7 +498,7 @@ public static class TransformExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// </summary>
-    public static List<T> FindAllInterfaceList<T> (this Transform tran, bool incudeRoot = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
+    public static List<T> FindAllInterfaceList<T> (this Transform tran, Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
     {
         
         if (!typeof(T).IsInterface)
@@ -358,7 +506,7 @@ public static class TransformExtends
             return null;
         }
 
-        List<Component> cp = tran.FindAllComponentList<Component>(incudeRoot);
+        List<Component> cp = tran.FindAllComponentList<Component>();
         if (cp != null && cp.Count > 0)
         {
             List<T> list = new List<T>();
@@ -391,16 +539,16 @@ public static class TransformExtends
         
         return null;
     }
-
+    
     /// <summary>
     /// 返回Root节点以下的所有Interface,包含隐藏或者未激活的节点
     /// <param name="incudeRoot">是否包含Root节点</param>
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// </summary>
-    public static T[] FindAllInterfaces<T>(this Transform tran, bool incudeRoot = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
+    public static T[] FindAllInterfaces<T>(this Transform tran, Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
     {
-        List<T> list = tran.FindAllInterfaceList<T>(incudeRoot, filter, doSomething);
+        List<T> list = tran.FindAllInterfaceList<T>(filter, doSomething);
         if (list != null)
         {
             return list.ToArray();
@@ -411,9 +559,9 @@ public static class TransformExtends
     /// <summary>
     /// 查找或者创建Component(当前Component在当前节点对象找不到,则在当前对象上创建Component)
     /// </summary>
-    public static T AddMissingComponent<T>(this Transform tran) where T : Component
+    public static T GetOrCreateComponent<T>(this Transform tran) where T : Component
     {
-        return tran.gameObject.AddMissingComponent<T>();
+        return tran.gameObject.GetOrCreateComponent<T>();
     }
 
     /// <summary>
@@ -423,23 +571,9 @@ public static class TransformExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// </summary>
-    public static List<T> FindAllComponentList<T>(this Transform trans, bool incudeRoot = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
+    public static List<T> FindAllComponentList<T>(this Transform trans, Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
     {
-        List<T> list = new List<T>();
-        if (incudeRoot)
-        {
-            T cpt = trans.root.GetComponent<T>();
-            if (cpt != null)
-            {
-                list.Add(cpt);
-            }
-        }
-        _findComponentLoop<T>(trans, ref list, filter, doSomething);
-        if (list.Count > 0)
-        {
-            return list;
-        }
-        return null;
+        return trans.root.FindComponentListInChildren(true, filter, doSomething);
     }
 
     /// <summary>
@@ -449,17 +583,16 @@ public static class TransformExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// </summary>
-    public static T[] FindAllComponents<T>(this Transform trans, bool incudeRoot = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
+    public static T[] FindAllComponents<T>(this Transform trans, Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
     {
-        List<T> list = trans.FindAllComponentList<T>(incudeRoot, filter, doSomething);
+        List<T> list = FindAllComponentList<T>(trans, filter, doSomething);
         if (list != null)
         {
             return list.ToArray();
         }
         return null;
     }
-
-
+    
     /// <summary>
     /// 按照节点顺序返回所有子节点的Component,包含隐藏或者未激活的节点;
     /// </summary>
@@ -478,7 +611,7 @@ public static class TransformExtends
                 list.Add(cpt);
             }
         }
-        _findComponentLoop<T>(trans, ref list, filter, doSomething);
+        _findComponentInChildrenLoop<T>(trans, ref list, filter, doSomething);
         if (list.Count > 0)
         {
             return list;
@@ -504,7 +637,52 @@ public static class TransformExtends
         return null;
     }
 
-    private static void _findComponentLoop<T>(Transform t, ref List<T> list, Func<T,bool> filter = null, Action<T> doSomething = null) where T : Component {
+    /// <summary>
+    /// 按照节点顺序返回所有上级节点的Component,包含隐藏或者未激活的节点;
+    /// </summary>
+    /// <typeparam name="T">Component</typeparam>
+    /// <param name="incudeSelf">是否包含自身节点</param>
+    /// <param name="filter">过滤器：返回True为通过过滤</param>
+    /// <param name="doSomething">遍历时附加行为</param>
+    /// <returns></returns>
+    public static List<T> FindComponentListInParent<T>(this Transform trans, bool incudeSelf = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
+    {
+        List<T> list = new List<T>();
+        if (incudeSelf)
+        {
+            T cpt = trans.GetComponent<T>();
+            if (cpt != null)
+            {
+                list.Add(cpt);
+            }
+        }
+        _findComponentInParentLoop<T>(trans, ref list, filter, doSomething);
+        if (list.Count > 0)
+        {
+            return list;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// 按照节点顺序返回所有上级节点的Component,包含隐藏或者未激活的节点;
+    /// </summary>
+    /// <typeparam name="T">Component</typeparam>
+    /// <param name="incudeSelf">是否包含自身节点</param>
+    /// <param name="filter">过滤器：返回True为通过过滤</param>
+    /// <param name="doSomething">遍历时附加行为</param>
+    /// <returns></returns>
+    public static T[] FindComponentsInParent<T>(this Transform trans, bool incudeSelf = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
+    {
+        List<T> list = trans.FindComponentListInParent<T>(incudeSelf, filter, doSomething);
+        if (list != null)
+        {
+            return list.ToArray();
+        }
+        return null;
+    }
+
+    private static void _findComponentInChildrenLoop<T>(Transform t, ref List<T> list, Func<T,bool> filter = null, Action<T> doSomething = null) where T : Component {
         int i, len = t.childCount;
         for (i = 0; i < len; i++) {
             Transform ct = t.GetChild(i);
@@ -531,8 +709,40 @@ public static class TransformExtends
                 }
             }
             if (ct.childCount > 0) {
-                _findComponentLoop<T>(ct, ref list);
+                _findComponentInChildrenLoop<T>(ct, ref list);
             }
         }
     }
+
+    private static void _findComponentInParentLoop<T>(Transform t, ref List<T> list, Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
+    {
+        if (t.parent)
+        {
+            Transform ct = t.parent;
+            T[] cpts = ct.GetComponents<T>();
+            if (cpts != null && cpts.Length > 0)
+            {
+                int c, cLen = cpts.Length;
+                for (c = 0; c < cLen; c++)
+                {
+                    T cpt = cpts[c];
+                    if (cpt)
+                    {
+                        if (filter != null)
+                        {
+                            if (filter(cpt)) list.Add(cpt);
+                            if (doSomething != null) doSomething(cpt);
+                        }
+                        else
+                        {
+                            list.Add(cpt);
+                            if (doSomething != null) doSomething(cpt);
+                        }
+                    }
+                }
+            }
+            _findComponentInParentLoop<T>(t.parent, ref list, filter, doSomething);
+        }
+    }
+
 }

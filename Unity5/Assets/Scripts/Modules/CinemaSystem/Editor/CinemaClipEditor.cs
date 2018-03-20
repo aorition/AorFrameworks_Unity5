@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using YoukiaUnity.CinemaSystem;
-
+using AorBaseUtility;
 
 [CustomEditor(typeof(CinemaClip))]
 public class CinemaClipEditor : UnityEditor.Editor

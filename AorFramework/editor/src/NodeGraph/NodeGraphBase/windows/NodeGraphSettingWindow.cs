@@ -43,11 +43,12 @@ namespace AorFramework.NodeGraph.Tool
             {
                 GUILayout.Label("未初始化 ... ...");
                 GUILayout.FlexibleSpace();
-                AorGUILayout.Horizontal(() =>
-                {
-                    GUILayout.FlexibleSpace();
-                    GUILayout.Label(Screen.width + " , " + Screen.height);
-                });
+                GUILayout.BeginHorizontal();
+
+                GUILayout.FlexibleSpace();
+                GUILayout.Label(Screen.width + " , " + Screen.height);
+
+                GUILayout.EndHorizontal();
                 return;
             }
 

@@ -1,14 +1,8 @@
-/**
- * Coypright 2013 by 刘耀鑫<xiney@youkia.com>.
- */
 using System;
 using System.Collections;
 
 namespace AorBaseUtility
 {
-/**
- * @author 刘耀鑫
- */
 
     public class ByteBuffer : ICloneable
     {

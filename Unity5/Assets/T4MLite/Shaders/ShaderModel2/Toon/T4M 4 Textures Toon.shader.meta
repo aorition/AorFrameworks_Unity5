@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 90942dfe4134d124bba581939355b600
+timeCreated: 1490344704
+licenseType: Pro
+ShaderImporter:
+  defaultTextures:
+  - _Splat0: {instanceID: 0}
+  - _Splat1: {instanceID: 0}
+  - _Splat2: {instanceID: 0}
+  - _Splat3: {instanceID: 0}
+  - _Control: {instanceID: 0}
+  - _ToonShade: {fileID: 8900000, guid: 18bfa330e0f847d4083fc515daf36789, type: 3}
+  - _MainTex: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

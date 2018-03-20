@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\bin\Editor\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UNITY_5_6,UNITY_EDITOR</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\Config\ConfigEditor.cs" />
     <Compile Include="src\Config\ConfigEditorUI.cs" />
     <Compile Include="src\Config\ConfigEncoding.cs" />
     <Compile Include="src\Config\ConfigFieldEditor.cs" />
@@ -72,9 +71,33 @@
     <Compile Include="src\Config\GenerateConfig.cs" />
     <Compile Include="src\Core\EditorAssetInfo.cs" />
     <Compile Include="src\Core\EditorAssetInfoExents.cs" />
-    <Compile Include="src\Core\EditorGUIUtility.cs" />
     <Compile Include="src\Core\EditorPlusMethods.cs" />
+    <Compile Include="src\Core\NGUIEditorGUIUtility.cs" />
     <Compile Include="src\Extends\EditorExtends.cs" />
+    <Compile Include="src\GraphicsManager\CustomLightSystem\Editor\CustomLightManagerEditor.cs" />
+    <Compile Include="src\GraphicsManager\Scripts\Editor\EditorReflectionHelpers.cs" />
+    <Compile Include="src\GraphicsManager\Scripts\Editor\GraphicsManagerEditor.cs" />
+    <Compile Include="src\GraphicsManager\Scripts\Editor\GraphicsSettingAssetEditor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\BaseEditor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\BasicNoisePerlinEditor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\ComposerEditor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\EditorVisualCameraManager.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\FramingTransposerEditor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\GEVPathEditor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\GEVSmoothPathEditor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\GMVSettings.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\HardLockToTargetEditor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\HardLookAtEditor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\OrbitalTransposerEditor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\SameAsFollowObjectEditor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\ScreenComposerGuides.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\SerializedPropertyHelper.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\TrackedDollyEditor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\TransposerEditor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\VCETargetGroup.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\VisualCameraEditor.cs" />
+    <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Editor\VisualCameraExtensionEditor.cs" />
+    <Compile Include="src\ImportAssetsUtil\FBXImportUtil.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\AssetsNodeGraph.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleBuilder\AssetBundleBuilderController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleBuilder\AssetBundleBuilderData.cs" />
@@ -150,12 +173,13 @@
     <Compile Include="src\NodeGraph\NodeGraphBase\Utility\REFUtility.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\windows\AssetPathBrowserWindow.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\windows\NodeGraphSettingWindow.cs" />
-    <Compile Include="src\Tools\AssetsFindEditorWindow.cs" />
     <Compile Include="src\Tools\CameraBrowser\CameraBrowserWindow.cs" />
     <Compile Include="src\Tools\DllUpgrader.cs" />
     <Compile Include="src\Tools\EditorStyleView.cs" />
     <Compile Include="src\Tools\MeshCombineTool\MeshCombineTool.cs" />
     <Compile Include="src\Tools\MeshCombineTool\PrefabLightmapDataEditor.cs" />
+    <Compile Include="src\Tools\MeshExportUtil.cs" />
+    <Compile Include="src\Tools\PrefabLinker\PrefabLinkerEditor.cs" />
     <Compile Include="src\Tools\ShaderWriter\ShaderWriter.cs" />
     <Compile Include="src\Tools\ShaderWriter\SwPropertyItem.cs" />
     <Compile Include="src\Tools\ShaderWriter\SwSubShaderTag.cs" />

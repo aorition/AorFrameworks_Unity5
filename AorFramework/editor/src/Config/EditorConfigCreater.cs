@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Linq;
 using System.Text;
 using AorBaseUtility;
+using AorBaseUtility.Config;
 using UnityEngine;
 
 public class EditorConfigCreater

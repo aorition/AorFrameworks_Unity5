@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using AorBaseUtility;
+using AorBaseUtility.Config;
+using AorBaseUtility.MiniJSON;
 using UnityEngine;
 using AorFramework.core;
 
@@ -21,7 +23,7 @@ namespace AorFramework.NodeGraph
 
             Dictionary<string, string> usingTypeDic = new Dictionary<string, string>();
 
-            Dictionary<string, object> SrcDic = MiniJSON.Json.DecodeToDic(src);
+            Dictionary<string, object> SrcDic = Json.DecodeToDic(src);
             if (SrcDic != null)
             {
                 int i, len;

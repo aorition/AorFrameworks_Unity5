@@ -62,41 +62,43 @@ namespace AorFramework.NodeGraph.Tool
             {
                 GUILayout.Label("未初始化 ... ...");
                 GUILayout.FlexibleSpace();
-                AorGUILayout.Horizontal(() =>
-                {
-                    GUILayout.FlexibleSpace();
-                    GUILayout.Label(Screen.width + " , " + Screen.height);
-                });
+
+                GUILayout.BeginHorizontal();
+
+                GUILayout.FlexibleSpace();
+                GUILayout.Label(Screen.width + " , " + Screen.height);
+
+                GUILayout.EndHorizontal();
                 return;
             }
 
-            AorGUILayout.Vertical("box", () =>
+            GUILayout.BeginVertical("box");
+
+            GUILayout.BeginHorizontal("box");
+
+            GUILayout.Label("输入" + _AssetsPath.Count + "个资源 ：共 " + _pageNum + "页（每页最多" + _MaxPrePage + "条)", GetAssetItemLabelStyle());
+
+            if (GUILayout.Button(new GUIContent("SelectAll"), GUILayout.Width(100)))
             {
-
-                GUILayout.BeginHorizontal("box");
-                
-                GUILayout.Label("输入" + _AssetsPath.Count + "个资源 ：共 " + _pageNum + "页（每页最多" + _MaxPrePage + "条)" ,GetAssetItemLabelStyle());
-
-                if (GUILayout.Button(new GUIContent("SelectAll"), GUILayout.Width(100)))
+                //Todo 
+                List<UnityEngine.Object> pathList = new List<UnityEngine.Object>();
+                for (int i = 0; i < _AssetsPath.Count; i++)
                 {
-                    //Todo 
-                    List<UnityEngine.Object> pathList = new List<UnityEngine.Object>();
-                    for (int i = 0; i < _AssetsPath.Count; i++)
+                    UnityEngine.Object pathOb = AssetDatabase.LoadMainAssetAtPath(_AssetsPath[i]);
+                    if (pathOb != null)
                     {
-                        UnityEngine.Object pathOb = AssetDatabase.LoadMainAssetAtPath(_AssetsPath[i]);
-                        if (pathOb != null)
-                        {
-                            pathList.Add(pathOb);
-                        }
+                        pathList.Add(pathOb);
                     }
-                    Selection.objects = pathList.ToArray();
-
                 }
+                Selection.objects = pathList.ToArray();
 
-                GUILayout.EndHorizontal();
+            }
 
-                draw_main();
-            });
+            GUILayout.EndHorizontal();
+
+            draw_main();
+
+            GUILayout.EndVertical();
 
             Repaint();
         }
@@ -149,88 +151,88 @@ namespace AorFramework.NodeGraph.Tool
             _pageId = Mathf.Clamp(_pageId, 0, _pageNum);
             UpdateInfoListForPage();
 
-            _listScrollPos = AorGUILayout.ScrollView(_listScrollPos, (v2) =>
+            _listScrollPos = EditorGUILayout.BeginScrollView(_listScrollPos);
+
+            int i, len = _infoListForPage.Count;
+
+            if (len > 0)
             {
-
-                int i, len = _infoListForPage.Count;
-
-                if (len > 0)
+                for (i = 0; i < len; i++)
                 {
-                    for (i = 0; i < len; i++)
+
+                    int idx = i;
+                    string path = _infoListForPage[idx];
+                    if (idx == _selectIndex)
                     {
-
-                        int idx = i;
-                        string path = _infoListForPage[idx];
-                        if (idx == _selectIndex)
-                        {
-                            draw_main_item_select(path, idx);
-                        }
-                        else
-                        {
-                            draw_main_item_normal(path, idx);
-                        }
-
+                        draw_main_item_select(path, idx);
                     }
+                    else
+                    {
+                        draw_main_item_normal(path, idx);
+                    }
+
                 }
-                else
-                {
-                    GUILayout.Label(new GUIContent("没有资源..."));
-                }
-            });
+            }
+            else
+            {
+                GUILayout.Label(new GUIContent("没有资源..."));
+            }
+
+            EditorGUILayout.EndScrollView();
 
             //draw 翻页
             if (_pageNum > 1)
             {
-                AorGUILayout.Horizontal("box", () =>
+
+                GUILayout.BeginHorizontal("box");
+
+                if (_pageId > 0)
                 {
-
-                    if (_pageId > 0)
+                    if (GUILayout.Button(new GUIContent("<-"), GUILayout.Width(30)))
                     {
-                        if (GUILayout.Button(new GUIContent("<-"), GUILayout.Width(30)))
-                        {
-                            _pageId--;
-                            _infoListForPageDirty = true;
-                            Repaint();
-                        }
-
-                    }
-                    else
-                    {
-                        if (GUILayout.Button(new GUIContent("|"), GUILayout.Width(30)))
-                        {
-                            //do nothing
-                        }
-                    }
-                    GUILayout.FlexibleSpace();
-                    GUILayout.Label("转到");
-                    int nid = EditorGUILayout.IntSlider(_pageId + 1, 1, _pageNum);
-                    if ((nid - 1) != _pageId)
-                    {
-                        _pageId = (nid - 1);
+                        _pageId--;
                         _infoListForPageDirty = true;
                         Repaint();
                     }
-                    GUILayout.Label("页");
-                    GUILayout.FlexibleSpace();
-                    GUILayout.Label("Page :" + (_pageId + 1) + " / " + _pageNum);
-                    if ((_pageId + 1) < _pageNum)
-                    {
-                        if (GUILayout.Button(new GUIContent("->"), GUILayout.Width(30)))
-                        {
-                            _pageId++;
-                            _infoListForPageDirty = true;
-                            Repaint();
-                        }
-                    }
-                    else
-                    {
-                        if (GUILayout.Button(new GUIContent("|"), GUILayout.Width(30)))
-                        {
-                            //do nothing
-                        }
-                    }
 
-                });
+                }
+                else
+                {
+                    if (GUILayout.Button(new GUIContent("|"), GUILayout.Width(30)))
+                    {
+                        //do nothing
+                    }
+                }
+                GUILayout.FlexibleSpace();
+                GUILayout.Label("转到");
+                int nid = EditorGUILayout.IntSlider(_pageId + 1, 1, _pageNum);
+                if ((nid - 1) != _pageId)
+                {
+                    _pageId = (nid - 1);
+                    _infoListForPageDirty = true;
+                    Repaint();
+                }
+                GUILayout.Label("页");
+                GUILayout.FlexibleSpace();
+                GUILayout.Label("Page :" + (_pageId + 1) + " / " + _pageNum);
+                if ((_pageId + 1) < _pageNum)
+                {
+                    if (GUILayout.Button(new GUIContent("->"), GUILayout.Width(30)))
+                    {
+                        _pageId++;
+                        _infoListForPageDirty = true;
+                        Repaint();
+                    }
+                }
+                else
+                {
+                    if (GUILayout.Button(new GUIContent("|"), GUILayout.Width(30)))
+                    {
+                        //do nothing
+                    }
+                }
+
+                GUILayout.EndHorizontal();
             }
         }
 
@@ -238,61 +240,74 @@ namespace AorFramework.NodeGraph.Tool
         {
             GUI.color = Color.yellow;
 
-            AorGUILayout.Horizontal("box", () =>
+            GUILayout.BeginHorizontal("box", GUILayout.Height(40));
+
+            GUILayout.BeginVertical();
+
+            GUILayout.FlexibleSpace();
+
+            GUILayout.BeginHorizontal();
+
+            GUILayout.Label(new GUIContent(path), GetAssetItemLabelStyle());
+            GUILayout.FlexibleSpace();
+
+            GUILayout.EndHorizontal();
+
+            GUILayout.FlexibleSpace();
+
+            GUILayout.EndVertical();
+
+            GUILayout.FlexibleSpace();
+
+            GUILayout.BeginVertical(GUILayout.Width(30));
+
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button(new GUIContent(">", "选择此条资源")))
             {
-                AorGUILayout.Vertical(() =>
-                {
-                    GUILayout.FlexibleSpace();
-                    AorGUILayout.Horizontal(() =>
-                    {
-                        GUILayout.Label(new GUIContent(path), GetAssetItemLabelStyle());
-                        GUILayout.FlexibleSpace();
-                    });
-                    GUILayout.FlexibleSpace();
-                });
-                GUILayout.FlexibleSpace();
-                AorGUILayout.Vertical(() =>
-                {
-                    GUILayout.FlexibleSpace();
-                    if (GUILayout.Button(new GUIContent(">", "选择此条资源")))
-                    {
-                        Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(path);
-                        _selectIndex = idx;
-                    }
-                    GUILayout.FlexibleSpace();
-                }, GUILayout.Width(30));
-            }, GUILayout.Height(40));
+                Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(path);
+                _selectIndex = idx;
+            }
+            GUILayout.FlexibleSpace();
+
+            GUILayout.EndVertical();
+
+            GUILayout.EndHorizontal();
 
             GUI.color = Color.white;
         }
 
         private void draw_main_item_normal(string path, int idx)
         {
-            AorGUILayout.Horizontal("box", () =>
+
+            GUILayout.BeginHorizontal("box", GUILayout.Height(40));
+
+            GUILayout.BeginVertical();
+
+            GUILayout.FlexibleSpace();
+            //                GUILayout.Label(new GUIContent(path));
+            if (GUILayout.Button(new GUIContent(path), "label"))
             {
-                AorGUILayout.Vertical(() =>
-                {
-                    GUILayout.FlexibleSpace();
-                    //                GUILayout.Label(new GUIContent(path));
-                    if (GUILayout.Button(new GUIContent(path), "label"))
-                    {
-                        //                    Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(path);
-                        _selectIndex = idx;
-                    }
-                    GUILayout.FlexibleSpace();
-                });
-                GUILayout.FlexibleSpace();
-                AorGUILayout.Vertical(() =>
-                {
-                    GUILayout.FlexibleSpace();
-                    if (GUILayout.Button(new GUIContent(">", "选择此条资源")))
-                    {
-                        Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(path);
-                        _selectIndex = idx;
-                    }
-                    GUILayout.FlexibleSpace();
-                }, GUILayout.Width(30));
-            }, GUILayout.Height(40));
+                //                    Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(path);
+                _selectIndex = idx;
+            }
+            GUILayout.FlexibleSpace();
+
+            GUILayout.EndVertical();
+
+            GUILayout.FlexibleSpace();
+
+            GUILayout.BeginVertical(GUILayout.Width(30));
+
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button(new GUIContent(">", "选择此条资源")))
+            {
+                Selection.activeObject = AssetDatabase.LoadMainAssetAtPath(path);
+                _selectIndex = idx;
+            }
+            GUILayout.FlexibleSpace();
+
+            GUILayout.EndVertical();
+            GUILayout.EndHorizontal();
         }
 
     }

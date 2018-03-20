@@ -4,7 +4,6 @@ using System.Reflection;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
-using YoukiaUnity.CinemaSystem;
 using Object = UnityEngine.Object;
 
 
@@ -71,15 +70,8 @@ public class AnimLinkageEditorSimulate
 
             if (ms != null)
                 return ms.Invoke(d, null) as Component;
-
-
-
-
         }
         return null;
-
-
-
     }
 
     //获得animWindow的当前动画剪辑
@@ -161,7 +153,7 @@ public class AnimLinkageEditorSimulate
         FieldInfo state = t2.GetField("m_State", BindingFlags.Instance | BindingFlags.NonPublic);
 
         //  MethodInfo[] ms = state.FieldType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-#if UNITY_5_5_OR_NEWER
+#if UNITY_5_6
 
         PropertyInfo timeInfo = state.FieldType.GetProperty("currentTime", BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance);
         time = (float)timeInfo.GetValue(state.GetValue(info.GetValue(window)), null);
@@ -172,12 +164,12 @@ public class AnimLinkageEditorSimulate
 //            if (time <= 0)
 //                ChangeTimeDic.Clear();
 #else
-            
-            //supported Unity 4.x
 
-            // ...待验证
+        //supported Unity 4.x
 
-            FieldInfo currentTime = t.GetField("time", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+        // ...待验证
+
+        FieldInfo currentTime = t.GetField("time", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             time = currentTime.GetValue(window);
 
 

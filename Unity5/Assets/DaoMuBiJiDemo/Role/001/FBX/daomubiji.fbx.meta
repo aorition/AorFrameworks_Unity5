@@ -1,0 +1,178 @@
+fileFormatVersion: 2
+guid: d0983319f17575046874e7b3ee1e5502
+timeCreated: 1521165817
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: bao
+    100002: bishou
+    100004: //RootNode
+    100006: juese
+    100008: toufa
+    100010: wuqi
+    100012: bao01
+    100014: bao02
+    100016: bishou01
+    100018: bishou02
+    100020: bishou03
+    100022: juese_kuzi
+    100024: juese_tou
+    100026: juese_yaodai
+    100028: juese_yifu
+    100030: juese_zhuangshi
+    100032: pCylinder1
+    100034: toufa_A
+    100036: toufa_B
+    100038: wuqi01
+    100040: wuqi02
+    400000: bao
+    400002: bishou
+    400004: //RootNode
+    400006: juese
+    400008: toufa
+    400010: wuqi
+    400012: bao01
+    400014: bao02
+    400016: bishou01
+    400018: bishou02
+    400020: bishou03
+    400022: juese_kuzi
+    400024: juese_tou
+    400026: juese_yaodai
+    400028: juese_yifu
+    400030: juese_zhuangshi
+    400032: pCylinder1
+    400034: toufa_A
+    400036: toufa_B
+    400038: wuqi01
+    400040: wuqi02
+    2300000: bao
+    2300002: bishou
+    2300004: juese
+    2300006: toufa
+    2300008: wuqi
+    2300010: bao01
+    2300012: bao02
+    2300014: bishou01
+    2300016: bishou02
+    2300018: bishou03
+    2300020: juese_kuzi
+    2300022: juese_tou
+    2300024: juese_yaodai
+    2300026: juese_yifu
+    2300028: juese_zhuangshi
+    2300030: pCylinder1
+    2300032: toufa_A
+    2300034: toufa_B
+    2300036: wuqi01
+    2300038: wuqi02
+    3300000: bao
+    3300002: bishou
+    3300004: juese
+    3300006: toufa
+    3300008: wuqi
+    3300010: bao01
+    3300012: bao02
+    3300014: bishou01
+    3300016: bishou02
+    3300018: bishou03
+    3300020: juese_kuzi
+    3300022: juese_tou
+    3300024: juese_yaodai
+    3300026: juese_yifu
+    3300028: juese_zhuangshi
+    3300030: pCylinder1
+    3300032: toufa_A
+    3300034: toufa_B
+    3300036: wuqi01
+    3300038: wuqi02
+    4300000: wuqi
+    4300002: bishou
+    4300004: toufa
+    4300006: juese
+    4300008: bao
+    4300010: wuqi02
+    4300012: wuqi01
+    4300014: bishou01
+    4300016: bishou02
+    4300018: bishou03
+    4300020: toufa_A
+    4300022: toufa_B
+    4300024: juese_yaodai
+    4300026: juese_kuzi
+    4300028: juese_tou
+    4300030: juese_yifu
+    4300032: juese_zhuangshi
+    4300034: bao01
+    4300036: bao02
+    4300038: pCylinder1
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

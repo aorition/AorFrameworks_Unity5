@@ -102,9 +102,9 @@ public class SplineAnimationInspector : UnityEditor.Editor
             }
             GUILayout.EndHorizontal();
 
-            if (EditorGUIUtility.DrawHeader("keyList"))
+            if (NGUIEditorGUIUtility.DrawHeader("keyList"))
             {
-                EditorGUIUtility.BeginContents();
+                NGUIEditorGUIUtility.BeginContents();
                 List<float> keyList = _splineAniamtion.keyList;
                 List<SplineAnimation.SplineAnimKeyInfo> infoList = _splineAniamtion.InfoList;
                 string animationName = null;
@@ -127,11 +127,11 @@ public class SplineAnimationInspector : UnityEditor.Editor
                     infoList[i].animationName = animationName;
                     infoList[i].direction = direction;
                     infoList[i].delayTime = delayTime;
-                    EditorGUIUtility.DrawOutline(GUILayoutUtility.GetRect(GUILayoutUtility.GetLastRect().width, 1), Color.grey);
+                    NGUIEditorGUIUtility.DrawOutline(GUILayoutUtility.GetRect(GUILayoutUtility.GetLastRect().width, 1), Color.grey);
                     EditorUtility.SetDirty(_splineAniamtion);
                 }
 
-                EditorGUIUtility.EndContents();
+                NGUIEditorGUIUtility.EndContents();
             }
             GUILayout.EndVertical();
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AorBaseUtility;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -14,7 +15,7 @@ using UnityEngine;
 public class AnimLinkageEditor : Editor
 {
 
-    [MenuItem("Youkia/角色动画工具/添加动画联动解算器(编辑器功能)")]
+    //[MenuItem("Youkia/角色动画工具/添加动画联动解算器(编辑器功能)")]
     public static void AnimLinkageEditorMenu()
     {
         if (Selection.activeGameObject != null)

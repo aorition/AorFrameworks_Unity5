@@ -1,4 +1,5 @@
 ﻿using AorBaseUtility;
+using AorBaseUtility.Config;
 using YoukiaCore;
 
 namespace YoukiaUnity

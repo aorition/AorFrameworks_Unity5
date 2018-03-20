@@ -1,4 +1,4 @@
-﻿using AorBaseUtility;
+﻿using AorBaseUtility.Config;
 using YoukiaUnity.Graphics.FastShadowProjector;
 
 namespace YoukiaUnity

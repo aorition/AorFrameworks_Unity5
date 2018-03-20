@@ -39,39 +39,39 @@ namespace AorFramework.editor.tools
 
             GUILayout.Space(10);
 
-            AorGUILayout.Vertical(new GUIContent("输入路径"), "window", () => {
+            GUILayout.BeginVertical(new GUIContent("输入路径"), "window", GUILayout.Height(90));
+                _inputPathScrollPos = EditorGUILayout.BeginScrollView(_inputPathScrollPos, GUILayout.Height(90));
 
-                _inputPathScrollPos = AorGUILayout.ScrollView(_inputPathScrollPos, (v2) => {
+                int i, length = _inputPathList.Count;
+                for (i = 0; i < length; i++)
+                {
 
-                    int i, length = _inputPathList.Count;
-                    for (i = 0; i < length; i++)
-                    {
+                    GUILayout.BeginHorizontal();
 
-                        AorGUILayout.Horizontal(() => {
-                            _inputPathList[i] = EditorGUILayout.TextField(_inputPathList[i]);
-                            if (GUILayout.Button(new GUIContent("M", "修改输入路径"), GUILayout.Width(25)))
+                        _inputPathList[i] = EditorGUILayout.TextField(_inputPathList[i]);
+                        if (GUILayout.Button(new GUIContent("M", "修改输入路径"), GUILayout.Width(25)))
+                        {
+                            string modifPath = EditorUtility.OpenFolderPanel("请选择输入路径", "", "");
+                            if (!string.IsNullOrEmpty(modifPath))
                             {
-                                string modifPath = EditorUtility.OpenFolderPanel("请选择输入路径", "", "");
-                                if (!string.IsNullOrEmpty(modifPath))
-                                {
-                                    _inputPathList[i] = modifPath;
-                                }
-                                Repaint();
+                                _inputPathList[i] = modifPath;
                             }
-                            if (GUILayout.Button(new GUIContent("-", "移除该路径"), GUILayout.Width(25)))
-                            {
-                                _inputPathList.RemoveAt(i);
-                                Repaint();
-                            }
-                        });
+                            Repaint();
+                        }
+                        if (GUILayout.Button(new GUIContent("-", "移除该路径"), GUILayout.Width(25)))
+                        {
+                            _inputPathList.RemoveAt(i);
+                            Repaint();
+                        }
 
-                    }
+                    GUILayout.EndHorizontal();
+                }
 
-                }, GUILayout.Height(90));
+                EditorGUILayout.EndScrollView();
+                
+                GUILayout.BeginHorizontal();
 
-                AorGUILayout.Horizontal(() => {
-
-                    GUILayout.FlexibleSpace();
+                GUILayout.FlexibleSpace();
 
                     if (GUILayout.Button(new GUIContent("+", "添加输入路径"), GUILayout.Width(80), GUILayout.Height(20)))
                     {
@@ -83,71 +83,77 @@ namespace AorFramework.editor.tools
                         Repaint();
                     }
 
-                });
+                GUILayout.EndHorizontal();
 
-            }, GUILayout.Height(120));
+            GUILayout.EndVertical();
 
             GUILayout.Space(10);
 
-            AorGUILayout.Vertical(new GUIContent("排除文件列表", "在此列表下的路径将不会复制到目标路径"), "window", () => {
+            GUILayout.BeginVertical(new GUIContent("排除文件列表", "在此列表下的路径将不会复制到目标路径"), "window", GUILayout.Height(120));
 
-                _inputPathScrollPos_e = AorGUILayout.ScrollView(_inputPathScrollPos_e, (v2) => {
+            _inputPathScrollPos_e = EditorGUILayout.BeginScrollView(_inputPathScrollPos_e, GUILayout.Height(90));
 
-                    int i, length = _excludeFiles.Count;
-                    for (i = 0; i < length; i++)
+            length = _excludeFiles.Count;
+            for (i = 0; i < length; i++)
+            {
+
+                GUILayout.BeginHorizontal();
+
+                _excludeFiles[i] = EditorGUILayout.TextField(_excludeFiles[i]);
+                if (GUILayout.Button(new GUIContent("M", "修改"), GUILayout.Width(25)))
+                {
+                    //                            string modifPath = EditorUtility.OpenFolderPanel("请选择需要排除的文件", "", "");
+                    string modifPath = EditorUtility.OpenFilePanel("请选择需要排除的文件", "", "");
+                    if (!string.IsNullOrEmpty(modifPath))
                     {
-
-                        AorGUILayout.Horizontal(() => {
-                            _excludeFiles[i] = EditorGUILayout.TextField(_excludeFiles[i]);
-                            if (GUILayout.Button(new GUIContent("M", "修改"), GUILayout.Width(25)))
-                            {
-                                //                            string modifPath = EditorUtility.OpenFolderPanel("请选择需要排除的文件", "", "");
-                                string modifPath = EditorUtility.OpenFilePanel("请选择需要排除的文件", "", "");
-                                if (!string.IsNullOrEmpty(modifPath))
-                                {
-                                    _excludeFiles[i] = modifPath;
-                                }
-                                Repaint();
-                            }
-                            if (GUILayout.Button(new GUIContent("-", "移除"), GUILayout.Width(25)))
-                            {
-                                _excludeFiles.RemoveAt(i);
-                                Repaint();
-                            }
-                        });
-
+                        _excludeFiles[i] = modifPath;
                     }
+                    Repaint();
+                }
+                if (GUILayout.Button(new GUIContent("-", "移除"), GUILayout.Width(25)))
+                {
+                    _excludeFiles.RemoveAt(i);
+                    Repaint();
+                }
 
-                }, GUILayout.Height(90));
+                GUILayout.EndHorizontal();
 
-                AorGUILayout.Horizontal(() => {
+            }
 
-                    GUILayout.FlexibleSpace();
+            EditorGUILayout.EndScrollView();
 
-                    if (GUILayout.Button(new GUIContent("+", "添加需要排除的文件"), GUILayout.Width(80), GUILayout.Height(20)))
+            GUILayout.BeginHorizontal();
+
+                GUILayout.FlexibleSpace();
+
+                if (GUILayout.Button(new GUIContent("+", "添加需要排除的文件"), GUILayout.Width(80), GUILayout.Height(20)))
+                {
+                    //                    string newPath = EditorUtility.OpenFolderPanel("请选择输入路径", "", "");
+                    string newPath = EditorUtility.OpenFilePanel("请选择需要排除的文件", "", "");
+                    if (!string.IsNullOrEmpty(newPath))
                     {
-                        //                    string newPath = EditorUtility.OpenFolderPanel("请选择输入路径", "", "");
-                        string newPath = EditorUtility.OpenFilePanel("请选择需要排除的文件", "", "");
-                        if (!string.IsNullOrEmpty(newPath))
-                        {
-                            _excludeFiles.Add(newPath);
-                        }
-                        Repaint();
+                        _excludeFiles.Add(newPath);
                     }
+                    Repaint();
+                }
 
-                });
+            GUILayout.EndHorizontal();
 
-            }, GUILayout.Height(120));
+            GUILayout.EndVertical();
 
-            AorGUILayout.Vertical(new GUIContent("输出路径", "所有输入路径下的文件(包括子目录)都会复制到此文件夹下"), "window", () => {
-                AorGUILayout.Horizontal(() => {
-                    _exportsPath = EditorGUILayout.TextField(_exportsPath, GUILayout.Height(32));
-                    if (GUILayout.Button(new GUIContent("选择"), GUILayout.Width(50), GUILayout.Height(32)))
-                    {
-                        _exportsPath = EditorUtility.OpenFolderPanel("请选择输出路径", "", "");
-                    }
-                });
-            }, GUILayout.Height(50));
+            GUILayout.BeginVertical(new GUIContent("输出路径", "所有输入路径下的文件(包括子目录)都会复制到此文件夹下"), "window", GUILayout.Height(50));
+
+            GUILayout.BeginHorizontal();
+
+            _exportsPath = EditorGUILayout.TextField(_exportsPath, GUILayout.Height(32));
+            if (GUILayout.Button(new GUIContent("选择"), GUILayout.Width(50), GUILayout.Height(32)))
+            {
+                _exportsPath = EditorUtility.OpenFolderPanel("请选择输出路径", "", "");
+            }
+
+            GUILayout.EndHorizontal();
+
+            GUILayout.EndVertical();
 
             GUILayout.FlexibleSpace();
 

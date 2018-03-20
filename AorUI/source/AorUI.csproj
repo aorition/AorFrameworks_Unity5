@@ -68,7 +68,7 @@
     <Compile Include="src\UGUIHelper\RTSizeListener.cs" />
     <Compile Include="src\UGUISRC\UGUI_FontUpdateTracker_SC.cs" />
     <Compile Include="src\UGUISRC\UGUI_Text_SC.cs" />
-    <Compile Include="src\UIUtility\AorRTFBrowser\AorRTFBrowser.cs" />
+    <Compile Include="src\UIUtility\RTFBrowser\RTFBrowser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AorBaseUtility\AorBaseUtility.csproj">

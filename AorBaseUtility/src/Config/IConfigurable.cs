@@ -1,4 +1,4 @@
-﻿namespace AorBaseUtility
+﻿namespace AorBaseUtility.Config
 {
     public interface IConfigurable<T> where T : Config
     {

@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using AorBaseUtility;
-using AorFramework.core;
+using AorBaseUtility.Config;
 using AorFramework.module;
 using UnityEngine;
 using YoukiaUnity.Graphics.FastShadowProjector;

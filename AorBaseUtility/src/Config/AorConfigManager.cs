@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AorBaseUtility;
 
-namespace AorFramework.core
+namespace AorBaseUtility.Config
 {
+
+    /// <summary>
+    /// (为完成)
+    /// </summary>
     public class AorConfigManager
     {
 

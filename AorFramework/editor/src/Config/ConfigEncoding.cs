@@ -17,7 +17,7 @@ public class ConfigEncoding : EditorWindow
     public const string CONFIG_ENCODING_CACHE_NAME = "F_UnityExtends_";
 
 
-	[MenuItem ("FUnityExtends/ConfigEncoding/Conver To UTF-8 #%&C")]
+	[MenuItem ("FrameworkTools/配置表管理/ConfigEncoding/Conver To UTF-8 #%&C")]
     public static void Conver()
     {
 		string currentPaths = getConfigPath ();
@@ -28,13 +28,13 @@ public class ConfigEncoding : EditorWindow
         }
         ConverEncoding(currentPaths);
     }
-	[MenuItem ("FUnityExtends/ConfigEncoding/Clear Path")]
+	[MenuItem ("FrameworkTools/配置表管理/ConfigEncoding/Clear Path")]
 	public static void ClearPath ()
 	{
 		PlayerPrefs.DeleteKey (CONFIG_ENCODING_CACHE_NAME + "Paths");
 	}
 
-    [MenuItem("FUnityExtends/ConfigEncoding/Settings")]
+    [MenuItem("FrameworkTools/配置表管理/ConfigEncoding/Settings")]
     public static void Settings()
     {
         EditorWindow.GetWindow<ConfigEncoding>(false, "ConfigEncoding", true);
@@ -53,8 +53,7 @@ public class ConfigEncoding : EditorWindow
 		string currentPaths = PlayerPrefs.GetString (CONFIG_ENCODING_CACHE_NAME + "Paths", defaultPath);
 		return currentPaths;
 	}
-
-
+    
     private void OnGUI()
     {
         string currentPaths = PlayerPrefs.GetString(CONFIG_ENCODING_CACHE_NAME + "Paths", "No Selected");
@@ -69,9 +68,7 @@ public class ConfigEncoding : EditorWindow
         }
 
     }
-
-
-
+    
     private static void ConverEncoding(string paths)
     {
         int count = 0;

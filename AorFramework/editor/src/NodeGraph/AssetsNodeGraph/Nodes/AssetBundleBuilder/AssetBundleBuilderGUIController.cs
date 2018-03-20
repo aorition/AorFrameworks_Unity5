@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AorBaseUtility;
 using AorFramework.NodeGraph.Tool;
 using AorFramework.NodeGraph.Utility;
 using UnityEditor;
@@ -87,7 +88,7 @@ namespace AorFramework.NodeGraph
             NodeGraphUtility.Draw_NG_EnumPopup<BuildAssetBundleOptions>(m_nodeGUI.data, "BBOEnum",new GUIContent("BuildAssetBundleOptions"));
 
             //BuildTarget
-            NodeGraphUtility.Draw_NG_EnumPopup<BuildAssetBundleOptions>(m_nodeGUI.data, "BTEnum", new GUIContent("BuildTarget"));
+            NodeGraphUtility.Draw_NG_EnumPopup<BuildTarget>(m_nodeGUI.data, "BTEnum", new GUIContent("BuildTarget"));
 
             //save路径
             NodeGraphUtility.Draw_NG_TextField(m_nodeGUI.data, "SubPath", new GUIContent("APBundleSave路径(默认为空)"));

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AorBaseUtility;
 using UnityEngine;
 
 namespace AorFrameworks
@@ -188,6 +189,23 @@ namespace AorFrameworks
             }
 
             return projMat;
+        }
+
+        /// <summary>
+        /// 插值 Fov 
+        /// </summary>
+        /// <returns></returns>
+        public static float InterpolateFOV(float fovA, float fovB, float dA, float dB, float t)
+        {
+            // We interpolate shot height
+            float hA = dA * 2f * Mathf.Tan(fovA * Mathf.Deg2Rad / 2f);
+            float hB = dB * 2f * Mathf.Tan(fovB * Mathf.Deg2Rad / 2f);
+            float h = Mathf.Lerp(hA, hB, t);
+            float fov = 179f;
+            float d = Mathf.Lerp(dA, dB, t);
+            if (d > FloatExtends.Epsilon)
+                fov = 2f * Mathf.Atan(h / (2 * d)) * Mathf.Rad2Deg;
+            return Mathf.Clamp(fov, Mathf.Min(fovA, fovB), Mathf.Max(fovA, fovB));
         }
 
 

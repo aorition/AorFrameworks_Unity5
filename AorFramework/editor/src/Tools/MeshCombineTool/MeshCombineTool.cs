@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class MeshCombineTool
 {
-    [MenuItem("Youkia/Mesh合并工具/MeshCombineInScene")]
+    [MenuItem("FrameworkTools/Mesh合并工具/MeshCombineInScene")]
     public static void MeshCombineInScene()
     {
         GameObject root = Selection.activeGameObject;
@@ -49,7 +49,7 @@ public class MeshCombineTool
 
         removeTransWidthEditorOnlyTag(combined.transform);
 
-        PrefabLightmapData[] prefabLightmapDatas = combined.FindAllComponents<PrefabLightmapData>();
+        PrefabLightmapData[] prefabLightmapDatas = combined.FindAllInterfaceList<PrefabLightmapData>().ToArray();
         if (prefabLightmapDatas.Length > 0)
         {
             int i, len = prefabLightmapDatas.Length;
@@ -194,7 +194,7 @@ public class MeshCombineTool
 
     //-------------------------------------------------------------------
 
-    [MenuItem("Youkia/Mesh合并工具/MeshCombineToAsset")]
+    [MenuItem("FrameworkTools/Mesh合并工具/MeshCombineToAsset")]
     public static void MeshComineToAsset()
     {
         GameObject root = Selection.activeGameObject;
@@ -275,7 +275,7 @@ public class MeshCombineTool
 
     //--------------------------------------------------------------
 
-    [MenuItem("Youkia/Mesh合并工具/MeshMergeInScene")]
+    [MenuItem("FrameworkTools/Mesh合并工具/MeshMergeInScene")]
     public static void MeshMerge()
     {
         GameObject root = Selection.activeGameObject;
@@ -323,10 +323,11 @@ public class MeshCombineTool
             for (i = 0; i < len; i++)
             {
                 MeshRenderer mr = MeshFilterList[i].gameObject.GetComponent<MeshRenderer>();
-
+                PrefabLightmapData plm = mr.gameObject.GetComponent<PrefabLightmapData>();
+                int index = plm ? plm.lightmapIndex : mr.lightmapIndex;
                 if (mr)
                 {
-                    MeshKey mk = new MeshKey(mr.sharedMaterial, mr.lightmapIndex);
+                    MeshKey mk = new MeshKey(mr.sharedMaterial, index);
 
                     if (MerageGroup.ContainsKey(mk))
                     {
@@ -455,9 +456,6 @@ public class MeshCombineTool
         for (i = 0; i < len; i++)
         {
 
-            //
-            if(meshes[i] == null || meshes[i].sharedMesh == null) continue;
-            
             toallTx += meshes[i].sharedMesh.vertexCount;
 
             if (toallTx > 65536)
@@ -484,24 +482,37 @@ public class MeshCombineTool
         if (src.sharedMesh == null) return null;
 
         MeshRenderer mr = src.gameObject.GetComponent<MeshRenderer>();
-
+        PrefabLightmapData plm = mr.gameObject.GetComponent<PrefabLightmapData>();
         Mesh newMesh = new Mesh();
         EditorUtility.CopySerialized(src.sharedMesh, newMesh);
 
-        if (mr && mr.lightmapIndex != -1)
+        if (mr && (mr.lightmapIndex != -1 || plm))
         {
+            Vector4 lightmapScaleOffset;
+
+            //如果该MeshRenderer上挂载的有PrefabLightmapData,则使用PrefabLightmapData上的数据进行合并
+            if (plm)
+            {
+                lightmapScaleOffset = plm.lightmapOffsetScale;
+            }
+            else
+            {
+                lightmapScaleOffset = mr.lightmapScaleOffset;
+            }
+
             Vector2[] srcUV = (src.sharedMesh.uv2.Length > 0 ? src.sharedMesh.uv2 : src.sharedMesh.uv);
             Vector2[] lmUV = new Vector2[srcUV.Length];
             int i, len = lmUV.Length;
             for (i = 0; i < len; i++)
             {
                 lmUV[i] =
-                    new Vector2(srcUV[i].x * mr.lightmapScaleOffset.x,
-                        srcUV[i].y * mr.lightmapScaleOffset.y) +
-                    new Vector2(mr.lightmapScaleOffset.z, mr.lightmapScaleOffset.w);
+                    new Vector2(srcUV[i].x * lightmapScaleOffset.x,
+                        srcUV[i].y * lightmapScaleOffset.y) +
+                    new Vector2(lightmapScaleOffset.z, lightmapScaleOffset.w);
             }
             newMesh.uv2 = lmUV;
             hasLightmap = true;
+
         }
         else
         {
@@ -513,7 +524,7 @@ public class MeshCombineTool
 
     //-------------------------------------------------------------------
 
-    [MenuItem("Youkia/Mesh合并工具/MeshMergeToAsset")]
+    [MenuItem("FrameworkTools/Mesh合并工具/MeshMergeToAsset")]
     public static void MeshMergeToAsset()
     {
         GameObject root = Selection.activeGameObject;

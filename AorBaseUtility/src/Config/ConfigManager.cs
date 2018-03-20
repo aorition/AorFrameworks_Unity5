@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
-using AorBaseUtility;
 
-namespace AorFramework.core
+namespace AorBaseUtility.Config
 {
     public delegate void ConfigDataCallBack(long id, string fieldname, ref string data);
     /// <summary>

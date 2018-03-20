@@ -7,14 +7,31 @@ public class PrefabLightmapData : MonoBehaviour
 {
     [SerializeField]
     private int _lightmapIndex;
+    public int lightmapIndex
+    {
+        get { return _lightmapIndex; }
+    }
+
     [SerializeField]
     private Vector4 _lightmapOffsetScale;
-
-    public bool AutoLoadOnAwake = true;
-
-    void Awake()
+    public Vector4 lightmapOffsetScale
     {
-        if (AutoLoadOnAwake)
+        get { return _lightmapOffsetScale; }
+    }
+
+    public bool AutoLoadOnEnable = true;
+
+    public int LightmapIndex
+    {
+        get { return _lightmapIndex; }
+        set { _lightmapIndex = value; }
+     
+    }
+
+
+    void OnEnable()
+    {
+        if (AutoLoadOnEnable)
         {
             LoadLightmap();
         }
@@ -40,36 +57,20 @@ public class PrefabLightmapData : MonoBehaviour
         //      LightmapSettings.lightmaps = combinedLightmaps;  
     }
 
+    public void SaveLightmap()
+    {
+        Renderer _renderer = GetComponent<Renderer>();
+
+        if (_renderer)
+        {
+            SaveLightmap(_renderer.lightmapIndex, _renderer.lightmapScaleOffset);
+        }
+    }
+
     public void SaveLightmap(int index, Vector4 offestScale)
     {
         _lightmapOffsetScale = offestScale;
         _lightmapIndex = index;
-    }
-
-    public void SaveLightmap()
-    {
-        MeshRenderer mr = GetComponent<MeshRenderer>();
-        if (mr)
-        {
-
-//            MeshFilter mf = GetComponent<MeshFilter>();
-//            if (mf)
-//            {
-//               
-//            }
-
-            _lightmapOffsetScale = mr.lightmapScaleOffset;
-            _lightmapIndex = mr.lightmapIndex;
-
-            //                Texture2D lightmap = LightmapSettings.lightmaps[r.lightmapIndex].lightmapFar;  
-            //  
-            //                info.lightmapIndex = m_Lightmaps.IndexOf(lightmap);  
-            //                if (info.lightmapIndex == -1) {  
-            //                    info.lightmapIndex = m_Lightmaps.Count;  
-            //                    m_Lightmaps.Add(lightmap);  
-            //                }  
-
-        }
     }
 
     public void LoadLightmap()
@@ -78,37 +79,9 @@ public class PrefabLightmapData : MonoBehaviour
 
         if (_renderer)
         {
-            if(_renderer.isPartOfStaticBatch)
-            {
-
-                MeshFilter mf = GetComponent<MeshFilter>();
-                if (mf)
-                {
-                    Debug.Log(mf.sharedMesh);
-                    List<Vector2> uvs = new List<Vector2>();
-                    //mf.sharedMesh.GetUVs(3, uvs);
-                    //mf.sharedMesh.SetUVs(0, uvs);
-                    //推测，合并后，uv1、uv2不正确了。需要重新计算
-//                    mf.sharedMesh.SetUVs(1, uvs);
-//                    mf.sharedMesh.SetUVs(2, uvs);
-                }
-
-                _renderer.lightmapIndex = _lightmapIndex;
-                _renderer.lightmapScaleOffset = _lightmapOffsetScale;
-            }
-            else
-            {
-
-                MeshFilter mf = GetComponent<MeshFilter>();
-                if (mf)
-                {
-                    Debug.Log(mf.sharedMesh);
-                    
-                }
-
-                _renderer.lightmapIndex = _lightmapIndex;
-                _renderer.lightmapScaleOffset = _lightmapOffsetScale;
-            }
+            _renderer.lightmapIndex = _lightmapIndex;
+            _renderer.lightmapScaleOffset = _lightmapOffsetScale;
+      
         }
 
             

@@ -1,0 +1,153 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1393933203, guid: ffb094aeb063c324d8b5c7f2fad4d38c, type: 3}
+  m_Name: GraphicsSettingAsset
+  m_EditorClassIdentifier: 
+  UseFixedUpdate: 0
+  AllowVCamParaCover: 1
+  MainCamDesInfo:
+    init: 1
+    name: MainCamera
+    type: 1
+    cullingMask: Default|Ground
+    depth: 0
+    lensSetting:
+      init: 1
+      ClearFlags: 2
+      BackgroundColor: {r: 0, g: 0.609, b: 1, a: 1}
+      isOrthographicCamera: 0
+      OrthographicSize: 5
+      FieldOfView: 60
+      NearClipPlane: 1
+      FarClipPlane: 800
+      UseOcclusionCulling: 1
+      AllowHDR: 1
+      AllowMSAA: 1
+  SubCamGDesInfos:
+  - init: 1
+    name: PreEffCam
+    type: 0
+    cullingMask: PreEffect
+    depth: 20
+    lensSetting:
+      init: 0
+      ClearFlags: 0
+      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+      isOrthographicCamera: 0
+      OrthographicSize: 0
+      FieldOfView: 0
+      NearClipPlane: 0
+      FarClipPlane: 0
+      UseOcclusionCulling: 0
+      AllowHDR: 0
+      AllowMSAA: 0
+  - init: 1
+    name: RoleCam
+    type: 0
+    cullingMask: Role|RoleGlowLayer
+    depth: 25
+    lensSetting:
+      init: 0
+      ClearFlags: 0
+      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+      isOrthographicCamera: 0
+      OrthographicSize: 0
+      FieldOfView: 0
+      NearClipPlane: 0
+      FarClipPlane: 0
+      UseOcclusionCulling: 0
+      AllowHDR: 0
+      AllowMSAA: 0
+  - init: 1
+    name: EffCam
+    type: 0
+    cullingMask: Effect
+    depth: 30
+    lensSetting:
+      init: 0
+      ClearFlags: 0
+      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+      isOrthographicCamera: 0
+      OrthographicSize: 0
+      FieldOfView: 0
+      NearClipPlane: 0
+      FarClipPlane: 0
+      UseOcclusionCulling: 0
+      AllowHDR: 0
+      AllowMSAA: 0
+  - init: 1
+    name: TopDefCam
+    type: 0
+    cullingMask: TopDefault
+    depth: 40
+    lensSetting:
+      init: 0
+      ClearFlags: 0
+      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+      isOrthographicCamera: 0
+      OrthographicSize: 0
+      FieldOfView: 0
+      NearClipPlane: 0
+      FarClipPlane: 0
+      UseOcclusionCulling: 0
+      AllowHDR: 0
+      AllowMSAA: 0
+  - init: 1
+    name: TopEffCam
+    type: 0
+    cullingMask: TopEffect
+    depth: 45
+    lensSetting:
+      init: 0
+      ClearFlags: 0
+      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+      isOrthographicCamera: 0
+      OrthographicSize: 0
+      FieldOfView: 0
+      NearClipPlane: 0
+      FarClipPlane: 0
+      UseOcclusionCulling: 0
+      AllowHDR: 0
+      AllowMSAA: 0
+  - init: 1
+    name: PostEffCam
+    type: 0
+    cullingMask: PostEffect
+    depth: 48
+    lensSetting:
+      init: 0
+      ClearFlags: 0
+      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+      isOrthographicCamera: 0
+      OrthographicSize: 0
+      FieldOfView: 0
+      NearClipPlane: 0
+      FarClipPlane: 0
+      UseOcclusionCulling: 0
+      AllowHDR: 0
+      AllowMSAA: 0
+  - init: 1
+    name: FinalOutput
+    type: 3
+    cullingMask: 
+    depth: 50
+    lensSetting:
+      init: 0
+      ClearFlags: 0
+      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+      isOrthographicCamera: 0
+      OrthographicSize: 0
+      FieldOfView: 0
+      NearClipPlane: 0
+      FarClipPlane: 0
+      UseOcclusionCulling: 0
+      AllowHDR: 0
+      AllowMSAA: 0

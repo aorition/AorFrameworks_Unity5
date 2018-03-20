@@ -62,18 +62,19 @@ namespace AorFramework.editor.tools
             EditorGUILayout.PropertyField(serializedObject.FindProperty("UseFixedUpdate"));
             serializedObject.ApplyModifiedProperties();
 
-            AorGUILayout.Vertical("box", () =>
+            GUILayout.BeginVertical("box");
+
+            GUI.color = Color.red;
+            if (GUILayout.Button("ClearDataCaches"))
             {
-                GUI.color = Color.red;
-                if (GUILayout.Button("ClearDataCaches"))
+                if (EditorUtility.DisplayDialog("警告", "确定清楚已生成的位置缓存文件？", "确定", "取消"))
                 {
-                    if (EditorUtility.DisplayDialog("警告", "确定清楚已生成的位置缓存文件？", "确定", "取消"))
-                    {
-                        ClearDataCaches();
-                    }
+                    ClearDataCaches();
                 }
-                GUI.color = Color.white;
-            });
+            }
+            GUI.color = Color.white;
+
+            GUILayout.EndVertical();
 
             if (GUILayout.Button("LoadDataFromFile"))
             {

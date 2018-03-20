@@ -5,6 +5,8 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using AorBaseUtility;
+using AorBaseUtility.Config;
+using AorBaseUtility.MiniJSON;
 using UnityEngine;
 
 namespace AorFramework.core
@@ -82,7 +84,7 @@ namespace AorFramework.core
             string headTagContent = null;
             string jsonStr = splitJsonHeadTag(src, ref headTagContent);
 
-            Dictionary<string, object> jsonDic = MiniJSON.Json.DecodeToDic(jsonStr);
+            Dictionary<string, object> jsonDic = Json.DecodeToDic(jsonStr);
 
             if (jsonDic != null && jsonDic.Count > 0)
             {
