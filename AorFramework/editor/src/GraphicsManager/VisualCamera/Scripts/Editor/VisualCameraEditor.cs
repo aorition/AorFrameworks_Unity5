@@ -137,12 +137,13 @@ public class VisualCameraEditor : Editor
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
+        togeField("OverrideRenderingPath", new GUIContent("Rendering Path"));
         togeField("OverrideOcclusionCulling", new GUIContent("Occlusion Culling"));
-        togeField("OverrideAllowHDR", new GUIContent("Allow HDR"));
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
-        togeField("OverrdieAllowMSAA", new GUIContent("Allow MSAA"));
+        togeField("OverrideAllowHDR", new GUIContent("Allow HDR"));
+        togeField("OverrideAllowMSAA", new GUIContent("Allow MSAA"));
         GUILayout.EndHorizontal();
 
         GUILayout.Space(5);
