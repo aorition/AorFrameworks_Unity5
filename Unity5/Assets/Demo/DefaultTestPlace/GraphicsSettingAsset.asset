@@ -17,7 +17,7 @@ MonoBehaviour:
     init: 1
     name: MainCamera
     type: 1
-    cullingMask: Default|Ground
+    cullingMask: 0
     depth: 0
     lensSetting:
       init: 1
@@ -28,6 +28,7 @@ MonoBehaviour:
       FieldOfView: 60
       NearClipPlane: 1
       FarClipPlane: 800
+      RenderingPath: 0
       UseOcclusionCulling: 1
       AllowHDR: 1
       AllowMSAA: 1
@@ -35,7 +36,7 @@ MonoBehaviour:
   - init: 1
     name: PreEffCam
     type: 0
-    cullingMask: PreEffect
+    cullingMask: 33
     depth: 20
     lensSetting:
       init: 0
@@ -46,98 +47,14 @@ MonoBehaviour:
       FieldOfView: 0
       NearClipPlane: 0
       FarClipPlane: 0
-      UseOcclusionCulling: 0
-      AllowHDR: 0
-      AllowMSAA: 0
-  - init: 1
-    name: RoleCam
-    type: 0
-    cullingMask: Role|RoleGlowLayer
-    depth: 25
-    lensSetting:
-      init: 0
-      ClearFlags: 0
-      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      isOrthographicCamera: 0
-      OrthographicSize: 0
-      FieldOfView: 0
-      NearClipPlane: 0
-      FarClipPlane: 0
-      UseOcclusionCulling: 0
-      AllowHDR: 0
-      AllowMSAA: 0
-  - init: 1
-    name: EffCam
-    type: 0
-    cullingMask: Effect
-    depth: 30
-    lensSetting:
-      init: 0
-      ClearFlags: 0
-      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      isOrthographicCamera: 0
-      OrthographicSize: 0
-      FieldOfView: 0
-      NearClipPlane: 0
-      FarClipPlane: 0
-      UseOcclusionCulling: 0
-      AllowHDR: 0
-      AllowMSAA: 0
-  - init: 1
-    name: TopDefCam
-    type: 0
-    cullingMask: TopDefault
-    depth: 40
-    lensSetting:
-      init: 0
-      ClearFlags: 0
-      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      isOrthographicCamera: 0
-      OrthographicSize: 0
-      FieldOfView: 0
-      NearClipPlane: 0
-      FarClipPlane: 0
-      UseOcclusionCulling: 0
-      AllowHDR: 0
-      AllowMSAA: 0
-  - init: 1
-    name: TopEffCam
-    type: 0
-    cullingMask: TopEffect
-    depth: 45
-    lensSetting:
-      init: 0
-      ClearFlags: 0
-      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      isOrthographicCamera: 0
-      OrthographicSize: 0
-      FieldOfView: 0
-      NearClipPlane: 0
-      FarClipPlane: 0
-      UseOcclusionCulling: 0
-      AllowHDR: 0
-      AllowMSAA: 0
-  - init: 1
-    name: PostEffCam
-    type: 0
-    cullingMask: PostEffect
-    depth: 48
-    lensSetting:
-      init: 0
-      ClearFlags: 0
-      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      isOrthographicCamera: 0
-      OrthographicSize: 0
-      FieldOfView: 0
-      NearClipPlane: 0
-      FarClipPlane: 0
+      RenderingPath: 0
       UseOcclusionCulling: 0
       AllowHDR: 0
       AllowMSAA: 0
   - init: 1
     name: FinalOutput
     type: 3
-    cullingMask: 
+    cullingMask: 0
     depth: 50
     lensSetting:
       init: 0
@@ -148,6 +65,7 @@ MonoBehaviour:
       FieldOfView: 0
       NearClipPlane: 0
       FarClipPlane: 0
+      RenderingPath: 0
       UseOcclusionCulling: 0
       AllowHDR: 0
       AllowMSAA: 0

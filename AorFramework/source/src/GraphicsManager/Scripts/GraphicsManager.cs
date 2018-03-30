@@ -90,9 +90,9 @@ namespace Framework.Graphic
         public bool UseFixedUpdate = false;
 
         [Tooltip("是否允许VisualCamera使用参数覆盖")]
-        public bool AllowVisualCameraParamCover = false;
+        public bool AllowVisualCameraParamCover = true;
 
-        [Tooltip("再一次Update中忽略缓动插值")]
+        [Tooltip("在一次Update中忽略缓动插值")]
         public bool IgnoreInterpolationOnce = false;
 
         protected bool _isSetuped = false;
@@ -565,15 +565,21 @@ namespace Framework.Graphic
                                             Mathf.Lerp(_mainCamera.farClipPlane, mainCameraDesInfo.lensSetting.FarClipPlane, _currentVisualCamera.Interpolation);
                 }
                 
+                _mainCamera.renderingPath = _currentVisualCamera.OverrideRenderingPath ? _currentVisualCamera.CrrentCamera.renderingPath : mainCameraDesInfo.lensSetting.RenderingPath;
                 _mainCamera.useOcclusionCulling = _currentVisualCamera.OverrideOcclusionCulling ? _currentVisualCamera.CrrentCamera.useOcclusionCulling : mainCameraDesInfo.lensSetting.UseOcclusionCulling;
                 _mainCamera.allowHDR = _currentVisualCamera.OverrideAllowHDR ? _currentVisualCamera.CrrentCamera.allowHDR : mainCameraDesInfo.lensSetting.AllowHDR;
-                _mainCamera.allowMSAA = _currentVisualCamera.OverrdieAllowMSAA ? _currentVisualCamera.CrrentCamera.allowMSAA : mainCameraDesInfo.lensSetting.AllowMSAA;
+                _mainCamera.allowMSAA = _currentVisualCamera.OverrideAllowMSAA ? _currentVisualCamera.CrrentCamera.allowMSAA : mainCameraDesInfo.lensSetting.AllowMSAA;
             }
 
             //子相机参数对齐
             for (int i = 0; i < _subCameras.Count; i++)
             {
                 Camera sub = _subCameras[i];
+
+                if (sub.renderingPath != _mainCamera.renderingPath)
+                {
+                    sub.renderingPath = _mainCamera.renderingPath;
+                }
 
                 sub.orthographicSize = _mainCamera.orthographicSize;
                 sub.orthographic = _mainCamera.orthographic;

@@ -1,4 +1,6 @@
-﻿using AorFrameworks;
+﻿using System;
+using System.Collections.Generic;
+using AorFrameworks;
 using Framework.Graphic;
 using UnityEngine;
 
@@ -29,7 +31,8 @@ namespace Framework.Graphic.Utility
 
             cam.name = desInfo.name;
             cam.depth = desInfo.depth;
-            cam.cullingMask = ParseLayerStrToCullingMask(desInfo.cullingMask);
+//            cam.cullingMask = ParseLayerStrToCullingMask(desInfo.cullingMask);
+            cam.cullingMask = desInfo.cullingMask;
 
             if (desInfo.lensSetting.init)
             {
@@ -40,6 +43,7 @@ namespace Framework.Graphic.Utility
                 cam.fieldOfView = desInfo.lensSetting.FieldOfView;
                 cam.nearClipPlane = desInfo.lensSetting.NearClipPlane;
                 cam.farClipPlane = desInfo.lensSetting.FarClipPlane;
+                cam.renderingPath = desInfo.lensSetting.RenderingPath;
                 cam.useOcclusionCulling = desInfo.lensSetting.UseOcclusionCulling;
                 cam.allowHDR = desInfo.lensSetting.AllowHDR;
                 cam.allowMSAA = desInfo.lensSetting.AllowMSAA;
@@ -83,11 +87,39 @@ namespace Framework.Graphic.Utility
 
         }
 
+        public static string[] GetMaskDisplayOption()
+        {
+            List<string> list = new List<string>();
+            for (int i = 0; i < 32; i++)
+            {
+                string n = LayerMask.LayerToName(i);
+                list.Add(n);
+            }
+            return list.ToArray();
+        }
+
+        public static string[] GetMaskDisplayOption(ref int[] indexs)
+        {
+            List<int> ids = new List<int>();
+            List<string> list = new List<string>();
+            for (int i = 0; i < 32; i++)
+            {
+                string n = LayerMask.LayerToName(i);
+                if (!string.IsNullOrEmpty(n))
+                {
+                    ids.Add(i);
+                    list.Add(n);
+                }
+            }
+            indexs = ids.ToArray();
+            return list.ToArray();
+        }
+
         /// <summary>
         /// 将GraphicsCamGroupDescribeAsset记录的CullingMask字符串转成int的LayerMask
         /// </summary>
         /// <param name="layerStr"></param>
-        /// <returns></returns>
+        [Obsolete("GCamGDesInfo.CullingMask 由原来的string变更为int,故废弃该方法")]
         public static int ParseLayerStrToCullingMask(string layerStr)
         {
             int m = 0;

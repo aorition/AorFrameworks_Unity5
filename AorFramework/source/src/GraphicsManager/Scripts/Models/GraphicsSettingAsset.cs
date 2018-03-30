@@ -36,15 +36,15 @@ public struct GCamGDesInfo
 
     public static GCamGDesInfo Default()
     {
-        return new GCamGDesInfo("Uname", SubGCamType.Normal, string.Empty, 0);
+        return new GCamGDesInfo("Uname", SubGCamType.Normal, 0, 0);
     }
 
     public static GCamGDesInfo Main()
     {
-        return new GCamGDesInfo("MainCamera", SubGCamType.MainCamera, "all", 0, GCLensSetting.Default());
+        return new GCamGDesInfo("MainCamera", SubGCamType.MainCamera, -1, 0, GCLensSetting.Default());
     }
 
-    public GCamGDesInfo(string name, SubGCamType type, string cullingMask, int depth)
+    public GCamGDesInfo(string name, SubGCamType type, int cullingMask, int depth)
     {
         this.init = true;
         this.name = name;
@@ -54,7 +54,7 @@ public struct GCamGDesInfo
         this.lensSetting = new GCLensSetting();
     }
 
-    public GCamGDesInfo(string name, SubGCamType type, string cullingMask, int depth, GCLensSetting lens)
+    public GCamGDesInfo(string name, SubGCamType type, int cullingMask, float depth, GCLensSetting lens)
     {
         this.init = true;
         this.name = name;
@@ -67,8 +67,9 @@ public struct GCamGDesInfo
     public bool init;
     public string name;
     public SubGCamType type;
-    public string cullingMask;
-    public int depth;
+//    public int cullingMask;
+    public int cullingMask;
+    public float depth;
     public GCLensSetting lensSetting;
 }
 
@@ -78,12 +79,13 @@ public struct GCLensSetting
 
     public static GCLensSetting Default()
     {
-        return new GCLensSetting(CameraClearFlags.Skybox, Color.blue, false, 5, 60f, 0.3f, 1000f, true, true, true);
+        return new GCLensSetting(CameraClearFlags.Skybox, Color.blue, false, 5, 60f, 0.3f, 1000f, RenderingPath.UsePlayerSettings, true, true, true);
     }
 
     public GCLensSetting(CameraClearFlags ClearFlags, Color BackgroundColor,
         bool isOrthographicCamera, float OrthographicSize, float FieldOfView,
         float NearClipPlane, float FarClipPlane,
+        RenderingPath RenderingPath,
         bool UseOcclusionCulling, bool AllowHDR, bool AllowMSAA
         )
     {
@@ -95,6 +97,7 @@ public struct GCLensSetting
         this.FieldOfView = FieldOfView;
         this.NearClipPlane = NearClipPlane;
         this.FarClipPlane = FarClipPlane;
+        this.RenderingPath = RenderingPath;
         this.UseOcclusionCulling = UseOcclusionCulling;
         this.AllowHDR = AllowMSAA;
         this.AllowMSAA = AllowMSAA;
@@ -108,6 +111,7 @@ public struct GCLensSetting
     public float FieldOfView;
     public float NearClipPlane;
     public float FarClipPlane;
+    public RenderingPath RenderingPath;
     public bool UseOcclusionCulling;
     public bool AllowHDR;
     public bool AllowMSAA;

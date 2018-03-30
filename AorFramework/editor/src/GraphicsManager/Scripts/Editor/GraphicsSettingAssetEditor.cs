@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AorBaseUtility;
 using AorFramework.editor;
+using Framework.Graphic.Utility;
 using UnityEngine;
 using UnityEditor;
 
@@ -53,8 +54,7 @@ public class GraphicsSettingAssetEditor : Editor {
         DepthOnly = 3,
         DontClear = 4,
     }
-
-
+    
     private GraphicsSettingAsset _target;
 
     private void Awake()
@@ -72,6 +72,19 @@ public class GraphicsSettingAssetEditor : Editor {
         GUILayout.Space(8);
         _draw_subCameraMParam();
         serializedObject.ApplyModifiedProperties();
+
+        #region *** 按钮-> <立即写入修改数据到文件> :: 建议所有.Asset文件的Editor都配备此段代码
+
+        GUILayout.Space(13);
+        GUI.color = Color.yellow;
+        if (GUILayout.Button(new GUIContent("Save Data To Asset Immediate", "立即将修改的数据保存到文件"), GUILayout.Height(26)))
+        {
+            EditorUtility.SetDirty(target);
+            AssetDatabase.SaveAssets();
+        }
+        GUI.color = Color.white;
+
+        #endregion
     }
 
     private void _draw_baseParam()
@@ -110,7 +123,7 @@ public class GraphicsSettingAssetEditor : Editor {
         GCamGDesInfo mainDesInfo = (GCamGDesInfo)_target.ref_GetField_Inst_Public("MainCamDesInfo");
         if (!mainDesInfo.init)
         {
-            mainDesInfo = new GCamGDesInfo("MainCamera", SubGCamType.MainCamera, "Default", 0);
+            mainDesInfo = new GCamGDesInfo("MainCamera", SubGCamType.MainCamera, -1, 0);
         }
 
         //-----------------------------------------------------------------------------
@@ -129,17 +142,17 @@ public class GraphicsSettingAssetEditor : Editor {
             mainDesInfo.type = SubGCamType.MainCamera;
             EditorGUILayout.EnumPopup(new GUIContent("type"), mainDesInfo.type);
         }
-        if (mainDesInfo.cullingMask == null)
-        {
-            mainDesInfo.cullingMask = "";
-        }
-        string nCullingMask = EditorGUILayout.TextField(new GUIContent("cullingMask"), mainDesInfo.cullingMask);
-        if (!nCullingMask.Equals(mainDesInfo.cullingMask))
+
+        //CullingMask
+        int CullingMask = mainDesInfo.cullingMask;
+        int nCullingMask = EditorGUILayout.MaskField(new GUIContent("cullingMask"), CullingMask, GraphicsCamUtility.GetMaskDisplayOption());
+
+        if (!nCullingMask.Equals(CullingMask))
         {
             mainDesInfo.cullingMask = nCullingMask;
         }
         //depth
-        int nDepth = EditorGUILayout.IntField(new GUIContent("depth"), mainDesInfo.depth);
+        float nDepth = EditorGUILayout.FloatField(new GUIContent("depth"), mainDesInfo.depth);
         if (!nDepth.Equals(mainDesInfo.depth))
         {
             mainDesInfo.depth = nDepth;
@@ -228,8 +241,15 @@ public class GraphicsSettingAssetEditor : Editor {
             mainLensSetting.FarClipPlane = nFarClipPlane;
         }
 
+        RenderingPath RenderingPath = mainLensSetting.RenderingPath;
+        RenderingPath nRenderingPath = (RenderingPath)EditorGUILayout.EnumPopup("Rendering Path", RenderingPath);
+        if (!nRenderingPath.Equals(RenderingPath))
+        {
+            mainLensSetting.RenderingPath = nRenderingPath;
+        }
+        
         //UseOcclusionCulling
-//        bool UseOcclusionCulling = (bool)mainLensSetting.ref_GetField_Inst_Public("UseOcclusionCulling");
+        //        bool UseOcclusionCulling = (bool)mainLensSetting.ref_GetField_Inst_Public("UseOcclusionCulling");
         bool UseOcclusionCulling = mainLensSetting.UseOcclusionCulling;
         bool nUseOcclusionCulling = EditorGUILayout.Toggle(new GUIContent("Use Occlusion Culling"), UseOcclusionCulling);
         if (!nUseOcclusionCulling.Equals(UseOcclusionCulling))
@@ -284,12 +304,17 @@ public class GraphicsSettingAssetEditor : Editor {
 
                 GCLensSetting cgLensSetting = new GCLensSetting(cam.clearFlags, cam.backgroundColor, 
                     cam.orthographic, cam.orthographicSize, cam.fieldOfView,
-                    cam.nearClipPlane, cam.farClipPlane, cam.useOcclusionCulling, cam.allowHDR, cam.allowMSAA
+                    cam.nearClipPlane, cam.farClipPlane,
+                    cam.renderingPath,
+                    cam.useOcclusionCulling, cam.allowHDR, cam.allowMSAA
                     );
 
                 GCamGDesInfo mainDesInfo = (GCamGDesInfo)_target.ref_GetField_Inst_Public("MainCamDesInfo");
-//                mainDesInfo.ref_SetField_Inst_Public("lensSetting", cgLensSetting);
                 mainDesInfo.lensSetting = cgLensSetting;
+                mainDesInfo.depth = cam.depth;
+
+                mainDesInfo.cullingMask = cam.cullingMask;
+
                 _target.ref_SetField_Inst_Public("MainCamDesInfo", mainDesInfo);
             }
         }
@@ -300,7 +325,12 @@ public class GraphicsSettingAssetEditor : Editor {
             if (cam)
             {
 
+
                 GCamGDesInfo mainDesInfo = (GCamGDesInfo)_target.ref_GetField_Inst_Public("MainCamDesInfo");
+
+                //cullingMask
+                cam.cullingMask = mainDesInfo.cullingMask;
+                cam.depth = mainDesInfo.depth;
                 cam.clearFlags = mainDesInfo.lensSetting.ClearFlags;
                 cam.backgroundColor = mainDesInfo.lensSetting.BackgroundColor;
                 cam.orthographic = mainDesInfo.lensSetting.isOrthographicCamera;
@@ -308,6 +338,7 @@ public class GraphicsSettingAssetEditor : Editor {
                 cam.fieldOfView = mainDesInfo.lensSetting.FieldOfView;
                 cam.nearClipPlane = mainDesInfo.lensSetting.NearClipPlane;
                 cam.farClipPlane = mainDesInfo.lensSetting.FarClipPlane;
+                cam.renderingPath = mainDesInfo.lensSetting.RenderingPath;
                 cam.useOcclusionCulling = mainDesInfo.lensSetting.UseOcclusionCulling;
                 cam.allowHDR = mainDesInfo.lensSetting.AllowHDR;
                 cam.allowMSAA = mainDesInfo.lensSetting.AllowMSAA;
@@ -418,24 +449,31 @@ public class GraphicsSettingAssetEditor : Editor {
             info.type = nType;
         }
         //cullingMask
-        //        string cullingMask = (string)info.ref_GetField_Inst_Public("cullingMask");
-        string cullingMask = info.cullingMask;
-        if (cullingMask == null)
-        {
-            cullingMask = "";
-            info.cullingMask = "";
-//            info.ref_SetField_Inst_Public("cullingMask", cullingMask);
-        }
-        string nCullingMask = EditorGUILayout.TextField(new GUIContent("cullingMask"), cullingMask);
+                int cullingMask = info.cullingMask;
+                int nCullingMask = EditorGUILayout.MaskField(new GUIContent("cullingMask"), cullingMask, GraphicsCamUtility.GetMaskDisplayOption());
+
         if (!nCullingMask.Equals(cullingMask))
         {
-//            info.ref_SetField_Inst_Public("cullingMask", nCullingMask);
             info.cullingMask = nCullingMask;
         }
+        //        string cullingMask = info.cullingMask;
+        //        if (cullingMask == null)
+        //        {
+        //            cullingMask = "";
+        //            info.cullingMask = "";
+        ////            info.ref_SetField_Inst_Public("cullingMask", cullingMask);
+        //        }
+        //        string nCullingMask = EditorGUILayout.TextField(new GUIContent("cullingMask"), cullingMask);
+        //        if (!nCullingMask.Equals(cullingMask))
+        //        {
+        ////            info.ref_SetField_Inst_Public("cullingMask", nCullingMask);
+        //            info.cullingMask = nCullingMask;
+        //        }
+
         //depth
-//        int depth = (int)info.ref_GetField_Inst_Public("depth");
-        int depth = info.depth;
-        int nDepth = EditorGUILayout.IntField(new GUIContent("depth"), depth);
+        //        int depth = (int)info.ref_GetField_Inst_Public("depth");
+        float depth = info.depth;
+        float nDepth = EditorGUILayout.FloatField(new GUIContent("depth"), depth);
         if (!nDepth.Equals(depth))
         {
 //            info.ref_SetField_Inst_Public("depth", nDepth);

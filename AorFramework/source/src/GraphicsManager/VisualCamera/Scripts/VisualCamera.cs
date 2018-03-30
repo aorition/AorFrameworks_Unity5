@@ -23,9 +23,12 @@ namespace Framework.Graphic
         public bool OverrideNearPlane = true;
         public bool OverrideFarPlane = true;
 
+        public bool OverrideRenderingPath = false;
+
         public bool OverrideOcclusionCulling = false;
         public bool OverrideAllowHDR = false;
-        public bool OverrdieAllowMSAA = false;
+        public bool OverrideAllowMSAA = false;
+
 
         public bool IgnoreInterpolationOnFirstEnable = true;
 

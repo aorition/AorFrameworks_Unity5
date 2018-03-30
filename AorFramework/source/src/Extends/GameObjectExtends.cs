@@ -27,14 +27,29 @@ public static class GameObjectExtends
         return obj.transform.getHierarchyPath();
     }
 
+    #region Layer
+
     /// <summary>
     /// 递归子节点设置Layer
     /// </summary>
-    public static void SetLayer(this GameObject obj, int layer)
+    public static void SetLayer(this GameObject obj, int layer, int ignoreLayer)
     {
-        obj.transform.SetLayer(layer);
+        obj.transform.SetLayer(layer, ignoreLayer);
     }
-    
+
+    /// <summary>
+    /// 递归子节点设置Layer
+    /// </summary>
+    public static void SetLayer(this GameObject obj, int layer, Func<Transform, bool> filter = null,
+        Action<Transform> doSomething = null)
+    {
+        obj.transform.SetLayer(layer, filter, doSomething);
+    }
+
+    #endregion
+
+    #region Interface 
+
     /// <summary>
     /// 获取当前Transform对象上挂载的接口
     /// </summary>
@@ -50,6 +65,7 @@ public static class GameObjectExtends
     {
         return obj.transform.GetInterfacesList<T>();
     }
+
     /// <summary>
     /// 获取当前Transform对象上挂载的接口集合
     /// </summary>
@@ -88,6 +104,7 @@ public static class GameObjectExtends
     {
         return obj.transform.FindInterfaceInChildren<T>(incudeSelf);
     }
+
     /// <summary>
     /// 获取当前Transform父集上挂载的接口
     /// 包含隐藏或者未激活的节点
@@ -147,7 +164,8 @@ public static class GameObjectExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// </summary>
-    public static List<T> FindInterfaceListInChildren<T>(this GameObject obj, bool incudeSelf = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
+    public static List<T> FindInterfaceListInChildren<T>(this GameObject obj, bool incudeSelf = false,
+        Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
     {
         return obj.transform.FindInterfaceListInChildren<T>(incudeSelf, filter, doSomething);
     }
@@ -158,7 +176,8 @@ public static class GameObjectExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// </summary>
-    public static T[] FindInterfacesInChildren<T>(this GameObject obj, bool incudeSelf = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
+    public static T[] FindInterfacesInChildren<T>(this GameObject obj, bool incudeSelf = false,
+        Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
     {
         return obj.transform.FindInterfacesInChildren<T>(incudeSelf, filter, doSomething);
     }
@@ -169,7 +188,8 @@ public static class GameObjectExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// </summary>
-    public static List<T> FindInterfaceListInParent<T>(this GameObject obj, bool incudeSelf = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
+    public static List<T> FindInterfaceListInParent<T>(this GameObject obj, bool incudeSelf = false,
+        Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
     {
         return obj.transform.FindInterfaceListInParent<T>(incudeSelf, filter, doSomething);
     }
@@ -180,7 +200,8 @@ public static class GameObjectExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// </summary>
-    public static T[] FindInterfacesInParent<T>(this GameObject obj, bool incudeSelf = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
+    public static T[] FindInterfacesInParent<T>(this GameObject obj, bool incudeSelf = false,
+        Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
     {
         return obj.transform.FindInterfacesInParent<T>(incudeSelf, filter, doSomething);
     }
@@ -191,7 +212,8 @@ public static class GameObjectExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// </summary>
-    public static List<T> FindAllInterfaceList<T>(this GameObject obj, Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
+    public static List<T> FindAllInterfaceList<T>(this GameObject obj, Func<T, bool> filter = null,
+        Action<T> doSomething = null) where T : class
     {
         return obj.transform.FindAllInterfaceList<T>(filter, doSomething);
     }
@@ -202,10 +224,15 @@ public static class GameObjectExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// </summary>
-    public static T[] FindAllInterfaces<T>(this GameObject obj, Func<T, bool> filter = null, Action<T> doSomething = null) where T : class
+    public static T[] FindAllInterfaces<T>(this GameObject obj, Func<T, bool> filter = null,
+        Action<T> doSomething = null) where T : class
     {
         return obj.transform.FindAllInterfaces<T>(filter, doSomething);
     }
+
+    #endregion
+
+    #region Component
 
     /// <summary>
     /// 查找或者创建Component(当前Component在当前节点对象找不到,则在当前对象上创建Component)
@@ -227,7 +254,8 @@ public static class GameObjectExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// </summary>
-    public static List<T> FindAllComponentList<T>(this GameObject obj, Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
+    public static List<T> FindAllComponentList<T>(this GameObject obj, Func<T, bool> filter = null,
+        Action<T> doSomething = null) where T : Component
     {
         return obj.transform.FindAllComponentList<T>(filter, doSomething);
     }
@@ -239,7 +267,8 @@ public static class GameObjectExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// </summary>
-    public static T[] FindAllComponents<T>(this GameObject obj, Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
+    public static T[] FindAllComponents<T>(this GameObject obj, Func<T, bool> filter = null,
+        Action<T> doSomething = null) where T : Component
     {
         return obj.transform.FindAllComponents<T>(filter, doSomething);
     }
@@ -253,7 +282,8 @@ public static class GameObjectExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// <returns></returns>
-    public static List<T> FindComponentListInChildren<T>(this GameObject obj, bool incudeSelf = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
+    public static List<T> FindComponentListInChildren<T>(this GameObject obj, bool incudeSelf = false,
+        Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
     {
         return obj.transform.FindComponentListInChildren<T>(incudeSelf, filter, doSomething);
     }
@@ -266,7 +296,8 @@ public static class GameObjectExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// <returns></returns>
-    public static T[] FindComponentsInChildren<T>(this GameObject obj, bool incudeSelf = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
+    public static T[] FindComponentsInChildren<T>(this GameObject obj, bool incudeSelf = false,
+        Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
     {
         return obj.transform.FindComponentsInChildren<T>(incudeSelf, filter, doSomething);
     }
@@ -279,7 +310,8 @@ public static class GameObjectExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// <returns></returns>
-    public static List<T> FindComponentListInParent<T>(this GameObject obj, bool incudeSelf = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
+    public static List<T> FindComponentListInParent<T>(this GameObject obj, bool incudeSelf = false,
+        Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
     {
         return obj.transform.FindComponentListInParent<T>(incudeSelf, filter, doSomething);
     }
@@ -292,9 +324,32 @@ public static class GameObjectExtends
     /// <param name="filter">过滤器：返回True为通过过滤</param>
     /// <param name="doSomething">遍历时附加行为</param>
     /// <returns></returns>
-    public static T[] FindComponentsInParent<T>(this GameObject obj, bool incudeSelf = false, Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
+    public static T[] FindComponentsInParent<T>(this GameObject obj, bool incudeSelf = false,
+        Func<T, bool> filter = null, Action<T> doSomething = null) where T : Component
     {
         return obj.transform.FindComponentsInParent(incudeSelf, filter, doSomething);
     }
+
+    /// <summary>
+    /// 向上级节点查找组件,并返回第一个找到的组件,包含隐藏或者未激活的节点;
+    /// </summary>
+    /// <typeparam name="T">Component</typeparam>
+    public static T FindComponentInParent<T>(this GameObject obj, bool incudeSelf = false) where T : Component
+    {
+        return obj.transform.FindComponentInParent<T>(incudeSelf);
+    }
+
+    /// <summary>
+    /// 向下级节点查找组件,并返回第一个找到的组件,包含隐藏或者未激活的节点;
+    /// </summary>
+    /// <typeparam name="T">Component</typeparam>
+    public static T FindComponentInChildren<T>(this GameObject obj, bool incudeSelf = false) where T : Component
+    {
+        return obj.transform.FindComponentInChildren<T>(incudeSelf);
+    }
+
+
+
+    #endregion
 
 }
