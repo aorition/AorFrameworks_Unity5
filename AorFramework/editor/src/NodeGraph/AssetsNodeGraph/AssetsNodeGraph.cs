@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class AssetsNodeGraph : NodeGraphBase
     {

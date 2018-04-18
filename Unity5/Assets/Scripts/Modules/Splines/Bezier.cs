@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-namespace AorFramework.module
+namespace Framework.module
 {
 
 

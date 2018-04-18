@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
-using AorFramework.NodeGraph.Tool;
-using AorFramework.NodeGraph.Utility;
+using Framework.NodeGraph.Tool;
+using Framework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     [NodeToolItem("#<0>",
-        "AorFramework.NodeGraph",
+        "Framework.NodeGraph",
         "AssetSearchData|AssetSearchController|AssetSearchGUIController",
         "default", -100, true)]
     public class AssetSearchGUIController : NodeGUIController

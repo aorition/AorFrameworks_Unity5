@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using AorBaseUtility;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class AssetFilterController : NodeController
     {

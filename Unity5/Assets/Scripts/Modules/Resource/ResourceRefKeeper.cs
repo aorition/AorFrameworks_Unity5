@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using AorBaseUtility;
+using Framework;
 using UnityEngine;
-using YoukiaCore;
 
 namespace YoukiaUnity.Resource
 {

@@ -1,11 +1,11 @@
-﻿using AorFramework.NodeGraph.Utility;
+﻿using Framework.NodeGraph.Utility;
 using System;
 using System.Collections.Generic;
 //using AorFramework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph.Tool
+namespace Framework.NodeGraph.Tool
 {
     public class NodeGraphSettingWindow : EditorWindow
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AorFramework.AssetsNodeGraph
+namespace Framework.AssetsNodeGraph
 {
     /// <summary>
     /// AssetsNodeGraph自定义脚本描述

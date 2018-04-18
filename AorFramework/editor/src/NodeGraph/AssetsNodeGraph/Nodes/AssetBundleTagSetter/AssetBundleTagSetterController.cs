@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using AorBaseUtility;
-using AorFramework.editor;
+using Framework.editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class AssetBundleTagSetterController : NodeController
     {
@@ -59,8 +59,11 @@ namespace AorFramework.NodeGraph
                     for (i = 0; i < len; i++)
                     {
 
+                        EditorUtility.DisplayProgressBar("AssetBundleLabel", "正在执行... " + i + " / " + len, (float) i/len);
+
                         EditorAssetInfo pathInfo = new EditorAssetInfo(parentData[i]);
 
+                        //排除脚本
                         if (pathInfo.suffix == ".cs" || pathInfo.suffix == ".js") continue;
 
                         //计算abName
@@ -97,6 +100,8 @@ namespace AorFramework.NodeGraph
                         assetList.Add(pathInfo.path);
                     }
 
+                    EditorUtility.ClearProgressBar();
+
                     AssetDatabase.Refresh();
                     AssetDatabase.SaveAssets();
 
@@ -112,9 +117,6 @@ namespace AorFramework.NodeGraph
                 {
                     m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", null);
                 }
-
-
-
             }
             else
             {

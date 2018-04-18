@@ -4,7 +4,7 @@ using AorBaseUtility;
 using UnityEngine;
 using UnityEditor;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class AssetDependController : NodeController
     {

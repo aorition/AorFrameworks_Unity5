@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using AorBaseUtility;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class HierarchyObjRenamerData : NodeData
     {

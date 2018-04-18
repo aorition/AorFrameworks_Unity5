@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using AorBaseUtility;
 using UnityEditor;
 using UnityEngine;
-using AorFramework.NodeGraph.Utility;
+using Framework.NodeGraph.Utility;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     [NodeToolItem("HierarchyObjTransform",
-        "AorFramework.NodeGraph",
+        "Framework.NodeGraph",
         "HierarchyObjTransformData|HierarchyObjTransformController|HierarchyObjTransformGUIController",
         "Hierarchy Tools",-100)]
     public class HierarchyObjTransformGUIController : NodeGUIController

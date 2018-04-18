@@ -7,7 +7,7 @@ using AorBaseUtility;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace AorFrameworks.Tools
+namespace Framework.Tools
 {
     public class TransformRecorder : MonoBehaviour
     {

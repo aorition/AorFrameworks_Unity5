@@ -20,15 +20,17 @@ namespace AorBaseUtility
             Off = 0x0,
         }
 
-        private const uint LEVEL_MASK_DEBUG = 0x1;
-        private const uint LEVEL_MASK_INFO = 0x2;
-        private const uint LEVEL_MASK_WARNING = 0x4;
-        private const uint LEVEL_MASK_ERROR = 0x8;
+        public const uint LEVEL_MASK_DEBUG = 0x1;
+        public const uint LEVEL_MASK_INFO = 0x2;
+        public const uint LEVEL_MASK_WARNING = 0x4;
+        public const uint LEVEL_MASK_ERROR = 0x8;
 
-        private static ILoggerUtility _logger;
-        public static LogLevel Level = LogLevel.Off;
+        protected static ILoggerUtility _logger;
+        public static LogLevel Level = LogLevel.All;
 
-        public static void Init(ILoggerUtility logger)
+        public static bool isInit => (_logger != null);
+
+        public static  void Init(ILoggerUtility logger)
         {
             _logger = logger;
         }

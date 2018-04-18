@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using AorFramework.NodeGraph.Utility;
+using Framework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     [NodeToolItem("AssetBundleSeceneBuilder",
-        "AorFramework.NodeGraph",
+        "Framework.NodeGraph",
         "AssetBundleSeceneBuilderData|AssetBundleSeceneBuilderController|AssetBundleSeceneBuilderGUIController",
         "AssetBundleTools")]
     public class AssetBundleSeceneBuilderGUIController : NodeGUIController

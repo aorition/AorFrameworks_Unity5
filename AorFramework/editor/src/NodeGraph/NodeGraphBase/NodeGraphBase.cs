@@ -6,10 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using AorBaseUtility;
-using AorFramework.core;
-using AorFramework.NodeGraph.Tool;
+using Framework.core;
+using Framework.NodeGraph.Tool;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
 
     public enum NodeGraphConnectMode

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AorFramework
+namespace Framework
 {
     public interface ICustomTimeScale
     {

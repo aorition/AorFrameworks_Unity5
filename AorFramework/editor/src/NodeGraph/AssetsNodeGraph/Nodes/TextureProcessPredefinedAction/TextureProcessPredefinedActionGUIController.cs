@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Reflection;
 using AorBaseUtility;
-using AorFramework.NodeGraph.Tool;
-using AorFramework.NodeGraph.Utility;
+using Framework.NodeGraph.Tool;
+using Framework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     [NodeToolItem("TextureProcessPredefinedAction",
-        "AorFramework.NodeGraph",
+        "Framework.NodeGraph",
         "ProcessPredefinedActionData|TextureProcessPredefinedActionController|TextureProcessPredefinedActionGUIController",
         "Texture")]
     public class TextureProcessPredefinedActionGUIController : NodeGUIController

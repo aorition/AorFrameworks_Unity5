@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
-using AorFramework;
+using Framework;
 
 
 namespace YoukiaUnity.CinemaSystem

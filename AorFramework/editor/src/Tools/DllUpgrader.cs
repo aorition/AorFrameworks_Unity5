@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using AorBaseUtility;
 
-namespace AorFramework.editor.tools
+namespace Framework.editor.tools
 {
 
     public class DllUpgraderInitWindow : EditorWindow
@@ -189,7 +189,7 @@ namespace AorFramework.editor.tools
     }
 
 
-    public class DllUpgrader : Editor
+    public class DllUpgrader : UnityEditor.Editor
     {
 
         public const string CfgFileName = "DllUpraderPathCFG.cfg";

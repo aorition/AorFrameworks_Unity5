@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-
+using Framework.editor;
 using UnityEditor;
 using UnityEngine;
 using YoukiaUnity.CinemaSystem;
@@ -144,6 +144,8 @@ public class CinemaEventsWindow : EditorWindow
             _AWTime = (float) currentTime.GetValue (window,null) ;
 #endif
         }
+
+
 
         AorGUILayout.Horizontal("box", () =>
         {

@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
-using AorFramework.NodeGraph.Tool;
-using AorFramework.NodeGraph.Utility;
+using Framework.NodeGraph.Tool;
+using Framework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     [NodeToolItem("AssetBundleLabel#<18>",
-        "AorFramework.NodeGraph",
+        "Framework.NodeGraph",
         "AssetBundleTagSetterData|AssetBundleTagSetterController|AssetBundleTagSetterGUIController",
         "AssetBundleTools")]
     public class AssetBundleTagSetterGUIController : NodeGUIController
     {
 
-        private static string[] _TagSetRuleStrDefind = new[] {"GUID", "assets", "resources", "name"};
+        private static string[] _TagSetRuleStrDefind = {"none", "GUID", "assets", "resources", "name"};
 
         public override string GetNodeLabel()
         {
@@ -86,20 +86,21 @@ namespace AorFramework.NodeGraph
                 int ri = NodeGraphUtility.Draw_NG_Popup(m_nodeGUI.data, "RuleIndex", _TagSetRuleStrDefind);
                 switch (ri)
                 {
-
-                    case 1: //使用assets路径为ABName
-                        m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", "{AP}");
+                    case 0://清除现有ABName
+                        m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", "");
                         break;
-                    case 2: //使用resources路径为ABName
-                        m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", "{RP}");
-                        break;
-                    case 3: //使用name作为ABName
-                        m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", "{N}");
-                        break;
-                    default: //默认TagSet处理规则
+                    case 1://使用该文件GUID作为ABName
                         m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", "{GUID}");
                         break;
-
+                    case 2: //使用assets路径为ABName
+                        m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", "{AP}");
+                        break;
+                    case 3: //使用resources路径为ABName
+                        m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", "{RP}");
+                        break;
+                    case 4: //使用name作为ABName
+                        m_nodeGUI.data.ref_SetField_Inst_Public("ABNameKey", "{N}");
+                        break;
                 }
 
                 NodeGraphUtility.Draw_NG_TextField(m_nodeGUI.data, "VariantKey", new GUIContent("Variant关键字"));

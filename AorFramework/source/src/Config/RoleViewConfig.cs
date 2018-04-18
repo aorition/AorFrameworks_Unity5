@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using AorBaseUtility;
 using AorBaseUtility.Config;
 
-namespace AorFramework.core
+namespace Framework.core
 {
     public class RoleViewConfig : Config
     {

@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace AorFrameworks.Editor
+namespace Framework.Editor
 {
 
     /// <summary>
@@ -75,15 +75,11 @@ namespace AorFrameworks.Editor
         /// <summary>
         /// 动态Render State Shader的基本可变内容的字段名称记录
         /// </summary>
-        protected Dictionary<string, string> _shaderPropNameDefineDic;
+        protected Dictionary<string, string> _shaderPropNameDefineDic = new Dictionary<string, string>();
         protected virtual Dictionary<string, string> ShaderPropNameDefineDic
         {
             get
             {
-                if (_shaderPropNameDefineDic == null)
-                {
-                    _shaderPropNameDefineDic = new Dictionary<string, string>();
-                }
                 return _shaderPropNameDefineDic;
             }
         }
@@ -132,6 +128,8 @@ namespace AorFrameworks.Editor
 
             //过滤内置Shader和无法找到其路径的shader
             if (string.IsNullOrEmpty(_shaderPath) || _shaderPath == "Resources/unity_builtin_extra") return;
+
+            ShaderPropNameDefineDic.Clear();
 
             string path = Application.dataPath.Replace("Assets", "") + _shaderPath;
             _shaderCahceCode = AorIO.ReadStringFormFile(path);

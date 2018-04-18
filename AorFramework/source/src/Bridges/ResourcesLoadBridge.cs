@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AorFrameworks
+namespace Framework
 {
     /// <summary>
     /// 提供载入资源的桥接功能
@@ -171,7 +171,7 @@ namespace AorFrameworks
             _defaultLoad(path, objectType, finishCallback);
         }
 
-        public static void LoadPrefab(string path, Type objectType, Action<Type, UnityEngine.Object> finishCallback, params object[] param)
+        public static void Load(string path, Type objectType, Action<Type, UnityEngine.Object> finishCallback, params object[] param)
         {
 
             if (CustomLoadWithParams != null)

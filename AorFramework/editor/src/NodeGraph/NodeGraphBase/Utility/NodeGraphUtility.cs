@@ -4,7 +4,7 @@ using AorBaseUtility;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph.Utility
+namespace Framework.NodeGraph.Utility
 {
 
     public class NodeGraphUtility
@@ -30,7 +30,7 @@ namespace AorFramework.NodeGraph.Utility
         {
             bool value = (bool)data.ref_GetField_Inst_Public(refFieldName);
             bool nValue = EditorGUILayout.Toggle(labelContent, value);
-            if (nValue != value)
+            if (!nValue.Equals(value))
             {
                 data.ref_SetField_Inst_Public(refFieldName, nValue);
                 if (changedAction != null)
@@ -60,7 +60,7 @@ namespace AorFramework.NodeGraph.Utility
         {
             int value = (int)data.ref_GetField_Inst_Public(refFieldName);
             int nValue = EditorGUILayout.IntField(labelContent, value);
-            if (nValue != value)
+            if (!nValue.Equals(value))
             {
                 data.ref_SetField_Inst_Public(refFieldName, nValue);
                 if (changedAction != null)
@@ -75,7 +75,7 @@ namespace AorFramework.NodeGraph.Utility
         {
             float value = (float)data.ref_GetField_Inst_Public(refFieldName);
             float nValue = EditorGUILayout.FloatField(labelContent, value);
-            if (nValue != value)
+            if (!nValue.Equals(value))
             {
                 data.ref_SetField_Inst_Public(refFieldName, nValue);
                 if (changedAction != null)
@@ -130,7 +130,29 @@ namespace AorFramework.NodeGraph.Utility
             }
             return nValue;
         }
-        
+
+        public static Enum Draw_NG_MutiEnumPopup<T>(object data, string refFieldName, GUIContent labelContent, Action<Enum> changedAction = null) where T : struct
+        {
+
+            if (!typeof(T).IsEnum)
+            {
+                throw new Exception("Error T Type, T must be Enum.");
+            }
+
+            Enum value = (Enum)Enum.Parse(typeof(T), (string)data.ref_GetField_Inst_Public(refFieldName));
+//            Enum nValue = EditorGUILayout.EnumPopup(labelContent, value);
+            Enum nValue = EditorGUILayout.EnumMaskField(labelContent, value);
+            if (!nValue.Equals(value))
+            {
+                data.ref_SetField_Inst_Public(refFieldName, nValue.ToString());
+                if (changedAction != null)
+                {
+                    changedAction(nValue);
+                }
+            }
+            return nValue;
+        }
+
         public static Enum Draw_NG_EnumPopup<T>(object data, string refFieldName, GUIContent labelContent, Action<Enum> changedAction = null) where T : struct 
         {
 
@@ -158,7 +180,7 @@ namespace AorFramework.NodeGraph.Utility
 
             int value = (int)data.ref_GetField_Inst_Public(refFieldName);
             int nValue = EditorGUILayout.Popup(value, popupList);
-            if (nValue != value)
+            if (!nValue.Equals(value))
             {
                 data.ref_SetField_Inst_Public(refFieldName, nValue);
                 if (changedAction != null)
@@ -174,7 +196,7 @@ namespace AorFramework.NodeGraph.Utility
 
             int value = (int)data.ref_GetField_Inst_Public(refFieldName);
             int nValue = EditorGUILayout.Popup(labelContent.text, value, popupList);
-            if (nValue != value)
+            if (!nValue.Equals(value))
             {
                 data.ref_SetField_Inst_Public(refFieldName, nValue);
                 if (changedAction != null)

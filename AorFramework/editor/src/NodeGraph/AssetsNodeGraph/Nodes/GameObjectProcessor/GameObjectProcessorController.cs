@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Reflection;
 using AorBaseUtility;
-using AorFramework.AssetsNodeGraph;
+using Framework.AssetsNodeGraph;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class GameObjectProcessorController : NodeController
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
 
     public class NodeGraphToolItemData

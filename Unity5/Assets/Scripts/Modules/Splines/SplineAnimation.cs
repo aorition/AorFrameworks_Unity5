@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AorFramework.module
+namespace Framework.module
 {
 
     public enum SplineWalkerMode

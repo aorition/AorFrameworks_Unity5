@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using AorFrameworks;
 using UnityEngine;
 
 /// <summary>
@@ -11,7 +10,14 @@ public static class GameObjectExtends
 {
     public static void Dispose(this GameObject obj)
     {
-        ResourcesLoadBridge.UnLoadPrefab(obj);
+        if (Application.isPlaying)
+        {
+            GameObject.Destroy(obj);
+        }
+        else
+        {
+            GameObject.DestroyImmediate(obj);
+        }
     }
 
     public static void DisposeChildren(this GameObject obj)

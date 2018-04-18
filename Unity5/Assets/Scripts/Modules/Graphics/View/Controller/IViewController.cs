@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using YoukiaUnity.View;
 
-namespace AorFramework.module
+namespace Framework.module
 {
     public interface IViewController
     {

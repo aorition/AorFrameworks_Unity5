@@ -34,10 +34,6 @@
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AorBaseUtility">
-      <HintPath>..\..\..\..\SVN\shengdoushi2\Client\Project\Demo\Dev\Unity_SDS2_Demo\Assets\Plugins\AorBaseUtility.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="DOTween, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\IncludeLibs\DOTween\DOTween.dll</HintPath>
@@ -68,10 +64,11 @@
     <Compile Include="src\AssetsNodeGraph\Interfaces\IGameObjectProcess.cs" />
     <Compile Include="src\AssetsNodeGraph\Interfaces\IAssetProcess.cs" />
     <Compile Include="src\AssetsNodeGraph\Interfaces\ITexturePrecess.cs" />
+    <Compile Include="src\Bridges\AudioBridge.cs" />
+    <Compile Include="src\Bridges\ShaderBridge.cs" />
     <Compile Include="src\Config\Base\JConfigParser.cs" />
     <Compile Include="src\Config\RoleViewConfig.cs" />
     <Compile Include="src\Core\AorGUILayout.cs" />
-    <Compile Include="src\Extends\QuaternionExtends.cs" />
     <Compile Include="src\GameBaseInterfaces\ICustomTimeScale.cs" />
     <Compile Include="src\GameBaseInterfaces\IEditorOnlyScript.cs" />
     <Compile Include="src\GameBaseInterfaces\IGameAnimObject.cs" />
@@ -119,18 +116,24 @@
     <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Path\GEVPath.cs" />
     <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Path\GEVSmoothPath.cs" />
     <Compile Include="src\GraphicsManager\VisualCamera\Scripts\VisualCamera.cs" />
+    <Compile Include="src\Log\Log.cs" />
     <Compile Include="src\Tools\EditorSupport\PrefabLinker\PrefabLinker.cs" />
-    <Compile Include="src\Extends\ColorExtends.cs" />
-    <Compile Include="src\Extends\GameObjectExtends.cs" />
-    <Compile Include="src\Extends\GUIStyleExtends.cs" />
-    <Compile Include="src\Extends\TransformExtends.cs" />
-    <Compile Include="src\Extends\VecterExtends.cs" />
     <Compile Include="src\Misc\TransformRecorder.cs" />
     <Compile Include="src\Bridges\AddComponentBridge.cs" />
     <Compile Include="src\Bridges\ResourcesLoadBridge.cs" />
     <Compile Include="src\Utility\CameraMathUtility.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\AorBaseUtility\AorBaseUtility.csproj">
+      <Project>{cff766b5-aaf1-4638-a423-f71ea26e70e5}</Project>
+      <Name>AorBaseUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AorUnityExtents\AorUnityExtents.csproj">
+      <Project>{cecf4585-83a2-459e-92c4-767cbedcb16c}</Project>
+      <Name>AorUnityExtents</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="src\GraphicsManager\Components\RenderTextureCombine\Shaders\PEOverride.shader" />
     <None Include="src\GraphicsManager\Components\RenderTextureCombine\Shaders\PEOverrideAdd.shader" />

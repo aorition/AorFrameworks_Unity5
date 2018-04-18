@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using AorBaseUtility;
 using AorBaseUtility.Config;
-using AorFramework.core;
+using Framework.core;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class NodeData : Config, INodeData
     {

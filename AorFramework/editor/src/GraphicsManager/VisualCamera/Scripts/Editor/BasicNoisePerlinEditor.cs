@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using AorFramework.editor;
+using Framework.editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,33 +14,7 @@ namespace Framework.Graphic.Editor
         [MenuItem("Assets/GraphicsManagerAssets/VisualCameraAssets/NoiseSettingAsset")]
         public static void CreateAsset()
         {
-
-            NoiseSettings info = ScriptableObject.CreateInstance<NoiseSettings>();
-            string dir;
-            string name = "unameNoiseSettings.asset";
-            if (Selection.objects == null || Selection.objects.Length == 0)
-            {
-                dir = "Assets";
-            }
-            else
-            {
-
-                string dataPath = AssetDatabase.GetAssetPath(Selection.objects[0]);
-                if (Selection.objects[0] is DefaultAsset)
-                {
-                    dir = dataPath;
-                }
-                else
-                {
-                    EditorAssetInfo ainfo = new EditorAssetInfo(dataPath);
-                    dir = ainfo.dirPath;
-                }
-            }
-            string path = dir + "/" + name;
-            path = AssetDatabase.GenerateUniqueAssetPath(path);
-            AssetDatabase.CreateAsset(info, path);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            EditorPlusMethods.CreateAssetFile<NoiseSettings>("unameNoiseSettings");
         }
 
         List<NoiseSettings> mNoisePresets;

@@ -1,6 +1,5 @@
 ﻿using System;
-using AorBaseUtility;
-using AorFramework;
+using Framework;
 using UnityEngine;
 
 namespace YoukiaUnity.CinemaSystem

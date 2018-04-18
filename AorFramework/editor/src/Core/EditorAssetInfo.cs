@@ -3,7 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.editor
+namespace Framework.editor
 {
 
     public class EditorAssetInfo

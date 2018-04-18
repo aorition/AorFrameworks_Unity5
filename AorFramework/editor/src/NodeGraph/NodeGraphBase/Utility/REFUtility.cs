@@ -6,7 +6,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph.Utility
+namespace Framework.NodeGraph.Utility
 { 
     public class REFUtility
     {

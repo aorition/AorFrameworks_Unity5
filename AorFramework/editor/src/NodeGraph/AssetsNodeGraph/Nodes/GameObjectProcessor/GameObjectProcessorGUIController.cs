@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Reflection;
 using AorBaseUtility;
-using AorFramework.NodeGraph.Utility;
+using Framework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     [NodeToolItem("GameObject#<3>",
-        "AorFramework.NodeGraph",
+        "Framework.NodeGraph",
         "GameObjectProcessorData|GameObjectProcessorController|GameObjectProcessorGUIController",
         "Hierarchy Tools")]
     public class GameObjectProcessorGUIController : NodeGUIController

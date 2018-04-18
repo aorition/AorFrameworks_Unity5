@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
-namespace AorFramework.NodeGraph.Utility { 
+namespace Framework.NodeGraph.Utility { 
 
 public static class LayoutUtility
 {

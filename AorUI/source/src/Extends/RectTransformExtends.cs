@@ -16,6 +16,27 @@ public static class RectTransformExtends
     }
 
     /// <summary>
+    /// 获取该RectTransform隶属的主Canvas
+    /// </summary>
+    public static Canvas FindRootCanvas(this RectTransform t)
+    {
+        Canvas c = t.GetComponent<Canvas>();
+        if (c && c.isRootCanvas)
+        {
+            return c;
+        }
+        if (t.parent)
+        {
+            RectTransform parentRt = t.parent.GetComponent<RectTransform>();
+            if (parentRt)
+            {
+                return parentRt.FindRootCanvas();
+            }
+        }
+        return null;
+    }
+
+    /// <summary>
     /// 对应Transform.Find方法返回指定节点的RectTransform;
     /// </summary>
     public static RectTransform FindRectTransform(this Transform t, string childName)
@@ -38,15 +59,31 @@ public static class RectTransformExtends
     }
 
     /// <summary>
+    /// 归置为基本相对定位
+    /// </summary>
+    public static RectTransform ResetRect(this RectTransform rt)
+    {
+        rt.pivot = new Vector2(.5f, .5f);
+        rt.anchorMin = new Vector2(0, 0);
+        rt.anchorMax = new Vector2(1, 1);
+
+        rt.localPosition = Vector3.zero;
+        rt.anchoredPosition = Vector2.zero;
+        rt.sizeDelta = Vector2.zero;
+
+        return rt;
+    }
+
+    /// <summary>
     /// 获取通过对pivot,anchorMin,anchorMax将anchoredPosition,sizeDelta参数转换成一组更容易理解的Rect(通常在Inspector中看到的前5个数据)
     /// </summary>
-    public static void GetSmartRect(this RectTransform rt, out Vector3 smartAnchoredPos, out Vector2 smartSizeDelta)
+    public static RectTransform GetSmartRect(this RectTransform rt, out Vector3 smartAnchoredPos, out Vector2 smartSizeDelta)
     {
         if (rt.parent == null)
         {
             smartAnchoredPos = rt.anchoredPosition3D;
             smartSizeDelta = rt.sizeDelta;
-            return;
+            return rt;
         }
 
         bool absX = rt.anchorMin.x.Equals(rt.anchorMax.x);
@@ -78,27 +115,30 @@ public static class RectTransformExtends
 
         smartAnchoredPos = new Vector3(ax, ay, rt.anchoredPosition3D.z);
         smartSizeDelta = new Vector2(sx, sy);
+
+        return rt;
     }
 
     /// <summary>
     /// 重设pivot数据但不改变当前UI位置/长宽
     /// </summary>
-    public static void SmartPivot(this RectTransform rt, Vector2 pivot)
+    public static RectTransform SmartPivot(this RectTransform rt, Vector2 pivot)
     {
         Vector3 smartAnchoredPos;
         Vector2 smartSizeDelta;
         rt.GetSmartRect(out smartAnchoredPos, out smartSizeDelta);
         rt.pivot = pivot;
         SmartResize(rt, smartAnchoredPos, smartSizeDelta);
+        return rt;
     }
 
     /// <summary>
     /// 按Inspector设置习惯操作此RectTransform
     /// </summary>
-    public static void SmartResize(this RectTransform rt, Vector3 smartAnchoredPos, Vector2 smartSizeDelta)
+    public static RectTransform SmartResize(this RectTransform rt, Vector3 smartAnchoredPos, Vector2 smartSizeDelta)
     {
 
-        if (rt.parent == null) return;
+        if (rt.parent == null) return rt;
 
         bool absX = rt.anchorMin.x.Equals(rt.anchorMax.x);
         bool absY = rt.anchorMin.y.Equals(rt.anchorMax.y);
@@ -136,29 +176,31 @@ public static class RectTransformExtends
         {
             rt.anchoredPosition = new Vector2(ax, ay);
         }
+        return rt;
     }
     /// <summary>
     /// 按Inspector设置习惯操作此RectTransform
     /// </summary>
-    public static void SmartResize(this RectTransform rt, Vector2 pivot, Vector2 anchorMin, Vector2 anchorMax, Vector3 smartAnchoredPos, Vector2 smartSizeDelta)
+    public static RectTransform SmartResize(this RectTransform rt, Vector2 pivot, Vector2 anchorMin, Vector2 anchorMax, Vector3 smartAnchoredPos, Vector2 smartSizeDelta)
     {
-        if (rt.parent == null) return;
+        if (rt.parent == null) return rt;
         rt.pivot = pivot;
         rt.anchorMin = anchorMin;
         rt.anchorMax = anchorMax;
         SmartResize(rt, smartAnchoredPos, smartSizeDelta);
+        return rt;
     }
 
     /// <summary>
     /// 绝对定位转换相对定位
     /// </summary>
-    public static void convertAbsRTRelative(this RectTransform rt)
+    public static RectTransform convertAbsRTRelative(this RectTransform rt)
     {
-        if (!rt.parent) return;
+        if (!rt.parent) return rt;
 
         Rect _rect = rt.rect;
         RectTransform _parentRT = rt.parent.GetComponent<RectTransform>();
-        if (!_parentRT) return;
+        if (!_parentRT) return rt;
 
         //常规方式
         Vector2 parentBase = new Vector2(_parentRT.rect.width * _parentRT.pivot.x, _parentRT.rect.height * _parentRT.pivot.y);
@@ -172,17 +214,18 @@ public static class RectTransformExtends
         rt.anchorMax = new Vector2(xMax, yMax);
         rt.sizeDelta = Vector2.zero;
         rt.anchoredPosition = Vector2.zero;
+        return rt;
     }
 
     /// <summary>
     /// 绝对定位转换相对定位(横向)
     /// </summary>
-    public static void convertAbsRTRelativeH(this RectTransform rt)
+    public static RectTransform convertAbsRTRelativeH(this RectTransform rt)
     {
-        if (!rt.parent) return;
+        if (!rt.parent) return rt;
         Rect _rect = rt.rect;
         RectTransform _parentRT = rt.parent.GetComponent<RectTransform>();
-        if (!_parentRT) return;
+        if (!_parentRT) return rt;
 
         Vector2 parentBase = new Vector2(_parentRT.rect.width * _parentRT.pivot.x, _parentRT.rect.height * _parentRT.pivot.y);
 
@@ -198,17 +241,19 @@ public static class RectTransformExtends
         rt.anchorMax = new Vector2(xMax, yMax);
         rt.sizeDelta = new Vector2(0f, baseSD.y);
         rt.anchoredPosition = new Vector2(0f, baseAP.y);
+
+        return rt;
     }
 
     /// <summary>
     /// 绝对定位转换相对定位(竖向)
     /// </summary>
-    public static void convertAbsRTRelativeV(this RectTransform rt)
+    public static RectTransform convertAbsRTRelativeV(this RectTransform rt)
     {
-        if (!rt.parent) return;
+        if (!rt.parent) return rt;
         Rect _rect = rt.rect;
         RectTransform _parentRT = rt.parent.GetComponent<RectTransform>();
-        if (!_parentRT) return;
+        if (!_parentRT) return rt;
 
         Vector2 parentBase = new Vector2(_parentRT.rect.width * _parentRT.pivot.x, _parentRT.rect.height * _parentRT.pivot.y);
 
@@ -225,19 +270,20 @@ public static class RectTransformExtends
         rt.sizeDelta = new Vector2(baseSD.x, 0f);
         rt.anchoredPosition = new Vector2(baseAP.x, 0f);
 
+        return rt;
     }
 
     /// <summary>
     /// 相对定位转换绝对定位 (原点为左下角)
     /// 
     /// </summary>
-    public static void convertRelativeRTAbs(this RectTransform rt)
+    public static RectTransform convertRelativeRTAbs(this RectTransform rt)
     {
-        if (rt.parent == null) return;
+        if (rt.parent == null) return rt;
 
         Rect _rect = rt.rect;
         RectTransform _parentRT = rt.parent.GetComponent<RectTransform>();
-        if (!_parentRT) return;
+        if (!_parentRT) return rt;
 
         //常规方式
         Vector2 parentBase = new Vector2(_parentRT.rect.width * _parentRT.pivot.x, _parentRT.rect.height * _parentRT.pivot.y);
@@ -253,6 +299,7 @@ public static class RectTransformExtends
         rt.sizeDelta = sizeDelta;
         rt.anchoredPosition = anchoredPosition;
 
+        return rt;
     }
 
 }

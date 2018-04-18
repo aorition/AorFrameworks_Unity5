@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
-using AorFramework.DataWrapers;
+using Framework.DataWrapers;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     [NodeToolItem("Assets#<15>",
-        "AorFramework.NodeGraph",
+        "Framework.NodeGraph",
         "AssetTextureProcessorData|AssetTextureProcessorController|AssetTextureProcessorGUIController",
         "Texture"
         )]

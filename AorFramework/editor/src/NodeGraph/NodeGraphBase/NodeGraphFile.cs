@@ -6,9 +6,9 @@ using AorBaseUtility;
 using AorBaseUtility.Config;
 using AorBaseUtility.MiniJSON;
 using UnityEngine;
-using AorFramework.core;
+using Framework.core;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class NodeGraphFile
     {

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class NodeGraphToolItemCollection : IList<NodeGraphToolItemData>
     {

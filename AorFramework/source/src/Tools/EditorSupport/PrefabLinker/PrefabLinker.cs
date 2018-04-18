@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AorFrameworks
+namespace Framework
 {
     public class PrefabLinker : MonoBehaviour, IEditorOnlyScript
     {

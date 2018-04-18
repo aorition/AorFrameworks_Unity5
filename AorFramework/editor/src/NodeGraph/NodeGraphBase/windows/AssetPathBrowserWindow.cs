@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph.Tool
+namespace Framework.NodeGraph.Tool
 {
 
     public class AssetPathBrowserWindow : EditorWindow

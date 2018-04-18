@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using AorBaseUtility;
-using AorFramework.editor;
+using Framework.editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class AssetBundleSeceneBuilderController : NodeController
     {

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-using AorFramework.module;
+using Framework.module;
 
 [CustomEditor(typeof(SplineAnimation)), CanEditMultipleObjects]
 public class SplineAnimationInspector : UnityEditor.Editor 

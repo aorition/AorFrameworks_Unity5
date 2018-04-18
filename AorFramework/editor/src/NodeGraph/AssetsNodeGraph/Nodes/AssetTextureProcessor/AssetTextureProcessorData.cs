@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
-using AorFramework.DataWrapers;
+using Framework.DataWrapers;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class AssetTextureProcessorData : NodeData
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using YoukiaUnity.Misc;
 using YoukiaUnity.Resource;
 
-namespace AorFramework.module
+namespace Framework.module
 {
     public class AudioManager : SingletonManager<AudioManager>
     {

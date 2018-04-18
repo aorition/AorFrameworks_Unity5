@@ -5,7 +5,7 @@ using UnityEditor;
 using System.Text;
 using AorBaseUtility;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class InfoOutputTxtController : NodeController
     {

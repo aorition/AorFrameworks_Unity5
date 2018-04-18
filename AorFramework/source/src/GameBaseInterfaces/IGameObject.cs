@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AorFramework
+namespace Framework
 {
     /// <summary>
     /// 一个Game物体的基础接口

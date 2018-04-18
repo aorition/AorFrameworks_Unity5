@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
-using AorFramework.NodeGraph.Utility;
+using Framework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     [NodeToolItem("HierarchyObjRenamer",
-        "AorFramework.NodeGraph",
+        "Framework.NodeGraph",
         "HierarchyObjRenamerData|HierarchyObjRenamerController|HierarchyObjRenamerGUIController",
         "Hierarchy Tools",-100)]
     public class HierarchyObjRenamerGUIController : NodeGUIController

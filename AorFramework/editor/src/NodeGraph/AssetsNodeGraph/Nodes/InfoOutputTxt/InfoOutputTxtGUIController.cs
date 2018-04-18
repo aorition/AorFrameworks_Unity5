@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
-using AorFramework.NodeGraph.Tool;
+using Framework.NodeGraph.Tool;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     [NodeToolItem("#<16>#<8>",
-        "AorFramework.NodeGraph",
+        "Framework.NodeGraph",
         "InfoOutputTxtData|InfoOutputTxtController|InfoOutputTxtGUIController"
         )]
     public class InfoOutputTxtGUIController : NodeGUIController

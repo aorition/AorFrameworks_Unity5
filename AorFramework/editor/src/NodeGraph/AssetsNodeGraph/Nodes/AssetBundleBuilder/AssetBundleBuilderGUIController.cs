@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
-using AorFramework.NodeGraph.Tool;
-using AorFramework.NodeGraph.Utility;
+using Framework.NodeGraph.Tool;
+using Framework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     [NodeToolItem("AssetBundleBuilder",
-        "AorFramework.NodeGraph",
+        "Framework.NodeGraph",
         "AssetBundleBuilderData|AssetBundleBuilderController|AssetBundleBuilderGUIController",
         "AssetBundleTools")]
     public class AssetBundleBuilderGUIController : NodeGUIController
@@ -85,7 +85,7 @@ namespace AorFramework.NodeGraph
             }
 
             //BuildAssetBundleOptions
-            NodeGraphUtility.Draw_NG_EnumPopup<BuildAssetBundleOptions>(m_nodeGUI.data, "BBOEnum",new GUIContent("BuildAssetBundleOptions"));
+            NodeGraphUtility.Draw_NG_MutiEnumPopup<BuildAssetBundleOptions>(m_nodeGUI.data, "BBOEnum",new GUIContent("BuildAssetBundleOptions"));
 
             //BuildTarget
             NodeGraphUtility.Draw_NG_EnumPopup<BuildTarget>(m_nodeGUI.data, "BTEnum", new GUIContent("BuildTarget"));
@@ -97,7 +97,7 @@ namespace AorFramework.NodeGraph
             {
                 m_nodeGUI.controller.update();
             }
-
+            
             GUILayout.EndVertical();
 
             //base.DrawNodeInspector(inspectorWidth);

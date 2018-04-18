@@ -1,4 +1,4 @@
-﻿using AorFramework.editor;
+﻿using Framework.editor;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
@@ -7,7 +7,7 @@ using AorBaseUtility;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class HierarchyObjRenamerController : NodeController
     {

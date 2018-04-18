@@ -1,4 +1,4 @@
-﻿namespace AorFramework
+﻿namespace Framework
 {
     public interface IManager
     {

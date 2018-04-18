@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using Framework.editor;
 
 [CustomEditor(typeof(SpriteAsset))]
 public class UGUISpriteAssetEditor : Editor {
@@ -29,16 +30,7 @@ public class UGUISpriteAssetEditor : Editor {
         GUILayout.EndScrollView();
 
         #region *** 按钮-> <立即写入修改数据到文件> :: 建议所有.Asset文件的Editor都配备此段代码
-
-        GUILayout.Space(13);
-        GUI.color = Color.yellow;
-        if (GUILayout.Button(new GUIContent("Save Data To Asset Immediate", "立即将修改的数据保存到文件"),GUILayout.Height(26)))
-        {
-            EditorUtility.SetDirty(target);
-            AssetDatabase.SaveAssets();
-        }
-        GUI.color = Color.white;
-
+        EditorPlusMethods.Draw_AssetFileApplyImmediateUI(target);
         #endregion
 
     }

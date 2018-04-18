@@ -5,7 +5,7 @@ using AorBaseUtility;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class AssetBundleBuilderController : NodeController
     {

@@ -147,7 +147,7 @@ namespace Framework.Graphic.Editor
             if (mWaypointList == null)
                 SetupWaypointList();
 
-            if (Tools.current == Tool.Move)
+            if (UnityEditor.Tools.current == Tool.Move)
             {
                 Matrix4x4 mOld = Handles.matrix;
                 Color colorOld = Handles.color;
@@ -199,7 +199,7 @@ namespace Framework.Graphic.Editor
             GEVSmoothPath.Waypoint wp = Target.m_Waypoints[i];
             EditorGUI.BeginChangeCheck();
             Handles.color = Target.m_Appearance.pathColor;
-            Quaternion rotation = (Tools.pivotRotation == PivotRotation.Local)
+            Quaternion rotation = (UnityEditor.Tools.pivotRotation == PivotRotation.Local)
                 ? Quaternion.identity : Quaternion.Inverse(Target.transform.rotation);
             float size = HandleUtility.GetHandleSize(wp.position) * 0.1f;
             Handles.SphereHandleCap(0, wp.position, rotation, size, EventType.Repaint);

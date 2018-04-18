@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using AorFramework;
-using AorFrameworks;
+using Framework;
 using Framework.Graphic;
 using UnityEngine;
 using YoukiaUnity;

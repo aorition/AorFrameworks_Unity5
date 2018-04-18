@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
-using AorFramework.NodeGraph.Tool;
-using AorFramework.NodeGraph.Utility;
+using Framework.NodeGraph.Tool;
+using Framework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     [NodeToolItem("#<1>",
-        "AorFramework.NodeGraph",
+        "Framework.NodeGraph",
         "AssetFilterData|AssetFilterController|AssetFilterGUIController",
         "default",-99,true)]
     public class AssetFilterGUIController : NodeGUIController
@@ -19,7 +19,9 @@ namespace AorFramework.NodeGraph
 
         public override string GetNodeLabel()
         {
-            return AssetNodeGraphLagDefind.GetLabelDefine(1);
+            bool AdvancedOption = (bool)m_nodeGUI.data.ref_GetField_Inst_Public("AdvancedOption");
+            string hk = "(" + (AdvancedOption ? AssetNodeGraphLagDefind.GetLabelDefine(19) : FKModeLabelDefine[(int)m_nodeGUI.data.ref_GetField_Inst_Public("FilterMode")]) + ")";
+            return AssetNodeGraphLagDefind.GetLabelDefine(1) + ((hk == "(无)") ? "" : " " + hk);
         }
 
         private Vector2 _MinSizeDefind = new Vector2(200, 120);

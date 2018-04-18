@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
-using AorFramework.NodeGraph.Tool;
+using Framework.NodeGraph.Tool;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     [NodeToolItem("#<17>",
-        "AorFramework.NodeGraph",
+        "Framework.NodeGraph",
         "AssetDependData|AssetDependController|AssetDependGUIController")]
     public class AssetDependGUIController : NodeGUIController
     {

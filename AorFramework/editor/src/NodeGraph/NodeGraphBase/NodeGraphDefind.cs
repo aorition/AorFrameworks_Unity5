@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
 
     //TODO 可能有一下东西要移动到NodeGraphBaseSetting中去。

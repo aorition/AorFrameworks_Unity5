@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using YoukiaUnity.Graphics;
 
-namespace AorFramework.module
+namespace Framework.module
 {
     /// <summary>
     /// 摄像机系统基类

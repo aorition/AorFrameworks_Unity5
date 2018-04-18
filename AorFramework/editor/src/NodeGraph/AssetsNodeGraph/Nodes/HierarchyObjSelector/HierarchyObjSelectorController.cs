@@ -1,8 +1,8 @@
-﻿using AorFramework.editor;
+﻿using Framework.editor;
 using System;
 using System.Collections.Generic;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class HierarchyObjSelectorController : NodeController
     {

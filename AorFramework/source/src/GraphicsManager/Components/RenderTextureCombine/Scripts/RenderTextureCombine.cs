@@ -23,13 +23,13 @@ namespace Framework.Graphic
             switch (type)
             {
                 case PostEffectCombineType.Multiply:
-                    combine.material = new Material(Shader.Find("Hidden/PEOverrideMultiply"));
+                    combine.material = new Material(ShaderBridge.Find("Hidden/PEOverrideMultiply"));
                     break;
                 case PostEffectCombineType.Add:
-                    combine.material = new Material(Shader.Find("Hidden/PEOverrideAdd"));
+                    combine.material = new Material(ShaderBridge.Find("Hidden/PEOverrideAdd"));
                     break;
                 case PostEffectCombineType.Normal:
-                    combine.material = new Material(Shader.Find("Hidden/PEOverride"));
+                    combine.material = new Material(ShaderBridge.Find("Hidden/PEOverride"));
                     break;
             }
 

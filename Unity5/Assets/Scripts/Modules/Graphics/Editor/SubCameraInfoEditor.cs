@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using System.Collections;
-using AorFramework.module;
+using Framework.module;
 using YoukiaUnity.CinemaSystem;
 using YoukiaUnity.Graphics;
 

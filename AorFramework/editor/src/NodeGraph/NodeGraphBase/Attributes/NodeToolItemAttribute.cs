@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]

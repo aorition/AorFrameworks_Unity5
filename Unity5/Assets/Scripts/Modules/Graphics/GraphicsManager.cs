@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using AorBaseUtility;
-using AorFramework.module;
+using Framework.module;
 using DG.Tweening;
 using UnityEngine.UI;
 using YoukiaCore;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AorFramework.editor
+namespace Framework.editor
 {
     public class NodeBehaviour
     {

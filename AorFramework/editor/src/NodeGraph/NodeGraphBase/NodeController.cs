@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using AorBaseUtility;
 using AorBaseUtility.Config;
-using AorFramework.core;
+using Framework.core;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     //NodeData 控制器
     public class NodeController : INodeController

@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 using System.Collections;
-using AorFramework.module;
+using Framework.module;
 
 public class SplinesMenu {
     [MenuItem("GameObject/Create Other/Spline", false, 0)]

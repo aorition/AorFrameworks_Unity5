@@ -5,7 +5,7 @@ using AorBaseUtility.Config;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.DataWrapers
+namespace Framework.DataWrapers
 {
 
     /// <summary>

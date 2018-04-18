@@ -57,17 +57,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\AorUIBase\AorText.cs" />
-    <Compile Include="src\AorUIBase\textIncSprites\SpriteAsset.cs" />
-    <Compile Include="src\AorUIBase\textIncSprites\SpriteAssetInfo.cs" />
-    <Compile Include="src\AorUIBase\textIncSprites\AorEmojiHandler.cs" />
-    <Compile Include="src\AorUIBase\textIncSprites\AorTextIncSprites.cs" />
-    <Compile Include="src\AorUIBase\textIncSprites\SpriteGraphic.cs" />
-    <Compile Include="src\AorUIBase\textIncSprites\TextPlusData.cs" />
+    <Compile Include="src\Components\Floating\FloatingItemHandler.cs" />
+    <Compile Include="src\Components\NumberFollow\NumFollow.cs" />
+    <Compile Include="src\Components\RenderTextrueView\RenderTextureView.cs" />
+    <Compile Include="src\Components\TextTyper\TextTyper.cs" />
+    <Compile Include="src\Core\AorGraphicRaycaster.cs" />
+    <Compile Include="src\Core\AorUIComponent.cs" />
+    <Compile Include="src\Events\AorUIEventListener.cs" />
+    <Compile Include="src\Events\AorUIEventListenerSettingAsset.cs" />
+    <Compile Include="src\UGUIPlus\AorText.cs" />
+    <Compile Include="src\UGUIPlus\textIncSprites\SpriteAsset.cs" />
+    <Compile Include="src\UGUIPlus\textIncSprites\SpriteAssetInfo.cs" />
+    <Compile Include="src\UGUIPlus\textIncSprites\AorEmojiHandler.cs" />
+    <Compile Include="src\UGUIPlus\textIncSprites\AorTextIncSprites.cs" />
+    <Compile Include="src\UGUIPlus\textIncSprites\SpriteGraphic.cs" />
+    <Compile Include="src\UGUIPlus\textIncSprites\TextPlusData.cs" />
     <Compile Include="src\Extends\RectTransformExtends.cs" />
     <Compile Include="src\UGUIHelper\RTSizeListener.cs" />
     <Compile Include="src\UGUISRC\UGUI_FontUpdateTracker_SC.cs" />
     <Compile Include="src\UGUISRC\UGUI_Text_SC.cs" />
+    <Compile Include="src\UIManager\Scripts\AorUIManager.cs" />
+    <Compile Include="src\UIManager\Scripts\AorUIManagerLuncher.cs" />
+    <Compile Include="src\UIManager\Scripts\UIManagerSettingAsset.cs" />
+    <Compile Include="src\UIManager\Scripts\UiRuntimeUtility.cs" />
     <Compile Include="src\UIUtility\RTFBrowser\RTFBrowser.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +91,11 @@
     <ProjectReference Include="..\..\AorFramework\source\AorFramework.csproj">
       <Project>{b05094bf-0efc-4835-a998-ea8a3198a46e}</Project>
       <Name>AorFramework</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AorUnityExtents\AorUnityExtents.csproj">
+      <Project>{cecf4585-83a2-459e-92c4-767cbedcb16c}</Project>
+      <Name>AorUnityExtents</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

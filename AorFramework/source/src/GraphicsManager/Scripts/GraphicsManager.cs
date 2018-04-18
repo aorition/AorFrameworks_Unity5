@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using AorFrameworks;
+using Framework;
 using Framework.Graphic.Utility;
 using UnityEngine;
 
@@ -44,9 +44,9 @@ namespace Framework.Graphic
             {
                 try
                 {
-                    go = new GameObject("GraphicsManager");
+                    go = new GameObject(_NameDefine);
                     if (_parentTransform) go.transform.SetParent(_parentTransform, false);
-                    if (Application.isPlaying && _dontDestroyOnLoad) GameObject.DontDestroyOnLoad(go);
+                    if (Application.isPlaying && _dontDestroyOnLoad && !_parentTransform) GameObject.DontDestroyOnLoad(go);
                     return go.AddComponent<GraphicsManager>();
                 }
                 catch (Exception ex)
@@ -324,6 +324,10 @@ namespace Framework.Graphic
             if (_instance != null && _instance != this)
             {
                 GameObject.Destroy(this);
+            }else if (_instance == null)
+            {
+                _instance = this;
+                gameObject.name = _NameDefine;
             }
         }
 
@@ -386,7 +390,7 @@ namespace Framework.Graphic
                 if (_parentTransform) _mainCamera.transform.SetParent(_parentTransform, false);
             }
 
-            if (Application.isPlaying && _dontDestroyOnLoad)
+            if (Application.isPlaying && _dontDestroyOnLoad && !_parentTransform)
             {
                 GameObject.DontDestroyOnLoad(_mainCamera.gameObject);
             }

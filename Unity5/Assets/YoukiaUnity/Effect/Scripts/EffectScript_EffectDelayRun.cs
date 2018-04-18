@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using AorFramework;
+using Framework;
 using UnityEngine;
 
 public class EffectScript_EffectDelayRun : MonoBehaviour, ICustomTimeScale

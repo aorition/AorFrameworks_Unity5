@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-namespace AorFramework
+namespace Framework
 {
     /// <summary>
     /// 提供AddComponent的桥接功能

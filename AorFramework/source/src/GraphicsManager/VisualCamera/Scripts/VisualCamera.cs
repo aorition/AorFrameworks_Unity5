@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using AorFramework;
+using Framework;
 using UnityEngine;
 
 namespace Framework.Graphic

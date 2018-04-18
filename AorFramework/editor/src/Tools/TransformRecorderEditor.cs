@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using AorFrameworks.Tools;
+using Framework.Tools;
 using UnityEditor;
 using UnityEngine;
 
-namespace AorFramework.editor.tools
+namespace Framework.editor.tools
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(TransformRecorder))]
-    public class TransformRecorderEditor : Editor
+    public class TransformRecorderEditor : UnityEditor.Editor
     {
 
         public static void ClearDataCaches()

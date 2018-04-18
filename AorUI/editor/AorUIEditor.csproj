@@ -69,7 +69,9 @@
     <Compile Include="src\AorUIBase\DecoratorEditor.cs" />
     <Compile Include="src\AorUIBase\textIncSprites\UGUICreateSpriteAsset.cs" />
     <Compile Include="src\AorUIBase\textIncSprites\UGUISpriteAssetEditor.cs" />
+    <Compile Include="src\Events\Editor\AorUIEventListenerSettingAssetEditor.cs" />
     <Compile Include="src\UGUISRC\UGUI_Text_SCEditor.cs" />
+    <Compile Include="src\UIManager\Editor\UIManagerSettingAssetEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AorBaseUtility\AorBaseUtility.csproj">
@@ -85,6 +87,11 @@
     <ProjectReference Include="..\..\AorFramework\source\AorFramework.csproj">
       <Project>{b05094bf-0efc-4835-a998-ea8a3198a46e}</Project>
       <Name>AorFramework</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\AorUnityExtents\AorUnityExtents.csproj">
+      <Project>{cecf4585-83a2-459e-92c4-767cbedcb16c}</Project>
+      <Name>AorUnityExtents</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\source\AorUI.csproj">

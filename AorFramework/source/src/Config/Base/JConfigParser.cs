@@ -9,7 +9,7 @@ using AorBaseUtility.Config;
 using AorBaseUtility.MiniJSON;
 using UnityEngine;
 
-namespace AorFramework.core
+namespace Framework.core
 {
     
     public class JConfigParmsAttribute : Attribute{}

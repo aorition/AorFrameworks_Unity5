@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class AssetNodeGraphLagDefind
     {
@@ -36,7 +36,8 @@ namespace AorFramework.NodeGraph
             TextureProcessor, Texture处理器,//15
             Info,信息,//16
             Depend,资源依赖,//17
-            setup,设置//18
+            setup,设置,//18
+            Advanced,高级,//19
         }
 
 

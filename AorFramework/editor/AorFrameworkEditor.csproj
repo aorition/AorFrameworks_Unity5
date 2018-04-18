@@ -205,6 +205,11 @@
       <Name>AorBaseUtility</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\AorUnityExtents\AorUnityExtents.csproj">
+      <Project>{cecf4585-83a2-459e-92c4-767cbedcb16c}</Project>
+      <Name>AorUnityExtents</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\source\AorFramework.csproj">
       <Project>{b05094bf-0efc-4835-a998-ea8a3198a46e}</Project>
       <Name>AorFramework</Name>

@@ -5,10 +5,10 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     [NodeToolItem("Hierarchy #<12>",
-        "AorFramework.NodeGraph",
+        "Framework.NodeGraph",
         "HierarchyObjSelectorData|HierarchyObjSelectorController|HierarchyObjSelectorGUIController",
         "Hierarchy Tools",-100)]
     public class HierarchyObjSelectorGUIController : NodeGUIController

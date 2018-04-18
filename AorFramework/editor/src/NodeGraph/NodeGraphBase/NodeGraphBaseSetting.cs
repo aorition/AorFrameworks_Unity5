@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using AorBaseUtility;
 using AorBaseUtility.Config;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     //NodeGraph基本设置
     public class NodeGraphBaseSetting : Config

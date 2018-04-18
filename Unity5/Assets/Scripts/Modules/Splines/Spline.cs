@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 
 
-namespace AorFramework.module
+namespace Framework.module
 {
     /// <summary>
     /// This class contains functions to create and edit bezier splines. 

@@ -3,7 +3,7 @@ using System.Reflection;
 using AorBaseUtility;
 using UnityEngine;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class NodeGraphToolItemUtility
     {

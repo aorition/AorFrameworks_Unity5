@@ -7,8 +7,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using AorBaseUtility;
-using YoukiaCore;
+using Framework;
 
 namespace PathologicalGames
 {

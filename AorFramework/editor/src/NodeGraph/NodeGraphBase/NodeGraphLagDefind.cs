@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace AorFramework.NodeGraph
+namespace Framework.NodeGraph
 {
     public class NodeGraphLagDefind
     {
