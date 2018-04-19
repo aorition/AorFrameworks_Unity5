@@ -120,7 +120,7 @@
     <Compile Include="src\Log\Log.cs" />
     <Compile Include="src\Tools\EditorSupport\Interfaces\IShaderDefine.cs" />
     <Compile Include="src\Tools\EditorSupport\MeshChecker\MeshChecker.cs" />
-    <Compile Include="src\Tools\EditorSupport\MeshGroupChecker\MeshGroupChecker.cs" />
+    <Compile Include="src\Tools\EditorSupport\MeshChecker\MeshGroupChecker.cs" />
     <Compile Include="src\Tools\EditorSupport\PrefabLinker\PrefabLinker.cs" />
     <Compile Include="src\Misc\TransformRecorder.cs" />
     <Compile Include="src\Bridges\AddComponentBridge.cs" />

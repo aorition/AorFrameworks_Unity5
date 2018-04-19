@@ -183,11 +183,12 @@
     <Compile Include="src\Tools\MeshCombineTool\PrefabLightmapDataEditor.cs" />
     <Compile Include="src\Tools\MeshExportUtil.cs" />
     <Compile Include="src\Tools\MeshFilterPlus.cs" />
-    <Compile Include="src\Tools\MeshGroupChecker\MeshGroupCheckerEditor.cs" />
+    <Compile Include="src\Tools\MeshChecker\MeshGroupCheckerEditor.cs" />
     <Compile Include="src\Tools\PrefabLinker\PrefabLinkerEditor.cs" />
     <Compile Include="src\Tools\ShaderWriter\ShaderWriter.cs" />
     <Compile Include="src\Tools\ShaderWriter\SwPropertyItem.cs" />
     <Compile Include="src\Tools\ShaderWriter\SwSubShaderTag.cs" />
+    <Compile Include="src\Tools\TransformPlusEditor.cs" />
     <Compile Include="src\Tools\TransformRecorderEditor.cs" />
   </ItemGroup>
   <ItemGroup>
