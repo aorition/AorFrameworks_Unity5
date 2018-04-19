@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -69,6 +69,7 @@
     <Compile Include="src\Config\Base\JConfigParser.cs" />
     <Compile Include="src\Config\RoleViewConfig.cs" />
     <Compile Include="src\Core\AorGUILayout.cs" />
+    <Compile Include="src\Define\FrameworkAssetsPathDefine.cs" />
     <Compile Include="src\GameBaseInterfaces\ICustomTimeScale.cs" />
     <Compile Include="src\GameBaseInterfaces\IEditorOnlyScript.cs" />
     <Compile Include="src\GameBaseInterfaces\IGameAnimObject.cs" />
@@ -117,6 +118,9 @@
     <Compile Include="src\GraphicsManager\VisualCamera\Scripts\Path\GEVSmoothPath.cs" />
     <Compile Include="src\GraphicsManager\VisualCamera\Scripts\VisualCamera.cs" />
     <Compile Include="src\Log\Log.cs" />
+    <Compile Include="src\Tools\EditorSupport\Interfaces\IShaderDefine.cs" />
+    <Compile Include="src\Tools\EditorSupport\MeshChecker\MeshChecker.cs" />
+    <Compile Include="src\Tools\EditorSupport\MeshGroupChecker\MeshGroupChecker.cs" />
     <Compile Include="src\Tools\EditorSupport\PrefabLinker\PrefabLinker.cs" />
     <Compile Include="src\Misc\TransformRecorder.cs" />
     <Compile Include="src\Bridges\AddComponentBridge.cs" />
@@ -124,9 +128,15 @@
     <Compile Include="src\Utility\CameraMathUtility.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AorBaseExtents\AorBaseExtents.csproj">
+      <Project>{52a6095c-1686-4a22-8f08-70414d1c064e}</Project>
+      <Name>AorBaseExtents</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\AorBaseUtility\AorBaseUtility.csproj">
       <Project>{cff766b5-aaf1-4638-a423-f71ea26e70e5}</Project>
       <Name>AorBaseUtility</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\AorUnityExtents\AorUnityExtents.csproj">
       <Project>{cecf4585-83a2-459e-92c4-767cbedcb16c}</Project>

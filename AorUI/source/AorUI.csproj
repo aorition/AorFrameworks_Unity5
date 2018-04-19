@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -83,6 +83,11 @@
     <Compile Include="src\UIUtility\RTFBrowser\RTFBrowser.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AorBaseExtents\AorBaseExtents.csproj">
+      <Project>{52a6095c-1686-4a22-8f08-70414d1c064e}</Project>
+      <Name>AorBaseExtents</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\AorBaseUtility\AorBaseUtility.csproj">
       <Project>{cff766b5-aaf1-4638-a423-f71ea26e70e5}</Project>
       <Name>AorBaseUtility</Name>

@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\Editor\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -177,9 +177,13 @@
     <Compile Include="src\Tools\CameraBrowser\CameraBrowserWindow.cs" />
     <Compile Include="src\Tools\DllUpgrader.cs" />
     <Compile Include="src\Tools\EditorStyleView.cs" />
+    <Compile Include="src\Tools\FrameworkBaseShaderCreater\FrameworkBaseShaderCreater.cs" />
+    <Compile Include="src\Tools\MeshChecker\ModelCheckerEditor.cs" />
     <Compile Include="src\Tools\MeshCombineTool\MeshCombineTool.cs" />
     <Compile Include="src\Tools\MeshCombineTool\PrefabLightmapDataEditor.cs" />
     <Compile Include="src\Tools\MeshExportUtil.cs" />
+    <Compile Include="src\Tools\MeshFilterPlus.cs" />
+    <Compile Include="src\Tools\MeshGroupChecker\MeshGroupCheckerEditor.cs" />
     <Compile Include="src\Tools\PrefabLinker\PrefabLinkerEditor.cs" />
     <Compile Include="src\Tools\ShaderWriter\ShaderWriter.cs" />
     <Compile Include="src\Tools\ShaderWriter\SwPropertyItem.cs" />
@@ -200,6 +204,11 @@
     <Content Include="src\NodeGraph\NodeGraphBase\Bitmaps\AssetGraph_Selection.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AorBaseExtents\AorBaseExtents.csproj">
+      <Project>{52a6095c-1686-4a22-8f08-70414d1c064e}</Project>
+      <Name>AorBaseExtents</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\AorBaseUtility\AorBaseUtility.csproj">
       <Project>{cff766b5-aaf1-4638-a423-f71ea26e70e5}</Project>
       <Name>AorBaseUtility</Name>

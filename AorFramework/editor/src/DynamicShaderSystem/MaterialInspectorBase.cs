@@ -105,7 +105,10 @@ namespace Framework.Editor
         public override void OnEnable()
         {
             base.OnEnable();
-            _shadercacheInit(targetMat.shader);
+            if (targetMat && targetMat.shader)
+            {
+                _shadercacheInit(targetMat.shader);
+            }
         }
 
         protected bool _isDynamicShader;
@@ -273,6 +276,8 @@ namespace Framework.Editor
                 _targetMat = null;
                 OnEnable();
             }
+
+            if (!_targetMat || !_targetMat.shader) return;
 
             GUILayout.Space(10);
 

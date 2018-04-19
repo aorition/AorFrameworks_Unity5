@@ -150,6 +150,11 @@ namespace Framework.editor
             {
                 List<Vector3> normals = new List<Vector3>();
                 sMesh.GetNormals(normals);
+                for (int i = 0; i < normals.Count; i++)
+                {
+                    normals[i] = trasfMatrix * normals[i];
+                }
+
                 nMesh.SetNormals(normals);
             }
 
@@ -162,6 +167,13 @@ namespace Framework.editor
             {
                 List<Vector4> tangents = new List<Vector4>();
                 sMesh.GetTangents(tangents);
+                for (int i = 0; i < tangents.Count; i++)
+                {
+                    //                    Vector3 nt = trasfMatrix*new Vector3(tangents[i].x, tangents[i].y, tangents[i].z);
+                    //                    tangents[i] = new Vector4(nt.x, nt.y, nt.z, tangents[i].w);
+
+                    tangents[i] = trasfMatrix*tangents[i];
+                }
                 nMesh.SetTangents(tangents);
             }
 
@@ -397,162 +409,6 @@ namespace Framework.editor
 
             AorIO.SaveStringToFile(p, fileStr);
             AssetDatabase.Refresh();
-        }
-
-    }
-
-    [CustomEditor(typeof(MeshFilter), true)]
-    public class MeshFilterPlus : UnityEditor.Editor
-    {
-
-        private static GUIStyle _title0Style;
-        private static GUIStyle Title0Style
-        {
-            get
-            {
-                if (_title0Style == null)
-                {
-                    _title0Style = new GUIStyle();
-                    _title0Style.name = "Title0Style";
-                    _title0Style.fontSize = 16;
-                    _title0Style.normal.textColor = Color.white;
-                }
-                return _title0Style;
-            }
-        }
-
-        private static GUIStyle _title1Style;
-        private static GUIStyle Title1Style
-        {
-            get
-            {
-                if (_title1Style == null)
-                {
-                    _title1Style = GUI.skin.GetStyle("Label").Clone();
-                    _title0Style.name = "Title1Style";
-                    _title1Style.fontSize = 14;
-                }
-                return _title1Style;
-            }
-        }
-
-        private bool Active = false;
-
-        private bool JOBExport = false;
-        private bool RenameMesh = false;
-        private string ReMeshName;
-        private bool UseFBXPath = true;
-        private bool CreatePrefab = true;
-
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            
-            GameObject prefab = (target as MeshFilter).gameObject;
-            PrefabType pt = PrefabUtility.GetPrefabType(prefab);
-
-            if (pt == PrefabType.ModelPrefabInstance)
-            {
-
-                GUILayout.Space(10);
-
-                GUILayout.BeginVertical("box");
-
-                GUILayout.Space(5);
-                //            GUILayout.Label("Mesh导出工具",Title0Style);
-                Active = EditorGUILayout.ToggleLeft(new GUIContent("Mesh导出工具"), Active, Title0Style);
-                GUILayout.Space(5);
-
-                if (!Active)
-                {
-                    GUILayout.EndVertical();
-                    return;
-                }
-
-                GUILayout.BeginVertical("box");
-
-                GUILayout.Space(5);
-                GUILayout.Label("Mesh导出选项", Title1Style);
-                GUILayout.Space(5);
-
-                GUILayout.BeginHorizontal();
-
-                JOBExport = EditorGUILayout.Toggle(new GUIContent("Export OBJ File (beta)", "导出Mesh为JOB文件(beta)"), JOBExport);
-
-                RenameMesh = EditorGUILayout.Toggle(new GUIContent("Rename Mesh", "重命名Mesh"), RenameMesh);
-
-                GUILayout.EndHorizontal();
-
-                if (RenameMesh)
-                {
-                    GUILayout.BeginHorizontal();
-                    ReMeshName = EditorGUILayout.TextField(new GUIContent("Mesh Name"), ReMeshName);
-                    GUILayout.EndHorizontal();
-                }
-                else
-                {
-                    ReMeshName = "";
-                }
-
-                GUILayout.BeginHorizontal();
-                UseFBXPath = EditorGUILayout.Toggle(new GUIContent("Use FBX File Path", "使用FBX文件路径导出"), UseFBXPath);
-                if (!JOBExport)
-                {
-                    CreatePrefab = EditorGUILayout.Toggle(new GUIContent("Create Prefab ?", "是否创建预制体"), CreatePrefab);
-                }
-                else
-                {
-                    CreatePrefab = false;
-                }
-                GUILayout.EndHorizontal();
-
-                GUILayout.Space(5);
-
-                GUILayout.EndVertical();
-
-                GUILayout.BeginHorizontal();
-
-                string buttonLabel = JOBExport ? "导出Mesh为OBJ文件 (beta)" : CreatePrefab ? "重置Mesh坐标,导出Mesh为Asset并保存预制体" : "重置Mesh坐标,导出Mesh为Asset";
-                string buttonTip = JOBExport ? "Mesh为OBJ文件 (beta)" : CreatePrefab ? "重置Mesh坐标为当前世界坐标,导出Mesh为Asset并保存预制体" : "重置Mesh坐标为当前世界坐标,导出Mesh为Asset";
-
-                if (GUILayout.Button(new GUIContent(buttonLabel, buttonTip), GUILayout.Height(32)))
-                {
-                    string savePath;
-                    if (UseFBXPath)
-                    {
-                        UnityEngine.Object asset = PrefabUtility.GetPrefabParent(prefab);
-                        string assetPath = AssetDatabase.GetAssetPath(asset);
-                        if (!string.IsNullOrEmpty(assetPath))
-                        {
-                            savePath = Application.dataPath.Replace("Assets", "") +
-                                       assetPath.Substring(0, assetPath.LastIndexOf('/'));
-                        }
-                        else
-                        {
-                            savePath = EditorUtility.SaveFolderPanel("导出路径", Application.dataPath, "");
-                        }
-                    }
-                    else
-                    {
-                        savePath = EditorUtility.SaveFolderPanel("导出路径", Application.dataPath, "");
-                    }
-
-                    if (JOBExport)
-                    {
-                        MeshExportUtil.ExprotMeshWithWorldTranToOBJ(target as MeshFilter, savePath, ReMeshName);
-                    }
-                    else
-                    {
-                        MeshExportUtil.ExportMeshWithWorldTran(target as MeshFilter, savePath, CreatePrefab, ReMeshName);
-                    }
-
-                }
-                GUILayout.EndHorizontal();
-
-                GUILayout.Space(5);
-                GUILayout.EndVertical();
-
-            }
         }
 
     }

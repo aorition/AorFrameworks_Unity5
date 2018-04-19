@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -44,12 +44,7 @@
     <Compile Include="src\Config\AorConfigManager.cs" />
     <Compile Include="src\Config\ConfigManager.cs" />
     <Compile Include="src\Events\AorEventManager.cs" />
-    <Compile Include="src\Extends\AorRefExtends.cs" />
-    <Compile Include="src\Extends\ArrayExtends.cs" />
-    <Compile Include="src\Extends\ConfigExtends.cs" />
-    <Compile Include="src\Extends\FloatExtends.cs" />
-    <Compile Include="src\Extends\ListEntends.cs" />
-    <Compile Include="src\Extends\StringExtends.cs" />
+    <Compile Include="src\Config\ConfigExtends.cs" />
     <Compile Include="src\IO\AorIO.cs" />
     <Compile Include="src\Config\Config.cs" />
     <Compile Include="src\Config\ConfigInstCreater.cs" />

@@ -106,6 +106,9 @@
     <Reference Include="AorUnityExtents">
       <HintPath>Assets\Plugins\AorUnityExtents.dll</HintPath>
     </Reference>
+    <Reference Include="AorBaseExtents">
+      <HintPath>Assets\Plugins\AorBaseExtents.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Standard Assets\CrossPlatformInput\Scripts\AxisTouchButton.cs" />
@@ -154,6 +157,7 @@
     <Compile Include="Assets\Standard Assets\Utility\WaypointProgressTracker.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\FrameworkEditorSupport\Shader\ModelChecker.shader" />
     <None Include="Assets\ObjectBaseShader.cginc" />
     <None Include="Assets\Resources\RuntimeBaseRes\Shaders\RenderTextureCombine\PEOverride.shader" />
     <None Include="Assets\Resources\RuntimeBaseRes\Shaders\RenderTextureCombine\PEOverrideAdd.shader" />

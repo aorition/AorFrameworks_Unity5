@@ -157,6 +157,9 @@
     <Reference Include="AorUnityExtents">
       <HintPath>Assets\Plugins\AorUnityExtents.dll</HintPath>
     </Reference>
+    <Reference Include="AorBaseExtents">
+      <HintPath>Assets\Plugins\AorBaseExtents.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity5.CSharp.Plugins.csproj">
@@ -275,6 +278,7 @@
     <Compile Include="Assets\YoukiaUnity\Tools\SimpleAnimatorDebuger\Editor\SimpleAnimatorDebugerWindow.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\FrameworkEditorSupport\Shader\ModelChecker.shader" />
     <None Include="Assets\ObjectBaseShader.cginc" />
     <None Include="Assets\Resources\RuntimeBaseRes\Shaders\RenderTextureCombine\PEOverride.shader" />
     <None Include="Assets\Resources\RuntimeBaseRes\Shaders\RenderTextureCombine\PEOverrideAdd.shader" />
