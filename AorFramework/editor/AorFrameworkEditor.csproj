@@ -73,6 +73,7 @@
     <Compile Include="src\Core\EditorAssetInfoExents.cs" />
     <Compile Include="src\Core\EditorPlusMethods.cs" />
     <Compile Include="src\Core\NGUIEditorGUIUtility.cs" />
+    <Compile Include="src\Core\PaintEditor.cs" />
     <Compile Include="src\DynamicShaderSystem\MaterialInspectorBase.cs" />
     <Compile Include="src\Extends\EditorExtends.cs" />
     <Compile Include="src\GraphicsManager\CustomLightSystem\Editor\CustomLightManagerEditor.cs" />
@@ -188,8 +189,7 @@
     <Compile Include="src\Tools\ShaderWriter\ShaderWriter.cs" />
     <Compile Include="src\Tools\ShaderWriter\SwPropertyItem.cs" />
     <Compile Include="src\Tools\ShaderWriter\SwSubShaderTag.cs" />
-    <Compile Include="src\Tools\TransformPlusEditor.cs" />
-    <Compile Include="src\Tools\TransformRecorderEditor.cs" />
+    <Compile Include="src\Tools\TansformPlus\TransformPlusEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\PresetDatas\" />

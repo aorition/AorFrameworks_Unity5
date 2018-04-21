@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+
+/// <summary>
+/// Todo 该组件功能存在bug .. 需要进一步使用验证.
+/// </summary>
+
 [CustomEditor(typeof(MeshGroupChecker))]
 public class MeshGroupCheckerEditor : Editor
 {

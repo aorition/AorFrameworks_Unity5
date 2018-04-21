@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Framework.editor.tools;
 using Framework.Tools;
 using UnityEditor;
 using UnityEngine;
@@ -106,6 +107,12 @@ namespace Framework.editor
 
             if (!checker)
             {
+
+                //检查依赖shader是否存在
+                ShaderDefine_ModelChecker ShaderDefine = new ShaderDefine_ModelChecker();
+                Shader shader = Shader.Find(ShaderDefine.ShaderLabel);
+                if (!shader) FrameworkBaseShaderCreater.BuildingShaderFile(ShaderDefine, false);
+
                 //checker init
                 checker = (target as MeshFilter).gameObject.AddComponent<MeshChecker>();
                 checker.hideFlags = HideFlags.HideInInspector | HideFlags.DontSave | HideFlags.DontSaveInEditor;

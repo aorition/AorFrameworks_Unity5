@@ -14,6 +14,24 @@ namespace Framework.editor
     /// </summary>
     public class EditorPlusMethods
     {
+
+        /// <summary>
+        /// 创建制定对象的撤消点
+        /// </summary>
+        public static void RegisterUndo(string name, params UnityEngine.Object[] objects)
+        {
+            if (objects != null && objects.Length > 0)
+            {
+                UnityEditor.Undo.RecordObjects(objects, name);
+
+                foreach (UnityEngine.Object obj in objects)
+                {
+                    if (obj == null) continue;
+                    EditorUtility.SetDirty(obj);
+                }
+            }
+        }
+
         /// <summary>
         /// 编辑器在下一次Update时调用
         /// </summary>

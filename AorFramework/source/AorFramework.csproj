@@ -70,6 +70,7 @@
     <Compile Include="src\Config\RoleViewConfig.cs" />
     <Compile Include="src\Core\AorGUILayout.cs" />
     <Compile Include="src\Define\FrameworkAssetsPathDefine.cs" />
+    <Compile Include="src\Define\FrameworkBaseEnumDefines.cs" />
     <Compile Include="src\GameBaseInterfaces\ICustomTimeScale.cs" />
     <Compile Include="src\GameBaseInterfaces\IEditorOnlyScript.cs" />
     <Compile Include="src\GameBaseInterfaces\IGameAnimObject.cs" />
@@ -122,9 +123,9 @@
     <Compile Include="src\Tools\EditorSupport\MeshChecker\MeshChecker.cs" />
     <Compile Include="src\Tools\EditorSupport\MeshChecker\MeshGroupChecker.cs" />
     <Compile Include="src\Tools\EditorSupport\PrefabLinker\PrefabLinker.cs" />
-    <Compile Include="src\Misc\TransformRecorder.cs" />
     <Compile Include="src\Bridges\AddComponentBridge.cs" />
     <Compile Include="src\Bridges\ResourcesLoadBridge.cs" />
+    <Compile Include="src\Tools\EditorSupport\TansformPlus\TansformShortcut.cs" />
     <Compile Include="src\Utility\CameraMathUtility.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +161,9 @@
     <None Include="src\GraphicsManager\VisualCamera\Presets\Noise\Handheld_wideangle_mild.asset" />
     <None Include="src\GraphicsManager\VisualCamera\Presets\Noise\Handheld_wideangle_strong.asset" />
     <None Include="src\GraphicsManager\VisualCamera\Presets\Noise\Vibration.asset" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\Misc\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
