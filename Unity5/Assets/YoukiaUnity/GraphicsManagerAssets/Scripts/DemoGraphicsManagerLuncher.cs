@@ -11,9 +11,9 @@ public class DemoGraphicsManagerLuncher : GraphicsManagerLuncher {
     [SerializeField]
     private RoleShadowSettingAsset _ShadowEffectSetting;
 
-    protected override void onGraphicsManagerInstanced()
+    protected override void onManagerBeforeInitialization()
     {
-        GraphicsManager.instance.OnSubCameraInited += (cam, info) =>
+        GraphicsManager.Instance.OnSubCameraInited += (cam, info) =>
         {
             if (info.type == SubGCamType.FinalOutput)
             {
@@ -29,16 +29,17 @@ public class DemoGraphicsManagerLuncher : GraphicsManagerLuncher {
         };
     }
 
-    protected override void onGraphicsManagerSetuped()
+    protected override void onManagerAfterInitialization()
     {
+        
         if (_GlowEffectSetting)
         {
-            GraphicsManager.instance.registerSubSettingData<RoleGlowSettingAsset>(_GlowEffectSetting);
+            GraphicsManager.Instance.registerSubSettingData<RoleGlowSettingAsset>(_GlowEffectSetting);
         }
 
         if (_ShadowEffectSetting)
         {
-            GraphicsManager.instance.registerSubSettingData<RoleShadowSettingAsset>(_ShadowEffectSetting);
+            GraphicsManager.Instance.registerSubSettingData<RoleShadowSettingAsset>(_ShadowEffectSetting);
             if (_ShadowEffectSetting.Enable)
             {
                 RoleShadowEffectCamera.Create();

@@ -88,6 +88,21 @@ namespace Framework.editor
             return asset;
         }
 
+        public static void SaveAssetFileInProject(string dir,string assetName, ScriptableObject fileObj)
+        {
+            string name = assetName + ".asset";
+            string path = dir + "/" + name;
+            SaveAssetFileInProject(path, fileObj);
+        }
+
+        public static void SaveAssetFileInProject(string path, ScriptableObject fileObj)
+        {
+            path = AssetDatabase.GenerateUniqueAssetPath(path);
+            AssetDatabase.CreateAsset(fileObj, path);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
 
         /// <summary>
         /// 绘制 按钮-> <立即写入修改数据到文件>

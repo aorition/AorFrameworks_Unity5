@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using AorBaseUtility;
+using UnityEditor;
 using UnityEngine;
 
 namespace Framework.NodeGraph
@@ -45,9 +45,13 @@ namespace Framework.NodeGraph
         /// </summary>
         public static Texture2D LoadTextureFromFile(string path)
         {
-            Texture2D texture = new Texture2D(1, 1);
-            texture.LoadImage(File.ReadAllBytes(path));
+            //File.ReadAllBytes 不够稳定.
+            //            Texture2D texture = new Texture2D(1, 1);
+            //            texture.LoadImage(File.ReadAllBytes(path));
+            //            return texture;
+            Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
             return texture;
+
         }
 
         public const int ULONGSIZE = 64;

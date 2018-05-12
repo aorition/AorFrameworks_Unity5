@@ -49,7 +49,7 @@ public class MeshCombineTool
 
         removeTransWidthEditorOnlyTag(combined.transform);
 
-        PrefabLightmapData[] prefabLightmapDatas = combined.FindAllInterfaceList<PrefabLightmapData>().ToArray();
+        PrefabLightmapData[] prefabLightmapDatas = combined.FindInterfaceListInChildren<PrefabLightmapData>(true).ToArray();
         if (prefabLightmapDatas.Length > 0)
         {
             int i, len = prefabLightmapDatas.Length;
@@ -230,7 +230,7 @@ public class MeshCombineTool
 
         GameObject combined = MeshCombineInScene(tran);
 
-        List<MeshFilter> mfs = combined.FindAllComponentList<MeshFilter>();
+        List<MeshFilter> mfs = combined.FindComponentListInChildren<MeshFilter>(true);
 
         if (mfs.Count > 0)
         {
@@ -305,7 +305,7 @@ public class MeshCombineTool
     {
         //List<GameObject> recieverObjLs = new List<GameObject>();    //有ShadowReciever的物体列表
 
-        List<MeshFilter> MeshFilterList = root.FindAllComponentList<MeshFilter>();
+        List<MeshFilter> MeshFilterList = root.FindComponentListInChildren<MeshFilter>(true);
 
         if (MeshFilterList != null && MeshFilterList.Count > 0)
         {

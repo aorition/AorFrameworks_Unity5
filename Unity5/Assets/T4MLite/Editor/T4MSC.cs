@@ -11,11 +11,28 @@ namespace T4MLite
 
     public class T4MSC : EditorWindow
     {
+
+        private static GUIStyle _tipStyle;
+        private static GUIStyle TipStyle
+        {
+            get
+            {
+                if (_tipStyle == null)
+                {
+                    _tipStyle = EditorStyles.label.Clone();
+                    _tipStyle.fontSize = 12;
+                    _tipStyle.wordWrap = true;
+                    _tipStyle.normal.textColor = Color.gray;
+                }
+                return _tipStyle;
+            }
+        }
+
         #region modify 18/3/7
 
         private int index = 0;
 
-        private static string[] _DefineShaderNames = {"T4MLiteShaders/T4MLite_Unlit", "T4MLiteShaders/T4MLite_Diffuse"};
+        private static string[] _DefineShaderNames = { "T4MLiteShaders/T4MLite_Unlit", "T4MLiteShaders/T4MLite_Diffuse", "T4MLiteShaders/T4MLite_Specular" };
 
         #endregion
 
@@ -160,7 +177,7 @@ namespace T4MLite
             AlreadyExist
         }
 
-        string[] EnumMyT4M = {"T4M Settings", "ATS Mobile Foliage"};
+        string[] EnumMyT4M = { "T4M Settings", "ATS Mobile Foliage" };
 
         enum MaterialType
         {
@@ -176,9 +193,9 @@ namespace T4MLite
         LODShaderStatus OldShaderLOD3S;
         static public string T4MActived = "Activated";
         string terrainName = "";
-        string[] MyT4MMen = {"Painter", "Materials"};
-        string[] LODMenu = {"LOD Manager", "LOD Composer"};
-        string[] BillMenu = {"Billboard Manager", "Billboard Creator"};
+        string[] MyT4MMen = { "Painter", "Materials" };
+        string[] LODMenu = { "LOD Manager", "LOD Composer" };
+        string[] BillMenu = { "Billboard Manager", "Billboard Creator" };
         string PrefabName = "Name";
         string CheckStatus;
 
@@ -305,6 +322,8 @@ namespace T4MLite
         string FinalExpName;
         static public float T4MMaskTexUVCoord = 1f;
 
+        static public int T4MTextureSize = 512;
+
         Shader CustomShader;
         float shiness0;
         float shiness1;
@@ -372,7 +391,7 @@ namespace T4MLite
             trisInfo = 0;
             TexTexture = null;
             T4MSelectID = 0;
-            Projector[] projectorObj = FindObjectsOfType(typeof (Projector)) as Projector[];
+            Projector[] projectorObj = FindObjectsOfType(typeof(Projector)) as Projector[];
             foreach (Projector go in projectorObj)
             {
                 if (go.hideFlags == HideFlags.HideInHierarchy || go.name == "previewT4M")
@@ -387,7 +406,7 @@ namespace T4MLite
         static void Initialize()
         {
             T4MSC window =
-                (T4MSC) EditorWindow.GetWindowWithRect(typeof (T4MSC), new Rect(0, 0, 386, 700), false, "T4M SC");
+                (T4MSC)EditorWindow.GetWindowWithRect(typeof(T4MSC), new Rect(0, 0, 386, 700), false, "T4M SC");
             window.Show();
         }
 
@@ -401,7 +420,7 @@ namespace T4MLite
             CurrentSelect = Selection.activeTransform;
 
             nbrT4MObj = 0;
-            T4MObjCounter = GameObject.FindObjectsOfType(typeof (T4MObjSC)) as T4MObjSC[];
+            T4MObjCounter = GameObject.FindObjectsOfType(typeof(T4MObjSC)) as T4MObjSC[];
             for (int i = 0; i < T4MObjCounter.Length; i++)
             {
                 if (T4MObjCounter[i].Master == 1)
@@ -424,11 +443,11 @@ namespace T4MLite
             GUILayout.BeginHorizontal();
             GUILayout.BeginArea(new Rect(0, 0, 90, 585));
             GUILayout.Label(
-                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/T4MBAN.jpg", typeof (Texture2D)) as Texture2D,
+                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/T4MBAN.jpg", typeof(Texture2D)) as Texture2D,
                 GUILayout.Width(24), GUILayout.Height(582));
             GUILayout.EndArea();
             GUILayout.BeginArea(new Rect(25, 0, 363, 20));
-            GUILayout.Label(AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/logo.png", typeof (Texture)) as Texture);
+            GUILayout.Label(AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/logo.png", typeof(Texture)) as Texture);
             GUILayout.EndArea();
 
             GUILayout.BeginArea(new Rect(25, 21, 363, 700));
@@ -455,7 +474,7 @@ namespace T4MLite
             //        }
             //        GUILayout.EndHorizontal();
             GUILayout.Label(
-                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/separator.png", typeof (Texture)) as Texture);
+                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/separator.png", typeof(Texture)) as Texture);
 
             if (CurrentSelect != null && T4MActived == "Activated")
             {
@@ -611,7 +630,7 @@ namespace T4MLite
                 GUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();
                 GUILayout.Label(
-                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/waiting.png", typeof (Texture)) as Texture);
+                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/waiting.png", typeof(Texture)) as Texture);
                 GUILayout.FlexibleSpace();
                 GUILayout.EndHorizontal();
                 GUILayout.FlexibleSpace();
@@ -630,7 +649,7 @@ namespace T4MLite
                 EditorGUILayout.Space();
                 EditorGUILayout.Space();
                 GUILayout.Label("Optimization of Load Time", EditorStyles.boldLabel);
-                OptimizeLevel = (int) EditorGUILayout.Slider("Level", OptimizeLevel, 0, 3);
+                OptimizeLevel = (int)EditorGUILayout.Slider("Level", OptimizeLevel, 0, 3);
                 EditorGUILayout.Space();
                 EditorGUILayout.Space();
                 GUILayout.Label("Load Time", EditorStyles.boldLabel);
@@ -812,12 +831,12 @@ namespace T4MLite
             GUILayout.EndHorizontal();
             EditorGUILayout.Space();
             EditorGUILayout.Space();
-            CreationBB = (CreaType) EditorGUILayout.EnumPopup("New Billboard Type", CreationBB, GUILayout.Width(340));
+            CreationBB = (CreaType)EditorGUILayout.EnumPopup("New Billboard Type", CreationBB, GUILayout.Width(340));
 
             if (CreationBB == CreaType.Custom)
             {
                 GUILayout.Label("Billboard Meshes", EditorStyles.boldLabel);
-                BillMesh = (Mesh) EditorGUILayout.ObjectField("Mesh", BillMesh, typeof (Mesh), false);
+                BillMesh = (Mesh)EditorGUILayout.ObjectField("Mesh", BillMesh, typeof(Mesh), false);
             }
             EditorGUILayout.Space();
             EditorGUILayout.Space();
@@ -832,15 +851,15 @@ namespace T4MLite
             GUILayout.BeginVertical();
             GUILayout.BeginHorizontal();
             GUILayout.Label("BillBoard Shader", GUILayout.Width(103));
-            ShaderLOD1S = (LODShaderStatus) EditorGUILayout.EnumPopup(ShaderLOD1S, GUILayout.Width(95));
+            ShaderLOD1S = (LODShaderStatus)EditorGUILayout.EnumPopup(ShaderLOD1S, GUILayout.Width(95));
             GUILayout.EndHorizontal();
             EditorGUILayout.Space();
             if (ShaderLOD1S == LODShaderStatus.New)
-                LOD1S = (Shader) EditorGUILayout.ObjectField(LOD1S, typeof (Shader), true, GUILayout.MaxWidth(220));
+                LOD1S = (Shader)EditorGUILayout.ObjectField(LOD1S, typeof(Shader), true, GUILayout.MaxWidth(220));
             else
                 LOD1Material =
                     (Material)
-                        EditorGUILayout.ObjectField(LOD1Material, typeof (Material), false, GUILayout.MaxWidth(220));
+                        EditorGUILayout.ObjectField(LOD1Material, typeof(Material), false, GUILayout.MaxWidth(220));
             GUILayout.EndVertical();
             if (LOD1S)
                 LOD1Material = new Material(Shader.Find(LOD1S.name));
@@ -850,14 +869,14 @@ namespace T4MLite
                 if (LOD1Material.GetTexture("_MainTex"))
                     LOD1T = LOD1Material.GetTexture("_MainTex");
                 LOD1T =
-                    EditorGUILayout.ObjectField(LOD1T, typeof (Texture), false, GUILayout.Width(60),
+                    EditorGUILayout.ObjectField(LOD1T, typeof(Texture), false, GUILayout.Width(60),
                         GUILayout.Height(60)) as Texture;
                 if (LOD1Material && LOD1Material.HasProperty("_BumpMap"))
                 {
                     if (LOD1Material.GetTexture("_BumpMap"))
                         LOD1B = LOD1Material.GetTexture("_BumpMap");
                     LOD1B =
-                        EditorGUILayout.ObjectField(LOD1B, typeof (Texture), false, GUILayout.Width(60),
+                        EditorGUILayout.ObjectField(LOD1B, typeof(Texture), false, GUILayout.Width(60),
                             GUILayout.Height(60)) as Texture;
                 }
             }
@@ -905,7 +924,7 @@ namespace T4MLite
             {
                 GameObject Temp =
                     (GameObject)
-                        AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "MeshBillb/Billboard.fbx", typeof (GameObject));
+                        AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "MeshBillb/Billboard.fbx", typeof(GameObject));
                 Mesh Test2 = Temp.GetComponent<MeshFilter>().sharedMesh;
                 LOD1Temp.GetComponent<MeshFilter>().mesh = Test2;
             }
@@ -959,14 +978,14 @@ namespace T4MLite
             EditorGUILayout.Space();
             EditorGUILayout.Space();
             GUILayout.Label("Culling BillBoard Mode", EditorStyles.boldLabel);
-            BilBocclusion = (OccludeBy) EditorGUILayout.EnumPopup("Mode", BilBocclusion, GUILayout.Width(340));
+            BilBocclusion = (OccludeBy)EditorGUILayout.EnumPopup("Mode", BilBocclusion, GUILayout.Width(340));
 
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
 
             GUILayout.Label("BillBoard Rotation Axis", EditorStyles.boldLabel);
-            BillBoardAxis = (BillbAxe) EditorGUILayout.EnumPopup("Axis", BillBoardAxis, GUILayout.Width(340));
+            BillBoardAxis = (BillbAxe)EditorGUILayout.EnumPopup("Axis", BillBoardAxis, GUILayout.Width(340));
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
@@ -995,12 +1014,12 @@ namespace T4MLite
             if (billActivate == true)
             {
                 buttonBill = "DEACTIVATE";
-                Swap = (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/on.png", typeof (Texture));
+                Swap = (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/on.png", typeof(Texture));
             }
             else
             {
                 buttonBill = "ACTIVATE";
-                Swap = (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/off.png", typeof (Texture));
+                Swap = (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/off.png", typeof(Texture));
             }
 
 
@@ -1017,7 +1036,7 @@ namespace T4MLite
 
         void DeactivateBillBByScript()
         {
-            T4MBillBObjSC[] T4MBillObjGet = GameObject.FindObjectsOfType(typeof (T4MBillBObjSC)) as T4MBillBObjSC[];
+            T4MBillBObjSC[] T4MBillObjGet = GameObject.FindObjectsOfType(typeof(T4MBillBObjSC)) as T4MBillBObjSC[];
 
             for (var i = 0; i < T4MBillObjGet.Length; i++)
             {
@@ -1038,7 +1057,7 @@ namespace T4MLite
             if (billActivate == true)
             {
                 //si le billboard est actif
-                T4MBillBObjSC[] T4MBillObjGet = GameObject.FindObjectsOfType(typeof (T4MBillBObjSC)) as T4MBillBObjSC[];
+                T4MBillBObjSC[] T4MBillObjGet = GameObject.FindObjectsOfType(typeof(T4MBillBObjSC)) as T4MBillBObjSC[];
 
                 for (var i = 0; i < T4MBillObjGet.Length; i++)
                 {
@@ -1059,7 +1078,7 @@ namespace T4MLite
                 if (!PlayerCam)
                     PlayerCam = Camera.main.transform;
 
-                T4MBillBObjSC[] T4MBillObjGet = GameObject.FindObjectsOfType(typeof (T4MBillBObjSC)) as T4MBillBObjSC[];
+                T4MBillBObjSC[] T4MBillObjGet = GameObject.FindObjectsOfType(typeof(T4MBillBObjSC)) as T4MBillBObjSC[];
                 Vector3[] T4MBillVectGetR = new Vector3[T4MBillObjGet.Length];
                 int[] T4MBillValueGetR = new int[T4MBillObjGet.Length];
 
@@ -1132,14 +1151,14 @@ namespace T4MLite
                     GUILayout.FlexibleSpace();
                     AddObject =
                         (GameObject)
-                            EditorGUILayout.ObjectField("", AddObject, typeof (GameObject), true, GUILayout.Width(190));
+                            EditorGUILayout.ObjectField("", AddObject, typeof(GameObject), true, GUILayout.Width(190));
                     GUILayout.EndHorizontal();
                     EditorGUILayout.BeginHorizontal();
 
                     GUILayout.Label("", GUILayout.Width(1));
                     if (
                         GUILayout.Button(
-                            (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/down.png", typeof (Texture)),
+                            (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/down.png", typeof(Texture)),
                             GUILayout.Width(53)))
                     {
                         if (AddObject)
@@ -1153,7 +1172,7 @@ namespace T4MLite
 
                     if (
                         GUILayout.Button(
-                            (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/down.png", typeof (Texture)),
+                            (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/down.png", typeof(Texture)),
                             GUILayout.Width(53)))
                     {
                         if (AddObject)
@@ -1167,7 +1186,7 @@ namespace T4MLite
 
                     if (
                         GUILayout.Button(
-                            (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/down.png", typeof (Texture)),
+                            (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/down.png", typeof(Texture)),
                             GUILayout.Width(53)))
                     {
                         if (AddObject)
@@ -1181,7 +1200,7 @@ namespace T4MLite
 
                     if (
                         GUILayout.Button(
-                            (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/down.png", typeof (Texture)),
+                            (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/down.png", typeof(Texture)),
                             GUILayout.Width(53)))
                     {
                         if (AddObject)
@@ -1195,7 +1214,7 @@ namespace T4MLite
 
                     if (
                         GUILayout.Button(
-                            (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/down.png", typeof (Texture)),
+                            (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/down.png", typeof(Texture)),
                             GUILayout.Width(53)))
                     {
                         if (AddObject)
@@ -1209,7 +1228,7 @@ namespace T4MLite
 
                     if (
                         GUILayout.Button(
-                            (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/down.png", typeof (Texture)),
+                            (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/down.png", typeof(Texture)),
                             GUILayout.Width(53)))
                     {
                         if (AddObject)
@@ -1273,7 +1292,7 @@ namespace T4MLite
                     {
                         if (T4MObjectPlant[j])
                         {
-                            ViewDistance[j] = (ViewD) EditorGUILayout.EnumPopup(ViewDistance[j], GUILayout.Width(53));
+                            ViewDistance[j] = (ViewD)EditorGUILayout.EnumPopup(ViewDistance[j], GUILayout.Width(53));
                         }
                         else GUILayout.Label("", GUILayout.Width(53));
                     }
@@ -1281,7 +1300,7 @@ namespace T4MLite
                     GUILayout.EndVertical();
 
 
-                    T4MPlantMod = (PlantMode) EditorGUILayout.EnumPopup("Plant Mode", T4MPlantMod, GUILayout.Width(340));
+                    T4MPlantMod = (PlantMode)EditorGUILayout.EnumPopup("Plant Mode", T4MPlantMod, GUILayout.Width(340));
 
                     GUILayout.BeginVertical("box");
                     GUILayout.Label("General", EditorStyles.boldLabel);
@@ -1369,7 +1388,7 @@ namespace T4MLite
                         GUILayout.BeginHorizontal();
                         GUILayout.FlexibleSpace();
                         GUILayout.Label(
-                            AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/brushes.jpg", typeof (Texture)) as
+                            AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/brushes.jpg", typeof(Texture)) as
                                 Texture, "label");
                         GUILayout.BeginHorizontal("box", GUILayout.Width(318));
                         GUILayout.FlexibleSpace();
@@ -1403,9 +1422,9 @@ namespace T4MLite
                         GUILayout.BeginVertical("box", GUILayout.Width(347));
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("Preview Type", GUILayout.Width(145));
-                        PaintPrev = (PaintHandle) EditorGUILayout.EnumPopup(PaintPrev, GUILayout.Width(160));
+                        PaintPrev = (PaintHandle)EditorGUILayout.EnumPopup(PaintPrev, GUILayout.Width(160));
                         GUILayout.EndHorizontal();
-                        brushSize = (int) EditorGUILayout.Slider("Brush Size", brushSize, 1, 36);
+                        brushSize = (int)EditorGUILayout.Slider("Brush Size", brushSize, 1, 36);
                         T4MStronger = EditorGUILayout.Slider("Brush Stronger", T4MStronger, 0.05f, 1f);
                         GUILayout.EndVertical();
                         GUILayout.FlexibleSpace();
@@ -1486,13 +1505,13 @@ namespace T4MLite
                         {
                             Layer1Tile.x =
                                 Layer1Tile.y =
-                                    EditorGUILayout.Slider("Layer1 Tiling :", Layer1Tile.x, 1, 500*T4MMaskTexUVCoord);
+                                    EditorGUILayout.Slider("Layer1 Tiling :", Layer1Tile.x, 1, 500 * T4MMaskTexUVCoord);
                             CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                                 .T4MMaterial.SetTextureScale("_Splat0", new Vector2(Layer1Tile.x, Layer1Tile.x));
                             EditorGUILayout.Space();
                             Layer2Tile.x =
                                 Layer2Tile.y =
-                                    EditorGUILayout.Slider("Layer2 Tiling :", Layer2Tile.x, 1, 500*T4MMaskTexUVCoord);
+                                    EditorGUILayout.Slider("Layer2 Tiling :", Layer2Tile.x, 1, 500 * T4MMaskTexUVCoord);
                             CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                                 .T4MMaterial.SetTextureScale("_Splat1", new Vector2(Layer2Tile.x, Layer2Tile.x));
                             EditorGUILayout.Space();
@@ -1500,7 +1519,7 @@ namespace T4MLite
                             {
                                 Layer3Tile.x =
                                     Layer3Tile.y =
-                                        EditorGUILayout.Slider("Layer3 Tiling :", Layer3Tile.x, 1, 500*T4MMaskTexUVCoord);
+                                        EditorGUILayout.Slider("Layer3 Tiling :", Layer3Tile.x, 1, 500 * T4MMaskTexUVCoord);
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                                     .T4MMaterial.SetTextureScale("_Splat2", new Vector2(Layer3Tile.x, Layer3Tile.x));
                             }
@@ -1509,7 +1528,7 @@ namespace T4MLite
                             {
                                 Layer4Tile.x =
                                     Layer4Tile.y =
-                                        EditorGUILayout.Slider("Layer4 Tiling :", Layer4Tile.x, 1, 500*T4MMaskTexUVCoord);
+                                        EditorGUILayout.Slider("Layer4 Tiling :", Layer4Tile.x, 1, 500 * T4MMaskTexUVCoord);
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                                     .T4MMaterial.SetTextureScale("_Splat3", new Vector2(Layer4Tile.x, Layer4Tile.x));
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
@@ -1520,7 +1539,7 @@ namespace T4MLite
                             {
                                 Layer5Tile.x =
                                     Layer5Tile.y =
-                                        EditorGUILayout.Slider("Layer5 Tiling :", Layer5Tile.x, 1, 500*T4MMaskTexUVCoord);
+                                        EditorGUILayout.Slider("Layer5 Tiling :", Layer5Tile.x, 1, 500 * T4MMaskTexUVCoord);
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                                     .T4MMaterial.SetTextureScale("_Splat4", new Vector2(Layer5Tile.x, Layer5Tile.x));
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
@@ -1531,7 +1550,7 @@ namespace T4MLite
                             {
                                 Layer6Tile.x =
                                     Layer6Tile.y =
-                                        EditorGUILayout.Slider("Layer6 Tiling :", Layer6Tile.x, 1, 500*T4MMaskTexUVCoord);
+                                        EditorGUILayout.Slider("Layer6 Tiling :", Layer6Tile.x, 1, 500 * T4MMaskTexUVCoord);
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                                     .T4MMaterial.SetTextureScale("_Splat5", new Vector2(Layer6Tile.x, Layer6Tile.x));
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
@@ -1541,25 +1560,25 @@ namespace T4MLite
                         else
                         {
                             Layer1Tile.x = EditorGUILayout.Slider("Layer1 TilingX :", Layer1Tile.x, 1,
-                                500*T4MMaskTexUVCoord);
+                                500 * T4MMaskTexUVCoord);
                             Layer1Tile.y = EditorGUILayout.Slider("Layer1 TilingZ :", Layer1Tile.y, 1,
-                                500*T4MMaskTexUVCoord);
+                                500 * T4MMaskTexUVCoord);
                             CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                                 .T4MMaterial.SetTextureScale("_Splat0", new Vector2(Layer1Tile.x, Layer1Tile.y));
                             EditorGUILayout.Space();
                             Layer2Tile.x = EditorGUILayout.Slider("Layer2 TilingX :", Layer2Tile.x, 1,
-                                500*T4MMaskTexUVCoord);
+                                500 * T4MMaskTexUVCoord);
                             Layer2Tile.y = EditorGUILayout.Slider("Layer2 TilingZ :", Layer2Tile.y, 1,
-                                500*T4MMaskTexUVCoord);
+                                500 * T4MMaskTexUVCoord);
                             CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                                 .T4MMaterial.SetTextureScale("_Splat1", new Vector2(Layer2Tile.x, Layer2Tile.y));
                             EditorGUILayout.Space();
                             if (CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.HasProperty("_Splat2"))
                             {
                                 Layer3Tile.x = EditorGUILayout.Slider("Layer3 TilingX :", Layer3Tile.x, 1,
-                                    500*T4MMaskTexUVCoord);
+                                    500 * T4MMaskTexUVCoord);
                                 Layer3Tile.y = EditorGUILayout.Slider("Layer3 TilingZ :", Layer3Tile.y, 1,
-                                    500*T4MMaskTexUVCoord);
+                                    500 * T4MMaskTexUVCoord);
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                                     .T4MMaterial.SetTextureScale("_Splat2", new Vector2(Layer3Tile.x, Layer3Tile.y));
                             }
@@ -1567,9 +1586,9 @@ namespace T4MLite
                             if (CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.HasProperty("_Splat3"))
                             {
                                 Layer4Tile.x = EditorGUILayout.Slider("Layer4 TilingX :", Layer4Tile.x, 1,
-                                    500*T4MMaskTexUVCoord);
+                                    500 * T4MMaskTexUVCoord);
                                 Layer4Tile.y = EditorGUILayout.Slider("Layer4 TilingZ :", Layer4Tile.y, 1,
-                                    500*T4MMaskTexUVCoord);
+                                    500 * T4MMaskTexUVCoord);
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                                     .T4MMaterial.SetTextureScale("_Splat3", new Vector2(Layer4Tile.x, Layer4Tile.y));
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
@@ -1579,9 +1598,9 @@ namespace T4MLite
                             if (CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.HasProperty("_Splat4"))
                             {
                                 Layer5Tile.x = EditorGUILayout.Slider("Layer5 TilingX :", Layer5Tile.x, 1,
-                                    500*T4MMaskTexUVCoord);
+                                    500 * T4MMaskTexUVCoord);
                                 Layer5Tile.y = EditorGUILayout.Slider("Layer5 TilingZ :", Layer5Tile.y, 1,
-                                    500*T4MMaskTexUVCoord);
+                                    500 * T4MMaskTexUVCoord);
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                                     .T4MMaterial.SetTextureScale("_Splat4", new Vector2(Layer5Tile.x, Layer5Tile.y));
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
@@ -1591,9 +1610,9 @@ namespace T4MLite
                             if (CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.HasProperty("_Splat5"))
                             {
                                 Layer6Tile.x = EditorGUILayout.Slider("Layer6 TilingX :", Layer6Tile.x, 1,
-                                    500*T4MMaskTexUVCoord);
+                                    500 * T4MMaskTexUVCoord);
                                 Layer6Tile.y = EditorGUILayout.Slider("Layer6 TilingZ :", Layer6Tile.y, 1,
-                                    500*T4MMaskTexUVCoord);
+                                    500 * T4MMaskTexUVCoord);
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                                     .T4MMaterial.SetTextureScale("_Splat5", new Vector2(Layer6Tile.x, Layer6Tile.y));
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
@@ -1611,45 +1630,45 @@ namespace T4MLite
                             MeshFilter temp = CurrentSelect.GetComponent<MeshFilter>();
                             if (temp == null)
                                 temp = CurrentSelect.GetComponent<T4MObjSC>().T4MMesh;
-                            T4MPreview.orthographicSize = (brushSize*CurrentSelect.localScale.x)*
-                                                          (temp.sharedMesh.bounds.size.x/200);
+                            T4MPreview.orthographicSize = (brushSize * CurrentSelect.localScale.x) *
+                                                          (temp.sharedMesh.bounds.size.x / 200);
                             T4MPreview.orthographic = true;
                         }
 
-                        float test = T4MStronger*200/100;
+                        float test = T4MStronger * 200 / 100;
                         T4MPreview.material.SetFloat("_Transp", Mathf.Clamp(test, 0.4f, 1));
 
-                        T4MBrushSizeInPourcent = (int) Mathf.Round((brushSize*T4MMaskTex.width)/100);
+                        T4MBrushSizeInPourcent = (int)Mathf.Round((brushSize * T4MMaskTex.width) / 100);
 
                         if (T4MselTexture == 0)
                         {
                             T4MPreview.material.SetTextureScale("_MainTex", Layer1Tile);
-                            T4MPreview.material.SetVector("_Tiling", 0.1f*new Vector4(Layer1Tile.x, Layer1Tile.y, 0, 0));
+                            T4MPreview.material.SetVector("_Tiling", 0.1f * new Vector4(Layer1Tile.x, Layer1Tile.y, 0, 0));
                         }
                         else if (T4MselTexture == 1)
                         {
                             T4MPreview.material.SetTextureScale("_MainTex", Layer2Tile);
-                            T4MPreview.material.SetVector("_Tiling", 0.1f*new Vector4(Layer2Tile.x, Layer2Tile.y, 0, 0));
+                            T4MPreview.material.SetVector("_Tiling", 0.1f * new Vector4(Layer2Tile.x, Layer2Tile.y, 0, 0));
                         }
                         else if (T4MselTexture == 2)
                         {
                             T4MPreview.material.SetTextureScale("_MainTex", Layer3Tile);
-                            T4MPreview.material.SetVector("_Tiling", 0.1f*new Vector4(Layer3Tile.x, Layer3Tile.y, 0, 0));
+                            T4MPreview.material.SetVector("_Tiling", 0.1f * new Vector4(Layer3Tile.x, Layer3Tile.y, 0, 0));
                         }
                         else if (T4MselTexture == 3)
                         {
                             T4MPreview.material.SetTextureScale("_MainTex", Layer4Tile);
-                            T4MPreview.material.SetVector("_Tiling", 0.1f*new Vector4(Layer4Tile.x, Layer4Tile.y, 0, 0));
+                            T4MPreview.material.SetVector("_Tiling", 0.1f * new Vector4(Layer4Tile.x, Layer4Tile.y, 0, 0));
                         }
                         else if (T4MselTexture == 4)
                         {
                             T4MPreview.material.SetTextureScale("_MainTex", Layer5Tile);
-                            T4MPreview.material.SetVector("_Tiling", 0.1f*new Vector4(Layer5Tile.x, Layer5Tile.y, 0, 0));
+                            T4MPreview.material.SetVector("_Tiling", 0.1f * new Vector4(Layer5Tile.x, Layer5Tile.y, 0, 0));
                         }
                         else if (T4MselTexture == 5)
                         {
                             T4MPreview.material.SetTextureScale("_MainTex", Layer6Tile);
-                            T4MPreview.material.SetVector("_Tiling", 0.1f*new Vector4(Layer6Tile.x, Layer6Tile.y, 0, 0));
+                            T4MPreview.material.SetVector("_Tiling", 0.1f * new Vector4(Layer6Tile.x, Layer6Tile.y, 0, 0));
                         }
 
 
@@ -1721,14 +1740,14 @@ namespace T4MLite
                                     T4MtargetColor2 = new Color(0, 0, 1, 0);
                             }
                             Texture2D TBrush = TexBrush[selBrush] as Texture2D;
-                            T4MBrushAlpha = new float[T4MBrushSizeInPourcent*T4MBrushSizeInPourcent];
+                            T4MBrushAlpha = new float[T4MBrushSizeInPourcent * T4MBrushSizeInPourcent];
                             for (int i = 0; i < T4MBrushSizeInPourcent; i++)
                             {
                                 for (int j = 0; j < T4MBrushSizeInPourcent; j++)
                                 {
-                                    T4MBrushAlpha[j*T4MBrushSizeInPourcent + i] =
-                                        TBrush.GetPixelBilinear(((float) i)/T4MBrushSizeInPourcent,
-                                            ((float) j)/T4MBrushSizeInPourcent).a;
+                                    T4MBrushAlpha[j * T4MBrushSizeInPourcent + i] =
+                                        TBrush.GetPixelBilinear(((float)i) / T4MBrushSizeInPourcent,
+                                            ((float)j) / T4MBrushSizeInPourcent).a;
                                 }
                             }
                             oldselTexture = T4MselTexture;
@@ -1755,9 +1774,9 @@ namespace T4MLite
         void InitPreview()
         {
             var ProjectorB = new GameObject("PreviewT4M");
-            ProjectorB.AddComponent(typeof (Projector));
+            ProjectorB.AddComponent(typeof(Projector));
             ProjectorB.hideFlags = HideFlags.HideInHierarchy;
-            T4MPreview = ProjectorB.GetComponent(typeof (Projector)) as Projector;
+            T4MPreview = ProjectorB.GetComponent(typeof(Projector)) as Projector;
             MeshFilter SizeOfGeo = CurrentSelect.GetComponent<MeshFilter>();
             if (SizeOfGeo == null)
                 SizeOfGeo = CurrentSelect.GetComponent<T4MObjSC>().T4MMesh;
@@ -1765,54 +1784,54 @@ namespace T4MLite
             T4MPreview.orthographic = true; //先设置类型，再修改参数，不然会覆盖
             T4MPreview.nearClipPlane = -20f;
             T4MPreview.farClipPlane = 20f;
-            T4MPreview.orthographicSize = (brushSize*CurrentSelect.localScale.x)*(MeshSize.x/100);
-            T4MPreview.ignoreLayers = ~layerMask;
+            T4MPreview.orthographicSize = (brushSize * CurrentSelect.localScale.x) * (MeshSize.x / 100);
+            // T4MPreview.ignoreLayers = ~layerMask;
             T4MPreview.transform.Rotate(90, -90, 0);
             //Material NewPMat = new Material ("Shader \"Hidden/PreviewT4M\" { \nProperties {\n	_Transp (\"Transparency\", Range(0,1)) = 1 \n	_MainTex (\"Texture\", 2D) = \"\" { }\n	_MaskTex (\"Mask (RGB) Trans (A)\", 2D) = \"\" { }\n	}\nSubShader {\n		Pass {\n		Blend SrcAlpha OneMinusSrcAlpha \n  CGPROGRAM\n       #pragma vertex vert\n       #pragma fragment frag\n       #include \"UnityCG.cginc\"\n  struct v2f {\n   float4 pos : SV_POSITION;\n    float4 uv1 : TEXCOORD0;\n   float4 uv2 : TEXCOORD1;\n    float4 uv3 : TEXCOORD2;\n       };\n		float4x4 _Projector;\n		float4x4 _ProjectorClip;\n		float _Transp;\n       sampler2D _MaskTex;\n       sampler2D _MainTex;\n      // v2f vert (float4 v : POSITION)\n      v2f vert(appdata_full v)\n       {\n   v2f o;\n   o.pos = mul(UNITY_MATRIX_MVP, v.vertex);\n\n   // TexGen ObjectLinear:\n   // use object space vertex position\n   o.uv1 = v.vertex.xyzw;\n   o.uv2 = mul(_Projector,v.vertex);\n   o.uv3 = mul(_ProjectorClip,v.vertex);\n   return o;\n       }\n       \n       half4 frag (v2f i) : SV_Target\n       {\n half4 col =tex2Dproj(_MainTex, UNITY_PROJ_COORD(i.uv2));\n half4 mask =tex2Dproj (_MaskTex,UNITY_PROJ_COORD(i.uv2));\n half4 res = col*mask.a;\n res *= (half)_Transp;\n   return res;\n  }\n ENDCG \n } \n	}\n}\n");
             Material NewPMat = new Material(Shader.Find("T4M/PreviewT4M"));
-                //("Shader \"Hidden/PreviewT4M\" { \n	Properties {\n _Transp (\"Transparency\", Range(0,1)) = 1 \n  _MainTex (\"Texture\", 2D) = \"\" { }\n	_MaskTex (\"Mask (RGB) Trans (A)\", 2D) = \"\" { TexGen ObjectLinear }\n	}\nSubShader {\n Pass {\nBlend SrcAlpha OneMinusSrcAlpha  \n SetTexture [_MainTex]  \n SetTexture [_MaskTex] {\n constantColor (1,1,1,[_Transp]) \n	combine previous , texture* constant\n	Matrix [_Projector]\n	}\n}\n}\n}");
+            //("Shader \"Hidden/PreviewT4M\" { \n	Properties {\n _Transp (\"Transparency\", Range(0,1)) = 1 \n  _MainTex (\"Texture\", 2D) = \"\" { }\n	_MaskTex (\"Mask (RGB) Trans (A)\", 2D) = \"\" { TexGen ObjectLinear }\n	}\nSubShader {\n Pass {\nBlend SrcAlpha OneMinusSrcAlpha  \n SetTexture [_MainTex]  \n SetTexture [_MaskTex] {\n constantColor (1,1,1,[_Transp]) \n	combine previous , texture* constant\n	Matrix [_Projector]\n	}\n}\n}\n}");
             T4MPreview.material = NewPMat;
             T4MPreview.material.SetTexture("_MainTex", TexTexture[T4MselTexture]);
             T4MPreview.material.SetTexture("_MaskTex", TexBrush[selBrush]);
             if (T4MselTexture == 0)
             {
                 T4MPreview.material.SetTextureScale("_MainTex", Layer1Tile);
-                T4MPreview.material.SetVector("_Tiling", 0.1f*new Vector4(Layer1Tile.x, Layer1Tile.y, 0, 0));
+                T4MPreview.material.SetVector("_Tiling", 0.1f * new Vector4(Layer1Tile.x, Layer1Tile.y, 0, 0));
                 T4MPreview.material.SetTexture("_MainTex",
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.GetTexture("_Splat0") as Texture);
             }
             else if (T4MselTexture == 1)
             {
                 T4MPreview.material.SetTextureScale("_MainTex", Layer2Tile);
-                T4MPreview.material.SetVector("_Tiling", 0.1f*new Vector4(Layer2Tile.x, Layer2Tile.y, 0, 0));
+                T4MPreview.material.SetVector("_Tiling", 0.1f * new Vector4(Layer2Tile.x, Layer2Tile.y, 0, 0));
                 T4MPreview.material.SetTexture("_MainTex",
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.GetTexture("_Splat1") as Texture);
             }
             else if (T4MselTexture == 2)
             {
                 T4MPreview.material.SetTextureScale("_MainTex", Layer3Tile);
-                T4MPreview.material.SetVector("_Tiling", 0.1f*new Vector4(Layer2Tile.x, Layer2Tile.y, 0, 0));
+                T4MPreview.material.SetVector("_Tiling", 0.1f * new Vector4(Layer2Tile.x, Layer2Tile.y, 0, 0));
                 T4MPreview.material.SetTexture("_MainTex",
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.GetTexture("_Splat2") as Texture);
             }
             else if (T4MselTexture == 3)
             {
                 T4MPreview.material.SetTextureScale("_MainTex", Layer4Tile);
-                T4MPreview.material.SetVector("_Tiling", 0.1f*new Vector4(Layer4Tile.x, Layer4Tile.y, 0, 0));
+                T4MPreview.material.SetVector("_Tiling", 0.1f * new Vector4(Layer4Tile.x, Layer4Tile.y, 0, 0));
                 T4MPreview.material.SetTexture("_MainTex",
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.GetTexture("_Splat3") as Texture);
             }
             else if (T4MselTexture == 4)
             {
                 T4MPreview.material.SetTextureScale("_MainTex", Layer5Tile);
-                T4MPreview.material.SetVector("_Tiling", 0.1f*new Vector4(Layer5Tile.x, Layer5Tile.y, 0, 0));
+                T4MPreview.material.SetVector("_Tiling", 0.1f * new Vector4(Layer5Tile.x, Layer5Tile.y, 0, 0));
                 T4MPreview.material.SetTexture("_MainTex",
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.GetTexture("_Splat4") as Texture);
             }
             else if (T4MselTexture == 5)
             {
                 T4MPreview.material.SetTextureScale("_MainTex", Layer6Tile);
-                T4MPreview.material.SetVector("_Tiling", 0.1f*new Vector4(Layer6Tile.x, Layer6Tile.y, 0, 0));
+                T4MPreview.material.SetVector("_Tiling", 0.1f * new Vector4(Layer6Tile.x, Layer6Tile.y, 0, 0));
                 T4MPreview.material.SetTexture("_MainTex",
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.GetTexture("_Splat5") as Texture);
             }
@@ -1936,14 +1955,14 @@ namespace T4MLite
                 BrushesTL =
                     (Texture)
                         AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Brushes/Brush" + BrushNum + ".png",
-                            typeof (Texture));
+                            typeof(Texture));
                 if (BrushesTL)
                 {
                     BrushList.Add(BrushesTL);
                 }
                 BrushNum++;
             } while (BrushesTL);
-            TexBrush = BrushList.ToArray(typeof (Texture)) as Texture[];
+            TexBrush = BrushList.ToArray(typeof(Texture)) as Texture[];
         }
 
         void afLOD()
@@ -1995,9 +2014,9 @@ namespace T4MLite
             EditorGUILayout.Space();
 
             GUILayout.Label("LOD Meshes", EditorStyles.boldLabel);
-            LOD1 = (Mesh) EditorGUILayout.ObjectField("LOD1 : Close", LOD1, typeof (Mesh), false);
-            LOD2 = (Mesh) EditorGUILayout.ObjectField("LOD2 : Medium", LOD2, typeof (Mesh), false);
-            LOD3 = (Mesh) EditorGUILayout.ObjectField("LOD3 : Far", LOD3, typeof (Mesh), false);
+            LOD1 = (Mesh)EditorGUILayout.ObjectField("LOD1 : Close", LOD1, typeof(Mesh), false);
+            LOD2 = (Mesh)EditorGUILayout.ObjectField("LOD2 : Medium", LOD2, typeof(Mesh), false);
+            LOD3 = (Mesh)EditorGUILayout.ObjectField("LOD3 : Far", LOD3, typeof(Mesh), false);
 
             EditorGUILayout.Space();
 
@@ -2016,14 +2035,14 @@ namespace T4MLite
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("LOD1 Shader", GUILayout.Width(103));
-            ShaderLOD1S = (LODShaderStatus) EditorGUILayout.EnumPopup(ShaderLOD1S, GUILayout.Width(95));
+            ShaderLOD1S = (LODShaderStatus)EditorGUILayout.EnumPopup(ShaderLOD1S, GUILayout.Width(95));
             GUILayout.EndHorizontal();
             if (ShaderLOD1S == LODShaderStatus.New)
-                LOD1S = (Shader) EditorGUILayout.ObjectField(LOD1S, typeof (Shader), true, GUILayout.MaxWidth(220));
+                LOD1S = (Shader)EditorGUILayout.ObjectField(LOD1S, typeof(Shader), true, GUILayout.MaxWidth(220));
             else
                 LOD1Material =
                     (Material)
-                        EditorGUILayout.ObjectField(LOD1Material, typeof (Material), false, GUILayout.MaxWidth(220));
+                        EditorGUILayout.ObjectField(LOD1Material, typeof(Material), false, GUILayout.MaxWidth(220));
             GUILayout.EndVertical();
             if (LOD1S)
                 LOD1Material = new Material(Shader.Find(LOD1S.name));
@@ -2033,14 +2052,14 @@ namespace T4MLite
                 if (LOD1Material.GetTexture("_MainTex"))
                     LOD1T = LOD1Material.GetTexture("_MainTex");
                 LOD1T =
-                    EditorGUILayout.ObjectField(LOD1T, typeof (Texture), false, GUILayout.Width(60),
+                    EditorGUILayout.ObjectField(LOD1T, typeof(Texture), false, GUILayout.Width(60),
                         GUILayout.Height(60)) as Texture;
                 if (LOD1Material && LOD1Material.HasProperty("_BumpMap"))
                 {
                     if (LOD1Material.GetTexture("_BumpMap"))
                         LOD1B = LOD1Material.GetTexture("_BumpMap");
                     LOD1B =
-                        EditorGUILayout.ObjectField(LOD1B, typeof (Texture), false, GUILayout.Width(60),
+                        EditorGUILayout.ObjectField(LOD1B, typeof(Texture), false, GUILayout.Width(60),
                             GUILayout.Height(60)) as Texture;
                 }
             }
@@ -2065,14 +2084,14 @@ namespace T4MLite
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("LOD2 Shader", GUILayout.Width(103));
-            ShaderLOD2S = (LODShaderStatus) EditorGUILayout.EnumPopup(ShaderLOD2S, GUILayout.Width(95));
+            ShaderLOD2S = (LODShaderStatus)EditorGUILayout.EnumPopup(ShaderLOD2S, GUILayout.Width(95));
             GUILayout.EndHorizontal();
             if (ShaderLOD2S == LODShaderStatus.New)
-                LOD2S = (Shader) EditorGUILayout.ObjectField(LOD2S, typeof (Shader), false, GUILayout.MaxWidth(220));
+                LOD2S = (Shader)EditorGUILayout.ObjectField(LOD2S, typeof(Shader), false, GUILayout.MaxWidth(220));
             else
                 LOD2Material =
                     (Material)
-                        EditorGUILayout.ObjectField(LOD2Material, typeof (Material), false, GUILayout.MaxWidth(220));
+                        EditorGUILayout.ObjectField(LOD2Material, typeof(Material), false, GUILayout.MaxWidth(220));
             GUILayout.EndVertical();
             if (LOD2S)
                 LOD2Material = new Material(Shader.Find(LOD2S.name));
@@ -2081,14 +2100,14 @@ namespace T4MLite
                 if (LOD2Material.GetTexture("_MainTex"))
                     LOD2T = LOD2Material.GetTexture("_MainTex");
                 LOD2T =
-                    EditorGUILayout.ObjectField(LOD2T, typeof (Texture), false, GUILayout.Width(60),
+                    EditorGUILayout.ObjectField(LOD2T, typeof(Texture), false, GUILayout.Width(60),
                         GUILayout.Height(60)) as Texture;
                 if (LOD2Material && LOD2Material.HasProperty("_BumpMap"))
                 {
                     if (LOD2Material.GetTexture("_BumpMap"))
                         LOD2B = LOD2Material.GetTexture("_BumpMap");
                     LOD2B =
-                        EditorGUILayout.ObjectField(LOD2B, typeof (Texture), false, GUILayout.Width(60),
+                        EditorGUILayout.ObjectField(LOD2B, typeof(Texture), false, GUILayout.Width(60),
                             GUILayout.Height(60)) as Texture;
                 }
             }
@@ -2113,14 +2132,14 @@ namespace T4MLite
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("LOD3 Shader", GUILayout.Width(103));
-            ShaderLOD3S = (LODShaderStatus) EditorGUILayout.EnumPopup(ShaderLOD3S, GUILayout.Width(95));
+            ShaderLOD3S = (LODShaderStatus)EditorGUILayout.EnumPopup(ShaderLOD3S, GUILayout.Width(95));
             GUILayout.EndHorizontal();
             if (ShaderLOD3S == LODShaderStatus.New)
-                LOD3S = (Shader) EditorGUILayout.ObjectField(LOD3S, typeof (Shader), false, GUILayout.MaxWidth(220));
+                LOD3S = (Shader)EditorGUILayout.ObjectField(LOD3S, typeof(Shader), false, GUILayout.MaxWidth(220));
             else
                 LOD3Material =
                     (Material)
-                        EditorGUILayout.ObjectField(LOD3Material, typeof (Material), false, GUILayout.MaxWidth(220));
+                        EditorGUILayout.ObjectField(LOD3Material, typeof(Material), false, GUILayout.MaxWidth(220));
             GUILayout.EndVertical();
             if (LOD3S)
                 LOD3Material = new Material(Shader.Find(LOD3S.name));
@@ -2129,14 +2148,14 @@ namespace T4MLite
                 if (LOD3Material.GetTexture("_MainTex"))
                     LOD3T = LOD3Material.GetTexture("_MainTex");
                 LOD3T =
-                    EditorGUILayout.ObjectField(LOD3T, typeof (Texture), false, GUILayout.Width(60),
+                    EditorGUILayout.ObjectField(LOD3T, typeof(Texture), false, GUILayout.Width(60),
                         GUILayout.Height(60)) as Texture;
                 if (LOD3Material && LOD3Material.HasProperty("_BumpMap"))
                 {
                     if (LOD3Material.GetTexture("_BumpMap"))
                         LOD3B = LOD3Material.GetTexture("_BumpMap");
                     LOD3B =
-                        EditorGUILayout.ObjectField(LOD3B, typeof (Texture), false, GUILayout.Width(60),
+                        EditorGUILayout.ObjectField(LOD3B, typeof(Texture), false, GUILayout.Width(60),
                             GUILayout.Height(60)) as Texture;
                 }
             }
@@ -2321,10 +2340,10 @@ namespace T4MLite
                 EditorGUILayout.Space();
                 GUILayout.Label("LOD Mode", EditorStyles.boldLabel);
                 LODModeControler =
-                    (LODMod) EditorGUILayout.EnumPopup("controller", LODModeControler, GUILayout.Width(340));
+                    (LODMod)EditorGUILayout.EnumPopup("controller", LODModeControler, GUILayout.Width(340));
                 EditorGUILayout.Space();
                 GUILayout.Label("Culling LOD Object Mode", EditorStyles.boldLabel);
-                LODocclusion = (OccludeBy) EditorGUILayout.EnumPopup("Mode", LODocclusion, GUILayout.Width(340));
+                LODocclusion = (OccludeBy)EditorGUILayout.EnumPopup("Mode", LODocclusion, GUILayout.Width(340));
 
                 EditorGUILayout.Space();
                 EditorGUILayout.Space();
@@ -2394,12 +2413,12 @@ namespace T4MLite
                 if (LodActivate == true)
                 {
                     buttonLod = "DEACTIVATE";
-                    Swap = (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/on.png", typeof (Texture));
+                    Swap = (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/on.png", typeof(Texture));
                 }
                 else
                 {
                     buttonLod = "ACTIVATE";
-                    Swap = (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/off.png", typeof (Texture));
+                    Swap = (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/off.png", typeof(Texture));
                 }
 
                 if (GUILayout.Button(buttonLod, GUILayout.Width(100), GUILayout.Height(30)))
@@ -2424,7 +2443,7 @@ namespace T4MLite
 
         void DeactivateLODByScript()
         {
-            T4MLodObjSC[] T4MLodObjGet = GameObject.FindObjectsOfType(typeof (T4MLodObjSC)) as T4MLodObjSC[];
+            T4MLodObjSC[] T4MLodObjGet = GameObject.FindObjectsOfType(typeof(T4MLodObjSC)) as T4MLodObjSC[];
 
             for (var i = 0; i < T4MLodObjGet.Length; i++)
             {
@@ -2451,7 +2470,7 @@ namespace T4MLite
             if (LodActivate == true)
             {
                 //Lod actif
-                T4MLodObjSC[] T4MLodObjGet = GameObject.FindObjectsOfType(typeof (T4MLodObjSC)) as T4MLodObjSC[];
+                T4MLodObjSC[] T4MLodObjGet = GameObject.FindObjectsOfType(typeof(T4MLodObjSC)) as T4MLodObjSC[];
 
                 for (var i = 0; i < T4MLodObjGet.Length; i++)
                 {
@@ -2478,7 +2497,7 @@ namespace T4MLite
                 if (!PlayerCam)
                     PlayerCam = Camera.main.transform;
 
-                T4MLodObjSC[] T4MLodObjGetR = GameObject.FindObjectsOfType(typeof (T4MLodObjSC)) as T4MLodObjSC[];
+                T4MLodObjSC[] T4MLodObjGetR = GameObject.FindObjectsOfType(typeof(T4MLodObjSC)) as T4MLodObjSC[];
                 Vector3[] T4MLodVectGetR = new Vector3[T4MLodObjGetR.Length];
                 int[] T4MLodValueGetR = new int[T4MLodObjGetR.Length];
 
@@ -2612,17 +2631,43 @@ namespace T4MLite
                     GUILayout.Space(10);
                     GUILayout.Label("Select Shader", EditorStyles.boldLabel);
                     GUILayout.BeginHorizontal("box");
-//                //GUILayout.Label("(Name)");
-//                string[] shaderNames = { "T4MShaders/T4M-Lite-Default", "T4MShaders/T4M-Lite-Dlight" };
-//
+                    //                //GUILayout.Label("(Name)");
+                    //                string[] shaderNames = { "T4MShaders/T4M-Lite-Default", "T4MShaders/T4M-Lite-Dlight" };
+                    //
 
-                    index = EditorGUILayout.Popup((int) index, _DefineShaderNames);
+                    index = EditorGUILayout.Popup((int)index, _DefineShaderNames);
                     //Debug.Log((int)S);
                     //Enum shaderName =shaders .;
                     // S = (SM )EditorGUILayout.EnumPopup (S);
 
                     //GUILayout.Toggle(false , ;
                     GUILayout.EndHorizontal();
+                    GUILayout.Space(10);
+
+                    #endregion
+
+                    //T4MTextureSize
+
+                    #region modify 18/3/7
+
+                    GUILayout.Space(10);
+                    GUILayout.Label("Texture Setting", EditorStyles.boldLabel);
+                    GUILayout.Space(5);
+                    GUILayout.Label(new GUIContent("The size suggest set to N power of 2\n(for example: 128 / 256 / 512 / 1024 / 2048...)", "璐村浘灏哄寤鸿璁剧疆涓?鐨凬娆″箓(渚嬪:128 / 256 / 512 / 1024 / 2048 ...)"), TipStyle);
+                    GUILayout.Space(5);
+                    GUILayout.BeginVertical("box");
+                    //                //GUILayout.Label("(Name)");
+                    //                string[] shaderNames = { "T4MShaders/T4M-Lite-Default", "T4MShaders/T4M-Lite-Dlight" };
+                    //
+
+                    T4MTextureSize = EditorGUILayout.IntField(new GUIContent("Textrue Size"), T4MTextureSize);
+
+                    //Debug.Log((int)S);
+                    //Enum shaderName =shaders .;
+                    // S = (SM )EditorGUILayout.EnumPopup (S);
+
+                    //GUILayout.Toggle(false , ;
+                    GUILayout.EndVertical();
                     GUILayout.Space(10);
 
                     #endregion
@@ -2658,21 +2703,21 @@ namespace T4MLite
                         GUILayout.Label(" <");
                         GUILayout.FlexibleSpace();
                         T4MResolution = EditorGUILayout.IntField(T4MResolution, GUILayout.Width(30));
-                        GUILayout.Label("x " + T4MResolution + " : " + (X*Y).ToString() + " Verts");
+                        GUILayout.Label("x " + T4MResolution + " : " + (X * Y).ToString() + " Verts");
                         GUILayout.FlexibleSpace();
                         GUILayout.Label(" >");
                         GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal();
                         GUILayout.FlexibleSpace();
                         T4MResolution =
-                            (int) GUILayout.HorizontalScrollbar(T4MResolution, 0, 32, 350, GUILayout.Width(350));
+                            (int)GUILayout.HorizontalScrollbar(T4MResolution, 0, 32, 350, GUILayout.Width(350));
                         GUILayout.FlexibleSpace();
                         GUILayout.EndHorizontal();
                         EditorGUILayout.Space();
                         EditorGUILayout.Space();
-                        tRes = (HeightmapWidth)/T4MResolution;
-                        X = (int) ((HeightmapWidth - 1)/tRes + 1);
-                        Y = (int) ((HeightmapHeight - 1)/tRes + 1);
+                        tRes = (HeightmapWidth) / T4MResolution;
+                        X = (int)((HeightmapWidth - 1) / tRes + 1);
+                        Y = (int)((HeightmapHeight - 1) / tRes + 1);
                         EditorGUILayout.Space();
                         EditorGUILayout.Space();
                         GUILayout.Label("Vertex Performances (Approximate Indications)", EditorStyles.boldLabel);
@@ -2680,120 +2725,120 @@ namespace T4MLite
                         EditorGUILayout.Space();
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("iPhone 3GS", GUILayout.Width(300));
-                        if (X*Y <= 15000)
+                        if (X * Y <= 15000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as
                                     Texture);
-                        else if (X*Y > 15000 && X*Y < 30000)
+                        else if (X * Y > 15000 && X * Y < 30000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/avoid.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/avoid.png", typeof(Texture)) as
                                     Texture);
-                        else if (X*Y >= 30000)
+                        else if (X * Y >= 30000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof(Texture)) as
                                     Texture);
                         GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("iPad 1", GUILayout.Width(300));
-                        if (X*Y <= 15000)
+                        if (X * Y <= 15000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as
                                     Texture);
-                        else if (X*Y > 15000 && X*Y < 30000)
+                        else if (X * Y > 15000 && X * Y < 30000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/avoid.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/avoid.png", typeof(Texture)) as
                                     Texture);
-                        else if (X*Y >= 30000)
+                        else if (X * Y >= 30000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof(Texture)) as
                                     Texture);
                         GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("iPhone 4", GUILayout.Width(300));
-                        if (X*Y <= 20000)
+                        if (X * Y <= 20000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as
                                     Texture);
-                        else if (X*Y > 20000 && X*Y < 40000)
+                        else if (X * Y > 20000 && X * Y < 40000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/avoid.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/avoid.png", typeof(Texture)) as
                                     Texture);
-                        else if (X*Y >= 40000)
+                        else if (X * Y >= 40000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof(Texture)) as
                                     Texture);
                         GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("Tegra 2", GUILayout.Width(300));
-                        if (X*Y <= 20000)
+                        if (X * Y <= 20000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as
                                     Texture);
-                        else if (X*Y > 20000 && X*Y < 40000)
+                        else if (X * Y > 20000 && X * Y < 40000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/avoid.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/avoid.png", typeof(Texture)) as
                                     Texture);
-                        else if (X*Y >= 40000)
+                        else if (X * Y >= 40000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof(Texture)) as
                                     Texture);
                         GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("iPad 2", GUILayout.Width(300));
-                        if (X*Y <= 25000)
+                        if (X * Y <= 25000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as
                                     Texture);
-                        else if (X*Y > 25000 && X*Y < 45000)
+                        else if (X * Y > 25000 && X * Y < 45000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/avoid.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/avoid.png", typeof(Texture)) as
                                     Texture);
-                        else if (X*Y >= 45000)
+                        else if (X * Y >= 45000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof(Texture)) as
                                     Texture);
                         GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("iPhone 4S", GUILayout.Width(300));
-                        if (X*Y <= 25000)
+                        if (X * Y <= 25000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as
                                     Texture);
-                        else if (X*Y > 25000 && X*Y < 45000)
+                        else if (X * Y > 25000 && X * Y < 45000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/avoid.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/avoid.png", typeof(Texture)) as
                                     Texture);
-                        else if (X*Y >= 45000)
+                        else if (X * Y >= 45000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof(Texture)) as
                                     Texture);
                         GUILayout.EndHorizontal();
 
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("Flash", GUILayout.Width(300));
-                        if (X*Y <= 45000)
+                        if (X * Y <= 45000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as
                                     Texture);
-                        else if (X*Y > 45000 && X*Y < 60000)
+                        else if (X * Y > 45000 && X * Y < 60000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/avoid.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/avoid.png", typeof(Texture)) as
                                     Texture);
-                        else if (X*Y >= 60000)
+                        else if (X * Y >= 60000)
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof(Texture)) as
                                     Texture);
                         GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("Web", GUILayout.Width(300));
                         GUILayout.Label(
-                            AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as Texture);
+                            AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as Texture);
                         GUILayout.EndHorizontal();
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("Desktop", GUILayout.Width(300));
 
                         GUILayout.Label(
-                            AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as Texture);
+                            AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as Texture);
 
                         GUILayout.EndHorizontal();
 
@@ -3003,7 +3048,7 @@ namespace T4MLite
                             if (
                                 GUILayout.Button(
                                     (Texture)
-                                        AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/up.png", typeof (Texture)),
+                                        AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/up.png", typeof(Texture)),
                                     GUILayout.Width(53)))
                             {
                                 if (!PreceduralAdd && !MaterialAdd && Precedural)
@@ -3032,7 +3077,7 @@ namespace T4MLite
                             if (
                                 GUILayout.Button(
                                     (Texture)
-                                        AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/up.png", typeof (Texture)),
+                                        AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/up.png", typeof(Texture)),
                                     GUILayout.Width(53)))
                             {
                                 if (!PreceduralAdd && !MaterialAdd && Precedural)
@@ -3062,7 +3107,7 @@ namespace T4MLite
                                     GUILayout.Button(
                                         (Texture)
                                             AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/up.png",
-                                                typeof (Texture)), GUILayout.Width(53)))
+                                                typeof(Texture)), GUILayout.Width(53)))
                                 {
                                     if (!PreceduralAdd && !MaterialAdd && Precedural)
                                         PreceduralAdd = Precedural;
@@ -3092,7 +3137,7 @@ namespace T4MLite
                                     GUILayout.Button(
                                         (Texture)
                                             AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/up.png",
-                                                typeof (Texture)), GUILayout.Width(53)))
+                                                typeof(Texture)), GUILayout.Width(53)))
                                 {
                                     if (!PreceduralAdd && !MaterialAdd && Precedural)
                                         PreceduralAdd = Precedural;
@@ -3122,7 +3167,7 @@ namespace T4MLite
                                     GUILayout.Button(
                                         (Texture)
                                             AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/up.png",
-                                                typeof (Texture)), GUILayout.Width(53)))
+                                                typeof(Texture)), GUILayout.Width(53)))
                                 {
                                     if (!PreceduralAdd && !MaterialAdd && Precedural)
                                         PreceduralAdd = Precedural;
@@ -3147,7 +3192,7 @@ namespace T4MLite
                                     GUILayout.Button(
                                         (Texture)
                                             AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/up.png",
-                                                typeof (Texture)), GUILayout.Width(53)))
+                                                typeof(Texture)), GUILayout.Width(53)))
                                 {
                                     if (!PreceduralAdd && !MaterialAdd && Precedural)
                                         PreceduralAdd = Precedural;
@@ -3212,7 +3257,7 @@ namespace T4MLite
                                 GUILayout.Label("Substances To Add : ");
                                 MaterialAdd = null;
                                 PreceduralAdd =
-                                    EditorGUILayout.ObjectField(PreceduralAdd, typeof (ProceduralMaterial), true,
+                                    EditorGUILayout.ObjectField(PreceduralAdd, typeof(ProceduralMaterial), true,
                                         GUILayout.Width(220)) as ProceduralMaterial;
                             }
                             else
@@ -3220,7 +3265,7 @@ namespace T4MLite
                                 GUILayout.Label("Texture To Add : ");
                                 PreceduralAdd = null;
                                 MaterialAdd =
-                                    EditorGUILayout.ObjectField(MaterialAdd, typeof (Texture2D), true,
+                                    EditorGUILayout.ObjectField(MaterialAdd, typeof(Texture2D), true,
                                         GUILayout.Width(220)) as Texture;
                             }
 
@@ -3278,17 +3323,17 @@ namespace T4MLite
                     GUILayout.Label("Modify", EditorStyles.boldLabel);
                     GUILayout.BeginHorizontal("Box");
                     GUILayout.Label(
-                        (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TDiff.jpg", typeof (Texture)));
+                        (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TDiff.jpg", typeof(Texture)));
                     Layer1 =
-                        EditorGUILayout.ObjectField(Layer1, typeof (Texture2D), true, GUILayout.Width(75),
+                        EditorGUILayout.ObjectField(Layer1, typeof(Texture2D), true, GUILayout.Width(75),
                             GUILayout.Height(75)) as Texture;
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.SetTexture("_Splat0", Layer1);
                     if (CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.HasProperty("_BumpSplat0"))
                     {
                         GUILayout.Label(
-                            (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TBump.jpg", typeof (Texture)));
+                            (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TBump.jpg", typeof(Texture)));
                         Layer1Bump =
-                            EditorGUILayout.ObjectField(Layer1Bump, typeof (Texture2D), true, GUILayout.Width(75),
+                            EditorGUILayout.ObjectField(Layer1Bump, typeof(Texture2D), true, GUILayout.Width(75),
                                 GUILayout.Height(75)) as Texture;
                         CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                             .T4MMaterial.SetTexture("_BumpSplat0", Layer1Bump);
@@ -3305,17 +3350,17 @@ namespace T4MLite
                     GUILayout.Label("Modify", EditorStyles.boldLabel);
                     GUILayout.BeginHorizontal("Box");
                     GUILayout.Label(
-                        (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TDiff.jpg", typeof (Texture)));
+                        (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TDiff.jpg", typeof(Texture)));
                     Layer2 =
-                        EditorGUILayout.ObjectField(Layer2, typeof (Texture2D), true, GUILayout.Width(75),
+                        EditorGUILayout.ObjectField(Layer2, typeof(Texture2D), true, GUILayout.Width(75),
                             GUILayout.Height(75)) as Texture;
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.SetTexture("_Splat1", Layer2);
                     if (CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.HasProperty("_BumpSplat1"))
                     {
                         GUILayout.Label(
-                            (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TBump.jpg", typeof (Texture)));
+                            (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TBump.jpg", typeof(Texture)));
                         Layer2Bump =
-                            EditorGUILayout.ObjectField(Layer2Bump, typeof (Texture2D), true, GUILayout.Width(75),
+                            EditorGUILayout.ObjectField(Layer2Bump, typeof(Texture2D), true, GUILayout.Width(75),
                                 GUILayout.Height(75)) as Texture;
                         CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                             .T4MMaterial.SetTexture("_BumpSplat1", Layer2Bump);
@@ -3332,17 +3377,17 @@ namespace T4MLite
                     GUILayout.Label("Modify", EditorStyles.boldLabel);
                     GUILayout.BeginHorizontal("Box");
                     GUILayout.Label(
-                        (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TDiff.jpg", typeof (Texture)));
+                        (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TDiff.jpg", typeof(Texture)));
                     Layer3 =
-                        EditorGUILayout.ObjectField(Layer3, typeof (Texture2D), true, GUILayout.Width(75),
+                        EditorGUILayout.ObjectField(Layer3, typeof(Texture2D), true, GUILayout.Width(75),
                             GUILayout.Height(75)) as Texture;
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.SetTexture("_Splat2", Layer3);
                     if (CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.HasProperty("_BumpSplat2"))
                     {
                         GUILayout.Label(
-                            (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TBump.jpg", typeof (Texture)));
+                            (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TBump.jpg", typeof(Texture)));
                         Layer3Bump =
-                            EditorGUILayout.ObjectField(Layer3Bump, typeof (Texture2D), true, GUILayout.Width(75),
+                            EditorGUILayout.ObjectField(Layer3Bump, typeof(Texture2D), true, GUILayout.Width(75),
                                 GUILayout.Height(75)) as Texture;
                         CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                             .T4MMaterial.SetTexture("_BumpSplat2", Layer3Bump);
@@ -3359,17 +3404,17 @@ namespace T4MLite
                     GUILayout.Label("Modify", EditorStyles.boldLabel);
                     GUILayout.BeginHorizontal("Box");
                     GUILayout.Label(
-                        (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TDiff.jpg", typeof (Texture)));
+                        (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TDiff.jpg", typeof(Texture)));
                     Layer4 =
-                        EditorGUILayout.ObjectField(Layer4, typeof (Texture2D), true, GUILayout.Width(75),
+                        EditorGUILayout.ObjectField(Layer4, typeof(Texture2D), true, GUILayout.Width(75),
                             GUILayout.Height(75)) as Texture;
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.SetTexture("_Splat3", Layer4);
                     if (CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.HasProperty("_BumpSplat3"))
                     {
                         GUILayout.Label(
-                            (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TBump.jpg", typeof (Texture)));
+                            (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TBump.jpg", typeof(Texture)));
                         Layer4Bump =
-                            EditorGUILayout.ObjectField(Layer4Bump, typeof (Texture2D), true, GUILayout.Width(75),
+                            EditorGUILayout.ObjectField(Layer4Bump, typeof(Texture2D), true, GUILayout.Width(75),
                                 GUILayout.Height(75)) as Texture;
                         CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                             .T4MMaterial.SetTexture("_BumpSplat3", Layer4Bump);
@@ -3387,9 +3432,9 @@ namespace T4MLite
                     GUILayout.Label("Modify", EditorStyles.boldLabel);
                     GUILayout.BeginHorizontal("Box");
                     GUILayout.Label(
-                        (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TDiff.jpg", typeof (Texture)));
+                        (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TDiff.jpg", typeof(Texture)));
                     Layer5 =
-                        EditorGUILayout.ObjectField(Layer5, typeof (Texture2D), true, GUILayout.Width(75),
+                        EditorGUILayout.ObjectField(Layer5, typeof(Texture2D), true, GUILayout.Width(75),
                             GUILayout.Height(75)) as Texture;
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.SetTexture("_Splat4", Layer5);
                     GUILayout.FlexibleSpace();
@@ -3403,9 +3448,9 @@ namespace T4MLite
                     GUILayout.Label("Modify", EditorStyles.boldLabel);
                     GUILayout.BeginHorizontal("Box");
                     GUILayout.Label(
-                        (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TDiff.jpg", typeof (Texture)));
+                        (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TDiff.jpg", typeof(Texture)));
                     Layer6 =
-                        EditorGUILayout.ObjectField(Layer6, typeof (Texture2D), true, GUILayout.Width(75),
+                        EditorGUILayout.ObjectField(Layer6, typeof(Texture2D), true, GUILayout.Width(75),
                             GUILayout.Height(75)) as Texture;
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.SetTexture("_Splat5", Layer6);
                 }
@@ -3419,9 +3464,9 @@ namespace T4MLite
                 GUILayout.Label("Manual Lightmap Add", EditorStyles.boldLabel);
                 GUILayout.BeginHorizontal("Box");
                 GUILayout.Label(
-                    (Texture) AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TLM.jpg", typeof (Texture)));
+                    (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/TLM.jpg", typeof(Texture)));
                 LMMan =
-                    EditorGUILayout.ObjectField(LMMan, typeof (Texture2D), true, GUILayout.Width(75),
+                    EditorGUILayout.ObjectField(LMMan, typeof(Texture2D), true, GUILayout.Width(75),
                         GUILayout.Height(75)) as Texture;
                 CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.SetTexture("_Lightmap", LMMan);
                 GUILayout.FlexibleSpace();
@@ -3566,7 +3611,7 @@ namespace T4MLite
 
         void MyT4M()
         {
-            if (CurrentSelect.GetComponent(typeof (T4MObjSC)))
+            if (CurrentSelect.GetComponent(typeof(T4MObjSC)))
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();
@@ -3580,7 +3625,7 @@ namespace T4MLite
                 GUILayout.FlexibleSpace();
                 if (GUILayout.Button("Cleaning Now", GUILayout.Width(200), GUILayout.Height(20)))
                 {
-                    MeshRenderer[] prev = GameObject.FindObjectsOfType(typeof (MeshRenderer)) as MeshRenderer[];
+                    MeshRenderer[] prev = GameObject.FindObjectsOfType(typeof(MeshRenderer)) as MeshRenderer[];
                     foreach (MeshRenderer go in prev)
                     {
                         if (go.hideFlags == HideFlags.HideInHierarchy)
@@ -3599,7 +3644,7 @@ namespace T4MLite
                     case 0:
                         GUILayout.Label("Shader Model", EditorStyles.boldLabel);
 
-                        ShaderModel = (SM) EditorGUILayout.EnumPopup("Shader Model", ShaderModel, GUILayout.Width(340));
+                        ShaderModel = (SM)EditorGUILayout.EnumPopup("Shader Model", ShaderModel, GUILayout.Width(340));
 
 
                         if (ShaderModel == SM.ShaderModel1)
@@ -3620,7 +3665,7 @@ namespace T4MLite
                                     EditorGUILayout.EnumPopup("Shader", MenuTextureSM3, GUILayout.Width(340));
                         else
                             CustomShader =
-                                EditorGUILayout.ObjectField("Select your Shader", CustomShader, typeof (Shader), true,
+                                EditorGUILayout.ObjectField("Select your Shader", CustomShader, typeof(Shader), true,
                                     GUILayout.Width(350)) as Shader;
                         EditorGUILayout.Space();
 
@@ -3632,11 +3677,11 @@ namespace T4MLite
                             GUILayout.Label("GLES 1.1", GUILayout.Width(300));
                             if (ShaderModel != SM.ShaderModel3 && ShaderModel != SM.ShaderModel2)
                                 GUILayout.Label(
-                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as
+                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as
                                         Texture);
                             else
                                 GUILayout.Label(
-                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof (Texture)) as
+                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof(Texture)) as
                                         Texture);
                             GUILayout.EndHorizontal();
                             GUILayout.BeginHorizontal();
@@ -3663,26 +3708,26 @@ namespace T4MLite
                             {
 
                                 GUILayout.Label(
-                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as
+                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as
                                         Texture);
                             }
                             else
                             {
                                 GUILayout.Label(
-                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof (Texture)) as
+                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof(Texture)) as
                                         Texture);
                             }
                             GUILayout.EndHorizontal();
                             GUILayout.BeginHorizontal();
                             GUILayout.Label("Desktop", GUILayout.Width(300));
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as
                                     Texture);
                             GUILayout.EndHorizontal();
                             GUILayout.BeginHorizontal();
                             GUILayout.Label("Unity WebPlayer", GUILayout.Width(300));
                             GUILayout.Label(
-                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as
+                                AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as
                                     Texture);
 
                             GUILayout.EndHorizontal();
@@ -3714,11 +3759,11 @@ namespace T4MLite
                                  MenuTextureSM2 != EnumShaderGLES2.T4M_World_Projection_Unlit_Lightmap_Compatible)
                                 )
                                 GUILayout.Label(
-                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as
+                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as
                                         Texture);
                             else
                                 GUILayout.Label(
-                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof (Texture)) as
+                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof(Texture)) as
                                         Texture);
                             GUILayout.EndHorizontal();
                             GUILayout.BeginHorizontal();
@@ -3735,11 +3780,11 @@ namespace T4MLite
                                 (ShaderModel == SM.ShaderModel2 &&
                                  MenuTextureSM2 != EnumShaderGLES2.T4M_6_Textures_Unlit_Lightmap_Compatible))
                                 GUILayout.Label(
-                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof (Texture)) as
+                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ok.png", typeof(Texture)) as
                                         Texture);
                             else
                                 GUILayout.Label(
-                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof (Texture)) as
+                                    AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/ko.png", typeof(Texture)) as
                                         Texture);
                             GUILayout.EndHorizontal();
 
@@ -3762,7 +3807,7 @@ namespace T4MLite
 
                             GUILayout.BeginHorizontal();
                             GUILayout.Label("Scene Camera", EditorStyles.boldLabel, GUILayout.Width(190));
-                            PlayerCam = EditorGUILayout.ObjectField(PlayerCam, typeof (Transform), true) as Transform;
+                            PlayerCam = EditorGUILayout.ObjectField(PlayerCam, typeof(Transform), true) as Transform;
                             GUILayout.EndHorizontal();
                             GUILayout.BeginHorizontal();
                             GUILayout.Label("Activate LOD System  ", EditorStyles.boldLabel, GUILayout.Width(190));
@@ -4066,7 +4111,7 @@ namespace T4MLite
                     Cubemap ToonShade =
                         (Cubemap)
                             AssetDatabase.LoadAssetAtPath(T4MFolder + "Shaders/Sources/toony lighting.psd",
-                                typeof (Cubemap));
+                                typeof(Cubemap));
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.SetTexture("_ToonShade", ToonShade);
                 }
                 else if (MenuTextureSM2 == EnumShaderGLES2.T4M_3_Textures_Toon)
@@ -4076,7 +4121,7 @@ namespace T4MLite
                     Cubemap ToonShade =
                         (Cubemap)
                             AssetDatabase.LoadAssetAtPath(T4MFolder + "Shaders/Sources/toony lighting.psd",
-                                typeof (Cubemap));
+                                typeof(Cubemap));
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.SetTexture("_ToonShade", ToonShade);
                 }
                 else if (MenuTextureSM2 == EnumShaderGLES2.T4M_4_Textures_Toon)
@@ -4086,7 +4131,7 @@ namespace T4MLite
                     Cubemap ToonShade =
                         (Cubemap)
                             AssetDatabase.LoadAssetAtPath(T4MFolder + "Shaders/Sources/toony lighting.psd",
-                                typeof (Cubemap));
+                                typeof(Cubemap));
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.SetTexture("_ToonShade", ToonShade);
                 }
 
@@ -4262,14 +4307,14 @@ namespace T4MLite
                                 T4MPrefabFolder + "Terrains/Texture/" +
                                 CurrentSelect.gameObject.GetComponent<T4MObjSC>()
                                     .T4MMaterial.GetTexture("_Control")
-                                    .name + "C2.png", typeof (Texture));
+                                    .name + "C2.png", typeof(Texture));
                 }
                 else
                     Control2 =
                         (Texture)
                             AssetDatabase.LoadAssetAtPath(
                                 T4MPrefabFolder + "Terrains/Texture/" + CurrentSelect.gameObject.name + "C2.png",
-                                typeof (Texture));
+                                typeof(Texture));
 
                 if (Control2 == null)
                     CreateControl2Text();
@@ -4337,7 +4382,7 @@ namespace T4MLite
                 CurrentSelect.GetComponent<T4MObjSC>().enabledLayerCul = false;
                 CurrentSelect.GetComponent<T4MObjSC>().Master = 0;
 
-                T4MLodObjSC[] T4MLodObjGet = GameObject.FindObjectsOfType(typeof (T4MLodObjSC)) as T4MLodObjSC[];
+                T4MLodObjSC[] T4MLodObjGet = GameObject.FindObjectsOfType(typeof(T4MLodObjSC)) as T4MLodObjSC[];
                 for (var i = 0; i < T4MLodObjGet.Length; i++)
                 {
                     T4MLodObjGet[i].LOD2.enabled = T4MLodObjGet[i].LOD3.enabled = false;
@@ -4353,7 +4398,7 @@ namespace T4MLite
                 CurrentSelect.gameObject.GetComponent<T4MObjSC>().ObjLodStatus = new int[0];
                 CurrentSelect.gameObject.GetComponent<T4MObjSC>().Mode = 0;
 
-                T4MBillBObjSC[] T4MBillObjGet = GameObject.FindObjectsOfType(typeof (T4MBillBObjSC)) as T4MBillBObjSC[];
+                T4MBillBObjSC[] T4MBillObjGet = GameObject.FindObjectsOfType(typeof(T4MBillBObjSC)) as T4MBillBObjSC[];
                 for (var i = 0; i < T4MBillObjGet.Length; i++)
                 {
                     T4MBillObjGet[i].Render.enabled = true;
@@ -4371,8 +4416,8 @@ namespace T4MLite
 
         void CreateControl2Text()
         {
-            Texture2D Control2 = new Texture2D(512, 512, TextureFormat.RGBA32, true);
-            Color[] ColorBase = new Color[512*512];
+            Texture2D Control2 = new Texture2D(T4MTextureSize, T4MTextureSize, TextureFormat.RGBA32, true);
+            Color[] ColorBase = new Color[T4MTextureSize * T4MTextureSize];
             for (var t = 0; t < ColorBase.Length; t++)
             {
                 ColorBase[t] = new Color(1, 0, 0, 0);
@@ -4401,7 +4446,7 @@ namespace T4MLite
             //TextureI.wrapMode = TextureWrapMode.Clamp;
             AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
 
-            Texture Contr2 = (Texture) AssetDatabase.LoadAssetAtPath(path, typeof (Texture));
+            Texture Contr2 = (Texture)AssetDatabase.LoadAssetAtPath(path, typeof(Texture));
             CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.SetTexture("_Control2", Contr2);
             IniNewSelect();
         }
@@ -4434,15 +4479,15 @@ namespace T4MLite
             int w = terrain.heightmapWidth;
             int h = terrain.heightmapHeight;
             Vector3 meshScale = terrain.size;
-            meshScale = new Vector3(meshScale.x/(h - 1)*tRes, meshScale.y, meshScale.z/(w - 1)*tRes);
-            Vector2 uvScale = new Vector2((float) (1.0/(w - 1)), (float) (1.0/(h - 1)));
+            meshScale = new Vector3(meshScale.x / (h - 1) * tRes, meshScale.y, meshScale.z / (w - 1) * tRes);
+            Vector2 uvScale = new Vector2((float)(1.0 / (w - 1)), (float)(1.0 / (h - 1)));
 
             float[,] tData = terrain.GetHeights(0, 0, w, h);
-            w = (int) ((w - 1)/tRes + 1);
-            h = (int) ((h - 1)/tRes + 1);
-            Vector3[] tVertices = new Vector3[w*h];
-            Vector2[] tUV = new Vector2[w*h];
-            int[] tPolys = new int[(w - 1)*(h - 1)*6];
+            w = (int)((w - 1) / tRes + 1);
+            h = (int)((h - 1) / tRes + 1);
+            Vector3[] tVertices = new Vector3[w * h];
+            Vector2[] tUV = new Vector2[w * h];
+            int[] tPolys = new int[(w - 1) * (h - 1) * 6];
             int y = 0;
             int x = 0;
             for (y = 0; y < h; y++)
@@ -4450,9 +4495,9 @@ namespace T4MLite
                 for (x = 0; x < w; x++)
                 {
                     //tVertices[y*w + x] = Vector3.Scale(meshScale, new Vector3(x, tData[(int)(x*tRes),(int)(y*tRes)], y));
-                    tVertices[y*w + x] = Vector3.Scale(meshScale,
-                        new Vector3(-y, tData[(int) (x*tRes), (int) (y*tRes)], x)); //Thank Cid Newman
-                    tUV[y*w + x] = Vector2.Scale(new Vector2(y*tRes, x*tRes), uvScale);
+                    tVertices[y * w + x] = Vector3.Scale(meshScale,
+                        new Vector3(-y, tData[(int)(x * tRes), (int)(y * tRes)], x)); //Thank Cid Newman
+                    tUV[y * w + x] = Vector2.Scale(new Vector2(y * tRes, x * tRes), uvScale);
                 }
             }
 
@@ -4463,13 +4508,13 @@ namespace T4MLite
             {
                 for (x = 0; x < w - 1; x++)
                 {
-                    tPolys[index++] = (y*w) + x;
-                    tPolys[index++] = ((y + 1)*w) + x;
-                    tPolys[index++] = (y*w) + x + 1;
+                    tPolys[index++] = (y * w) + x;
+                    tPolys[index++] = ((y + 1) * w) + x;
+                    tPolys[index++] = (y * w) + x + 1;
 
-                    tPolys[index++] = ((y + 1)*w) + x;
-                    tPolys[index++] = ((y + 1)*w) + x + 1;
-                    tPolys[index++] = (y*w) + x + 1;
+                    tPolys[index++] = ((y + 1) * w) + x;
+                    tPolys[index++] = ((y + 1) * w) + x + 1;
+                    tPolys[index++] = (y * w) + x + 1;
                 }
             }
 
@@ -4501,7 +4546,7 @@ namespace T4MLite
                 sw.WriteLine("# T4M File");
                 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
                 counter = tCount = 0;
-                totalCount = (int) ((tVertices.Length*2 + (tPolys.Length/3))/progressUpdateInterval);
+                totalCount = (int)((tVertices.Length * 2 + (tPolys.Length / 3)) / progressUpdateInterval);
                 for (int i = 0; i < tVertices.Length; i++)
                 {
                     UpdateProgress();
@@ -4557,8 +4602,8 @@ namespace T4MLite
             }
             else
             {
-                Texture2D NewMaskText = new Texture2D(512, 512, TextureFormat.RGBA32, true);
-                Color[] ColorBase = new Color[512*512];
+                Texture2D NewMaskText = new Texture2D(T4MTextureSize, T4MTextureSize, TextureFormat.RGBA32, true);
+                Color[] ColorBase = new Color[T4MTextureSize * T4MTextureSize];
                 for (var t = 0; t < ColorBase.Length; t++)
                 {
                     ColorBase[t] = new Color(1, 0, 0, 0);
@@ -4607,13 +4652,13 @@ namespace T4MLite
                     if (e < 4)
                     {
                         Tmaterial.SetTexture("_Splat" + e, texts[e].texture);
-                        Tmaterial.SetTextureScale("_Splat" + e, texts[e].tileSize*8.9f);
+                        Tmaterial.SetTextureScale("_Splat" + e, texts[e].tileSize * 8.9f);
                     }
                 }
             }
 
             //Attribution de la Texture Control sur le materiau
-            Texture test = (Texture) AssetDatabase.LoadAssetAtPath(path, typeof (Texture));
+            Texture test = (Texture)AssetDatabase.LoadAssetAtPath(path, typeof(Texture));
             Tmaterial.SetTexture("_Control", test);
 
 
@@ -4637,13 +4682,13 @@ namespace T4MLite
             GameObject prefab =
                 (GameObject)
                     AssetDatabase.LoadAssetAtPath(T4MPrefabFolder + "Terrains/Meshes/" + FinalExpName + ".obj",
-                        typeof (GameObject));
+                        typeof(GameObject));
 
             AssetDatabase.Refresh();
 
 
             GameObject forRotate =
-                (GameObject) Instantiate(prefab, CurrentSelect.transform.position, Quaternion.identity) as GameObject;
+                (GameObject)Instantiate(prefab, CurrentSelect.transform.position, Quaternion.identity) as GameObject;
             Transform childCheck = forRotate.transform.Find("default");
             Child = childCheck.gameObject;
             forRotate.transform.DetachChildren();
@@ -4672,12 +4717,12 @@ namespace T4MLite
                         T4MOBJPART[i].gameObject.AddComponent<MeshCollider>();
                     T4MOBJPART[i].gameObject.isStatic = true;
                     T4MOBJPART[i].material = Tmaterial;
-                    T4MOBJPART[i].gameObject.layer = 30;
+                  //  T4MOBJPART[i].gameObject.layer = 30;
                     T4MOBJPART[i].gameObject.AddComponent<T4MPartSC>();
                     Child.GetComponent<T4MObjSC>().T4MMesh = T4MOBJPART[0].GetComponent<MeshFilter>();
                     partofT4MObj += 1;
                     vertexInfo += T4MOBJPART[i].gameObject.GetComponent<MeshFilter>().sharedMesh.vertexCount;
-                    trisInfo += T4MOBJPART[i].gameObject.GetComponent<MeshFilter>().sharedMesh.triangles.Length/3;
+                    trisInfo += T4MOBJPART[i].gameObject.GetComponent<MeshFilter>().sharedMesh.triangles.Length / 3;
                 }
             }
             else
@@ -4685,9 +4730,9 @@ namespace T4MLite
                 Child.AddComponent<MeshCollider>();
                 Child.isStatic = true;
                 Child.GetComponent<Renderer>().material = Tmaterial;
-                Child.layer = 30;
+               // Child.layer = 30;
                 vertexInfo += Child.GetComponent<MeshFilter>().sharedMesh.vertexCount;
-                trisInfo += Child.GetComponent<MeshFilter>().sharedMesh.triangles.Length/3;
+                trisInfo += Child.GetComponent<MeshFilter>().sharedMesh.triangles.Length / 3;
                 partofT4MObj += 1;
             }
 
@@ -4698,7 +4743,7 @@ namespace T4MLite
                 T4MPrefabFolder + "Terrains/" + FinalExpName + ".prefab", Child);
             AssetDatabase.ImportAsset(T4MPrefabFolder + "Terrains/" + FinalExpName + ".prefab",
                 ImportAssetOptions.ForceUpdate);
-            GameObject forRotate2 = (GameObject) PrefabUtility.InstantiatePrefab(BasePrefab2) as GameObject;
+            GameObject forRotate2 = (GameObject)PrefabUtility.InstantiatePrefab(BasePrefab2) as GameObject;
 
             DestroyImmediate(Child.gameObject);
 
@@ -4752,8 +4797,8 @@ namespace T4MLite
             }
             AssetDatabase.Refresh();
 
-            Texture2D NewMaskText = new Texture2D(512, 512, TextureFormat.RGBA32, true);
-            Color[] ColorBase = new Color[512*512];
+            Texture2D NewMaskText = new Texture2D(T4MTextureSize, T4MTextureSize, TextureFormat.RGBA32, true);
+            Color[] ColorBase = new Color[T4MTextureSize * T4MTextureSize];
             for (var t = 0; t < ColorBase.Length; t++)
             {
                 ColorBase[t] = new Color(1, 0, 0, 0);
@@ -4762,8 +4807,8 @@ namespace T4MLite
             NewMaskText.SetPixels(ColorBase);
 
             //aorition hacked
-            Texture2D NewOCTex = new Texture2D(512, 512, TextureFormat.RGBA32, true);
-            Color[] OColorDf = new Color[512*512];
+            Texture2D NewOCTex = new Texture2D(T4MTextureSize, T4MTextureSize, TextureFormat.RGBA32, true);
+            Color[] OColorDf = new Color[T4MTextureSize * T4MTextureSize];
             for (var t = 0; t < OColorDf.Length; t++)
             {
                 OColorDf[t] = new Color(1, 1, 1, 1);
@@ -4824,10 +4869,10 @@ namespace T4MLite
                 ImportAssetOptions.ForceUpdate);
 
 
-            Texture FinalCtlTex = (Texture) AssetDatabase.LoadAssetAtPath(path, typeof (Texture));
+            Texture FinalCtlTex = (Texture)AssetDatabase.LoadAssetAtPath(path, typeof(Texture));
 
             //aorition hacked
-            Texture FinalOCTex = (Texture) AssetDatabase.LoadAssetAtPath(path2, typeof (Texture));
+            Texture FinalOCTex = (Texture)AssetDatabase.LoadAssetAtPath(path2, typeof(Texture));
 
             CurrentSelect.gameObject.AddComponent<T4MObjSC>();
 
@@ -4846,7 +4891,7 @@ namespace T4MLite
                     T4MOBJPART[i].gameObject.isStatic = true;
 
                     T4MOBJPART[i].material = Tmaterial;
-                    T4MOBJPART[i].gameObject.layer = 30;
+                   // T4MOBJPART[i].gameObject.layer = 30;
                     T4MOBJPART[i].gameObject.AddComponent<T4MPartSC>();
                     CurrentSelect.GetComponent<T4MObjSC>().T4MMesh = T4MOBJPART[0].GetComponent<MeshFilter>();
 
@@ -4870,7 +4915,7 @@ namespace T4MLite
             CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.SetTexture("_OverColor", FinalOCTex);
 
             CurrentSelect.gameObject.isStatic = true;
-            CurrentSelect.gameObject.layer = 30;
+            //  CurrentSelect.gameObject.layer = 30;
 
             if (nbrT4MObj == 0)
             {
@@ -4893,8 +4938,8 @@ namespace T4MLite
                 GameObject prefab =
                     (GameObject)
                         AssetDatabase.LoadAssetAtPath(T4MPrefabFolder + "Terrains/" + FinalExpName + ".prefab",
-                            typeof (GameObject));
-                GameObject forRotate = (GameObject) PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+                            typeof(GameObject));
+                GameObject forRotate = (GameObject)PrefabUtility.InstantiatePrefab(prefab) as GameObject;
 
                 DestroyImmediate(CurrentSelect.gameObject);
                 Selection.activeTransform = forRotate.transform;
@@ -4930,6 +4975,7 @@ namespace T4MLite
             Setting.alphaIsTransparency = false;
             Setting.wrapMode = TextureWrapMode.Clamp;
             Setting.textureShape = TextureImporterShape.Texture2D;
+            Setting.filterMode = FilterMode.Bilinear;
             TextureIm.SetTextureSettings(Setting);
             TextureIm.textureCompression = TextureImporterCompression.Uncompressed;
 #elif UNITY_5 || UNITY_4
@@ -5113,7 +5159,7 @@ namespace T4MLite
                     PlayerCam = Camera.main.transform;
                 else if (PlayerCam == null && !Camera.main)
                 {
-                    Camera[] Cam = GameObject.FindObjectsOfType(typeof (Camera)) as Camera[];
+                    Camera[] Cam = GameObject.FindObjectsOfType(typeof(Camera)) as Camera[];
                     for (var b = 0; b < Cam.Length; b++)
                     {
                         if (Cam[b].GetComponent<AudioListener>())
@@ -5174,13 +5220,13 @@ namespace T4MLite
                     T4MMaskTexUVCoord =
                         CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.GetTextureScale("_Control").x;
                     T4MMaskTex =
-                        (Texture2D) CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.GetTexture("_Control");
+                        (Texture2D)CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.GetTexture("_Control");
                     intialized = true;
                 }
 
 
             }
-            Projector[] projectorObj = FindObjectsOfType(typeof (Projector)) as Projector[];
+            Projector[] projectorObj = FindObjectsOfType(typeof(Projector)) as Projector[];
             if (projectorObj.Length > 0)
                 for (var i = 0; i < projectorObj.Length; i++)
                 {

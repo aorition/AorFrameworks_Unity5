@@ -10,7 +10,7 @@ namespace T4MLite
     [CanEditMultipleObjects]
     public class T4MExtendsSC : Editor
     {
-        int layerMask = 1073741824;
+       // int layerMask = 1073741824;
         bool ToggleF = false;
         Texture2D[] UndoObj;
         static Color[] terrainBay2;
@@ -101,6 +101,7 @@ namespace T4MLite
 
             if (T4MSC.T4MActived == "Activated")
             {
+               
                 HandleUtility.AddDefaultControl(0);
                 RaycastHit raycastHit = new RaycastHit();
                 Ray terrain = HandleUtility.GUIPointToWorldRay(e.mousePosition);
@@ -113,7 +114,7 @@ namespace T4MLite
                     T4MSC.brushSize -= 1;
                 }
 
-                if (Physics.Raycast(terrain, out raycastHit, Mathf.Infinity, layerMask))
+                if (Physics.Raycast(terrain, out raycastHit, Mathf.Infinity))
                 {
                     if (T4MSC.CurrentSelect.gameObject.GetComponent<T4MObjSC>().ConvertType != "UT")
                         T4MSC.T4MPreview.transform.localEulerAngles = new Vector3(90,
@@ -307,7 +308,7 @@ namespace T4MLite
 
                 GameObject CurrentObject = T4MSC.T4MObjectPlant[T4MSC.T4MPlantSel];
 
-                if (Physics.Raycast(terrain, out raycastHit, Mathf.Infinity, layerMask))
+                if (Physics.Raycast(terrain, out raycastHit, Mathf.Infinity))
                 {
 
                     if (CurrentObject)

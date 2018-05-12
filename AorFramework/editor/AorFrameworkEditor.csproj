@@ -73,8 +73,8 @@
     <Compile Include="src\Core\EditorAssetInfoExents.cs" />
     <Compile Include="src\Core\EditorPlusMethods.cs" />
     <Compile Include="src\Core\NGUIEditorGUIUtility.cs" />
-    <Compile Include="src\Core\PaintEditor.cs" />
     <Compile Include="src\DynamicShaderSystem\MaterialInspectorBase.cs" />
+    <Compile Include="src\EditorInternalRefs\EditorResourcesUtility.cs" />
     <Compile Include="src\Extends\EditorExtends.cs" />
     <Compile Include="src\GraphicsManager\CustomLightSystem\Editor\CustomLightManagerEditor.cs" />
     <Compile Include="src\GraphicsManager\Scripts\Editor\EditorReflectionHelpers.cs" />
@@ -175,6 +175,7 @@
     <Compile Include="src\NodeGraph\NodeGraphBase\Utility\REFUtility.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\windows\AssetPathBrowserWindow.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\windows\NodeGraphSettingWindow.cs" />
+    <Compile Include="src\Tools\AnimFileOptimizTool.cs" />
     <Compile Include="src\Tools\CameraBrowser\CameraBrowserWindow.cs" />
     <Compile Include="src\Tools\DllUpgrader.cs" />
     <Compile Include="src\Tools\EditorStyleView.cs" />
@@ -182,9 +183,11 @@
     <Compile Include="src\Tools\MeshChecker\ModelCheckerEditor.cs" />
     <Compile Include="src\Tools\MeshCombineTool\MeshCombineTool.cs" />
     <Compile Include="src\Tools\MeshCombineTool\PrefabLightmapDataEditor.cs" />
-    <Compile Include="src\Tools\MeshExportUtil.cs" />
-    <Compile Include="src\Tools\MeshFilterPlus.cs" />
+    <Compile Include="src\Tools\MeshEditTool\MeshEditToolWindow.cs" />
+    <Compile Include="src\Tools\MeshEditTool\MeshExportUtil.cs" />
+    <Compile Include="src\Tools\MeshEditTool\MeshFilterPlus.cs" />
     <Compile Include="src\Tools\MeshChecker\MeshGroupCheckerEditor.cs" />
+    <Compile Include="src\Tools\MeshEditTool\MeshVertexEditionEditor.cs" />
     <Compile Include="src\Tools\PrefabLinker\PrefabLinkerEditor.cs" />
     <Compile Include="src\Tools\ShaderWriter\ShaderWriter.cs" />
     <Compile Include="src\Tools\ShaderWriter\SwPropertyItem.cs" />

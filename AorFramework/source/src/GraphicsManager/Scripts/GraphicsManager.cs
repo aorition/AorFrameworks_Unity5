@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Framework;
 using Framework.Graphic.Utility;
 using UnityEngine;
 
@@ -11,6 +10,19 @@ namespace Framework.Graphic
     //[ExecuteInEditMode]
     public class GraphicsManager : MonoBehaviour
     {
+
+        //========= Manager 模版 =============================
+        //
+        // 基于MonoBehavior的Manager类 需要遵循的约定:
+        //
+        // 1. 采用_instance字段保存静态单例.
+        // 2. 提供 _findOrCreateXXX的私有静态方法来实现查找或者创建承载该Manager的GameObject的方法
+        // 3. 非自启动Manager必须提供GetInstance静态方法.
+        // 4. 提供Request静态方法.
+        // 5. 提供IsInit静态方法判定改Manager是否初始化
+        // 6. MonoBehaviour.Awake中必须加入单例限制代码
+        //
+        //=============== 基于MonoBehavior的Manager====================
 
         private static string _NameDefine = "GraphicsManager";
 
@@ -57,6 +69,8 @@ namespace Framework.Graphic
         }
 
         private static GraphicsManager _instance;
+
+        [Obsolete("已由Instance代替")]
         public static GraphicsManager instance
         {
             get
@@ -64,7 +78,14 @@ namespace Framework.Graphic
                 return _instance;
             }
         }
-        
+        public static GraphicsManager Instance
+        {
+            get
+            {
+                return _instance;
+            }
+        }
+
         public static GraphicsManager GetInstance(Transform parenTransform = null, bool dontDestroyOnLoad = true)
         {
 
@@ -78,9 +99,20 @@ namespace Framework.Graphic
             return _instance;
         }
 
-        public static void RequestGraphicsManager(Action GraphicsManagerIniteDoSh)
+        public static void Request(Action GraphicsManagerIniteDoSh)
         {
             GetInstance().AddGraphicsManagerInited(GraphicsManagerIniteDoSh);
+        }
+
+        [Obsolete("已由Request方法代替")]
+        public static void RequestGraphicsManager(Action GraphicsManagerIniteDoSh)
+        {
+            Request(GraphicsManagerIniteDoSh);
+        }
+
+        public static bool IsInit()
+        {
+            return _instance && _instance._isInit;
         }
 
         //=====================================================
@@ -97,10 +129,6 @@ namespace Framework.Graphic
 
         protected bool _isSetuped = false;
         protected bool _isInit = false;
-        public bool isInit
-        {
-            get { return _isInit; }
-        }
 
         protected Action _AfterInitDo;
         public void AddGraphicsManagerInited(Action doSh)
@@ -163,7 +191,7 @@ namespace Framework.Graphic
 
         #region setup方法集
 
-        public void setup(GraphicsSettingAsset GCGinfo)
+        public void Setup(GraphicsSettingAsset GCGinfo)
         {
             if (!GCGinfo) return;
             _GCGinfo = GCGinfo;
@@ -171,22 +199,22 @@ namespace Framework.Graphic
             init();
         }
 
-        public void setup(GraphicsSettingAsset GCGinfo, RectTransform UIEffectRoot)
+        public void Setup(GraphicsSettingAsset GCGinfo, RectTransform UIEffectRoot)
         {
             _UIEffRoot = UIEffectRoot;
-            setup(GCGinfo);
+            Setup(GCGinfo);
         }
 
-        public void setup(GraphicsSettingAsset GCGinfo, Camera mainCamera)
+        public void Setup(GraphicsSettingAsset GCGinfo, Camera mainCamera)
         {
-            setup(GCGinfo);
+            Setup(GCGinfo);
             _mainCamera = mainCamera;
         }
 
-        public void setup(GraphicsSettingAsset GCGinfo, Camera mainCamera, RectTransform UIEffectRoot)
+        public void Setup(GraphicsSettingAsset GCGinfo, Camera mainCamera, RectTransform UIEffectRoot)
         {
             _UIEffRoot = UIEffectRoot;
-            setup(GCGinfo, mainCamera);
+            Setup(GCGinfo, mainCamera);
         }
 
         #endregion
@@ -338,7 +366,7 @@ namespace Framework.Graphic
                 //加载默认描述文件进行初始化
                 GraphicsSettingAsset def = ScriptableObject.CreateInstance<GraphicsSettingAsset>();
                 def.MainCamDesInfo = GCamGDesInfo.Main();
-                setup(def);
+                Setup(def);
             }
             else if (_isSetuped && !_isInit)
             {
@@ -382,13 +410,16 @@ namespace Framework.Graphic
             UseFixedUpdate = _GCGinfo.UseFixedUpdate;
             AllowVisualCameraParamCover = _GCGinfo.AllowVCamParaCover;
 
+            //自动占用MainCamera
+            _mainCamera = Camera.main;
             if (!_mainCamera)
             {
                 _mainCamera = new GameObject().AddComponent<Camera>();
-                _mainCamera.gameObject.SetActive(false);
-
-                if (_parentTransform) _mainCamera.transform.SetParent(_parentTransform, false);
+                _mainCamera.gameObject.tag = "MainCamera";
             }
+
+            _mainCamera.gameObject.SetActive(false);
+            if (_parentTransform) _mainCamera.transform.SetParent(_parentTransform, false);
 
             if (Application.isPlaying && _dontDestroyOnLoad && !_parentTransform)
             {

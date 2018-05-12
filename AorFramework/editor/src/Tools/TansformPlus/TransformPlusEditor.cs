@@ -46,11 +46,14 @@ namespace Framework.editor
 
             //-------------
 
-            __drawTansformShortcutUI();
-
             if (targets != null && targets.Length > 1)
             {
                 __drawAlignToolUI();
+            }
+            else
+            {
+                //Todo 暂时没有实装多选状态下的记录器实现, 目前只能现在在单个目标上
+                __drawTansformShortcutUI();
             }
 
             //------------------------------------
@@ -584,6 +587,7 @@ namespace Framework.editor
         
         private void __drawTansformShortcutUI()
         {
+
             GUILayout.Space(12);
 
             GUILayout.BeginVertical("box");

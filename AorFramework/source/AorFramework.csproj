@@ -84,6 +84,17 @@
     <Compile Include="src\GraphicsManager\CustomLightSystem\Scripts\CustomLightInfo.cs" />
     <Compile Include="src\GraphicsManager\CustomLightSystem\Scripts\CustomLightManager.cs" />
     <Compile Include="src\GraphicsManager\CustomLightSystem\Scripts\CustomLightSupports.cs" />
+    <Compile Include="src\GraphicsManager\FastShadowProjector\FastShadowProjectorManagerLuncher.cs" />
+    <Compile Include="src\GraphicsManager\FastShadowProjector\FSPStaticMeshHolder.cs" />
+    <Compile Include="src\GraphicsManager\FastShadowProjector\GlobalProjectorLightCamera.cs" />
+    <Compile Include="src\GraphicsManager\FastShadowProjector\FastShadowProjectorManager.cs" />
+    <Compile Include="src\GraphicsManager\FastShadowProjector\IProjector.cs" />
+    <Compile Include="src\GraphicsManager\FastShadowProjector\ModelShadowProjector.cs" />
+    <Compile Include="src\GraphicsManager\FastShadowProjector\ProjectorEyeTexture.cs" />
+    <Compile Include="src\GraphicsManager\FastShadowProjector\ProjectorShadowDummy.cs" />
+    <Compile Include="src\GraphicsManager\FastShadowProjector\ShadowProjector.cs" />
+    <Compile Include="src\GraphicsManager\FastShadowProjector\ShadowReceiver.cs" />
+    <Compile Include="src\GraphicsManager\FastShadowProjector\ShadowTrigger.cs" />
     <Compile Include="src\GraphicsManager\GMEffect\GMEffect.cs" />
     <Compile Include="src\GraphicsManager\Interfaces\IGMPostEffectComponent.cs" />
     <Compile Include="src\GraphicsManager\Scripts\GraphicBase.cs" />
@@ -122,6 +133,7 @@
     <Compile Include="src\Tools\EditorSupport\Interfaces\IShaderDefine.cs" />
     <Compile Include="src\Tools\EditorSupport\MeshChecker\MeshChecker.cs" />
     <Compile Include="src\Tools\EditorSupport\MeshChecker\MeshGroupChecker.cs" />
+    <Compile Include="src\Tools\EditorSupport\MeshEditTool\MeshVertexEdition.cs" />
     <Compile Include="src\Tools\EditorSupport\PrefabLinker\PrefabLinker.cs" />
     <Compile Include="src\Bridges\AddComponentBridge.cs" />
     <Compile Include="src\Bridges\ResourcesLoadBridge.cs" />

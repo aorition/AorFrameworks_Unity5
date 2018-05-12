@@ -51,7 +51,7 @@ public class RTFBrowser : MonoBehaviour
 
     /// ////
 
-    private bool _isDirty = false;
+    private bool _isDirty = true;
 
     private string _title = "文件浏览:";
     public string Title
@@ -301,8 +301,6 @@ public class RTFBrowser : MonoBehaviour
         //数据初始化
         _fdList = new List<string>(dfPath.Split('/'));
         _htList.Add(getDir());
-        
-        drawUI();
     }
 
     private void Update()
@@ -556,6 +554,8 @@ public class RTFBrowser : MonoBehaviour
             t.text = "     ";
 
             _NGBr = g.transform;
+
+            _NGBr.SetAsLastSibling();
         });
 
         for (int i = 0; i < _fdList.Count; i++)
@@ -575,7 +575,6 @@ public class RTFBrowser : MonoBehaviour
             }
         }
 
-        _NGBr.SetAsLastSibling();
         
         //Todo 这里可以增加从后对齐功能
         //

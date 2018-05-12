@@ -26,35 +26,35 @@ namespace Framework.Graphic
         private void Awake()
         {
             GraphicsManager.GetInstance(ParentTransformPovit, DonDestroyOnLoad);
-            onGraphicsManagerInstanced();
+            onManagerBeforeInitialization();
 
             if (_GMEUIRoot)
             {
-                GraphicsManager.instance.setup(_GraphicsManagerSetting, _GMEUIRoot);
+                GraphicsManager.instance.Setup(_GraphicsManagerSetting, _GMEUIRoot);
             }
             else
             {
-                GraphicsManager.instance.setup(_GraphicsManagerSetting);
+                GraphicsManager.instance.Setup(_GraphicsManagerSetting);
             }
 
-            onGraphicsManagerSetuped();
+            onManagerAfterInitialization();
             GameObject.Destroy(this);
         }
 
         /// <summary>
-        /// GraphicsManager在GetInstance并Setup之前调用此方法.
+        /// Manager初始化之前调用此方法.
         /// </summary>
-        protected virtual void onGraphicsManagerInstanced()
+        protected virtual void onManagerBeforeInitialization()
         {
-            //请继承此类,并复写此函数对GraphicsManager.GetInstence并在执行Setup之前进行其他初始化内容
+            //
         }
 
         /// <summary>
-        /// GraphicsManager在GetInstance并Setup之后调用此方法.
+        ///  Manager初始化之后调用此方法.
         /// </summary>
-        protected virtual void onGraphicsManagerSetuped()
+        protected virtual void onManagerAfterInitialization()
         {
-            //请继承此类,并复写此函数对GraphicsManager.Setup后进行其他初始化内容
+            //
         }
 
     }

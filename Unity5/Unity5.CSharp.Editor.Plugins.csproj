@@ -124,6 +124,9 @@
     <Reference Include="UnityEditor.iOS.Extensions.Common">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
+    <Reference Include="AorBaseExtents">
+      <HintPath>Assets\Plugins\AorBaseExtents.dll</HintPath>
+    </Reference>
     <Reference Include="AorBaseUtility">
       <HintPath>Assets\Plugins\AorBaseUtility.dll</HintPath>
     </Reference>
@@ -132,6 +135,9 @@
     </Reference>
     <Reference Include="AorUI">
       <HintPath>Assets\Plugins\AorUI.dll</HintPath>
+    </Reference>
+    <Reference Include="AorUnityExtents">
+      <HintPath>Assets\Plugins\AorUnityExtents.dll</HintPath>
     </Reference>
     <Reference Include="DOTween">
       <HintPath>Assets\Plugins\DOTween.dll</HintPath>
@@ -153,12 +159,6 @@
     </Reference>
     <Reference Include="ShaderForge">
       <HintPath>Assets\UnityExtends\ShaderForge\Editor\ShaderForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AorUnityExtents">
-      <HintPath>Assets\Plugins\AorUnityExtents.dll</HintPath>
-    </Reference>
-    <Reference Include="AorBaseExtents">
-      <HintPath>Assets\Plugins\AorBaseExtents.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -460,62 +460,10 @@
     <None Include="Assets\T4MLite\Shaders\Preview.shader" />
     <None Include="Assets\T4MLite\Shaders\PreviewT4M.shader" />
     <None Include="Assets\T4MLite\Shaders\PreviewT4M1.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel1\T4M 2 Textures Auto BeastLM 2DrawCall.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel1\T4M 2 Textures ManualAdd BeastLM_1DC.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel1\T4M 2 Textures ManualAdd CustoLM 1DC.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Bump\T4M 2 TexturesBumped Mobile.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Bump\T4M 2 TexturesBumped.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Bump\T4M 3 TexturesBumped Mobile.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Bump\T4M 3 TexturesBumped.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Bump\T4M 4 TexturesBumped.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\BumpSpec\T4M 2 TexturesBumpSpec Mobile.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\BumpSpec\T4M 2 TexturesBumpSpec.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\BumpSpec\T4M 3 TexturesBumpSpec.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Diffuse\T4M 2 Textures.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Diffuse\T4M 3 Textures.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Diffuse\T4M 4 Textures.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Diffuse\T4M 5 Textures.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Diffuse\T4M 6 Textures.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Diffuse\T4M World Projection Shader.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\DirectionLM\T4M 2 TexturesBumped DLM mobile.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\DirectionLM\T4M 2 TexturesBumped DLM.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\DirectionLM\T4M 3 TexturesBumped DLM.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\MobileVertex\T4M 2 TexturesTest.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\MobileVertex\T4M 3 TexturesTest.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\MobileVertex\T4M 4 TexturesTest.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Specular\T4M 2 Textures Spec.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Specular\T4M 3 Textures Spec.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Specular\T4M 4 Textures Spec.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Toon\T4M 2 Textures Toon.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Toon\T4M 3 Textures Toon.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Toon\T4M 4 Textures Toon.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Unified\T4M 2 TexturesUnified.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Unified\T4M 3 TexturesUnified.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Unified\T4M 4 TexturesUnified.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Unlit\2TexturesUnlit.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Unlit\3TexturesUnlit.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Unlit\4TexturesUnlit.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Unlit\5TexturesUnlit.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Unlit\6TexturesUnlit.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Unlit\6TexturesUnlitNoLM.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel2\Unlit\T4M World Projection Shader Unlit+LM.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel3\Bump\T4M 2 TexturesBump.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel3\Bump\T4M 3 TexturesBump.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel3\Bump\T4M 4 TexturesBump.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel3\BumpSpec\T4M 2 TexturesBumpSpec.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel3\BumpSpec\T4M 3 TexturesBumpSpec.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel3\BumpSpec\T4M 4 TexturesBumpSpec.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel3\Diffuse\T4M 2 Textures.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel3\Diffuse\T4M 3 Textures.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel3\Diffuse\T4M 4 Textures.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel3\Diffuse\T4M 5 Textures.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel3\Diffuse\T4M 6 Textures.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel3\Specular\T4M 2 TexturesSpec.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel3\Specular\T4M 3 TexturesSpec.shader" />
-    <None Include="Assets\T4MLite\Shaders\ShaderModel3\Specular\T4M 4 TexturesSpec.shader" />
-    <None Include="Assets\T4MLite\Shaders\T4MLite_Diffuse.shader" />
-    <None Include="Assets\T4MLite\Shaders\T4MLite_Specular.shader" />
-    <None Include="Assets\T4MLite\Shaders\T4MLite_Unlit.shader" />
+    <None Include="Assets\T4MLite\Shaders\T4MLite\T4MLite_Diffuse.shader" />
+    <None Include="Assets\T4MLite\Shaders\T4MLite\T4MLite_Specular.shader" />
+    <None Include="Assets\T4MLite\Shaders\T4MLite\T4MLite_Unlit.shader" />
+    <None Include="Assets\T4MLite\version.txt" />
     <None Include="Assets\Temp\IllustationShader.shader" />
     <None Include="Assets\Temp\OBJImport\readme.txt" />
     <None Include="Assets\Temp\T4MLiteShaderTestDemo\PassTest.shader" />
