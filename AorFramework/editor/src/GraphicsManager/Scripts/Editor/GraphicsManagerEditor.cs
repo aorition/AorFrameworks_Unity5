@@ -30,6 +30,7 @@ public class GraphicsManagerEditor : Editor
             _draw_baseParams();
             GUILayout.Space(10);
             _draw_visualCameraList();
+
             GUILayout.Space(10);
             _draw_debugTools();
             Repaint();
@@ -158,7 +159,6 @@ public class GraphicsManagerEditor : Editor
 
     private void _draw_vcListItem(VisualCamera vcam, VisualCamera cVcam)
     {
-        GUILayout.BeginHorizontal("box");
 
         if (vcam.Equals(cVcam))
         {
@@ -169,7 +169,11 @@ public class GraphicsManagerEditor : Editor
             GUI.color = Color.white;
         }
 
-        GUILayout.FlexibleSpace();
+        GUILayout.BeginVertical("box");
+
+        GUILayout.BeginHorizontal();
+
+        GUILayout.Space(Mathf.Max(5,Screen.width * 0.1f));
 
         //name
         if (GUILayout.Button(vcam.gameObject.name,GUILayout.Width(80)))
@@ -181,13 +185,12 @@ public class GraphicsManagerEditor : Editor
 
         //level
         GUILayout.Label(new GUIContent("Level"));
+        GUILayout.Space(Mathf.Max(5, Screen.width * 0.1f));
         float nlevel = EditorGUILayout.FloatField(vcam.Level,GUILayout.Width(65));
         if (!nlevel.Equals(vcam.Level))
         {
             vcam.Level = nlevel;
         }
-
-        GUILayout.Space(5);
 
         //solo
         bool nSolo = EditorGUILayout.ToggleLeft("Solo", vcam.Solo,GUILayout.Width(45));
@@ -196,11 +199,28 @@ public class GraphicsManagerEditor : Editor
             vcam.Solo = nSolo;
         }
 
-        GUILayout.FlexibleSpace();
+        GUILayout.Space(Mathf.Max(5, Screen.width * 0.1f));
+
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+
+        GUILayout.Space(Mathf.Max(40, Screen.width*0.4f));
+        //solo
+        GUILayout.Label(new GUIContent("Interpolation"));
+        GUILayout.Space(Mathf.Max(5, Screen.width * 0.1f));
+        float nInterpolation = EditorGUILayout.Slider(vcam.Interpolation, 0, 1);
+        if (!nInterpolation.Equals(vcam.Interpolation))
+        {
+            vcam.Interpolation = nInterpolation;
+        }
+
+        GUILayout.EndHorizontal();
+
+        GUILayout.EndVertical();
 
         GUI.color = Color.white;
 
-        GUILayout.EndHorizontal();
     }
 
     private float _d_CameraShake_time = 1f;
@@ -220,41 +240,47 @@ public class GraphicsManagerEditor : Editor
 
         //-----------------------------------------
 
-        GUILayout.BeginVertical("box");
-        GUILayout.Label(new GUIContent("CameraShake","相机震动"));
-        _d_CameraShake_time = EditorGUILayout.FloatField("time", _d_CameraShake_time);
-        _d_CameraShake_power = EditorGUILayout.Vector3Field("power", _d_CameraShake_power);
-        _d_CameraShake_vibrato = EditorGUILayout.IntField("vibrato", _d_CameraShake_vibrato);
-
-        if (GUILayout.Button("Do"))
+        if (_target.UIEffRoot)
         {
-            _target.Effect.CameraShake(_d_CameraShake_time, _d_CameraShake_power.x, _d_CameraShake_power.y, _d_CameraShake_power.z, _d_CameraShake_vibrato);
-        }
-        GUILayout.EndVertical();
 
-        GUILayout.Space(5);
+            GUILayout.BeginVertical("box");
+            GUILayout.Label(new GUIContent("CameraShake", "相机震动"));
+            _d_CameraShake_time = EditorGUILayout.FloatField("time", _d_CameraShake_time);
+            _d_CameraShake_power = EditorGUILayout.Vector3Field("power", _d_CameraShake_power);
+            _d_CameraShake_vibrato = EditorGUILayout.IntField("vibrato", _d_CameraShake_vibrato);
 
-        GUILayout.BeginVertical("box");
-        GUILayout.Label(new GUIContent("FadeIn", "相机淡入淡出"));
-        _d_Fade_Color = EditorGUILayout.ColorField("Color", _d_Fade_Color);
-        _d_Fade_Time = EditorGUILayout.FloatField("Time", _d_Fade_Time);
+            if (GUILayout.Button("Do"))
+            {
+                _target.Effect.CameraShake(_d_CameraShake_time, _d_CameraShake_power.x, _d_CameraShake_power.y,
+                    _d_CameraShake_power.z, _d_CameraShake_vibrato);
+            }
+            GUILayout.EndVertical();
 
-        GUILayout.BeginHorizontal();
+            GUILayout.Space(5);
 
-        if (GUILayout.Button("FadeIn"))
-        {
-            _target.Effect.FadeIn(_d_Fade_Color, _d_Fade_Time);
+            GUILayout.BeginVertical("box");
+            GUILayout.Label(new GUIContent("FadeIn", "相机淡入淡出"));
+            _d_Fade_Color = EditorGUILayout.ColorField("Color", _d_Fade_Color);
+            _d_Fade_Time = EditorGUILayout.FloatField("Time", _d_Fade_Time);
+
+            GUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("FadeIn"))
+            {
+                _target.Effect.FadeIn(_d_Fade_Color, _d_Fade_Time);
+            }
+            if (GUILayout.Button("FadeOut"))
+            {
+                _target.Effect.FadeOut(_d_Fade_Color, _d_Fade_Time);
+            }
+            GUILayout.EndHorizontal();
+            if (GUILayout.Button("ClearFade"))
+            {
+                _target.Effect.ClearFade();
+            }
+            GUILayout.EndVertical();
+
         }
-        if (GUILayout.Button("FadeOut"))
-        {
-            _target.Effect.FadeOut(_d_Fade_Color, _d_Fade_Time);
-        }
-        GUILayout.EndHorizontal();
-        if (GUILayout.Button("ClearFade"))
-        {
-            _target.Effect.ClearFade();
-        }
-        GUILayout.EndVertical();
 
         GUILayout.Space(5);
 

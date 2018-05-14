@@ -94,6 +94,7 @@ namespace Framework.Graphic
         private Image _createFadeUIImage()
         {
             GameObject fadeUIGo = new GameObject("GMEffectFadeUI");
+            fadeUIGo.layer = _manager.UIEffRoot.gameObject.layer;
             fadeUIGo.transform.SetParent(_manager.UIEffRoot, false);
 
             RectTransform rt = fadeUIGo.GetComponent<RectTransform>();

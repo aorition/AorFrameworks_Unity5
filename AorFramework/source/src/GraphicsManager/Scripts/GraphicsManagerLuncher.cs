@@ -11,8 +11,6 @@ namespace Framework.Graphic
     /// </summary>
     public class GraphicsManagerLuncher : MonoBehaviour
     {
-        [SerializeField]
-        private bool DonDestroyOnLoad = true;
 
         [SerializeField]
         private Transform ParentTransformPovit;
@@ -25,7 +23,7 @@ namespace Framework.Graphic
 
         private void Awake()
         {
-            GraphicsManager.GetInstance(ParentTransformPovit, DonDestroyOnLoad);
+            GraphicsManager.CreateInstance(ParentTransformPovit);
             onManagerBeforeInitialization();
 
             if (_GMEUIRoot)

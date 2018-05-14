@@ -70,8 +70,8 @@ namespace Framework.Graphic
                 if (!_level.Equals(value))
                 {
                     _level = value;
-                    if (GraphicsManager.instance)
-                        GraphicsManager.instance.RefreshCurrentVisualCamera();
+                    if (GraphicsManager.IsInit())
+                        GraphicsManager.Instance.RefreshCurrentVisualCamera();
                 }   
             }
         }
@@ -86,8 +86,8 @@ namespace Framework.Graphic
                 if (!_solo.Equals(value))
                 {
                     _solo = value;
-                    if (GraphicsManager.instance)
-                        GraphicsManager.instance.RefreshCurrentVisualCamera();
+                    if (GraphicsManager.IsInit())
+                        GraphicsManager.Instance.RefreshCurrentVisualCamera();
                 }
             }
         }
@@ -110,18 +110,27 @@ namespace Framework.Graphic
             if(extension && _extension.enabled) _extension.UpdateExtension(deltaTime);
         }
 
+        protected void Awake()
+        {
+            if (gameObject.tag == "MainCamera")
+            {
+                Log.Error("*** VisualCamera不能定义Tag为MainCamera!");
+                GameObject.Destroy(this);
+            }
+        }
+
         private bool _firstEnable = true;
         protected void OnEnable()
         {
             if (!CrrentCamera) return;
-            GraphicsManager.RequestGraphicsManager(() =>
+            GraphicsManager.Request(() =>
             {
                 if (_firstEnable && IgnoreInterpolationOnFirstEnable)
                 {
-                    GraphicsManager.instance.IgnoreInterpolationOnce = true;
+                    GraphicsManager.Instance.IgnoreInterpolationOnce = true;
                     _firstEnable = false;
                 }
-                GraphicsManager.instance.registerVisualCamera(this);
+                GraphicsManager.Instance.RegisterVisualCamera(this);
                 CrrentCamera.enabled = false;
             });
         }
@@ -129,7 +138,8 @@ namespace Framework.Graphic
         protected void OnDisable()
         {
             if (!CrrentCamera) return;
-            GraphicsManager.instance.unregisterVisualCamera(this);
+            if(GraphicsManager.IsInit())
+                GraphicsManager.Instance.UnregisterVisualCamera(this);
         }
 
         private bool _isDestroyd = false;

@@ -77,12 +77,17 @@ namespace Framework.Graphic.Utility
                     break;
                 case SubGCamType.FinalOutput:
                     cam.clearFlags = CameraClearFlags.Nothing;
+                    cam.gameObject.AddComponent<FlareLayer>();
                     break;
             }
 
-            if (desInfo.type != SubGCamType.MainCamera && GraphicsManager.instance.OnSubCameraInited != null)
+            if (desInfo.type == SubGCamType.MainCamera && GraphicsManager.Instance.OnMainCameraInited != null)
             {
-                GraphicsManager.instance.OnSubCameraInited(cam, desInfo);
+                GraphicsManager.Instance.OnMainCameraInited(cam, desInfo);
+            }
+            else  if (desInfo.type != SubGCamType.MainCamera && GraphicsManager.Instance.OnSubCameraInited != null)
+            {
+                GraphicsManager.Instance.OnSubCameraInited(cam, desInfo);
             }
 
         }

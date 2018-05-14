@@ -19,16 +19,16 @@ namespace Framework.Graphic
 
         private void OnEnable()
         {
-            GraphicsManager.RequestGraphicsManager(() =>
+            GraphicsManager.Request(() =>
             {
-                GraphicsManager.instance.AddPostEffectComponent(this);
+                GraphicsManager.Instance.AddPostEffectComponent(this);
             });
         }
 
         private void OnDisable()
         {
-            if(GraphicsManager.instance)
-                GraphicsManager.instance.RemovePostEffectComponent(this);
+            if(GraphicsManager.IsInit())
+                GraphicsManager.Instance.RemovePostEffectComponent(this);
         }
 
         public void UpdateGMPostEffect()

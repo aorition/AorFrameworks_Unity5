@@ -24,9 +24,20 @@ namespace Framework.Graphic.FastShadowProjector
         private static FastShadowProjectorManager _findOrCreateGlobalProjectorManager()
         {
             GameObject go = null;
+            if (_parentTransform)
+            {
+                Transform t = _parentTransform.Find(_NameDefine);
+                if (t) go = t.gameObject;
+            }
+
             if (!go) go = GameObject.Find(_NameDefine);
+
             if (go)
             {
+
+                if (_parentTransform) go.transform.SetParent(_parentTransform, false);
+                if (Application.isPlaying && _dontDestroyOnLoad && !_parentTransform) GameObject.DontDestroyOnLoad(go);
+
                 FastShadowProjectorManager gm = go.GetComponent<FastShadowProjectorManager>();
                 if (gm)
                 {
@@ -39,21 +50,14 @@ namespace Framework.Graphic.FastShadowProjector
             }
             else
             {
-                try
-                {
-                    go = new GameObject(_NameDefine);
-                    if (_parentTransform) go.transform.SetParent(_parentTransform, false);
-                    if (Application.isPlaying && _dontDestroyOnLoad && !_parentTransform) GameObject.DontDestroyOnLoad(go);
-                    return go.AddComponent<FastShadowProjectorManager>();
-                }
-                catch (Exception ex)
-                {
-                    return null;
-                }
+                go = new GameObject(_NameDefine);
+                if (_parentTransform) go.transform.SetParent(_parentTransform, false);
+                if (Application.isPlaying && _dontDestroyOnLoad && !_parentTransform) GameObject.DontDestroyOnLoad(go);
+                return go.AddComponent<FastShadowProjectorManager>();
             }
         }
 
-        public static FastShadowProjectorManager GetInstance(Transform parenTransform = null, bool dontDestroyOnLoad = true)
+        public static FastShadowProjectorManager CreateInstance(Transform parenTransform = null, bool dontDestroyOnLoad = true)
         {
 
             _parentTransform = parenTransform;
@@ -69,7 +73,7 @@ namespace Framework.Graphic.FastShadowProjector
 
         public static void Request(Action GraphicsManagerIniteDoSh)
         {
-            GetInstance().AddGlobalProjectorManagerInited(GraphicsManagerIniteDoSh);
+            CreateInstance().AddGlobalProjectorManagerInited(GraphicsManagerIniteDoSh);
         }
 
         public static bool IsInit()

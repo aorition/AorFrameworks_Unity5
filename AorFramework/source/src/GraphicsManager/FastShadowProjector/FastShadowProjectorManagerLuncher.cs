@@ -15,7 +15,7 @@ namespace Framework.Graphic.FastShadowProjector
         
         private void Awake()
         {
-            FastShadowProjectorManager.GetInstance(ParentTransformPovit, DonDestroyOnLoad);
+            FastShadowProjectorManager.CreateInstance(ParentTransformPovit, DonDestroyOnLoad);
             onManagerBeforeInitialization();
             FastShadowProjectorManager.Instance.Setup();
             onManagerAfterInitialization();

@@ -17,7 +17,7 @@ namespace Framework.Graphic
         //
         // 1. 采用_instance字段保存静态单例.
         // 2. 提供 _findOrCreateXXX的私有静态方法来实现查找或者创建承载该Manager的GameObject的方法
-        // 3. 非自启动Manager必须提供GetInstance静态方法.
+        // 3. 非自启动Manager必须提供CreateInstance静态方法.
         // 4. 提供Request静态方法.
         // 5. 提供IsInit静态方法判定改Manager是否初始化
         // 6. MonoBehaviour.Awake中必须加入单例限制代码
@@ -26,15 +26,12 @@ namespace Framework.Graphic
 
         private static string _NameDefine = "GraphicsManager";
 
-        private static bool _dontDestroyOnLoad = true;
-        private static Transform _parentTransform = null;
-
-        private static GraphicsManager _findOrCreateGraphicsManager()
+        private static GraphicsManager _findOrCreateGraphicsManager(Transform parenTransform = null)
         {
             GameObject go = null;
-            if (_parentTransform)
+            if (parenTransform)
             {
-                Transform t = _parentTransform.Find(_NameDefine);
+                Transform t = parenTransform.Find(_NameDefine);
                 if (t) go = t.gameObject;
             }
 
@@ -42,6 +39,8 @@ namespace Framework.Graphic
 
             if (go)
             {
+
+                if (parenTransform) go.transform.SetParent(parenTransform, false);
                 GraphicsManager gm = go.GetComponent<GraphicsManager>();
                 if (gm)
                 {
@@ -54,23 +53,18 @@ namespace Framework.Graphic
             }
             else
             {
-                try
-                {
-                    go = new GameObject(_NameDefine);
-                    if (_parentTransform) go.transform.SetParent(_parentTransform, false);
-                    if (Application.isPlaying && _dontDestroyOnLoad && !_parentTransform) GameObject.DontDestroyOnLoad(go);
-                    return go.AddComponent<GraphicsManager>();
-                }
-                catch (Exception ex)
-                {
-                    return null;
-                }
+                go = new GameObject(_NameDefine);
+                if (parenTransform) go.transform.SetParent(parenTransform, false);
+//                if (Application.isPlaying && _dontDestroyOnLoad && !_parentTransform) GameObject.DontDestroyOnLoad(go);
+                return go.AddComponent<GraphicsManager>();
             }
         }
 
         private static GraphicsManager _instance;
 
-        [Obsolete("已由Instance代替")]
+        #region 废弃的方法
+
+        [Obsolete("小写instance不符合规范,已由Instance代替")]
         public static GraphicsManager instance
         {
             get
@@ -78,6 +72,45 @@ namespace Framework.Graphic
                 return _instance;
             }
         }
+
+        [Obsolete("GetInstance语意有歧义,已由CreateInstance代替")]
+        public static GraphicsManager GetInstance(Transform parenTransform = null)
+        {
+            return CreateInstance(parenTransform);
+        }
+
+        [Obsolete("已由Request方法代替")]
+        public static void RequestGraphicsManager(Action GraphicsManagerIniteDoSh)
+        {
+            Request(GraphicsManagerIniteDoSh);
+        }
+
+        [Obsolete("小写registerSubSettingData不符合规范,已由RegisterSubSettingData代替")]
+        public void registerSubSettingData<T>(ScriptableObject data) where T : ScriptableObject
+        {
+            RegisterSubSettingData<T>(data);
+        }
+
+        [Obsolete("小写getSubSettingData不符合规范,已由GetSubSettingData代替")]
+        public T getSubSettingData<T>() where T : ScriptableObject
+        {
+            return GetSubSettingData<T>();
+        }
+
+        [Obsolete("小写registerVisualCamera不符合规范,已由RegisterVisualCamera代替")]
+        public void registerVisualCamera(VisualCamera cam)
+        {
+            RegisterVisualCamera(cam);
+        }
+
+        [Obsolete("小写unregisterVisualCamera不符合规范,已由UnregisterVisualCamera代替")]
+        public void unregisterVisualCamera(VisualCamera cam)
+        {
+            UnregisterVisualCamera(cam);
+        }
+
+        #endregion
+
         public static GraphicsManager Instance
         {
             get
@@ -86,28 +119,24 @@ namespace Framework.Graphic
             }
         }
 
-        public static GraphicsManager GetInstance(Transform parenTransform = null, bool dontDestroyOnLoad = true)
+        public static GraphicsManager CreateInstance(Transform parenTransform = null)
         {
-
-            _parentTransform = parenTransform;
-            _dontDestroyOnLoad = dontDestroyOnLoad;
-
             if (_instance == null)
             {
-                _instance = _findOrCreateGraphicsManager();
+                _instance = _findOrCreateGraphicsManager(parenTransform);
+                _instance.parentTransform = parenTransform;
+            }
+            else if (parenTransform)
+            {
+                _instance.transform.SetParent(parenTransform, false);
+                _instance.parentTransform = parenTransform;
             }
             return _instance;
         }
 
         public static void Request(Action GraphicsManagerIniteDoSh)
         {
-            GetInstance().AddGraphicsManagerInited(GraphicsManagerIniteDoSh);
-        }
-
-        [Obsolete("已由Request方法代替")]
-        public static void RequestGraphicsManager(Action GraphicsManagerIniteDoSh)
-        {
-            Request(GraphicsManagerIniteDoSh);
+            CreateInstance().AddGraphicsManagerInited(GraphicsManagerIniteDoSh);
         }
 
         public static bool IsInit()
@@ -117,7 +146,6 @@ namespace Framework.Graphic
 
         //=====================================================
 
-
         [Tooltip("使用FixedUpdate刷新")]
         public bool UseFixedUpdate = false;
 
@@ -126,6 +154,12 @@ namespace Framework.Graphic
 
         [Tooltip("在一次Update中忽略缓动插值")]
         public bool IgnoreInterpolationOnce = false;
+
+        protected Transform _parentTransform;
+        public Transform parentTransform
+        {
+            set { _parentTransform = value; }
+        }
 
         protected bool _isSetuped = false;
         protected bool _isInit = false;
@@ -143,6 +177,7 @@ namespace Framework.Graphic
             }
         }
 
+        public Action<Camera, GCamGDesInfo> OnMainCameraInited;
         public Action<Camera, GCamGDesInfo> OnSubCameraInited;
 
         /// <summary>
@@ -219,8 +254,23 @@ namespace Framework.Graphic
 
         #endregion
 
+        /// <summary>
+        /// 停止/启动渲染流
+        /// </summary>
+        public void SetRendering(bool isRendering)
+        {
+            if (_mainCamera)
+            {
+                if (_mainCamera.enabled != isRendering) _mainCamera.enabled = isRendering;
+            }
+            foreach (Camera subCamera in _subCameras)
+            {
+                if (subCamera.enabled != isRendering) subCamera.enabled = isRendering;
+            }
+        }
+
         protected Dictionary<Type, ScriptableObject> _SubSettingDic = new Dictionary<Type, ScriptableObject>();
-        public void registerSubSettingData<T>(ScriptableObject data) where T : ScriptableObject
+        public void RegisterSubSettingData<T>(ScriptableObject data) where T : ScriptableObject
         {
             Type t = typeof(T);
             if (!_SubSettingDic.ContainsKey(t))
@@ -229,9 +279,9 @@ namespace Framework.Graphic
             }
         }
 
-        public T getSubSettingData<T>() where T : ScriptableObject
+        public T GetSubSettingData<T>() where T : ScriptableObject
         {
-            Type t = typeof (T);
+            Type t = typeof(T);
             if (_SubSettingDic.ContainsKey(t))
             {
                 return _SubSettingDic[t] as T;
@@ -280,7 +330,7 @@ namespace Framework.Graphic
 
         //----------------------------------
 
-        public void registerVisualCamera(VisualCamera cam)
+        public void RegisterVisualCamera(VisualCamera cam)
         {
             if (!_visualCameras.Contains(cam))
             {
@@ -289,7 +339,7 @@ namespace Framework.Graphic
             RefreshCurrentVisualCamera();
         }
 
-        public void unregisterVisualCamera(VisualCamera cam)
+        public void UnregisterVisualCamera(VisualCamera cam)
         {
             if (_visualCameras.Contains(cam))
             {
@@ -297,6 +347,8 @@ namespace Framework.Graphic
             }
             RefreshCurrentVisualCamera();
         }
+
+
 
         private void _SortAndGetCurrentVisualCamera()
         {
@@ -338,6 +390,9 @@ namespace Framework.Graphic
 
             int idx = _visualCameras.FindIndex(v => v.Solo);
             _currentVisualCamera = idx.Equals(-1) ? _visualCameras[0] : _visualCameras[idx];
+
+            Camera.SetupCurrent(_currentVisualCamera.CrrentCamera);
+
         }
 
         public void RefreshCurrentVisualCamera()
@@ -371,6 +426,19 @@ namespace Framework.Graphic
             else if (_isSetuped && !_isInit)
             {
                 init();
+            }
+        }
+
+        protected void OnDestroy()
+        {
+
+            OnMainCameraInited = null;
+            OnSubCameraInited = null;
+            _AfterInitDo = null;
+
+            if (Instance != null && Instance == this)
+            {
+                _instance = null;
             }
         }
 
@@ -421,10 +489,10 @@ namespace Framework.Graphic
             _mainCamera.gameObject.SetActive(false);
             if (_parentTransform) _mainCamera.transform.SetParent(_parentTransform, false);
 
-            if (Application.isPlaying && _dontDestroyOnLoad && !_parentTransform)
-            {
-                GameObject.DontDestroyOnLoad(_mainCamera.gameObject);
-            }
+//            if (Application.isPlaying && _dontDestroyOnLoad && !_parentTransform)
+//            {
+//                GameObject.DontDestroyOnLoad(_mainCamera.gameObject);
+//            }
 
             GraphicsCamUtility.ApplyDesDataToCameraFormDesInfo(_mainCamera, _GCGinfo.MainCamDesInfo);
 
