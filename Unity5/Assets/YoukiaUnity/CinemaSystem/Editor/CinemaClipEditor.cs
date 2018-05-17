@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using YoukiaUnity.CinemaSystem;
+using Framework;
 
 [CustomEditor(typeof(CinemaClip))]
 public class CinemaClipEditor : UnityEditor.Editor

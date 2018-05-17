@@ -663,8 +663,8 @@
     <None Include="Assets\Resources\Shader\Custom\PostEffect\GaussBlur.shader" />
     <None Include="Assets\Resources\Shader\Custom\PostEffect\Inversion.shader" />
     <None Include="Assets\Resources\Shader\Custom\PostEffect\RadialBlur.shader" />
+    <None Include="Assets\Resources\Shader\Custom\PostEffect\Reverse.shader" />
     <None Include="Assets\Resources\Shader\Custom\PostEffect\Sky.shader" />
-    <None Include="Assets\Resources\Shader\Custom\PostEffect\reverse.shader" />
     <None Include="Assets\Resources\Shader\Custom\RawImage\RawImage - AlphaMask##.shader" />
     <None Include="Assets\Resources\Shader\Custom\RawImage\RawImage - ScaleAlphaMask##.shader" />
     <None Include="Assets\Resources\Shader\Custom\RawImage\RawImage_Gray.shader" />

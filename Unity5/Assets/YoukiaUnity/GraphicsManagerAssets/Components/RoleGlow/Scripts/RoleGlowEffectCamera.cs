@@ -4,7 +4,7 @@ using Framework.Graphic.Utility;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
-public class RoleGlowEffectCamera : MonoBehaviour, IGMPostEffectComponent
+public class RoleGlowEffectCamera : MonoBehaviour, IRTPostEffectComponent
 {
 
     private static readonly string RoleGlowLayerDefine = "RoleGlowLayer";
@@ -33,7 +33,7 @@ public class RoleGlowEffectCamera : MonoBehaviour, IGMPostEffectComponent
     {
 
         ////检查SubCamera组件-> RoleGlowEffectCombine 是否存在
-        GraphicsManager.RequestGraphicsManager(() =>
+        GraphicsManager.Request(() =>
         {
 
             _target = GetComponent<Camera>();
@@ -45,14 +45,14 @@ public class RoleGlowEffectCamera : MonoBehaviour, IGMPostEffectComponent
 //            _target.SetReplacementShader(Shader.Find("Hidden/FColorOutput"), "RenderType");
             _target.enabled = false;
 
-            GraphicsManager.instance.AddSubCamera(_target);
+            GraphicsManager.Instance.AddSubCamera(_target);
 
             if (!_roleGlowEffectMat)
             {
                 _roleGlowEffectMat = new Material(Shader.Find("Hidden/RppGlow"));
             }
 
-            Camera combine = GraphicsManager.instance.GetSubCamera("RoleGlowEffectCombine");
+            Camera combine = GraphicsManager.Instance.GetSubCamera("RoleGlowEffectCombine");
             if (!combine)
             {
                 GameObject combineGo = new GameObject("RoleGlowEffectCombine");
@@ -62,7 +62,7 @@ public class RoleGlowEffectCamera : MonoBehaviour, IGMPostEffectComponent
                 combine.cullingMask = 0;
                 combine.depth = 24; //定义为24是因为Role的Depth为25
 
-                GraphicsManager.instance.AddSubCamera(combine);
+                GraphicsManager.Instance.AddSubCamera(combine);
             }
 
 //            _PECombine = combine.gameObject.GetComponent<PostEffectCombine>();
@@ -70,7 +70,7 @@ public class RoleGlowEffectCamera : MonoBehaviour, IGMPostEffectComponent
 
             _PECombine = RenderTextureCombine.Create(combine.gameObject, RenderTextureCombine.PostEffectCombineType.Add);
 
-            RoleGlowSettingAsset setting = GraphicsManager.instance.getSubSettingData<RoleGlowSettingAsset>();
+            RoleGlowSettingAsset setting = GraphicsManager.Instance.getSubSettingData<RoleGlowSettingAsset>();
             if (setting)
             {
                 _size = setting.RTSize;
@@ -144,12 +144,18 @@ public class RoleGlowEffectCamera : MonoBehaviour, IGMPostEffectComponent
 
     private void OnEnable()
     {
-        GraphicsManager.instance.AddPostEffectComponent(this);
+        GraphicsManager.Request(() =>
+        {
+            GraphicsManager.Instance.AddPostEffectComponent(this);
+        });
     }
 
     private void OnDisable()
     {
-        GraphicsManager.instance.RemovePostEffectComponent(this);
+        if (GraphicsManager.IsInit())
+        {
+            GraphicsManager.Instance.RemovePostEffectComponent(this);
+        }
     }
 
 }

@@ -1,0 +1,21 @@
+﻿==========================================================
+	
+	T4MLite Version File ::	author by Aorition
+
+==========================================================
+
+Update Logs:
+
+	- v1.2.5
+
+		- 创建T4M对象时新增控制贴图尺寸设置.
+
+	- v1.2.4
+		
+		- 修正创建T4M对象后Layer设置异常造成的一系列bug.
+		- 修正一个Shader命名错误导致的创建创建失败.
+	
+	- v1.2.3	
+	
+		- 修正bug > T4MLite 创建的控制贴图和颜色覆盖贴图的filterMode 默认值 从FilterMode.Point修改为FilterMode.Bilinear;
+		- 在转换T4M界面中Shader选择列表里,新增T4MLite_Specular可供选择;

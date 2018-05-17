@@ -36,7 +36,7 @@ namespace YoukiaUnity
         [ConfigComment("阴影类型")]
         public readonly GlobalProjectorManager.ShadowType ShadowType= GlobalProjectorManager.ShadowType.None;
         [ConfigComment("阴影质量")]
-        public readonly GlobalProjectorManager.ShadowResolutions ShadowResolutions = GlobalProjectorManager.ShadowResolutions.VeryLow_128;
+        public readonly YoukiaUnity.Graphics.FastShadowProjector.GlobalProjectorManager.ShadowResolutions ShadowResolutions = YoukiaUnity.Graphics.FastShadowProjector.GlobalProjectorManager.ShadowResolutions.VeryLow_128;
  
         [ConfigComment("大气雾距离")]
         public readonly float FogDistance;

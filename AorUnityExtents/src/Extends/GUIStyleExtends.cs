@@ -3,14 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class GUIStyleExtends
+namespace Framework
 {
 
-    public static GUIStyle Clone(this GUIStyle obj)
+    public static class GUIStyleExtends
     {
-        GUIStyle s = new GUIStyle(obj);
-        s.name = obj.name + "_Clone";
-        return s;
+
+        public static GUIStyle Clone(this GUIStyle obj)
+        {
+            GUIStyle s = new GUIStyle(obj);
+            s.name = obj.name + "_Clone";
+            return s;
+        }
+
     }
 
 }
+

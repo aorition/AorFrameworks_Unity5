@@ -8,9 +8,9 @@ using DG.Tweening;
 using UnityEngine.UI;
 using YoukiaCore;
 //using YoukiaUnity.App;
-using YoukiaUnity.Graphics.FastShadowProjector;
 using YoukiaUnity.Misc;
 //using YoukiaUnity.Resource;
+using GlobalProjectorManager = YoukiaUnity.Graphics.FastShadowProjector.GlobalProjectorManager;
 
 namespace YoukiaUnity.Graphics
 {
@@ -199,11 +199,11 @@ namespace YoukiaUnity.Graphics
 
         }
 
-        public GlobalProjectorManager.ShadowResolutions _ShadowResolution = GlobalProjectorManager.ShadowResolutions.Normal_512;
+        public YoukiaUnity.Graphics.FastShadowProjector.GlobalProjectorManager.ShadowResolutions _ShadowResolution = YoukiaUnity.Graphics.FastShadowProjector.GlobalProjectorManager.ShadowResolutions.Normal_512;
         /// <summary>
         /// 阴影质量
         /// </summary>
-        public GlobalProjectorManager.ShadowResolutions ShadowResolution
+        public YoukiaUnity.Graphics.FastShadowProjector.GlobalProjectorManager.ShadowResolutions ShadowResolution
         {
 
             get { return _ShadowResolution; }
@@ -625,8 +625,6 @@ namespace YoukiaUnity.Graphics
                 }
 
                 _FinalDrawRtSize = value;
-
-
 
                 if (Application.isPlaying && MainRt != null)
                 {

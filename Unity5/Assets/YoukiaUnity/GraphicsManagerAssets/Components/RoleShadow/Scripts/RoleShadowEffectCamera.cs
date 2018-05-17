@@ -5,16 +5,16 @@ using UnityEngine;
 namespace Framework.Graphic
 {
 
-    public class RoleShadowEffectCamera : MonoBehaviour, IGMPostEffectComponent
+    public class RoleShadowEffectCamera : MonoBehaviour, IRTPostEffectComponent
     {
 
         public static void Create()
         {
             //检查SubCamera组件-> RoleGlowEffectCam 是否存在
-            GraphicsManager.RequestGraphicsManager(() =>
+            GraphicsManager.Request(() =>
             {
 
-                Camera camera = GraphicsManager.instance.GetSubCamera("RoleShadowEffectCam");
+                Camera camera = GraphicsManager.Instance.GetSubCamera("RoleShadowEffectCam");
                 if (!camera)
                 {
 
@@ -62,7 +62,7 @@ namespace Framework.Graphic
         private void Awake()
         {
             ////检查SubCamera组件-> RoleGlowEffectCombine 是否存在
-            GraphicsManager.RequestGraphicsManager(() =>
+            GraphicsManager.Request(() =>
             {
 
                 _target = GetComponent<Camera>();
@@ -75,14 +75,14 @@ namespace Framework.Graphic
 
                 _target.enabled = false;
 
-                GraphicsManager.instance.AddSubCamera(_target);
+                GraphicsManager.Instance.AddSubCamera(_target);
 
                 //            _rgRt = RenderTexture.GetTemporary(Screen.width, Screen.height);
                 //            _target.targetTexture = _rgRt;
 
 
 
-                Camera combine = GraphicsManager.instance.GetSubCamera("RoleShadowEffectCombine");
+                Camera combine = GraphicsManager.Instance.GetSubCamera("RoleShadowEffectCombine");
                 if (!combine)
                 {
                     GameObject combineGo = new GameObject("RoleShadowEffectCombine");
@@ -92,13 +92,13 @@ namespace Framework.Graphic
                     combine.cullingMask = 0;
                     combine.depth = 22; //因为Role的Depth为25
 
-                    GraphicsManager.instance.AddSubCamera(combine);
+                    GraphicsManager.Instance.AddSubCamera(combine);
                 }
 
                 _PECombine = RenderTextureCombine.Create(combine.gameObject,
                     RenderTextureCombine.PostEffectCombineType.Multiply);
 
-                RoleShadowSettingAsset setting = GraphicsManager.instance.getSubSettingData<RoleShadowSettingAsset>();
+                RoleShadowSettingAsset setting = GraphicsManager.Instance.getSubSettingData<RoleShadowSettingAsset>();
                 if (setting)
                 {
 
@@ -201,12 +201,18 @@ namespace Framework.Graphic
 
         private void OnEnable()
         {
-            GraphicsManager.instance.AddPostEffectComponent(this);
+            GraphicsManager.Request(() =>
+            {
+                GraphicsManager.Instance.AddPostEffectComponent(this);
+            });
         }
 
         private void OnDisable()
         {
-            GraphicsManager.instance.RemovePostEffectComponent(this);
+            if (GraphicsManager.IsInit())
+            {
+                GraphicsManager.Instance.RemovePostEffectComponent(this);
+            }
         }
 
 
