@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity5.CSharp.Plugins", "Unity5.CSharp.Plugins.csproj", "{AB30E458-46C0-5BE4-B69A-93F72523722D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity5.CSharp", "Unity5.CSharp.csproj", "{A66C6C0F-9CD5-F86F-B059-75D9920C005A}"
@@ -11,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity5.CSharp.Editor", "Uni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AorBaseUtility", "..\AorBaseUtility\AorBaseUtility.csproj", "{CFF766B5-AAF1-4638-A423-F71EA26E70E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AorFramework", "..\AorFramework\source\AorFramework.csproj", "{B05094BF-0EFC-4835-A998-EA8A3198A46E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AorFrameworkEditor", "..\AorFramework\editor\AorFrameworkEditor.csproj", "{BDF1F7FF-E854-4A89-9BA7-3BC8FE065911}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AorUI", "..\AorUI\source\AorUI.csproj", "{14AFDF8D-858D-4A6B-8BCC-7B228A1A5CAA}"
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AorUnityExtents", "..\AorUnityExtents\AorUnityExtents.csproj", "{CECF4585-83A2-459E-92C4-767CBEDCB16C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AorBaseExtents", "..\AorBaseExtents\AorBaseExtents.csproj", "{52A6095C-1686-4A22-8F08-70414D1C064E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AorFramework", "..\AorFramework\source\AorFramework.csproj", "{B05094BF-0EFC-4835-A998-EA8A3198A46E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +51,6 @@ Global
 		{CFF766B5-AAF1-4638-A423-F71EA26E70E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFF766B5-AAF1-4638-A423-F71EA26E70E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFF766B5-AAF1-4638-A423-F71EA26E70E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B05094BF-0EFC-4835-A998-EA8A3198A46E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B05094BF-0EFC-4835-A998-EA8A3198A46E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B05094BF-0EFC-4835-A998-EA8A3198A46E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B05094BF-0EFC-4835-A998-EA8A3198A46E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BDF1F7FF-E854-4A89-9BA7-3BC8FE065911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BDF1F7FF-E854-4A89-9BA7-3BC8FE065911}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDF1F7FF-E854-4A89-9BA7-3BC8FE065911}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -73,6 +71,10 @@ Global
 		{52A6095C-1686-4A22-8F08-70414D1C064E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52A6095C-1686-4A22-8F08-70414D1C064E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52A6095C-1686-4A22-8F08-70414D1C064E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B05094BF-0EFC-4835-A998-EA8A3198A46E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B05094BF-0EFC-4835-A998-EA8A3198A46E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B05094BF-0EFC-4835-A998-EA8A3198A46E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B05094BF-0EFC-4835-A998-EA8A3198A46E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
