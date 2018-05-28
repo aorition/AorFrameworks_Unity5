@@ -152,14 +152,28 @@ namespace Framework.Graphic
         [Tooltip("是否允许VisualCamera使用参数覆盖")]
         public bool AllowVisualCameraParamCover = true;
 
-        [Tooltip("在一次Update中忽略缓动插值")]
-        public bool IgnoreInterpolationOnce = false;
-
         protected Transform _parentTransform;
         public Transform parentTransform
         {
             set { _parentTransform = value; }
         }
+
+        //------------------------------ Events
+
+        /// <summary>
+        /// 当QualitySetting的GetQualityLevel值发生改变时触发该事件
+        /// </summary>
+        public Action<int> OnQualityLevelChanged;
+        /// <summary>
+        /// 当主相机初始化完毕时调用该事件
+        /// </summary>
+        public Action<Camera, GCamGDesInfo> OnMainCameraInited;
+        /// <summary>
+        /// 当Sub相机初始化完毕时调用该事件
+        /// </summary>
+        public Action<Camera, GCamGDesInfo> OnSubCameraInited;
+
+        //------------------------------
 
         protected bool _isSetuped = false;
         protected bool _isInit = false;
@@ -176,9 +190,6 @@ namespace Framework.Graphic
                 _AfterInitDo += doSh;
             }
         }
-
-        public Action<Camera, GCamGDesInfo> OnMainCameraInited;
-        public Action<Camera, GCamGDesInfo> OnSubCameraInited;
 
         /// <summary>
         /// UI级效果支持RectTransform节点
@@ -210,6 +221,8 @@ namespace Framework.Graphic
                 return GMEffect.Instance;
             }
         }
+
+        private int _qualityLevelCache;
 
         private float _deltaTime = 0;
 
@@ -375,16 +388,19 @@ namespace Framework.Graphic
 
             _visualCameras.Sort((a, b) =>
             {
+                //小->大
                 if (a.Level > b.Level)
-                {
-                    return -1;
-                }
-                else if (a.Level < b.Level)
                 {
                     return 1;
                 }
+                else if (a.Level < b.Level)
+                {
+                    return -1;
+                }
                 return 0;
             });
+            //大->小
+            _visualCameras.Reverse();
 
             int idx = _visualCameras.FindIndex(v => v.Solo);
             _currentVisualCamera = idx.Equals(-1) ? _visualCameras[0] : _visualCameras[idx];
@@ -396,7 +412,7 @@ namespace Framework.Graphic
         public void RefreshCurrentVisualCamera()
         {
             _SortAndGetCurrentVisualCamera();
-            _updateMainCameraPos();
+            _updateMainCameraPos(false);
         }
 
         protected void Awake()
@@ -442,12 +458,12 @@ namespace Framework.Graphic
 
         private Vector3 _baseMainCameraPos;
         private Quaternion _baseMainCameraRotate;
-        protected void _updateMainCameraPos()
+        protected void _updateMainCameraPos(bool closeIIO)
         {
             if (_currentVisualCamera && _mainCamera)
             {
 
-                if (IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0))
+                if (_currentVisualCamera.IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0))
                 {
                     _baseMainCameraRotate = _currentVisualCamera.transform.rotation;
                     _baseMainCameraPos = _currentVisualCamera.transform.position;
@@ -462,16 +478,21 @@ namespace Framework.Graphic
                 _mainCamera.transform.rotation = _baseMainCameraRotate;
                 _mainCamera.transform.position = _baseMainCameraPos + Effect.CamShakeOffset;
 
+                //强制设置false
+                if (closeIIO)
+                {
+                    _currentVisualCamera.IgnoreInterpolationOnce = false;
+                }
             }
-
-            //强制设置false
-            IgnoreInterpolationOnce = false;
         }
 
         protected void init()
         {
 
             if (_isInit) return;
+
+            _initExHandleEvents();
+
 
             UseFixedUpdate = _GCGinfo.UseFixedUpdate;
             AllowVisualCameraParamCover = _GCGinfo.AllowVCamParaCover;
@@ -542,7 +563,8 @@ namespace Framework.Graphic
 
         protected void LateUpdate()
         {
-            _updateMainCameraPos();
+            if (!_isInit) return;
+            _updateMainCameraPos(true);
             //
             _RefreshPostEffectComponents();
         }
@@ -576,6 +598,9 @@ namespace Framework.Graphic
         protected void process()
         {
 
+            //捕获事件
+            _catchExHandleEvents();
+
             if (!_mainCamera) return;
             
             //更新所有VisualCamera附加计算
@@ -601,13 +626,13 @@ namespace Framework.Graphic
 
                 if (_currentVisualCamera.OverrideBackground)
                 {
-                    _mainCamera.backgroundColor = (IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
+                    _mainCamera.backgroundColor = (_currentVisualCamera.IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
                         _currentVisualCamera.CrrentCamera.backgroundColor :
                         Color.Lerp(_mainCamera.backgroundColor, _currentVisualCamera.CrrentCamera.backgroundColor, _currentVisualCamera.Interpolation);
                 }
                 else
                 {
-                    _mainCamera.backgroundColor = (IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
+                    _mainCamera.backgroundColor = (_currentVisualCamera.IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
                         mainCameraDesInfo.lensSetting.BackgroundColor :
                         Color.Lerp(_mainCamera.backgroundColor, mainCameraDesInfo.lensSetting.BackgroundColor, _currentVisualCamera.Interpolation);
                 }
@@ -615,53 +640,53 @@ namespace Framework.Graphic
                 if (_currentVisualCamera.OverrideOrthographic)
                 {
                     _mainCamera.orthographic = _currentVisualCamera.CrrentCamera.orthographic;
-                    _mainCamera.orthographicSize = (IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ? 
+                    _mainCamera.orthographicSize = (_currentVisualCamera.IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ? 
                         _currentVisualCamera.CrrentCamera.orthographicSize :
                         Mathf.Lerp(_mainCamera.orthographicSize, _currentVisualCamera.CrrentCamera.orthographicSize, _currentVisualCamera.Interpolation);
                 }
                 else
                 {
                     _mainCamera.orthographic = mainCameraDesInfo.lensSetting.isOrthographicCamera;
-                    _mainCamera.orthographicSize = (IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
+                    _mainCamera.orthographicSize = (_currentVisualCamera.IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
                                             mainCameraDesInfo.lensSetting.OrthographicSize :
                                             Mathf.Lerp(_mainCamera.orthographicSize, mainCameraDesInfo.lensSetting.OrthographicSize, _currentVisualCamera.Interpolation);
                 }
 
                 if (_currentVisualCamera.OverrideFieldOfView)
                 {
-                    _mainCamera.fieldOfView = (IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ? 
+                    _mainCamera.fieldOfView = (_currentVisualCamera.IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ? 
                         _currentVisualCamera.CrrentCamera.fieldOfView :
                         Mathf.Lerp(_mainCamera.fieldOfView, _currentVisualCamera.CrrentCamera.fieldOfView, _currentVisualCamera.Interpolation);
                 }
                 else
                 {
-                    _mainCamera.fieldOfView = (IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
+                    _mainCamera.fieldOfView = (_currentVisualCamera.IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
                         mainCameraDesInfo.lensSetting.FieldOfView :
                         Mathf.Lerp(_mainCamera.fieldOfView, mainCameraDesInfo.lensSetting.FieldOfView, _currentVisualCamera.Interpolation);
                 }
 
                 if (_currentVisualCamera.OverrideNearPlane)
                 {
-                    _mainCamera.nearClipPlane = (IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
+                    _mainCamera.nearClipPlane = (_currentVisualCamera.IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
                         _currentVisualCamera.CrrentCamera.nearClipPlane :
                         Mathf.Lerp(_mainCamera.nearClipPlane, _currentVisualCamera.CrrentCamera.nearClipPlane, _currentVisualCamera.Interpolation);
                 }
                 else
                 {
-                    _mainCamera.nearClipPlane = (IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
+                    _mainCamera.nearClipPlane = (_currentVisualCamera.IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
                         mainCameraDesInfo.lensSetting.NearClipPlane :
                         Mathf.Lerp(_mainCamera.nearClipPlane, mainCameraDesInfo.lensSetting.NearClipPlane, _currentVisualCamera.Interpolation);
                 }
 
                 if (_currentVisualCamera.OverrideFarPlane)
                 {
-                    _mainCamera.farClipPlane = (IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
+                    _mainCamera.farClipPlane = (_currentVisualCamera.IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
                         _currentVisualCamera.CrrentCamera.farClipPlane :
                         Mathf.Lerp(_mainCamera.farClipPlane, _currentVisualCamera.CrrentCamera.farClipPlane, _currentVisualCamera.Interpolation);
                 }
                 else
                 {
-                    _mainCamera.farClipPlane = (IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
+                    _mainCamera.farClipPlane = (_currentVisualCamera.IgnoreInterpolationOnce || _currentVisualCamera.Interpolation.Equals(0)) ?
                                             mainCameraDesInfo.lensSetting.FarClipPlane :
                                             Mathf.Lerp(_mainCamera.farClipPlane, mainCameraDesInfo.lensSetting.FarClipPlane, _currentVisualCamera.Interpolation);
                 }
@@ -697,22 +722,42 @@ namespace Framework.Graphic
 
         //------
 
+        protected void _initExHandleEvents()
+        {
+            //初始化 QualityLevel缓存
+            _qualityLevelCache = QualitySettings.GetQualityLevel();
+        }
+
+        protected void _catchExHandleEvents()
+        {
+            int q = QualitySettings.GetQualityLevel();
+            if (!_qualityLevelCache.Equals(q))
+            {
+                _qualityLevelCache = q;
+                if (OnQualityLevelChanged != null)
+                {
+                    OnQualityLevelChanged(q);
+                }
+            }
+        }
+
         internal void SortEffectComponents()
         {
             //更新list排序
-
             peclist.Sort((a, b) =>
             {
                 if (a.Level > b.Level)
                 {
-                    return -1;
+                    return 1;
                 }
                 else if (a.Level < b.Level)
                 {
-                    return 1;
+                    return -1;
                 }
                 return 0;
             });
+            peclist.Reverse();
+
         }
         internal FLPostEffectController FLPostEffectController;
         internal readonly HashSet<string> pecNameList = new HashSet<string>(); 

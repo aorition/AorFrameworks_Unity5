@@ -19,18 +19,18 @@ public class GraphicsManagerEditor : UnityEditor.Editor
 
         GUI.color = green;
 
-        if (Application.isPlaying)
-        {
-            string cameraName = mgr.CurrentSubCamera == null ? "无" : mgr.CurrentSubCamera.gameObject.name;
+//        if (Application.isPlaying)
+//        {
+//            string cameraName = mgr.CurrentSubCamera == null ? "无" : mgr.CurrentSubCamera.gameObject.name;
+//
+//            EditorGUILayout.HelpBox("当期渲染摄像机:" + cameraName + " FPS:" + mgr.FPS, MessageType.Info);
+//         //   EditorGUILayout.HelpBox("当前模式:"+ mgr.CurrentRenderMode, MessageType.Info);
+//        }
 
-            EditorGUILayout.HelpBox("当期渲染摄像机:" + cameraName + " FPS:" + mgr.FPS, MessageType.Info);
-         //   EditorGUILayout.HelpBox("当前模式:"+ mgr.CurrentRenderMode, MessageType.Info);
-        }
-
-        else
-        {
-            EditorGUILayout.HelpBox("编辑器模式中", MessageType.Info);
-        }
+//        else
+//        {
+//            EditorGUILayout.HelpBox("编辑器模式中", MessageType.Info);
+//        }
 
 
         int GraphicsQuality = EditorGUILayout.IntSlider(new GUIContent("当前视效等级", "Unity预设 Quality Level "), mgr.GraphicsQuality, 0, QualitySettings.names.Length - 1);

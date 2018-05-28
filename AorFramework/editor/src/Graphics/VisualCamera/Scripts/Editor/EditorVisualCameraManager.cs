@@ -110,14 +110,15 @@ namespace Framework.Graphic.Editor
             {
                 if (a.Level > b.Level)
                 {
-                    return -1;
+                    return 1;
                 }
                 else if (a.Level < b.Level)
                 {
-                    return 1;
+                    return -1;
                 }
                 return 0;
             });
+            _visualCameras.Reverse();
 
             int idx = _visualCameras.FindIndex(v => v.Solo);
             _currentVisualCamera = idx.Equals(-1) ? _visualCameras[0] : _visualCameras[idx];

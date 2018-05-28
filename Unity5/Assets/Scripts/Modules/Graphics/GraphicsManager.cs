@@ -167,7 +167,7 @@ namespace YoukiaUnity.Graphics
         internal GlobalProjectorManager ShadowMgr;
         internal bool StopRender = false;
 
-        private FPS Fps;
+//        private FPS Fps;
         private Vector2 screenSize;
         private Camera UIcamera;
 
@@ -185,12 +185,12 @@ namespace YoukiaUnity.Graphics
         //抗锯齿 1 2 4 8
         public int AntiAliasing;
 
-        public string FPS
-        {
-
-            get { return Fps.currFPS.ToString(); }
-
-        }
+//        public string FPS
+//        {
+//
+//            get { return Fps.currFPS.ToString(); }
+//
+//        }
 
         public Material RenderMaterial
         {
@@ -925,7 +925,7 @@ namespace YoukiaUnity.Graphics
             cam.backgroundColor = Color.black;
             cam.cullingMask = 0;
             FinalDraw = obj.AddComponent<MainDraw>();
-            Fps = obj.AddComponent<FPS>();
+//            Fps = obj.AddComponent<FPS>();
 
             //drawCard插入
             if (SetupDrawCrad != null)

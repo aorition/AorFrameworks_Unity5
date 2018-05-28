@@ -111,7 +111,7 @@ public class VisualCameraEditor : Editor
         //        {
         //            _target.ref_SetField_Inst_Public("IgnoreInterpolationOnFirstEnable", nIgnoreInterp);
         //        }
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("IgnoreInterpolationOnFirstEnable"), new GUIContent("初始化时忽略插值 (主相机)"));
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("IgnoreInterpolationOnce"), new GUIContent("忽略一次插值?"));
 
         GUILayout.Space(5);
 

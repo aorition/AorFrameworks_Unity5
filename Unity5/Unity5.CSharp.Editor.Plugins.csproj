@@ -448,6 +448,7 @@
     <None Include="Assets\Resources\Shader\Custom\sprite2D\sprite2DBase Fog.shader" />
     <None Include="Assets\Resources\Shader\Custom\sprite2D\sprite2DBase.shader" />
     <None Include="Assets\Resources\Shader\Framebase\Unlit\Color.shader" />
+    <None Include="Assets\Resources\Shader\Test\Cel Shader.shader" />
     <None Include="Assets\Resources\config\RoleViewConfig.txt" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />

@@ -141,6 +141,7 @@
     <Compile Include="src\Bridges\AddComponentBridge.cs" />
     <Compile Include="src\Bridges\ResourcesLoadBridge.cs" />
     <Compile Include="src\Tools\EditorSupport\TansformPlus\TansformShortcut.cs" />
+    <Compile Include="src\Tools\FPS.cs" />
     <Compile Include="src\Utility\CameraMathUtility.cs" />
   </ItemGroup>
   <ItemGroup>

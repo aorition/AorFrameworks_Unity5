@@ -199,7 +199,14 @@ public class GraphicsManagerEditor : Editor
             vcam.Solo = nSolo;
         }
 
-        GUILayout.Space(Mathf.Max(5, Screen.width * 0.1f));
+        //IIO
+        bool nIIO = EditorGUILayout.ToggleLeft(new GUIContent("IIO", "Ignore Interpolation Once"), vcam.IgnoreInterpolationOnce, GUILayout.Width(45));
+        if (!nIIO.Equals(vcam.IgnoreInterpolationOnce))
+        {
+            vcam.IgnoreInterpolationOnce = nIIO;
+        }
+
+        GUILayout.Space(Mathf.Max(5, Screen.width * 0.03f));
 
         GUILayout.EndHorizontal();
 
@@ -240,21 +247,21 @@ public class GraphicsManagerEditor : Editor
 
         //-----------------------------------------
 
+        GUILayout.BeginVertical("box");
+        GUILayout.Label(new GUIContent("CameraShake", "相机震动"));
+        _d_CameraShake_time = EditorGUILayout.FloatField("time", _d_CameraShake_time);
+        _d_CameraShake_power = EditorGUILayout.Vector3Field("power", _d_CameraShake_power);
+        _d_CameraShake_vibrato = EditorGUILayout.IntField("vibrato", _d_CameraShake_vibrato);
+
+        if (GUILayout.Button("Do"))
+        {
+            _target.Effect.CameraShake(_d_CameraShake_time, _d_CameraShake_power.x, _d_CameraShake_power.y,
+                _d_CameraShake_power.z, _d_CameraShake_vibrato);
+        }
+        GUILayout.EndVertical();
+
         if (_target.UIEffRoot)
         {
-
-            GUILayout.BeginVertical("box");
-            GUILayout.Label(new GUIContent("CameraShake", "相机震动"));
-            _d_CameraShake_time = EditorGUILayout.FloatField("time", _d_CameraShake_time);
-            _d_CameraShake_power = EditorGUILayout.Vector3Field("power", _d_CameraShake_power);
-            _d_CameraShake_vibrato = EditorGUILayout.IntField("vibrato", _d_CameraShake_vibrato);
-
-            if (GUILayout.Button("Do"))
-            {
-                _target.Effect.CameraShake(_d_CameraShake_time, _d_CameraShake_power.x, _d_CameraShake_power.y,
-                    _d_CameraShake_power.z, _d_CameraShake_vibrato);
-            }
-            GUILayout.EndVertical();
 
             GUILayout.Space(5);
 

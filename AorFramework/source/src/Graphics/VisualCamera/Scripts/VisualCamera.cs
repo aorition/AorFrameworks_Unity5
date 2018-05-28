@@ -29,8 +29,7 @@ namespace Framework.Graphic
         public bool OverrideAllowHDR = false;
         public bool OverrideAllowMSAA = false;
 
-
-        public bool IgnoreInterpolationOnFirstEnable = true;
+        public bool IgnoreInterpolationOnce = true;
 
         [SerializeField]
         [Range(0,1)]
@@ -118,18 +117,11 @@ namespace Framework.Graphic
                 GameObject.Destroy(this);
             }
         }
-
-        private bool _firstEnable = true;
         protected void OnEnable()
         {
             if (!CrrentCamera) return;
             GraphicsManager.Request(() =>
             {
-                if (_firstEnable && IgnoreInterpolationOnFirstEnable)
-                {
-                    GraphicsManager.Instance.IgnoreInterpolationOnce = true;
-                    _firstEnable = false;
-                }
                 GraphicsManager.Instance.RegisterVisualCamera(this);
                 CrrentCamera.enabled = false;
             });
