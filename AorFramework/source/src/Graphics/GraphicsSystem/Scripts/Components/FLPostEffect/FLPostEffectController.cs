@@ -7,12 +7,10 @@ namespace Framework.Graphic
     /// <summary>
     /// 标准PostEffect控制器
     /// </summary>
+    [AddComponentMenu("")] //禁止此脚本放入ComponentMenu中
     public class FLPostEffectController : MonoBehaviour
     {
-
         
-
-
         private static Material ReverseMat;
         private static void RtCopy(RenderTexture srcRt, RenderTexture tarRt, bool reverse = false)
         {
