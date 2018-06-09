@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Framework.Graphic
 {
     /// <summary>
-    /// 灯光管理器
+    /// 自定义灯光管理器
     /// </summary>
     public class CustomLightManager
     {

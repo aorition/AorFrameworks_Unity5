@@ -20,6 +20,9 @@ namespace AorBaseUtility
     
     /// <summary>
     /// 基础的事件管理器
+    /// 
+    /// (未验证其实用性)
+    /// 
     /// </summary>
     public class AEventManager
     {

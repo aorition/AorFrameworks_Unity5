@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "Hidden/PostEffect/inversion" {
+Shader "Hidden/PostEffect/Inversion" {
 	Properties{
 		_InversionPower("Inversion Power", Range(0,1)) = 1
 		_InversionColor("Inversion Color", Color) = (1,1,1,1)

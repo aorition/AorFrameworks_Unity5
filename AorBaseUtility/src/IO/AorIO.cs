@@ -19,7 +19,33 @@ namespace AorBaseUtility
             return path.Replace("\\", "/");
         }
 
+        public static string GetFullPath(string strPath, string strRootPath)
+        {
+            if (string.IsNullOrEmpty(strPath) || !strPath.Contains(":"))
+            {
+                return string.Format("{0}{1}", strRootPath, strPath);
+            }
+            else
+            {
+                return strPath;
+            }
+        }
+
         public static void CopyDirectory(string srcdir, string desdir)
+        {
+            m_CopyDirectory(srcdir, desdir, null, null);
+        }
+
+        public static void CopyDirectory(string srcdir, string desdir, List<string> excludeList)
+        {
+            m_CopyDirectory(srcdir, desdir, excludeList, null);
+        }
+
+        public static void CopyDirectory(string srcdir, string desdir, List<string> excludeList, Func<string, string, bool> replaceCondition)
+        {
+            m_CopyDirectory(srcdir, desdir, excludeList, replaceCondition);
+        }
+        private static void m_CopyDirectory(string srcdir, string desdir, List<string> excludeList,Func<string,string,bool> replaceCondition)
         {
 
             if (string.IsNullOrEmpty(srcdir) || string.IsNullOrEmpty(desdir))
@@ -43,65 +69,48 @@ namespace AorBaseUtility
 
                 if (Directory.Exists(filePath))
                 {
-                    CopyDirectory(filePath, subDesPath);
+                    m_CopyDirectory(filePath, subDesPath, excludeList, replaceCondition);
                 }
                 else
                 {
-                    //                Debug.Log("DU> copy " + srcPath + " -> " + subDesPath);
-                    if (File.Exists(subDesPath))
+                    if (excludeList != null)
                     {
-                        File.Delete(subDesPath);
+                        if (!excludeList.Contains(srcPath))
+                        {
+                            if (File.Exists(subDesPath) && replaceCondition != null)
+                            {
+                                if(!replaceCondition(srcPath, subDesPath)) continue;
+                            }
+                            m_copyFile(srcPath, subDesPath, true);
+                        }
                     }
-                    File.Copy(srcPath, subDesPath, true);
+                    else
+                    {
+                        if (replaceCondition != null)
+                        {
+                            if (!replaceCondition(srcPath, subDesPath)) continue;
+                        }
+                        m_copyFile(srcPath, subDesPath, true);
+                    }
                 }
             }
 
         }
 
-        public static void CopyDirectory(string srcdir, string desdir, List<string> excludeList)
+        private static void m_copyFile(string srcPath, string targetPath, bool overwrite)
         {
-
-            if (string.IsNullOrEmpty(srcdir) || string.IsNullOrEmpty(desdir))
+            if (overwrite)
             {
-                return;
-            }
-
-            if (!Directory.Exists(desdir))
-            {
-                Directory.CreateDirectory(desdir);
-            }
-
-            string[] filePaths = Directory.GetFileSystemEntries(srcdir);
-
-            foreach (string filePath in filePaths)
-            {
-
-                string fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
-                string srcPath = getUniPathFormat(filePath);
-                string subDesPath = getUniPathFormat(desdir + "\\" + fileName);
-
-                if (Directory.Exists(filePath))
+                if (File.Exists(targetPath))
                 {
-                    CopyDirectory(filePath, subDesPath, excludeList);
+                    File.Delete(targetPath);
                 }
-                else
-                {
-                    if (!excludeList.Contains(srcPath))
-                    {
-                        //                    Debug.Log("DU> copy " + srcPath + " -> " + subDesPath);
-                        if (File.Exists(subDesPath))
-                        {
-                            File.Delete(subDesPath);
-                        }
-                        File.Copy(srcPath, subDesPath, true);
-                    }
-                    else
-                    {
-                        //                    Debug.Log("DU> exclude " + subDesPath);
-                    }
-                }
+                File.Copy(srcPath, targetPath, true);
             }
-
+            else
+            {
+                File.Copy(srcPath, targetPath);
+            }
         }
 
         public static byte[] ReadBytesFormFile(string path)

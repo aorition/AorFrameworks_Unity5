@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Framework;
+using Framework.Graphic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
@@ -494,7 +495,7 @@ public class MeshCombineTool
             //如果该MeshRenderer上挂载的有PrefabLightmapData,则使用PrefabLightmapData上的数据进行合并
             if (plm)
             {
-                lightmapScaleOffset = plm.lightmapOffsetScale;
+                lightmapScaleOffset = plm.lightmapScaleOffset;
             }
             else
             {

@@ -69,6 +69,7 @@
     <Compile Include="src\Config\DataWrapers\TextureImporterDatawraper.cs" />
     <Compile Include="src\Config\EditorConfigCreater.cs" />
     <Compile Include="src\Config\GenerateConfig.cs" />
+    <Compile Include="src\Core\SetPropertyAttributeDrawer.cs" />
     <Compile Include="src\Core\EditorAssetInfo.cs" />
     <Compile Include="src\Core\EditorAssetInfoExents.cs" />
     <Compile Include="src\Core\EditorPlusMethods.cs" />
@@ -157,6 +158,9 @@
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\TextureProcessPredefinedAction\TextureProcessPredefinedActionController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\TextureProcessPredefinedAction\TextureProcessPredefinedActionData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\TextureProcessPredefinedAction\TextureProcessPredefinedActionGUIController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\UnityPackageExporter\UnityPackageExporterController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\UnityPackageExporter\UnityPackageExporterData.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\UnityPackageExporter\UnityPackageExporterGUIController.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\Attributes\NodeToolItemAttribute.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\ConnectionGUI.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\ConnectionPointGUI.cs" />
@@ -190,7 +194,7 @@
     <Compile Include="src\Tools\FrameworkBaseShaderCreater\FrameworkBaseShaderCreater.cs" />
     <Compile Include="src\Tools\MeshChecker\ModelCheckerEditor.cs" />
     <Compile Include="src\Tools\MeshCombineTool\MeshCombineTool.cs" />
-    <Compile Include="src\Tools\MeshCombineTool\PrefabLightmapDataEditor.cs" />
+    <Compile Include="src\Lightmap\PrefabLightmapDataEditor.cs" />
     <Compile Include="src\Tools\MeshEditTool\MeshEditToolWindow.cs" />
     <Compile Include="src\Tools\MeshEditTool\MeshExportUtil.cs" />
     <Compile Include="src\Tools\MeshEditTool\MeshFilterPlus.cs" />

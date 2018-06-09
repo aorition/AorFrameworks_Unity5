@@ -198,14 +198,31 @@ namespace Framework.editor.tools
         public static bool UpgradeDlls(List<string> inputList, List<string> excludeList, string extporPath, string cfgPath)
         {
 
-
             if (inputList != null && inputList.Count > 0)
             {
                 int i, length = inputList.Count;
                 Debug.Log("Starting DLL Upgrade ....");
                 for (i = 0; i < length; i++)
                 {
-                    AorIO.CopyDirectory(inputList[i], extporPath, excludeList);
+                    AorIO.CopyDirectory(inputList[i], extporPath, excludeList, (src, target) =>
+                    {
+                        
+                        //验证是否可以替换?
+                        FileInfo srcFileInfo = new FileInfo(src);
+                        FileInfo targetFileInfo = new FileInfo(target);
+                        if (srcFileInfo.LastWriteTimeUtc.CompareTo(targetFileInfo.LastWriteTimeUtc) >= 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            if(EditorUtility.DisplayDialog("警告", "源文件的修改时间比目标文件的修改时间旧,源文件可能不是最新的版本.\n源文件:" + src + "\n目标文件:" + target + "\n你确定继续使用源文件覆盖目标文件?", "确定", "跳过"))
+                            {
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
                 }
                 Debug.Log("Starting DLL Upgrade Done !!");
 
@@ -251,7 +268,6 @@ namespace Framework.editor.tools
         {
             UpgradeDlls();
         }
-
 
         public static void UpgradeDlls()
         {

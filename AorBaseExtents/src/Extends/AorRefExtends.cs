@@ -7,9 +7,6 @@ namespace AorBaseUtility
 
     /// <summary>
     /// 常用反射Extends;
-    /// 
-    /// 
-    /// 
     /// </summary>
     public static class AorRefExtends
     {
@@ -242,7 +239,7 @@ namespace AorBaseUtility
 
         #endregion
 
-        #region 重载
+        #region 废弃的方法
 
         [Obsolete("已由GetNonPublicField替代")]
         public static object ref_GetField_Inst_NonPublic(this object obj, string fieldName)

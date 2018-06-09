@@ -8,19 +8,19 @@ namespace Framework.Graphic
 {
 
     //[ExecuteInEditMode]
-    public class GraphicsManager : MonoBehaviour
+    public class GraphicsManager : ManagerBase
     {
 
         //========= Manager 模版 =============================
         //
         // 基于MonoBehavior的Manager类 需要遵循的约定:
         //
-        // 1. 采用_instance字段保存静态单例.
-        // 2. 提供 _findOrCreateXXX的私有静态方法来实现查找或者创建承载该Manager的GameObject的方法
-        // 3. 非自启动Manager必须提供CreateInstance静态方法.
-        // 4. 提供Request静态方法.
-        // 5. 提供IsInit静态方法判定改Manager是否初始化
-        // 6. MonoBehaviour.Awake中必须加入单例限制代码
+        // *. 采用_instance字段保存静态单例.
+        // *. 非自启动Manager必须提供CreateInstance静态方法.
+        // *. 提供Request静态方法.
+        // *. 提供IsInit静态方法判定改Manager是否初始化
+        // *. 须Awake中调用ManagerBase.VerifyUniqueOnInit验证单例唯一
+        // *. 须Awake中调用ManagerBase.VerifyUniqueOnInit验证单例唯一
         //
         //=============== 基于MonoBehavior的Manager====================
 
@@ -73,44 +73,11 @@ namespace Framework.Graphic
 
         #endregion
 
+        //@@@ 静态方法实现区
+
         private static string _NameDefine = "GraphicsManager";
 
-        private static GraphicsManager _findOrCreateGraphicsManager(Transform parenTransform = null)
-        {
-            GameObject go = null;
-            if (parenTransform)
-            {
-                Transform t = parenTransform.Find(_NameDefine);
-                if (t) go = t.gameObject;
-            }
-
-            if(!go) go = GameObject.Find(_NameDefine);
-
-            if (go)
-            {
-
-                if (parenTransform) go.transform.SetParent(parenTransform, false);
-                GraphicsManager gm = go.GetComponent<GraphicsManager>();
-                if (gm)
-                {
-                    return gm;
-                }
-                else
-                {
-                    return go.AddComponent<GraphicsManager>();
-                }
-            }
-            else
-            {
-                go = new GameObject(_NameDefine);
-                if (parenTransform) go.transform.SetParent(parenTransform, false);
-//                if (Application.isPlaying && _dontDestroyOnLoad && !_parentTransform) GameObject.DontDestroyOnLoad(go);
-                return go.AddComponent<GraphicsManager>();
-            }
-        }
-
         private static GraphicsManager _instance;
-
         public static GraphicsManager Instance
         {
             get
@@ -119,44 +86,121 @@ namespace Framework.Graphic
             }
         }
 
+        /// <summary>
+        /// 创建带有独立GameObject的Instance
+        /// </summary>
         public static GraphicsManager CreateInstance(Transform parenTransform = null)
         {
-            if (_instance == null)
-            {
-                _instance = _findOrCreateGraphicsManager(parenTransform);
-                _instance.parentTransform = parenTransform;
-            }
-            else if (parenTransform)
-            {
-                _instance.transform.SetParent(parenTransform, false);
-                _instance.parentTransform = parenTransform;
-            }
-            return _instance;
+            return ManagerBase.CreateInstance<GraphicsManager>(ref _instance, _NameDefine, parenTransform);
+        }
+
+        /// <summary>
+        /// 在目标GameObject上的创建Instance
+        /// </summary>
+        public static GraphicsManager CreateInstanceOnGameObject(GameObject target)
+        {
+            return ManagerBase.CreateInstanceOnGameObject<GraphicsManager>(ref _instance, target);
         }
 
         public static void Request(Action GraphicsManagerIniteDoSh)
         {
-            CreateInstance().AddGraphicsManagerInited(GraphicsManagerIniteDoSh);
+            CreateInstance();
+            ManagerBase.Request(ref _instance, GraphicsManagerIniteDoSh);
         }
 
         public static bool IsInit()
         {
-            return _instance && _instance._isInit;
+            return ManagerBase.VerifyIsInit(ref _instance);
         }
 
-        //=====================================================
+        //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+        //@@@ override方法实现区
+
+        protected override void Awake()
+        {
+            base.Awake();
+            ManagerBase.VerifyUniqueOnInit(ref _instance,this, () =>
+            {
+                gameObject.name = _NameDefine;
+            });
+        }
+
+        protected override void OnUnSetupedStart()
+        {
+            //加载默认描述文件进行初始化
+            GraphicsSettingAsset def = ScriptableObject.CreateInstance<GraphicsSettingAsset>();
+            def.MainCamDesInfo = GCamGDesInfo.Main();
+            Setup(def);
+        }
+
+
+        protected override void OnDestroy()
+        {
+            OnMainCameraInited = null;
+            OnSubCameraInited = null;
+            //
+            base.OnDestroy();
+            ManagerBase.VerifyUniqueOnDispose(ref _instance, this);
+        }
+
+        protected override void init()
+        {
+
+            _initExHandleEvents();
+
+            UseFixedUpdate = _GCGinfo.UseFixedUpdate;
+            AllowVisualCameraParamCover = _GCGinfo.AllowVCamParaCover;
+
+            //自动占用MainCamera
+            _mainCamera = Camera.main;
+            if (!_mainCamera)
+            {
+                _mainCamera = new GameObject().AddComponent<Camera>();
+                _mainCamera.gameObject.tag = "MainCamera";
+            }
+
+            _mainCamera.gameObject.SetActive(false);
+            if (transform.parent) _mainCamera.transform.SetParent(transform.parent, false);
+
+            //            if (Application.isPlaying && _dontDestroyOnLoad && !_parentTransform)
+            //            {
+            //                GameObject.DontDestroyOnLoad(_mainCamera.gameObject);
+            //            }
+
+            GraphicsCamUtility.ApplyDesDataToCameraFormDesInfo(_mainCamera, _GCGinfo.MainCamDesInfo);
+
+            if (_GCGinfo.SubCamGDesInfos != null && _GCGinfo.SubCamGDesInfos.Count > 0)
+            {
+
+                for (int i = 0; i < _GCGinfo.SubCamGDesInfos.Count; i++)
+                {
+                    GCamGDesInfo info = _GCGinfo.SubCamGDesInfos[i];
+                    Camera cam = new GameObject(info.name).AddComponent<Camera>();
+                    _subCameras.Add(cam);
+
+                    cam.transform.SetParent(_mainCamera.transform, false);
+
+                    GraphicsCamUtility.ApplyDesDataToCameraFormDesInfo(cam, info);
+                }
+
+            }
+        }
+
+        protected override void OnAfterInit()
+        {
+            _mainCamera.gameObject.SetActive(true);
+        }
+
+        //=======================================================================
+
+        //@@@ Manager功能实现区
 
         [Tooltip("使用FixedUpdate刷新")]
         public bool UseFixedUpdate = false;
 
         [Tooltip("是否允许VisualCamera使用参数覆盖")]
         public bool AllowVisualCameraParamCover = true;
-
-        protected Transform _parentTransform;
-        public Transform parentTransform
-        {
-            set { _parentTransform = value; }
-        }
 
         //------------------------------ Events
 
@@ -174,22 +218,6 @@ namespace Framework.Graphic
         public Action<Camera, GCamGDesInfo> OnSubCameraInited;
 
         //------------------------------
-
-        protected bool _isSetuped = false;
-        protected bool _isInit = false;
-
-        protected Action _AfterInitDo;
-        public void AddGraphicsManagerInited(Action doSh)
-        {
-            if (_isInit)
-            {
-                doSh();
-            }
-            else
-            {
-                _AfterInitDo += doSh;
-            }
-        }
 
         /// <summary>
         /// UI级效果支持RectTransform节点
@@ -230,6 +258,10 @@ namespace Framework.Graphic
 
         protected readonly List<VisualCamera> _visualCameras = new List<VisualCamera>();
         protected VisualCamera _currentVisualCamera;
+        public VisualCamera CurrentVisualCamera
+        {
+            get { return _currentVisualCamera; }
+        }
 
         protected GraphicsSettingAsset _GCGinfo;
         protected GCamGDesInfo mainCameraDesInfo
@@ -244,7 +276,7 @@ namespace Framework.Graphic
             if (!GCGinfo) return;
             _GCGinfo = GCGinfo;
             _isSetuped = true;
-            init();
+            __init();
         }
 
         public void Setup(GraphicsSettingAsset GCGinfo, RectTransform UIEffectRoot)
@@ -415,47 +447,6 @@ namespace Framework.Graphic
             _updateMainCameraPos(false);
         }
 
-        protected void Awake()
-        {
-            //单例限制
-            if (_instance != null && _instance != this)
-            {
-                GameObject.Destroy(this);
-            }else if (_instance == null)
-            {
-                _instance = this;
-                gameObject.name = _NameDefine;
-            }
-        }
-
-        protected void Start()
-        {
-            if (!_isSetuped && !_isInit)
-            {
-                //加载默认描述文件进行初始化
-                GraphicsSettingAsset def = ScriptableObject.CreateInstance<GraphicsSettingAsset>();
-                def.MainCamDesInfo = GCamGDesInfo.Main();
-                Setup(def);
-            }
-            else if (_isSetuped && !_isInit)
-            {
-                init();
-            }
-        }
-
-        protected void OnDestroy()
-        {
-
-            OnMainCameraInited = null;
-            OnSubCameraInited = null;
-            _AfterInitDo = null;
-
-            if (Instance != null && Instance == this)
-            {
-                _instance = null;
-            }
-        }
-
         private Vector3 _baseMainCameraPos;
         private Quaternion _baseMainCameraRotate;
         protected void _updateMainCameraPos(bool closeIIO)
@@ -484,67 +475,6 @@ namespace Framework.Graphic
                     _currentVisualCamera.IgnoreInterpolationOnce = false;
                 }
             }
-        }
-
-        protected void init()
-        {
-
-            if (_isInit) return;
-
-            _initExHandleEvents();
-
-
-            UseFixedUpdate = _GCGinfo.UseFixedUpdate;
-            AllowVisualCameraParamCover = _GCGinfo.AllowVCamParaCover;
-
-            //自动占用MainCamera
-            _mainCamera = Camera.main;
-            if (!_mainCamera)
-            {
-                _mainCamera = new GameObject().AddComponent<Camera>();
-                _mainCamera.gameObject.tag = "MainCamera";
-            }
-
-            _mainCamera.gameObject.SetActive(false);
-            if (_parentTransform) _mainCamera.transform.SetParent(_parentTransform, false);
-
-//            if (Application.isPlaying && _dontDestroyOnLoad && !_parentTransform)
-//            {
-//                GameObject.DontDestroyOnLoad(_mainCamera.gameObject);
-//            }
-
-            GraphicsCamUtility.ApplyDesDataToCameraFormDesInfo(_mainCamera, _GCGinfo.MainCamDesInfo);
-
-            if (_GCGinfo.SubCamGDesInfos != null && _GCGinfo.SubCamGDesInfos.Count > 0)
-            {
-
-                for (int i = 0; i < _GCGinfo.SubCamGDesInfos.Count; i++)
-                {
-                    GCamGDesInfo info = _GCGinfo.SubCamGDesInfos[i];
-                    Camera cam = new GameObject(info.name).AddComponent<Camera>();
-                    _subCameras.Add(cam);
-
-                    cam.transform.SetParent(_mainCamera.transform, false);
-
-                    GraphicsCamUtility.ApplyDesDataToCameraFormDesInfo(cam, info);
-                }
-
-            }
-
-            _isInit = true;
-            StartCoroutine(_afterInitRun());
-        }
-
-        IEnumerator _afterInitRun()
-        {
-            yield return new WaitForEndOfFrame();
-            if (_AfterInitDo != null)
-            {
-                Action tmpDo = _AfterInitDo;
-                tmpDo();
-                _AfterInitDo = null;
-            }
-            _mainCamera.gameObject.SetActive(true);
         }
 
         protected void FixedUpdate()

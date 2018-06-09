@@ -1,16 +1,25 @@
 ﻿// Copyright (c) 2014 Luminary LLC
 // Licensed under The MIT License (See LICENSE for full text)
+
+using System;
 using UnityEngine;
 
-public class SetPropertyAttribute : PropertyAttribute
+namespace Framework
 {
-    public string Name { get; private set; }
-    public bool IsDirty { get; set; }
 
-    public SetPropertyAttribute(string name)
+    [AttributeUsage(AttributeTargets.Field)]
+    public class SetPropertyAttribute : PropertyAttribute
     {
-        this.Name = name;
+        public string Name { get; private set; }
+        public bool IsDirty { get; set; }
+
+        public SetPropertyAttribute(string name)
+        {
+            this.Name = name;
+        }
     }
 }
+
+
 
 

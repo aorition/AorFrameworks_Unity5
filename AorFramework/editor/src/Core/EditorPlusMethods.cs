@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using AorBaseUtility;
 using UnityEditor;
 using UnityEngine;
 
@@ -32,19 +33,32 @@ namespace Framework.editor
             }
         }
 
+        private static EditorApplication.CallbackFunction _UDDoOnce;
+        private static Action _UDDoOnceDos;
         /// <summary>
         /// 编辑器在下一次Update时调用
         /// </summary>
         public static void NextEditorApplicationUpdateDo(Action doSomething)
         {
-            EditorApplication.CallbackFunction UDDoOnce = null;
-            UDDoOnce = () =>
+
+            _UDDoOnceDos += doSomething;
+            if (_UDDoOnce == null)
             {
-                EditorApplication.update -= UDDoOnce;
-                //
-                if (doSomething != null) doSomething();
-            };
-            EditorApplication.update += UDDoOnce;
+                _UDDoOnce = () =>
+                {
+                    if (_UDDoOnceDos != null)
+                    {
+                        Action doing = _UDDoOnceDos;
+                        doing();
+                        _UDDoOnceDos = null;
+                    }
+                    EditorApplication.update -= _UDDoOnce;
+                    _UDDoOnce = null;
+                };
+                EditorApplication.update += _UDDoOnce;
+            }
+
+
         }
 
         /// <summary>
@@ -101,6 +115,11 @@ namespace Framework.editor
             AssetDatabase.CreateAsset(fileObj, path);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+        }
+
+        public static void SavePNGFileInProject(string path, byte[] bytes)
+        {
+            AorIO.SaveBytesToFile(path, bytes);
         }
 
 

@@ -14,49 +14,27 @@ namespace Framework.Graphic.FastShadowProjector
     /// 
     /// </summary>
 
-    public class GlobalProjectorManager : MonoBehaviour
+    public class GlobalProjectorManager : ManagerBase
     {
 
-        private static string _NameDefine = "_FSPGlobalProjectorManager";
+        //========= Manager 模版 =============================
+        //
+        // 基于MonoBehavior的Manager类 需要遵循的约定:
+        //
+        // *. 采用_instance字段保存静态单例.
+        // *. 非自启动Manager必须提供CreateInstance静态方法.
+        // *. 提供Request静态方法.
+        // *. 提供IsInit静态方法判定改Manager是否初始化
+        // *. 须Awake中调用ManagerBase.VerifyUniqueOnInit验证单例唯一
+        // *. 须Awake中调用ManagerBase.VerifyUniqueOnInit验证单例唯一
+        //
+        //=============== 基于MonoBehavior的Manager====================
 
-        public static readonly string GlobalProjectorLayer = "GlobalProjectorLayer";
+        //@@@ 静态方法实现区
 
-        private static GlobalProjectorManager _findOrCreateGlobalProjectorManager(Transform parenTransform = null)
-        {
-            GameObject go = null;
-            if (parenTransform)
-            {
-                Transform t = parenTransform.Find(_NameDefine);
-                if (t) go = t.gameObject;
-            }
-
-            if (!go) go = GameObject.Find(_NameDefine);
-
-            if (go)
-            {
-
-                if (parenTransform) go.transform.SetParent(parenTransform, false);
-                GlobalProjectorManager gm = go.GetComponent<GlobalProjectorManager>();
-                if (gm)
-                {
-                    return gm;
-                }
-                else
-                {
-                    return go.AddComponent<GlobalProjectorManager>();
-                }
-            }
-            else
-            {
-                go = new GameObject(_NameDefine);
-                if (parenTransform) go.transform.SetParent(parenTransform, false);
-                //                if (Application.isPlaying && _dontDestroyOnLoad && !_parentTransform) GameObject.DontDestroyOnLoad(go);
-                return go.AddComponent<GlobalProjectorManager>();
-            }
-        }
+        private static string _NameDefine = "GlobalProjectorManager";
 
         private static GlobalProjectorManager _instance;
-
         public static GlobalProjectorManager Instance
         {
             get
@@ -65,47 +43,121 @@ namespace Framework.Graphic.FastShadowProjector
             }
         }
 
+        /// <summary>
+        /// 创建带有独立GameObject的Instance
+        /// </summary>
         public static GlobalProjectorManager CreateInstance(Transform parenTransform = null)
         {
-            if (_instance == null)
-            {
-                _instance = _findOrCreateGlobalProjectorManager(parenTransform);
-            }
-
-            else if (parenTransform)
-            {
-                _instance.transform.SetParent(parenTransform, false);
-            }
-
+            ManagerBase.CreateInstance<GlobalProjectorManager>(ref _instance, _NameDefine, parenTransform);
             return _instance;
         }
 
-        public static void Request(Action AddGlobalProjectorManagerIniteDoSh)
+        /// <summary>
+        /// 在目标GameObject上的创建Instance
+        /// </summary>
+        public static GlobalProjectorManager CreateInstanceOnGameObject(GameObject target)
         {
-            CreateInstance().AddGlobalProjectorManagerInited(AddGlobalProjectorManagerIniteDoSh);
+            ManagerBase.CreateInstanceOnGameObject<GlobalProjectorManager>(ref _instance, target);
+            return _instance;
+        }
+
+        public static void Request(Action GraphicsManagerIniteDoSh)
+        {
+            CreateInstance();
+            ManagerBase.Request(ref _instance, GraphicsManagerIniteDoSh);
         }
 
         public static bool IsInit()
         {
-            return _instance && _instance._isInit;
+            return ManagerBase.VerifyIsInit(ref _instance);
         }
 
-        //=====================================================
+        //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-        protected bool _isInit = false;
+        //@@@ override方法实现区
 
-        protected Action _AfterInitDo;
-        public void AddGlobalProjectorManagerInited(Action doSh)
+        public static readonly string GlobalProjectorLayer = "GlobalProjectorLayer";
+
+        protected override void Awake()
         {
-            if (_isInit)
+            base.Awake();
+            ManagerBase.VerifyUniqueOnInit(ref _instance, this, () =>
             {
-                doSh();
+                gameObject.name = _NameDefine;
+            });
+        }
+
+        protected override void OnUnSetupedStart()
+        {
+            //
+        }
+
+
+        protected override void OnDestroy()
+        {
+            //
+            base.OnDestroy();
+            ManagerBase.VerifyUniqueOnDispose(ref _instance, this);
+        }
+
+        protected override void init()
+        {
+            gameObject.layer = LayerMask.NameToLayer(GlobalProjectorLayer);
+
+            _ProjectorMaterialShadow = new Material(Shader.Find("Fast Shadow Projector/Multiply"));
+            _ProjectorMaterialLight = new Material(Shader.Find("Fast Shadow Projector/Add"));
+
+            _ProjectorCamera = gameObject.AddComponent<Camera>();
+            _ProjectorCamera.clearFlags = CameraClearFlags.SolidColor;
+            _ProjectorCamera.backgroundColor = new Color32(255, 255, 255, 0);
+            _ProjectorCamera.cullingMask = 1 << LayerMask.NameToLayer(GlobalProjectorManager.GlobalProjectorLayer);
+            _ProjectorCamera.orthographic = true;
+            _ProjectorCamera.nearClipPlane = -1;
+            _ProjectorCamera.farClipPlane = 1000;
+            _ProjectorCamera.aspect = 1.0f;
+            _ProjectorCamera.depth = float.MinValue;
+            _ProjectorCamera.transform.position = new Vector3(0, 10, 0);
+
+            _BiasMatrix = new Matrix4x4();
+            _BiasMatrix.SetRow(0, new Vector4(0.5f, 0.0f, 0.0f, 0.5f));
+            _BiasMatrix.SetRow(1, new Vector4(0.0f, 0.5f, 0.0f, 0.5f));
+            _BiasMatrix.SetRow(2, new Vector4(0.0f, 0.0f, 0.5f, 0.5f));
+            _BiasMatrix.SetRow(3, new Vector4(0.0f, 0.0f, 0.0f, 1.0f));
+
+            _ProjectorMatrix = new Matrix4x4();
+
+            _MBP = new MaterialPropertyBlock();
+
+            _ShadowProjectors = new List<IProjector>();
+            _LightProjectors = new List<IProjector>();
+            _ShadowReceivers = new List<ShadowReceiver>();
+            _ShadowTriggers = new List<ShadowTrigger>();
+
+            CreateLightCamera();
+
+            _ProjectorCamera.enabled = false;
+            _ProjectorCameraLight.enabled = false;
+
+            if (_LightProjectors.Count > 0)
+            {
+                CreateProjectorEyeTexture();
             }
             else
             {
-                _AfterInitDo += doSh;
+                CreateProjectorEyeTexture(true, false);
             }
+
+            _textureRead = new Texture2D(512, 1, TextureFormat.ARGB32, false);
         }
+
+        protected override void OnAfterInit()
+        {
+            
+        }
+
+        //=======================================================================
+
+        //@@@ Manager功能实现区
 
         public enum ProjectionCulling
         {
@@ -261,7 +313,8 @@ namespace Framework.Graphic.FastShadowProjector
 
         public void Setup()
         {
-            init();
+            _isSetuped = true;
+            __init();
         }
 
         public void Setup(FSPConfigAsset configAsset)
@@ -277,75 +330,6 @@ namespace Framework.Graphic.FastShadowProjector
         {
             setMainCamera(viewCamera);
             Setup(configAsset);
-        }
-
-        void init()
-        {
-
-            if (_isInit) return;
-
-            gameObject.layer = LayerMask.NameToLayer(GlobalProjectorLayer);
-
-            _ProjectorMaterialShadow = new Material(Shader.Find("Fast Shadow Projector/Multiply"));
-            _ProjectorMaterialLight = new Material(Shader.Find("Fast Shadow Projector/Add"));
-
-            _ProjectorCamera = gameObject.AddComponent<Camera>();
-            _ProjectorCamera.clearFlags = CameraClearFlags.SolidColor;
-            _ProjectorCamera.backgroundColor = new Color32(255, 255, 255, 0);
-            _ProjectorCamera.cullingMask = 1 << LayerMask.NameToLayer(GlobalProjectorManager.GlobalProjectorLayer);
-            _ProjectorCamera.orthographic = true;
-            _ProjectorCamera.nearClipPlane = -1;
-            _ProjectorCamera.farClipPlane = 1000;
-            _ProjectorCamera.aspect = 1.0f;
-            _ProjectorCamera.depth = float.MinValue;
-            _ProjectorCamera.transform.position = new Vector3(0, 10, 0);
-
-            _BiasMatrix = new Matrix4x4();
-            _BiasMatrix.SetRow(0, new Vector4(0.5f, 0.0f, 0.0f, 0.5f));
-            _BiasMatrix.SetRow(1, new Vector4(0.0f, 0.5f, 0.0f, 0.5f));
-            _BiasMatrix.SetRow(2, new Vector4(0.0f, 0.0f, 0.5f, 0.5f));
-            _BiasMatrix.SetRow(3, new Vector4(0.0f, 0.0f, 0.0f, 1.0f));
-
-            _ProjectorMatrix = new Matrix4x4();
-
-            _MBP = new MaterialPropertyBlock();
-
-            _ShadowProjectors = new List<IProjector>();
-            _LightProjectors = new List<IProjector>();
-            _ShadowReceivers = new List<ShadowReceiver>();
-            _ShadowTriggers = new List<ShadowTrigger>();
-
-            CreateLightCamera();
-
-            _ProjectorCamera.enabled = false;
-            _ProjectorCameraLight.enabled = false;
-
-            if (_LightProjectors.Count > 0)
-            {
-                CreateProjectorEyeTexture();
-            }
-            else
-            {
-                CreateProjectorEyeTexture(true, false);
-            }
-
-            _textureRead = new Texture2D(512, 1, TextureFormat.ARGB32, false);
-
-            //_projectorBounds = new Bounds();
-            _isInit = true;
-            OnProjectionDirChange();
-            StartCoroutine(_afterInitRun());
-        }
-
-        IEnumerator _afterInitRun()
-        {
-            yield return new WaitForEndOfFrame();
-            if (_AfterInitDo != null)
-            {
-                Action tmpDo = _AfterInitDo;
-                tmpDo();
-                _AfterInitDo = null;
-            }
         }
 
         void CreateLightCamera()
@@ -366,37 +350,9 @@ namespace Framework.Graphic.FastShadowProjector
             _ProjectorCameraLight.enabled = false;
         }
 
-        private void Awake()
-        {
-            //单例限制
-            if (_instance != null && _instance != this)
-            {
-                GameObject.Destroy(this);
-            }
-            else if (_instance == null)
-            {
-                _instance = this;
-                gameObject.name = _NameDefine;
-            }
-        }
-
         private void OnEnable()
         {
             OnProjectionDirChange();
-        }
-
-        private void Start()
-        {
-            if (!_isInit) init();
-        }
-
-        private void OnDestroy()
-        {
-            _AfterInitDo = null;
-            if (Instance != null && Instance == this)
-            {
-                _instance = null;
-            }
         }
 
         public Texture GetShadowTexture()

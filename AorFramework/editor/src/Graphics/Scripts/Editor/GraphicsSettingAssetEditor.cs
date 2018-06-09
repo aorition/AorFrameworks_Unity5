@@ -401,7 +401,7 @@ namespace Framework.UI.editor
             //name 
             //        string name = (string)info.ref_GetField_Inst_Public("name");
             string name = info.name;
-            string nName = EditorGUILayout.TextField(new GUIContent("name"), name);
+            string nName = EditorGUILayout.TextField(new GUIContent("Name"), name);
             if (!nName.Equals(name))
             {
                 //            info.ref_SetField_Inst_Public("name", nName);
@@ -410,7 +410,7 @@ namespace Framework.UI.editor
             //type
             //        SubGCamType type = (SubGCamType)info.ref_GetField_Inst_Public("type");
             SubGCamType type = info.type;
-            SubGCamType nType = (SubGCamType)EditorGUILayout.EnumPopup(new GUIContent("type"), type);
+            SubGCamType nType = (SubGCamType)EditorGUILayout.EnumPopup(new GUIContent("Type"), type);
             if (!nType.Equals(type))
             {
                 //            info.ref_SetField_Inst_Public("type", nType);
@@ -418,7 +418,7 @@ namespace Framework.UI.editor
             }
             //cullingMask
             int cullingMask = info.cullingMask;
-            int nCullingMask = EditorGUILayout.MaskField(new GUIContent("cullingMask"), cullingMask, GraphicsCamUtility.GetMaskDisplayOption());
+            int nCullingMask = EditorGUILayout.MaskField(new GUIContent("CullingMask"), cullingMask, GraphicsCamUtility.GetMaskDisplayOption());
 
             if (!nCullingMask.Equals(cullingMask))
             {

@@ -74,14 +74,14 @@ namespace Framework.NodeGraph
                             string guid = AssetDatabase.AssetPathToGUID(pathInfo.path);
                             abName = abName.Replace("{GUID}", guid);
                         }
-                        if (abNameKey.Contains("{AP}"))
+                        if (abNameKey.Contains("{AP}")) //??? 这个标识是不是没有意义??
                         {
                             string ap = pathInfo.dirPath.Replace("Assets/","");
                             abName = abName.Replace("{AP}", ap);
                         }
                         if (abNameKey.Contains("{RP}"))
                         {
-                            string rp = pathInfo.resDirPath.Replace("Resources/", "");
+                            string rp = EditorAssetInfo.AssetPathToResourcePath(pathInfo.dirPath);
                             abName = abName.Replace("{RP}", rp);
                         }
                         if (abNameKey.Contains("{N}"))

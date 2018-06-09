@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -9,29 +10,30 @@ namespace Framework.editor
     public class EditorAssetInfo
     {
 
+        private static string m_fullPathHeader;
+        private static string FullPathHeader
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(m_fullPathHeader))
+                {
+                    m_fullPathHeader = Application.dataPath.Replace("Assets", "");
+                }
+                return m_fullPathHeader;
+            }
+        }
+
         /// <summary>
         /// Assets路径转Resoures路径
         /// </summary>
         public static string AssetPathToResourcePath(string path)
         {
-            if (path.LastIndexOf('.') != -1)
-            {
-                path = path.Substring(0, path.LastIndexOf('.'));
-            }
-            return path.Replace("Assets/", "");
+            int index = path.LastIndexOf("resources/", StringComparison.OrdinalIgnoreCase); //忽略大小写
+            path = path.Substring(index.Equals(-1) ? 0 : index + 10);
+            int num = path.LastIndexOf('.');
+            if (num != -1) path = path.Substring(0, num);
+            return path;
         }
-
-        /// <summary>
-        /// Resoures路径转Assets路径
-        /// 
-        /// ** suffix形参 必须以 . 开头
-        /// 
-        /// </summary>
-        public static string ResourcePathToAssetPath(string path, string suffix)
-        {
-            return "Assets/" + path + suffix;
-        }
-
 
         /// <summary>
         /// 在Selection中获取EditorAssetInfo列表,包含选中的文件夹下的所有文件
@@ -87,8 +89,6 @@ namespace Framework.editor
             return null;
         }
 
-
-
         /// <summary>
         /// 获取输入路径之下的所有EditorAssetInfo
         /// </summary>
@@ -107,21 +107,21 @@ namespace Framework.editor
         /// <param name="searchPattern">搜索模式匹配的名称</param>
         /// <param name="loadAsset">是否自动加载Asset</param>
         /// <returns></returns>
-        public static List<EditorAssetInfo> FindEditorAssetInfoInPath(string fullPath,string searchPattern, bool loadAsset = false)
+        public static List<EditorAssetInfo> FindEditorAssetInfoInPath(string fullPath, string searchPattern, bool loadAsset = false)
         {
 
             if (!Directory.Exists(fullPath)) return null;
 
             List<EditorAssetInfo> list = new List<EditorAssetInfo>();
             string[] files = Directory.GetFiles(fullPath, searchPattern, SearchOption.AllDirectories);
-            if (files != null && files.Length > 0)
+            if (files.Length > 0)
             {
 
                 int i, len = files.Length;
                 for (i = 0; i < len; i++)
                 {
                     string filePath = files[i].Replace("\\", "/");
-                    string assetPath = filePath.Replace(Application.dataPath + "/", "Assets/");
+                    string assetPath = filePath.Replace(FullPathHeader, "");
                     if (loadAsset)
                     {
                         UnityEngine.Object asset = AssetDatabase.LoadAssetAtPath(assetPath, typeof(UnityEngine.Object));
@@ -137,9 +137,7 @@ namespace Framework.editor
                         list.Add(info);
                     }
                 }
-
                 return list;
-
             }
             return null;
         }
@@ -148,34 +146,14 @@ namespace Framework.editor
 
         public EditorAssetInfo(string assetPath)
         {
-            _path = assetPath;
-            _name = _path.Substring(_path.LastIndexOf('/') + 1);
-            if (_path.LastIndexOf('.') != -1)
-            {
-                _suffix = _path.Substring(_path.LastIndexOf('.')).ToLower();
-                if (_name.LastIndexOf('.') != -1)
-                {
-                    _name = _name.Substring(0, _name.LastIndexOf('.'));
-                }
-            }
-            else
-            {
-                _suffix = "";
-            }
-            if (_path.LastIndexOf('/') != -1)
-            {
-                _dirPath = _path.Substring(0, _path.LastIndexOf('/'));
-            }
-            else
-            {
-                _dirPath = "/";
-            }
+            _init(assetPath);
         }
 
         public EditorAssetInfo(UnityEngine.Object asset)
         {
             _asset = asset;
-            update();
+            if (_asset == null) return;
+            _init(AssetDatabase.GetAssetPath(_asset));
         }
 
         ~EditorAssetInfo()
@@ -183,30 +161,34 @@ namespace Framework.editor
             _asset = null;
         }
 
-        public void update()
+        public bool isInit { get; private set; }
+
+        private void _init(string inputPath)
         {
-
-            if (_asset == null) return;
-
-            //FBX路径(包含文件名和后缀)
-            _path = AssetDatabase.GetAssetPath(_asset);
-            _name = _asset.name;
-            if (_path.LastIndexOf('.') != -1)
+            path = inputPath;
+            name = path.Substring(path.LastIndexOf('/') + 1);
+            if (path.LastIndexOf('.') != -1)
             {
-                _suffix = _path.Substring(_path.LastIndexOf('.')).ToLower();
+                suffix = path.Substring(path.LastIndexOf('.')).ToLower();
+                if (name.LastIndexOf('.') != -1)
+                {
+                    name = name.Substring(0, name.LastIndexOf('.'));
+                }
             }
             else
             {
-                _suffix = "";
+                suffix = "";
             }
-            if (_path.LastIndexOf('/') != -1)
+            if (path.LastIndexOf('/') != -1)
             {
-                _dirPath = _path.Substring(0, _path.LastIndexOf('/'));
+                dirPath = path.Substring(0, path.LastIndexOf('/'));
             }
             else
             {
-                _dirPath = "/";
+                dirPath = "/";
             }
+
+            isInit = true;
         }
 
         public override bool Equals(object obj)
@@ -235,97 +217,56 @@ namespace Framework.editor
             get { return _asset; }
         }
 
-        private string _name;
+        /// <summary>
+        /// 文件路径(Assets格式,包含后缀名)
+        /// </summary>
+        public string path { get; private set; }
+
         /// <summary>
         /// 文件名(不包含后缀名)
         /// </summary>
-        public string name
-        {
-            get { return _name; }
-        }
-
-        private string _suffix;
+        public string name { get; private set; }
         /// <summary>
         /// 后缀名(以.开始)
         /// </summary>
-        public string suffix
-        {
-            get { return _suffix; }
-        }
-
-        private string _dirPath;
-        /// <summary>
-        /// 文件夹路径(以Assets开头)
-        /// </summary>
-        public string dirPath
-        {
-            get { return _dirPath; }
-        }
+        public string suffix { get; private set; }
 
         /// <summary>
-        /// 文件夹路径(以Resources开头)
+        ///所在文件夹的路径(Assets格式)
         /// </summary>
-        public string resDirPath {
-            get
-            {
-                if (_path.Contains("Assets/Resources/"))
-                {
-                    return _dirPath.Replace("Assets/", "");
-                }
-                return null;
-            }
-        }
-
-        private string _path;
-        /// <summary>
-        /// 以Assets开头的文件路径(包含后缀名)
-        /// </summary>
-        public string path
-        {
-            get { return _path; }
-        }
+        public string dirPath { get; private set; }
 
         /// <summary>
         /// 完整文件路径(包含全路径,文件名,后缀名)
         /// </summary>
-        public string FullPath
+        public string fullPath
         {
-            get { return Application.dataPath.Replace("Assets", "") + _path; }
+            get { return FullPathHeader + path; }
         }
 
         /// <summary>
-        /// 以Resources开头的文件路径(不包含后缀名)
-        /// </summary>
-        public string resPath
-        {
-            get
-            {
-                if (_path.Contains("Assets/Resources/"))
-                {
-                    return _dirPath.Replace("Assets/", "") + "/" + _name;
-                }
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// 文件所在文件夹名称(以Assets开头)
+        /// 文件所在文件夹名称(仅仅是文件夹名称)
         /// </summary>
         public string dirName
         {
             get
             {
-                return _dirPath.Substring(_dirPath.LastIndexOf('/') + 1);
-                ;
+                return dirPath.Substring(dirPath.LastIndexOf('/') + 1);
             }
         }
 
         /// <summary>
-        /// 文件所在上级文件夹路径(已Assets开头)
+        /// 文件所在上级文件夹路径(Assets格式)
         /// </summary>
         public string parentDirPath
         {
-            get { return _dirPath.Substring(0, _dirPath.LastIndexOf('/')); }
+            get { return dirPath.Substring(0, dirPath.LastIndexOf('/')); }
+        }
+
+        [Obsolete("统一字段首字都为小写,已由fullPath替代")]
+        public string FullPath
+        {
+            get { return fullPath; }
         }
 
     }

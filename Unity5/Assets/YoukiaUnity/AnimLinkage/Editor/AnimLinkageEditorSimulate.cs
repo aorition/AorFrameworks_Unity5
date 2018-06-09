@@ -50,6 +50,8 @@ public class AnimLinkageEditorSimulate
 
     }
 
+    private float _curFPS;
+
     private bool _TargetsChanged = false;
     public void AddSimulateObj(AnimLinkage obj)
     {
@@ -137,7 +139,7 @@ public class AnimLinkageEditorSimulate
         Type t = window.GetType();
         if (t.Name == "AnimationWindow")
         {
-            time = _GetAnimWindowInnerTime(t, window);
+            time = _GetAnimWindowInnerTime(t, window, out _curFPS);
         }
         else
         {
@@ -165,18 +167,22 @@ public class AnimLinkageEditorSimulate
     /// <summary>
     /// 获取 编辑器Animation窗口中红线代表的时间（秒）
     /// </summary>
-    private float _GetAnimWindowInnerTime(Type windowType, EditorWindow window)
+    private float _GetAnimWindowInnerTime(Type windowType, EditorWindow window, out float fps)
     {
         float time = -1;
         FieldInfo info = windowType.GetField("m_AnimEditor", BindingFlags.Instance | BindingFlags.NonPublic);
         Type t2 = info.FieldType;
         FieldInfo state = t2.GetField("m_State", BindingFlags.Instance | BindingFlags.NonPublic);
+        object stateObject = state.GetValue(info.GetValue(window));
+
+        FieldInfo fpsFieldInfo = state.FieldType.GetField("m_FrameRate", BindingFlags.GetField | BindingFlags.NonPublic | BindingFlags.Instance);
+        fps = (float) fpsFieldInfo.GetValue(stateObject);
 
         //  MethodInfo[] ms = state.FieldType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 #if UNITY_5_6_OR_NEWER
 
         PropertyInfo timeInfo = state.FieldType.GetProperty("currentTime", BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance);
-        time = (float)timeInfo.GetValue(state.GetValue(info.GetValue(window)), null);
+        time = (float)timeInfo.GetValue(stateObject, null);
 
 #elif UNITY_5_4_OR_NEWER
             FieldInfo currentTime = state.FieldType.GetField("m_CurrentTime", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -267,26 +273,29 @@ public class AnimLinkageEditorSimulate
 
         }
 
-
         //粒子解算
-        if (tran.GetComponent<ParticleSystem>() != null)
-            tran.GetComponent<ParticleSystem>().Simulate(time - root.GetOffsetTime(time, tran.gameObject.GetHashCode()), false, true);
+        ParticleSystem ps = tran.GetComponent<ParticleSystem>();
+        if (ps)
+        {
+            float t = time - root.GetOffsetTime(time, tran.gameObject.GetHashCode());
+            float delta = 1/_curFPS;
+            ParticleSimulate(ps, delta, t);
+        }
 
 
         //Animation解算
-        //Unity5.6+ 已不在支持Animation
-        //        Animation anim = tran.gameObject.GetComponent<Animation>();
-        //        if (anim != null)
-        //        {
-        //            if (!animDic.ContainsKey(anim.GetHashCode()))
-        //            {
-        //                simAnimData data = new simAnimData(anim);
-        //
-        //                animDic.Add(anim.GetHashCode(), data);
-        //            }
-        //
-        //            animDic[anim.GetHashCode()].SimulateAnimation(time - root.GetOffsetTime(time, tran.gameObject.GetHashCode()));
-        //        }
+        Animation anim = tran.gameObject.GetComponent<Animation>();
+        if (anim != null)
+        {
+            if (!animDic.ContainsKey(anim.GetHashCode()))
+            {
+                simAnimData data = new simAnimData(anim);
+        
+                animDic.Add(anim.GetHashCode(), data);
+            }
+        
+            animDic[anim.GetHashCode()].SimulateAnimation(time - root.GetOffsetTime(time, tran.gameObject.GetHashCode()));
+        }
 
         //可解算脚本处理
         List<ISimulateAble> isbs = tran.GetInterfaceListInChlidren<ISimulateAble>();
@@ -312,6 +321,17 @@ public class AnimLinkageEditorSimulate
 
     }
 
+    private void ParticleSimulate(ParticleSystem ps, float deltaTime, float time)
+    {
+        //结算粒子不能使用自动生成随机种子
+        if (ps.useAutoRandomSeed) ps.useAutoRandomSeed = false;
+        ps.Simulate(0, false, true);
+        for (float i = 0.0f; i < time; i += deltaTime)
+        {
+            ps.Simulate(deltaTime, false, false);
+        }
+    }
+
     /// <summary>
     /// 剪辑动画的特殊处理类
     /// </summary>
@@ -320,15 +340,15 @@ public class AnimLinkageEditorSimulate
         public AnimationClip oldAnimClip;
         public float AnimStartTime;
         public string oldAnimName;
-        //        public Animation anim;
+        public Animation anim;
         public Animator animtor;
         //        public CinemaCharacter Character;
         public IAnimLinkageCharacter Character;
 
-        //        public simAnimData(Animation an)
-        //        {
-        //            anim = an;
-        //        }
+        public simAnimData(Animation an)
+        {
+            anim = an;
+        }
         public simAnimData(Animator an)
         {
             animtor = an;
@@ -405,95 +425,98 @@ public class AnimLinkageEditorSimulate
                 if (time < AnimStartTime)
                     AnimStartTime = 0;
 
-                SampleAnimation(clip, animtor.gameObject, Mathf.Max(0, time - AnimStartTime), clip.length, clip.isLooping);
+                SampleAnimation(clip, animtor.gameObject, Mathf.Max(0, time - AnimStartTime), clip.length,
+                    clip.isLooping);
                 //clip.SampleAnimation(animtor.gameObject, Mathf.Max(0, time - AnimStartTime));
 
             }
-
-            //不再支持 Animation 类型动画
-            //        public void SimulateAnimation(float time)
-            //        {
-            //
-            //            if (Character == null)
-            //                Character = anim.gameObject.GetComponentInParent<CinemaCharacter>();
-            //            
-            //            if (Character != null)
-            //            {
-            //                // EditorGUIUtility.PingObject(character);
-            ////                animDic = CinemaCharacterEditor.animationDic;
-            ////                if (!animDic.Values.Contains((int) Character.BehaviorID))
-            ////                    return;
-            //                
-            //                string animName = Character.BehaviorIDToBehaviorName();
-            //
-            //                if (string.IsNullOrEmpty(oldAnimName))
-            //                {
-            //                    oldAnimName = animName;
-            //                }
-            //                else
-            //                {
-            //                    if (oldAnimName != animName)
-            //                    {
-            //                        AnimStartTime = time;
-            //                        oldAnimName = animName;
-            //                        //Debug.Log("change " + animName);
-            //                    }
-            //                }
-            //
-            //                AnimationClip clip = anim.GetClip(animName);
-            //                if (clip == null)
-            //                {
-            //                    //Debug.Log("没有找到动画" + animName);
-            //                    return;
-            //                }
-            //
-            //                if (time < AnimStartTime)
-            //                    AnimStartTime = 0;
-            //
-            //                ClipSampleAnimation(clip, anim.gameObject, time - AnimStartTime);
-            //
-            //            }
-            //            else
-            //            {
-            //                
-            //                AnimationClip animClip = anim.clip;
-            //
-            //                if (oldAnimClip == null)
-            //                {
-            //                    oldAnimClip = animClip;
-            //                }
-            //                else
-            //                {
-            //                    if (oldAnimClip != animClip)
-            //                    {
-            //                        AnimStartTime = time;
-            //                        oldAnimClip = animClip;
-            //                    }
-            //                }
-            //
-            //                if (animClip != null)
-            //                {
-            //
-            ////                animClip.SampleAnimation(anim.gameObject, Mathf.Max(0, time - AnimStartTime));
-            //                    ClipSampleAnimation(animClip, anim.gameObject, time - AnimStartTime);
-            //                }
-            //
-            //            }
-            //        }
-
-            //        private void ClipSampleAnimation(AnimationClip clip, GameObject target, float time)
-            //        {
-            //            if (clip.isLooping)
-            //            {
-            //                clip.SampleAnimation(target, Mathf.Max(0, time % clip.length));
-            //            }
-            //            else
-            //            {
-            //                clip.SampleAnimation(target, Mathf.Max(0, time));
-            //            }
-            //        }
         }
 
+        //Animation 类型动画
+        public void SimulateAnimation(float time)
+        {
+
+            //                if (Character == null)
+            //                    Character = anim.gameObject.GetComponentInParent<CinemaCharacter>();
+
+            if (Character == null)
+                Character = anim.gameObject.FindInterfaceInParent<IAnimLinkageCharacter>();
+
+            if (Character != null)
+            {
+            // EditorGUIUtility.PingObject(character);
+            //                animDic = CinemaCharacterEditor.animationDic;
+            //                if (!animDic.Values.Contains((int) Character.BehaviorID))
+            //                    return;
+
+            //                    string animName = Character.BehaviorIDToBehaviorName();
+            string animName = Character.CurrentbehavName;
+            if (string.IsNullOrEmpty(oldAnimName))
+                {
+                    oldAnimName = animName;
+                }
+                else
+                {
+                    if (oldAnimName != animName)
+                    {
+                        AnimStartTime = time;
+                        oldAnimName = animName;
+                        //Debug.Log("change " + animName);
+                    }
+                }
+            
+                AnimationClip clip = anim.GetClip(animName);
+                if (clip == null)
+                {
+                    //Debug.Log("没有找到动画" + animName);
+                    return;
+                }
+            
+                if (time < AnimStartTime)
+                    AnimStartTime = 0;
+            
+                ClipSampleAnimation(clip, anim.gameObject, time - AnimStartTime);
+            
+            }
+            else
+            {
+                            
+                AnimationClip animClip = anim.clip;
+            
+                if (oldAnimClip == null)
+                {
+                    oldAnimClip = animClip;
+                }
+                else
+                {
+                    if (oldAnimClip != animClip)
+                    {
+                        AnimStartTime = time;
+                        oldAnimClip = animClip;
+                    }
+                }
+            
+                if (animClip != null)
+                {
+//                animClip.SampleAnimation(anim.gameObject, Mathf.Max(0, time - AnimStartTime));
+                    ClipSampleAnimation(animClip, anim.gameObject, time - AnimStartTime);
+                }
+            
+            }
+        }
+
+        private void ClipSampleAnimation(AnimationClip clip, GameObject target, float time)
+        {
+            if (clip.isLooping)
+            {
+                clip.SampleAnimation(target, Mathf.Max(0, time % clip.length));
+            }
+            else
+            {
+                clip.SampleAnimation(target, Mathf.Max(0, time));
+            }
+        }
     }
+
 }
 

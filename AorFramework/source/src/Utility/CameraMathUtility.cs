@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using AorBaseUtility;
 using UnityEngine;
 
-namespace Framework
+namespace Framework.Utility
 {
     /// <summary>
     /// 封装一些关于相机常用的方法

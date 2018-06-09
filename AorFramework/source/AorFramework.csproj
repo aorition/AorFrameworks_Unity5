@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Abstract\ManagerBase.cs" />
     <Compile Include="src\AssetsNodeGraph\CustomScriptDescribeAttribute.cs" />
     <Compile Include="src\AssetsNodeGraph\Interfaces\IGameObjectProcess.cs" />
     <Compile Include="src\AssetsNodeGraph\Interfaces\IAssetProcess.cs" />
@@ -76,36 +77,43 @@
     <Compile Include="src\GameBaseInterfaces\IGameAnimObject.cs" />
     <Compile Include="src\GameBaseInterfaces\IGameObject.cs" />
     <Compile Include="src\Core\IManager.cs" />
-    <Compile Include="src\Core\PrefabLightmapData.cs" />
+    <Compile Include="src\Graphics\Lightmap\Scripts\LightmapManager.cs" />
+    <Compile Include="src\Graphics\Lightmap\Scripts\PrefabLightmapData.cs" />
     <Compile Include="src\Core\SetPropertyAttribute.cs" />
-    <Compile Include="src\Graphics\Components\FLPostEffect\FLPostEffectController.cs" />
-    <Compile Include="src\Graphics\Components\RenderTextureCombine\RenderTextureCaptureCamera.cs" />
-    <Compile Include="src\Graphics\Components\RenderTextureCombine\Scripts\RenderTextureCombine.cs" />
-    <Compile Include="src\Graphics\Components\RTPostEffect\RTPostEffectBase.cs" />
+    <Compile Include="src\Graphics\BillboardSystem\Scripts\BillBoardManager.cs" />
+    <Compile Include="src\Graphics\BillboardSystem\Scripts\BillBoardBase.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\FLPostEffect\FLPostEffectController.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\RenderTextureCaptureCamera.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Scripts\RenderTextureCombine.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\RTPostEffect\RTPostEffectBase.cs" />
     <Compile Include="src\Graphics\CustomLightSystem\Scripts\CustomLightInfo.cs" />
     <Compile Include="src\Graphics\CustomLightSystem\Scripts\CustomLightManager.cs" />
     <Compile Include="src\Graphics\CustomLightSystem\Scripts\CustomLightSupports.cs" />
-    <Compile Include="src\Graphics\FastShadowProjector\Source\FSPConfigAsset.cs" />
-    <Compile Include="src\Graphics\FastShadowProjector\Source\FSPStaticMeshHolder.cs" />
-    <Compile Include="src\Graphics\FastShadowProjector\Source\GlobalProjectorLightCamera.cs" />
-    <Compile Include="src\Graphics\FastShadowProjector\Source\GlobalProjectorManager.cs" />
-    <Compile Include="src\Graphics\FastShadowProjector\Source\GlobalProjectorManagerLuncher.cs" />
-    <Compile Include="src\Graphics\FastShadowProjector\Source\IProjector.cs" />
-    <Compile Include="src\Graphics\FastShadowProjector\Source\ModelShadowProjector.cs" />
-    <Compile Include="src\Graphics\FastShadowProjector\Source\ProjectorEyeTexture.cs" />
-    <Compile Include="src\Graphics\FastShadowProjector\Source\ProjectorShadowDummy.cs" />
-    <Compile Include="src\Graphics\FastShadowProjector\Source\ShadowProjector.cs" />
-    <Compile Include="src\Graphics\FastShadowProjector\Source\ShadowReceiver.cs" />
-    <Compile Include="src\Graphics\FastShadowProjector\Source\ShadowTrigger.cs" />
-    <Compile Include="src\Graphics\GMEffect\GMEffect.cs" />
-    <Compile Include="src\Graphics\Interfaces\IFLPostEffectComponent.cs" />
-    <Compile Include="src\Graphics\Interfaces\IRTPostEffectComponent.cs" />
-    <Compile Include="src\Graphics\Scripts\GraphicBase.cs" />
-    <Compile Include="src\Graphics\Scripts\GraphicsManager.cs" />
-    <Compile Include="src\Graphics\Scripts\GraphicsManagerLuncher.cs" />
-    <Compile Include="src\Graphics\Scripts\Models\GraphicsSettingAsset.cs" />
-    <Compile Include="src\Graphics\Scripts\Utility\GraphicsCamUtility.cs" />
-    <Compile Include="src\Graphics\Scripts\Utility\RenderTextureUtility.cs" />
+    <Compile Include="src\Graphics\FastShadowProjector\Scripts\FSPConfigAsset.cs" />
+    <Compile Include="src\Graphics\FastShadowProjector\Scripts\FSPStaticMeshHolder.cs" />
+    <Compile Include="src\Graphics\FastShadowProjector\Scripts\GlobalProjectorLightCamera.cs" />
+    <Compile Include="src\Graphics\FastShadowProjector\Scripts\GlobalProjectorManager.cs" />
+    <Compile Include="src\Graphics\FastShadowProjector\Scripts\GlobalProjectorManagerLuncher.cs" />
+    <Compile Include="src\Graphics\FastShadowProjector\Scripts\IProjector.cs" />
+    <Compile Include="src\Graphics\FastShadowProjector\Scripts\ModelShadowProjector.cs" />
+    <Compile Include="src\Graphics\FastShadowProjector\Scripts\ProjectorEyeTexture.cs" />
+    <Compile Include="src\Graphics\FastShadowProjector\Scripts\ProjectorShadowDummy.cs" />
+    <Compile Include="src\Graphics\FastShadowProjector\Scripts\ShadowProjector.cs" />
+    <Compile Include="src\Graphics\FastShadowProjector\Scripts\ShadowReceiver.cs" />
+    <Compile Include="src\Graphics\FastShadowProjector\Scripts\ShadowTrigger.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\FLPostEffect\FLBloomEffect.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\FLPostEffect\FLEffectBase.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\FLPostEffect\FLInversionEffect.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\FLPostEffect\FLRadialBlurEffect.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\GMEffect\GMEffect.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Interfaces\IFLPostEffectComponent.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Interfaces\IRTPostEffectComponent.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\GraphicBase.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\GraphicsManager.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\GraphicsManagerLuncher.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Models\GraphicsSettingAsset.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Utility\GraphicsCamUtility.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Utility\RenderTextureUtility.cs" />
     <Compile Include="src\Graphics\VisualCamera\Scripts\Components\BasicNoisePerlin.cs" />
     <Compile Include="src\Graphics\VisualCamera\Scripts\Components\Composer.cs" />
     <Compile Include="src\Graphics\VisualCamera\Scripts\Components\FramingTransposer.cs" />
@@ -143,6 +151,7 @@
     <Compile Include="src\Tools\EditorSupport\TansformPlus\TansformShortcut.cs" />
     <Compile Include="src\Tools\FPS.cs" />
     <Compile Include="src\Utility\CameraMathUtility.cs" />
+    <Compile Include="src\Utility\TextureScale.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AorBaseExtents\AorBaseExtents.csproj">
@@ -165,9 +174,9 @@
     <Folder Include="src\Misc\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\Graphics\Components\RenderTextureCombine\Shaders\PEOverride.shader" />
-    <None Include="src\Graphics\Components\RenderTextureCombine\Shaders\PEOverrideAdd.shader" />
-    <None Include="src\Graphics\Components\RenderTextureCombine\Shaders\PEOverrideMultiply.shader" />
+    <None Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Shaders\PEOverride.shader" />
+    <None Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Shaders\PEOverrideAdd.shader" />
+    <None Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Shaders\PEOverrideMultiply.shader" />
     <None Include="src\Graphics\FastShadowProjector\Documentation.pdf" />
     <None Include="src\Graphics\FastShadowProjector\Materials\BlobLight.mat" />
     <None Include="src\Graphics\FastShadowProjector\Materials\BlobLightTex.psd" />
@@ -186,10 +195,10 @@
     <None Include="src\Graphics\FastShadowProjector\Resources\Terrain\FSP_TerrainFirstPassMaterial.mat" />
     <None Include="src\Graphics\FastShadowProjector\Shaders\BlobShadowAddShader.shader" />
     <None Include="src\Graphics\FastShadowProjector\Shaders\BlobShadowMultiplyShader.shader" />
-    <None Include="src\Graphics\Resources\data\DemoPPAssetData.asset" />
-    <None Include="src\Graphics\Resources\data\GraphicsSetting.asset" />
-    <None Include="src\Graphics\Resources\data\RoleGlowSetting.asset" />
-    <None Include="src\Graphics\Resources\data\RoleShadowSetting.asset" />
+    <None Include="src\Graphics\GraphicsSystem\Resources\data\DemoPPAssetData.asset" />
+    <None Include="src\Graphics\GraphicsSystem\Resources\data\GraphicsSetting.asset" />
+    <None Include="src\Graphics\GraphicsSystem\Resources\data\RoleGlowSetting.asset" />
+    <None Include="src\Graphics\GraphicsSystem\Resources\data\RoleShadowSetting.asset" />
     <None Include="src\Graphics\VisualCamera\Presets\Noise\Handheld_normal_extreme.asset" />
     <None Include="src\Graphics\VisualCamera\Presets\Noise\Handheld_normal_mild.asset" />
     <None Include="src\Graphics\VisualCamera\Presets\Noise\Handheld_normal_strong.asset" />

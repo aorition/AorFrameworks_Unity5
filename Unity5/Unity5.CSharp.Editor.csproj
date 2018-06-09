@@ -16,7 +16,7 @@
     <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
-    <UnityVersion>5.6.4p4</UnityVersion>
+    <UnityVersion>5.6.5f1</UnityVersion>
     <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
@@ -27,7 +27,7 @@
     <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_4;UNITY_5_6;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_ANDROID;ENABLE_SUBSTANCE;UNITY_ANDROID_API;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE;TMP_PRESENT;CROSS_PLATFORM_INPUT;MOBILE_INPUT;UNITY_HAS_GOOGLEVR</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_5;UNITY_5_6;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_ANDROID;ENABLE_SUBSTANCE;UNITY_ANDROID_API;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE;TMP_PRESENT;CROSS_PLATFORM_INPUT;MOBILE_INPUT;UNITY_HAS_GOOGLEVR</DefineConstants>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -37,7 +37,7 @@
     <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_4;UNITY_5_6;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_ANDROID;ENABLE_SUBSTANCE;UNITY_ANDROID_API;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE;TMP_PRESENT;CROSS_PLATFORM_INPUT;MOBILE_INPUT;UNITY_HAS_GOOGLEVR</DefineConstants>
+    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_5;UNITY_5_6;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_ANDROID;ENABLE_SUBSTANCE;UNITY_ANDROID_API;ENABLE_EGL;ENABLE_NETWORK;ENABLE_RUNTIME_GI;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;PLATFORM_SUPPORTS_ADS_ID;UNITY_CAN_SHOW_SPLASH_SCREEN;ENABLE_VR;ENABLE_UNITYADS_RUNTIME;UNITY_UNITYADS_API;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE;TMP_PRESENT;CROSS_PLATFORM_INPUT;MOBILE_INPUT;UNITY_HAS_GOOGLEVR</DefineConstants>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
@@ -109,20 +109,11 @@
     <Reference Include="UnityEditor.Android.Extensions">
       <HintPath>Library\UnityAssemblies\UnityEditor.Android.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>Library\UnityAssemblies\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Common">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
     <Reference Include="AorBaseExtents">
       <HintPath>Assets\Plugins\AorBaseExtents.dll</HintPath>
@@ -177,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\CinemaClipGizmoDrawer.cs" />
+    <Compile Include="Assets\Editor\TestCode\RT2TexTestCode.cs" />
     <Compile Include="Assets\Scripts\Modules\Graphics\Editor\DemoEnvironmentSettingEditor.cs" />
     <Compile Include="Assets\Scripts\Modules\Graphics\Editor\GraphicsManagerEditor.cs" />
     <Compile Include="Assets\Scripts\Modules\Graphics\Editor\MaterialSnapShotWindow.cs" />
@@ -347,114 +339,6 @@
     <None Include="Assets\Resources\Shader\Custom\NGUI\NGUI-UVColor##.shader" />
     <None Include="Assets\Resources\Shader\Custom\NGUI\NGUI-UVMask##.shader" />
     <None Include="Assets\Resources\Shader\Custom\NGUI\NGUI-UVMask-Clip.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 1000_-1_True_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 1000_0_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-10_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-10_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-10_True_2_2_1_0_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-1_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-1_False_2_0_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-1_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-1_True_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-1_True_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_-50_True_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_False_2_0_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_False_2_2_1_0_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_True_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_True_2_2_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_True_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_0_True_2_2_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_10_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_15_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_25_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_5_False_2_2_1_0_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 2000_5_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-10_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-10_False_2_2_1_0_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-10_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-150_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-15_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-1_False_2_0_1_0_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-1_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-1_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-1_True_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-1_True_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-20_False_2_1_1_0_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-20_False_2_2_1_0_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-50_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_-50_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_0_1_1.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_0_2_0_1_1.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_0_2_0_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_0_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_1_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_2_1_0_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_2_1_1_1_1.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_2_2_0_1_1.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_2_2_0_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_2_5_10_5_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_2_2_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_6_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_6_0_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_6_2_1_1_1_1.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_6_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_False_6_2_5_1_5_1.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_True_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_True_2_0_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_True_2_2_1_0_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_True_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_True_2_2_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_0_True_6_0_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_100_False_2_2_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_10_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_10_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_1_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_1_True_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_200_True_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_2_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_50_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 3000_50_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 4000_-1_True_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 4000_0_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 4000_0_False_2_0_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 4000_0_False_6_0_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 4000_0_False_6_2_1_1_1_1.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 4000_0_True_6_2_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Color 4000_200_False_6_0_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Dissolve - AlphaBlend 2000_0_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Dissolve - AlphaBlend 4000_1_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - DissolveParticle - AlphaClip 2000_0_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - DissolveParticle - AlphaClip 2000_0_True_2_2_1_0_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - DissolveParticle - AlphaClip 3000_0_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - DissolveParticle - AlphaClip 3000_0_False_2_0_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - DissolveParticle - AlphaClip 3000_0_False_6_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - DissolveParticle - AlphaClip 3000_0_False_6_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - FallOff 2000_0_True_2_2_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - FallOff 2000_0_True_2_2_5_1_5_1.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - FallOff 3000_0_False_2_0_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Grow 2000_0_False_2_0_1_0_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Grow 2000_0_True_2_2_1_1_1_1.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Grow 2000_0_True_2_2_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Grow 3000_-1_False_2_2_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Grow 3000_0_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Grow 3000_0_False_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Grow 3000_0_False_2_2_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Grow 3000_0_True_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Holographic 2000_0_True_2_2_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Holographic 3000_0_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - Object 2000_0_True_2_0_1_0_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - TextureClip 1000_0_True_2_2_1_0_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - TextureNoise 2000_0_False_2_0_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - TextureNoise 2000_0_True_2_2_1_0_1_0.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - TextureNoise 2000_0_True_2_2_1_1_1_1.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - TextureNoise 3000_0_False_2_0_5_10_1_7.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - TextureNoise 3000_0_False_2_0_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - TextureNoise 3000_0_True_2_2_5_1_1_10.shader" />
-    <None Include="Assets\Resources\Shader\Custom\NoLight\AutoSave_Unlit - shu.shader" />
     <None Include="Assets\Resources\Shader\Custom\NoLight\Unilit - GrowFallOff.shader" />
     <None Include="Assets\Resources\Shader\Custom\NoLight\Unlit - 3CombieTexture - BlendMap.shader" />
     <None Include="Assets\Resources\Shader\Custom\NoLight\Unlit - 3CombieTexture.shader" />
@@ -505,6 +389,7 @@
     <None Include="Assets\Resources\Shader\Custom\Other\lightMapCover.shader" />
     <None Include="Assets\Resources\Shader\Custom\Other\lightMapCoverHight.shader" />
     <None Include="Assets\Resources\Shader\Custom\Other\lightMapCoverLow.shader" />
+    <None Include="Assets\Resources\Shader\Custom\PostEffect\BloomDrawShader.shader" />
     <None Include="Assets\Resources\Shader\Custom\PostEffect\DrawShader.shader" />
     <None Include="Assets\Resources\Shader\Custom\PostEffect\FastBloom.shader" />
     <None Include="Assets\Resources\Shader\Custom\PostEffect\GaussBlur.shader" />
@@ -550,7 +435,12 @@
     <None Include="Assets\Resources\Shader\Custom\sprite2D\sprite2DAdd.shader" />
     <None Include="Assets\Resources\Shader\Custom\sprite2D\sprite2DBase Fog.shader" />
     <None Include="Assets\Resources\Shader\Custom\sprite2D\sprite2DBase.shader" />
-    <None Include="Assets\Resources\Shader\Framebase\Unlit\Color.shader" />
+    <None Include="Assets\Resources\Shader\Framebasic\Billbord\Billbord - Mesh.shader" />
+    <None Include="Assets\Resources\Shader\Framebasic\Billbord\Billbord - QuadSprite.shader" />
+    <None Include="Assets\Resources\Shader\Framebasic\Billbord\Billbord - Sprites.shader" />
+    <None Include="Assets\Resources\Shader\Framebasic\Billbord\Default-Billboard.shader" />
+    <None Include="Assets\Resources\Shader\Framebasic\Billbord\YKSprite.shader" />
+    <None Include="Assets\Resources\Shader\Framebasic\Unlit\Color.shader" />
     <None Include="Assets\Resources\Shader\Test\Cel Shader.shader" />
     <None Include="Assets\Resources\config\RoleViewConfig.txt" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />

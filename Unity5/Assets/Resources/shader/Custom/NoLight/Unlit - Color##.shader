@@ -19,12 +19,13 @@ _Lighting ("Lighting",  float) = 1
 
 [HideInInspector]_CutOut("CutOut", float) = 0.1
 
-[Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 4
-[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("Src Blend Mode", Float) = 5
-[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("Dst Blend Mode", Float) = 10
-[Enum(UnityEngine.Rendering.BlendMode)] _SrcAlphaBlend("Src Alpha Blend Mode", Float) = 1
-[Enum(UnityEngine.Rendering.BlendMode)] _DstAlphaBlend("Dst Alpha Blend Mode", Float) = 10
-[Enum(UnityEngine.Rendering.CullMode)] _Cull("Cull Mode", Float) = 2
+[Enum(Off, 1, On, 2)] _zWrite("ZWrite", Float) = 1
+[Enum(UnityEngine.Rendering.CompareFunction)] _zTest("ZTest", Float) = 4
+[Enum(UnityEngine.Rendering.BlendMode)] _srcBlend("Src Blend Mode", Float) = 5
+[Enum(UnityEngine.Rendering.BlendMode)] _dstBlend("Dst Blend Mode", Float) = 10
+[Enum(UnityEngine.Rendering.BlendMode)] _srcAlphaBlend("Src Alpha Blend Mode", Float) = 1
+[Enum(UnityEngine.Rendering.BlendMode)] _dstAlphaBlend("Dst Alpha Blend Mode", Float) = 10
+[Enum(UnityEngine.Rendering.CullMode)] _cull("Cull Mode", Float) = 2
 }
 
 
@@ -38,10 +39,11 @@ _Lighting ("Lighting",  float) = 1
     {
 
 
-	Blend[_SrcBlend][_DstBlend],[_SrcAlphaBlend][_DstAlphaBlend]
-	ZWrite Off
-	ZTest[_ZTest]
-	Cull[_Cull]
+			//面板化
+			Blend[_srcBlend][_dstBlend],[_srcAlphaBlend][_dstAlphaBlend]
+			ZWrite[_zWrite]
+			ZTest[_zTest]
+			Cull[_cull]
 
             CGPROGRAM
             #pragma vertex vert
