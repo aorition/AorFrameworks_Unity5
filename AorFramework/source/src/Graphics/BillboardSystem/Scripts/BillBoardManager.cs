@@ -11,7 +11,7 @@ namespace Framework.Graphic
     ///     ----- 尚未解决的问题 ::
     /// 
     ///         **  目前深度排序问题靠材质写深度来实现. 
-    ///             而使用BillBoardBase.Depth属性来模拟的深度排序只能解决一个SpriteEntity内部的排序,多个SpriteEntity可能为造成排序混乱.
+    ///             而使用BillBoardBase.Depth属性来模拟的深度排序只能解决一个SpriteEntity内部的排序,多个SpriteEntity可能为造成排序混乱.(已解决)
     /// 
     /// 
     /// </summary>
