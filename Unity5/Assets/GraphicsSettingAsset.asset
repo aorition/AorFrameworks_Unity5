@@ -11,22 +11,25 @@ MonoBehaviour:
   m_Script: {fileID: 1393933203, guid: ffb094aeb063c324d8b5c7f2fad4d38c, type: 3}
   m_Name: GraphicsSettingAsset
   m_EditorClassIdentifier: 
+  _status:
+    _isInit: 1
+  _innerJsonValue: '{"UseFixedUpdate":"False","AllowVCamParaCover":"True","MainCamDesInfo":{"init":"True","name":"MainCamera","type":"MainCamera","cullingMask":-1,"depth":0,"lensSetting":{"init":"True","ClearFlags":"Skybox","BackgroundColor":{"r":0,"g":0,"b":1,"a":1},"isOrthographicCamera":"False","OrthographicSize":5,"FieldOfView":60,"NearClipPlane":0.3,"FarClipPlane":1000,"RenderingPath":"UsePlayerSettings","UseOcclusionCulling":"True","AllowHDR":"True","AllowMSAA":"True"}},"SubCamGDesInfos":[{"init":"True","name":"FinialCamera","type":"FinalOutput","cullingMask":0,"depth":50,"lensSetting":{"init":"False","ClearFlags":"0","BackgroundColor":{"r":0,"g":0,"b":0,"a":0},"isOrthographicCamera":"False","OrthographicSize":0,"FieldOfView":0,"NearClipPlane":0,"FarClipPlane":0,"RenderingPath":"VertexLit","UseOcclusionCulling":"False","AllowHDR":"False","AllowMSAA":"False"}}],"_status":{"_isInit":"True"},"_innerJsonValue":""}'
   UseFixedUpdate: 0
   AllowVCamParaCover: 1
   MainCamDesInfo:
     init: 1
     name: MainCamera
     type: 1
-    cullingMask: 1
+    cullingMask: -1
     depth: 0
     lensSetting:
       init: 1
       ClearFlags: 1
-      BackgroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+      BackgroundColor: {r: 0, g: 0, b: 1, a: 1}
       isOrthographicCamera: 0
       OrthographicSize: 5
       FieldOfView: 60
-      NearClipPlane: 1
+      NearClipPlane: 0.3
       FarClipPlane: 1000
       RenderingPath: -1
       UseOcclusionCulling: 1
@@ -34,7 +37,7 @@ MonoBehaviour:
       AllowMSAA: 1
   SubCamGDesInfos:
   - init: 1
-    name: final
+    name: FinialCamera
     type: 3
     cullingMask: 0
     depth: 50

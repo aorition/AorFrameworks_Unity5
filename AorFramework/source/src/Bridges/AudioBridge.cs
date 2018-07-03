@@ -10,59 +10,32 @@ namespace Framework
 
         #region Play
 
-        public static Action<string> CustomPlay;
-        public static Action<string, object[]> CustomPlayWithParams;
-
-        public static void Play(string name)
-        {
-
-            if (CustomPlay != null)
-            {
-                CustomPlay(name);
-                return;
-            }
-
-            //default:
-        }
+        public static Action<string, object[]> PlayHook;
 
         public static void Play(string name, params object[] parms)
         {
 
-            if (CustomPlayWithParams != null)
+            if (PlayHook != null)
             {
-                CustomPlayWithParams(name, parms);
+                PlayHook(name, parms);
                 return;
             }
 
             //default:
+
         }
 
         #endregion
 
         #region PlayClip
 
-        public static Action<AudioClip> CustomPlayClip;
-        public static Action<AudioClip, object[]> CustomPlayClipWithParams;
-
-        public static void PlayClip(AudioClip clip)
-        {
-
-            if (CustomPlayClip != null)
-            {
-                CustomPlayClip(clip);
-                return;
-            }
-
-            //default:
-            // do nothing
-        }
+        public static Action<AudioClip, object[]> PlayClipHook;
 
         public static void PlayClip(AudioClip clip, params object[] parms)
         {
-
-            if (CustomPlayClipWithParams != null)
+            if (PlayClipHook != null)
             {
-                CustomPlayClipWithParams(clip, parms);
+                PlayClipHook(clip, parms);
                 return;
             }
 

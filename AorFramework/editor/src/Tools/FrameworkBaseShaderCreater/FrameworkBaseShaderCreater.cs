@@ -4,7 +4,7 @@ using AorBaseUtility;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.editor.tools
+namespace Framework.Editor.tools
 {
     
     public class FrameworkBaseShaderCreater

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
-using Framework.NodeGraph.Tool;
 using Framework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
 namespace Framework.NodeGraph
 {
-    [NodeToolItem("AssetBundleLabel#<18>",
+    [NodeToolItem("#<abLabelSetter>",
         "Framework.NodeGraph",
         "AssetBundleTagSetterData|AssetBundleTagSetterController|AssetBundleTagSetterGUIController",
         "AssetBundleTools")]
@@ -19,7 +18,7 @@ namespace Framework.NodeGraph
 
         public override string GetNodeLabel()
         {
-            return "AssetBundleLabel" + AssetNodeGraphLagDefind.GetLabelDefine(18);
+            return NodeGraphLagDefind.Get("abLabelSetter");
         }
 
         private Vector2 _MinSizeDefind = new Vector2(200, 120);
@@ -120,8 +119,8 @@ namespace Framework.NodeGraph
         {
             if (_ConnectionPointGUIList == null)
             {
-                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(string[]).Name, "input", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(7), new Vector2(100,60),  ConnectionPointInoutType.MutiInput);
-                ConnectionPointGUI p1 = new ConnectionPointGUI(101, 0, 1, typeof(string[]).Name, "AssetsPath", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(8), new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(string[]).Name, "input", m_nodeGUI, NodeGraphLagDefind.Get("input"), new Vector2(100,60),  ConnectionPointInoutType.MutiInput);
+                ConnectionPointGUI p1 = new ConnectionPointGUI(101, 0, 1, typeof(string[]).Name, "AssetsPath", m_nodeGUI, NodeGraphLagDefind.Get("output"), new Vector2(120, 60), ConnectionPointInoutType.Output);
                 _ConnectionPointGUIList = new List<ConnectionPointGUI>() {p0, p1};
             }
 

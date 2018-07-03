@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
-using Framework.editor;
+using Framework.Editor;
 using Framework.Graphic.Utility;
 using UnityEditor;
 using UnityEngine;
@@ -54,10 +54,10 @@ namespace Framework.UI.Editor
             bool isInfoDirty = false;
             bool isLayersDirty = false;
 
-            List<UICanvasInfo> InfoList = (List<UICanvasInfo>)_target.ref_GetField_Inst_NonPublic("m_InfoList");
-            List<UILayerGroup> LayerList = (List<UILayerGroup>) _target.ref_GetField_Inst_NonPublic("m_LayerList");
+            List<UICanvasInfo> InfoList = (List<UICanvasInfo>)_target.GetNonPublicField("m_InfoList");
+            List<UILayerGroup> LayerList = (List<UILayerGroup>) _target.GetNonPublicField("m_LayerList");
 
-            if (InfoList == null)
+            if (InfoList == null || InfoList.Count == 0)
             {
                 //init
                 InfoList = new List<UICanvasInfo>();
@@ -72,7 +72,7 @@ namespace Framework.UI.Editor
                 uiLayerGroup.Add(UILayer.Default());
                 LayerList.Add(uiLayerGroup);
 
-                _target.ref_SetField_Inst_NonPublic("_isInit", true);
+                _target.SetNonPublicField("_isInit", true);
 
                 isInfoDirty = true;
                 isLayersDirty = true;
@@ -177,7 +177,7 @@ namespace Framework.UI.Editor
             CameraStructInfo CameraInfo = info.CameraInfo;
             if (!CameraInfo.isInit && (nRenderMode == RenderMode.ScreenSpaceCamera || nRenderMode == RenderMode.WorldSpace))
             {
-                CameraInfo = CameraStructInfo.Default();
+                CameraInfo = CameraStructInfo.DefaultUI();
                 isInfoDirty = true;
             }else if (CameraInfo.isInit && nRenderMode == RenderMode.ScreenSpaceOverlay)
             {
@@ -188,11 +188,17 @@ namespace Framework.UI.Editor
             CameraStructInfo nCameraInfo = CameraInfo;
             bool CameraInfoDirty = false;
 
+            float PlaneDistance = info.PlaneDistance;
+            float nPlaneDistance = PlaneDistance;
+
             switch (nRenderMode)
             {
                 case RenderMode.ScreenSpaceCamera:
                     nPixelPerfect = EditorGUILayout.Toggle("PixelPerfect", PixelPerfect);
                     if (nPixelPerfect != PixelPerfect) isInfoDirty = true;
+
+                    nPlaneDistance = EditorGUILayout.FloatField("Plane Distance", PlaneDistance);
+                    if (!nPlaneDistance.Equals(PlaneDistance)) isInfoDirty = true;
 
                     nCameraInfo = Draw_CameraStructInfo_UI(CameraInfo, "Render Camera", ref CameraInfoDirty);
                     if (CameraInfoDirty) isInfoDirty = true;
@@ -396,7 +402,7 @@ namespace Framework.UI.Editor
             if (!isDel)
             {
                 nInfoList.Add(new UICanvasInfo(nName, nRenderMode, nPixelPerfect, nSortingLayerName, nSortOrder, nTargetDisplay,
-                    nAdditionalShaderChannels, nCameraInfo, nScaleMode, nScaleFactor, nReferencePixelsPerUnit,
+                    nAdditionalShaderChannels, nCameraInfo, nPlaneDistance, nScaleMode, nScaleFactor, nReferencePixelsPerUnit,
                     nReferenceResolution, nScreenMatchMode, nMatchWidthOrHeight, nPhysicalUnit, nFallbackScreenDPI,
                     nDefaultSpriteDPI, nIgnoreReversedGraphic, nBlockingObjects, nBlockingMask));
 
@@ -471,6 +477,10 @@ namespace Framework.UI.Editor
             Rect nViewportRect = EditorGUILayout.RectField("Viewport Rect", ViewportRect);
             if (!nViewportRect.Equals(ViewportRect)) isDirty = true;
 
+            float Depth = CameraInfo.Depth;
+            float nDepth = EditorGUILayout.FloatField("Depth", Depth);
+            if (!nDepth.Equals(Depth)) isDirty = true;
+
             RenderingPath RenderingPath = CameraInfo.RenderingPath;
             RenderingPath nRenderingPath = (RenderingPath) EditorGUILayout.EnumPopup("Rendering Path", RenderingPath);
             if (!nRenderingPath.Equals(RenderingPath)) isDirty = true;
@@ -496,7 +506,7 @@ namespace Framework.UI.Editor
             GUILayout.Space(8);
 
             return new CameraStructInfo(nClearFlags, nBackground, nCullingMask, nOrthographic, nOrthographicSize,
-                nFieldOfView, nNearClipPlane, nFarClipPlane, nViewportRect, nRenderingPath, nTargetTexture,
+                nFieldOfView, nNearClipPlane, nFarClipPlane, nViewportRect, nDepth, nRenderingPath, nTargetTexture,
                 nOcclusionCulling, nAllowHDR, nAllowMSAA);
 
         }
@@ -522,6 +532,10 @@ namespace Framework.UI.Editor
                 string name = o.Name;
                 string nName = EditorGUILayout.TextField("LayerName", name);
                 if (nName != name) isDirty = true;
+
+                UILayerPovitState state = o.PovitState;
+                UILayerPovitState ntState = (UILayerPovitState) EditorGUILayout.EnumPopup("Povit State", state);
+                if (ntState != state) isDirty = true;
 
                 int siblingIndex = o.SiblingIndex;
                 int nSiblingIndex = EditorGUILayout.IntField("SiblingIndex", siblingIndex);
@@ -626,7 +640,7 @@ namespace Framework.UI.Editor
                 if (!isDel)
                 {
                     nlist.Add(new UILayer(
-                                            nName, nSiblingIndex
+                                            nName, ntState, nSiblingIndex
                                             , nUseInnerCanvas, nOverrideSorting, nSortOrder
                                             , nIgnoreReversedGraphics,nBlockingObjects,nBlockingMask
                                             ,nUseCanvasGroup,nAlpha,nInteractable,nBlocksRaycasts,nIgnoreParentGroups

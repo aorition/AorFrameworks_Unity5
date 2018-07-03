@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using AorBaseUtility;
 
-namespace Framework.editor.tools
+namespace Framework.Editor.tools
 {
 
     public class DllUpgraderInitWindow : EditorWindow

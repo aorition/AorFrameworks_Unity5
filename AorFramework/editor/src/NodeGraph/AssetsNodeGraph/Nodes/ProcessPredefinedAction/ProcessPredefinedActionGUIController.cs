@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using AorBaseUtility;
-using Framework.NodeGraph.Tool;
 using Framework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
 namespace Framework.NodeGraph
 {
-    [NodeToolItem("ProcessPredefinedAction",
+    [NodeToolItem("#<prefab>#<preprocessing>#<actions>",
         "Framework.NodeGraph",
         "ProcessPredefinedActionData|ProcessPredefinedActionController|ProcessPredefinedActionGUIController")]
     public class ProcessPredefinedActionGUIController : NodeGUIController
@@ -29,7 +27,7 @@ namespace Framework.NodeGraph
 
         public override string GetNodeLabel()
         {
-            return "ProcessPredefinedAction";
+            return NodeGraphLagDefind.Get("prefab") + NodeGraphLagDefind.Get("preprocessing") + NodeGraphLagDefind.Get("actions");
         }
 
         private Vector2 _NodeMinSize = new Vector2(230, 120);
@@ -45,7 +43,7 @@ namespace Framework.NodeGraph
 
             if (_ConnectionPointGUIList == null)
             {
-                ConnectionPointGUI p1 = new ConnectionPointGUI(100, 0, 1, typeof(int).Name, "ActionId", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(8), new Vector2(100, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p1 = new ConnectionPointGUI(100, 0, 1, typeof(int).Name, "ActionId", m_nodeGUI, NodeGraphLagDefind.Get("output"), new Vector2(100, 60), ConnectionPointInoutType.Output);
 
                 _ConnectionPointGUIList = new List<ConnectionPointGUI>() {p1};
             }

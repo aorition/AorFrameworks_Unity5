@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Framework.UI
 {
-    public class UiRuntimeUtility
+    public class UIRuntimeUtility
     {
         //--------------------------------------------------------- 基础类prefab
 

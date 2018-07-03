@@ -1,4 +1,4 @@
-﻿using Framework.editor;
+﻿using Framework.Editor;
 using System;
 using System.Collections.Generic;
 

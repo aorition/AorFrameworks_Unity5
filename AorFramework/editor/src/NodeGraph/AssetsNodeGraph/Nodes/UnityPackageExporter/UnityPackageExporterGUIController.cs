@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Framework.NodeGraph
 {
-    [NodeToolItem("UnityPackageExporter",
+    [NodeToolItem("UnityPackage#<exporter>",
         "Framework.NodeGraph",
         "UnityPackageExporterData|UnityPackageExporterController|UnityPackageExporterGUIController",
         "Advanced")]
@@ -16,7 +16,7 @@ namespace Framework.NodeGraph
 
         public override string GetNodeLabel()
         {
-            return "UnityPackageExporter";
+            return "UnityPackage" + NodeGraphLagDefind.Get("exporter");
         }
 
         private Vector2 _MinSizeDefind = new Vector2(200, 120);
@@ -107,7 +107,7 @@ namespace Framework.NodeGraph
         {
             if (_ConnectionPointGUIList == null)
             {
-                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(string[]).Name, "input", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(7), new Vector2(100,60),  ConnectionPointInoutType.MutiInput);
+                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(string[]).Name, "input", m_nodeGUI, NodeGraphLagDefind.Get("input"), new Vector2(100,60),  ConnectionPointInoutType.MutiInput);
                 _ConnectionPointGUIList = new List<ConnectionPointGUI>() {p0};
             }
 

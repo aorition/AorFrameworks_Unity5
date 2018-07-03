@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using AorBaseUtility;
-using Framework.editor;
+using Framework.Editor;
 using UnityEditor;
 using UnityEngine;
 

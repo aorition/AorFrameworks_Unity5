@@ -277,12 +277,16 @@ namespace Framework.NodeGraph
 
         //--------------------- 数据缓存  资源定义 --end
 
+        public const string RESOURCE_ROOT = "Assets/NodeGraphAssets";
+
+        public const string RESOURCE_LAGJSON = RESOURCE_ROOT + "/Language/lag.json";
+
         //--------------------- NodeGraph 样式图片资源定义 -----
 
         /// <summary>
         /// *** 定义NodeGraph界面使用的图形资源所在基本路径
         /// </summary>
-        public const string RESOURCE_BASEPATH = "Assets/NodeGraphAssets/Bitmaps";
+        public const string RESOURCE_BASEPATH = RESOURCE_ROOT + "/Bitmaps";
 
         public const string RESOURCE_REFRESH_ICON = RESOURCE_BASEPATH + "/AssetGraph_RefreshIcon.png";
         public const string RESOURCE_ARROW = RESOURCE_BASEPATH + "/AssetGraph_Arrow.png";

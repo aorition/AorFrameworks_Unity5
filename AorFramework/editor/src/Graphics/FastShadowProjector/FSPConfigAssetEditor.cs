@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Framework.editor;
+using Framework.Editor;
 using UnityEditor;
 
 namespace Framework.Graphic.FastShadowProjector.Editor

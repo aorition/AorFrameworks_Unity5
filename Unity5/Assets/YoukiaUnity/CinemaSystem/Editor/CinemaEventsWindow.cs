@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Framework.editor;
+using Framework.Editor;
 using UnityEditor;
 using UnityEngine;
 using YoukiaUnity.CinemaSystem;

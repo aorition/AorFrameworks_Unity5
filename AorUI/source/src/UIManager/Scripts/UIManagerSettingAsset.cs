@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AorFramework;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.VR.WSA.Persistence;
 
 namespace Framework.UI
 {
-    public class UIManagerSettingAsset : ScriptableObject
+    public class UIManagerSettingAsset : JScriptableObject
     {
 
         public static UIManagerSettingAsset Default()
         {
             UIManagerSettingAsset def = ScriptableObject.CreateInstance<UIManagerSettingAsset>();
-            def.Setup();
             def.InfoList.Add(UICanvasInfo.Default());
             def.LayerList.Add(new UILayerGroup());
             def.LayerList[0].Add(UILayer.Default());
@@ -23,7 +22,6 @@ namespace Framework.UI
         public static UIManagerSettingAsset Normal()
         {
             UIManagerSettingAsset def = ScriptableObject.CreateInstance<UIManagerSettingAsset>();
-            def.Setup();
             def.InfoList.Add(UICanvasInfo.Normal("Default", new Vector2(1280, 720)));
             def.LayerList.Add(new UILayerGroup());
             def.LayerList[0].Add(UILayer.Default());
@@ -31,42 +29,44 @@ namespace Framework.UI
         }
 
         [SerializeField]
-        protected bool _isInit = false;
-        public bool isInit
-        {
-            get
-            {
-                return _isInit;
-            }
-        }
-
-        public virtual void Setup()
-        {
-            if (m_InfoList == null)
-            {
-                m_InfoList = new List<UICanvasInfo>();
-            }
-            if (m_LayerList == null)
-            {
-                m_LayerList = new List<UILayerGroup>();
-            }
-            _isInit = true;
-        }
-
-        [SerializeField]
-        protected List<UICanvasInfo> m_InfoList;
+        protected List<UICanvasInfo> m_InfoList = new List<UICanvasInfo>();
         public List<UICanvasInfo> InfoList
         {
             get { return m_InfoList; }
         }
 
         [SerializeField]
-        protected List<UILayerGroup> m_LayerList;
+        protected List<UILayerGroup> m_LayerList = new List<UILayerGroup>();
         public List<UILayerGroup> LayerList
         {
             get { return m_LayerList;}
         }
+/*
+ * (默认保存JSON已经可以适用通用)
+        public override void SetupFormJson(string jsonText)
+        {
+            //
+            Dictionary<string, object> JDic = Json.DecodeToDic(jsonText);
+            
+            IList UICanvasInfo = JDic["m_InfoList"] as IList;
+            foreach (object o in UICanvasInfo)
+            {
+                m_InfoList.Add((UICanvasInfo)JSONParser.ParseValue(typeof(UICanvasInfo), o));
+            }
 
+            IList UILayerGroup = JDic["m_LayerList"] as IList;
+            foreach (object o in UILayerGroup)
+            {
+                m_LayerList.Add((UILayerGroup)JSONParser.ParseValue(typeof(UILayerGroup), o));
+            }
+        }
+        */
+        public override void ClearSerializeData()
+        {
+            base.ClearSerializeData();
+            m_InfoList.Clear();
+            m_LayerList.Clear();
+        }
     }
 
     [Serializable]
@@ -159,11 +159,25 @@ namespace Framework.UI
     }
 
     [Serializable]
+    public enum UILayerPovitState
+    {
+        Center,
+        TopLeft,
+        Top,
+        TopRight,
+        Left,
+        Right,
+        BottomLeft,
+        Bottom,
+        BottomRight
+    }
+
+    [Serializable]
     public struct UILayer
     {
         public static UILayer Default()
         {
-            return new UILayer( "DefaultLayer", 0
+            return new UILayer( "DefaultLayer", UILayerPovitState.Center, 0
                                 , false,false,0
                                 ,true,GraphicRaycaster.BlockingObjects.None, -1
                                 ,false,1,true,true,false
@@ -172,21 +186,22 @@ namespace Framework.UI
 
         public static UILayer Normal(string name, int siblingIndex)
         {
-            return new UILayer( name, siblingIndex
+            return new UILayer( name, UILayerPovitState.Center
+                                , siblingIndex
                                 , false, false, 0
                                 , true, GraphicRaycaster.BlockingObjects.None, -1
                                 , false, 1, true, true, false
                 );
         }
 
-        public UILayer(string name, int siblingIndex
+        public UILayer(string name, UILayerPovitState povitState, int siblingIndex
             , bool useInnerCanvas, bool overrideSorting, int sortOrder
             , bool ignoreReversedGraphics, GraphicRaycaster.BlockingObjects blockingObjects, int blockingMask
             , bool useCanvasGroup , float alpha, bool interactable, bool blocksRaycasts, bool ignoreParentGroups
-           
         )
         {
             this.Name = name;
+            this.PovitState = povitState;
             this.SiblingIndex = siblingIndex;
             this.UseInnerCanvas = useInnerCanvas;
             this.OverrideSorting = overrideSorting;
@@ -213,6 +228,7 @@ namespace Framework.UI
         }
 
         public string Name;
+        public UILayerPovitState PovitState;
         public int SiblingIndex;
         public bool UseInnerCanvas;
         public bool OverrideSorting;
@@ -236,7 +252,7 @@ namespace Framework.UI
         public static UICanvasInfo Default()
         {
             return new UICanvasInfo("Default", RenderMode.ScreenSpaceOverlay, false, "Default", 0
-                , 0, AdditionalCanvasShaderChannels.None, new CameraStructInfo()
+                , 0, AdditionalCanvasShaderChannels.None, new CameraStructInfo(), 50
                 , CanvasScaler.ScaleMode.ConstantPixelSize, 1f, 100, new Vector2(800,600)
                 , CanvasScaler.ScreenMatchMode.MatchWidthOrHeight, 0
                 , CanvasScaler.Unit.Points, 96, 96, true, GraphicRaycaster.BlockingObjects.None, -1
@@ -246,7 +262,7 @@ namespace Framework.UI
         public static UICanvasInfo Default(string name, int sortOrder = 0)
         {
             return new UICanvasInfo("Default", RenderMode.ScreenSpaceOverlay, false, "Default", sortOrder
-                , 0, AdditionalCanvasShaderChannels.None, new CameraStructInfo()
+                , 0, AdditionalCanvasShaderChannels.None, new CameraStructInfo(), 50
                 , CanvasScaler.ScaleMode.ConstantPixelSize, 1f, 100, new Vector2(800, 600)
                 , CanvasScaler.ScreenMatchMode.MatchWidthOrHeight, 0
                 , CanvasScaler.Unit.Points, 96, 96, true, GraphicRaycaster.BlockingObjects.None, -1
@@ -256,14 +272,14 @@ namespace Framework.UI
         public static UICanvasInfo Normal(string name, Vector2 referenceResolution,float matchWidthOrHeight = 1, int sortOrder = 0)
         {
             return new UICanvasInfo(name, RenderMode.ScreenSpaceOverlay, false, "Default", sortOrder
-                , 0, AdditionalCanvasShaderChannels.None, new CameraStructInfo()
+                , 0, AdditionalCanvasShaderChannels.None, new CameraStructInfo(), 50
                 , CanvasScaler.ScaleMode.ScaleWithScreenSize, 1f, 100, referenceResolution
                 , CanvasScaler.ScreenMatchMode.MatchWidthOrHeight, matchWidthOrHeight
                 , CanvasScaler.Unit.Points, 96, 96, true, GraphicRaycaster.BlockingObjects.None, -1
                 );
         }
 
-        public UICanvasInfo(string name, RenderMode renderMode, bool pixelPerfect, string sortingLayerName, int sortOrder, int targetDisplay, AdditionalCanvasShaderChannels additionalShaderChannels, CameraStructInfo cameraInfo
+        public UICanvasInfo(string name, RenderMode renderMode, bool pixelPerfect, string sortingLayerName, int sortOrder, int targetDisplay, AdditionalCanvasShaderChannels additionalShaderChannels, CameraStructInfo cameraInfo, float PlaneDistance
             , CanvasScaler.ScaleMode scaleMode, float scaleFactor, float referencePixelsPerUnit, Vector2 referenceResolution, CanvasScaler.ScreenMatchMode screenMatchMode, float matchWidthOrHeight, CanvasScaler.Unit physicalUnit, float fallbackScreenDpi, float defaultSpriteDpi
             , bool ignoreReversedGraphic, GraphicRaycaster.BlockingObjects blockingObjects,int blockingMask
             )
@@ -277,6 +293,7 @@ namespace Framework.UI
             this.TargetDisplay = targetDisplay;
             this.AdditionalShaderChannels = additionalShaderChannels;
             this.CameraInfo = cameraInfo;
+            this.PlaneDistance = PlaneDistance;
             this.ScaleMode = scaleMode;
             this.ScaleFactor = scaleFactor;
             this.ReferencePixelsPerUnit = referencePixelsPerUnit;
@@ -307,6 +324,7 @@ namespace Framework.UI
         public int TargetDisplay;
         public AdditionalCanvasShaderChannels AdditionalShaderChannels;
         public CameraStructInfo CameraInfo;
+        public float PlaneDistance;
         //---------------
         public CanvasScaler.ScaleMode ScaleMode;
 
@@ -324,62 +342,6 @@ namespace Framework.UI
         public bool IgnoreReversedGraphic;
         public GraphicRaycaster.BlockingObjects BlockingObjects;
         public int BlockingMask;
-    }
-
-    [Serializable]
-    public struct CameraStructInfo
-    {
-
-        public static CameraStructInfo Default()
-        {
-            return new CameraStructInfo(CameraClearFlags.Skybox, new Color(0.0172869f, 0.3019607f, 0.4745098f, 0), -1,
-                false, 5, 60f, 0.3f, 1000f, new Rect(0, 0, 1, 1), RenderingPath.UsePlayerSettings, null, true, true,
-                true);
-        }
-
-        public CameraStructInfo(CameraClearFlags clearFlags, Color background, int cullingMask, bool orthographic,
-            float orthographicSize, float fieldOfView, float nearClipPlane, float farClipPlane, Rect viewportRect,
-            RenderingPath renderingPath, RenderTexture targetTexture, bool occlusionCulling, bool allowHdr, bool allowMsaa
-            )
-        {
-            this.ClearFlags = clearFlags;
-            this.Background = background;
-            this.CullingMask = cullingMask;
-            this.Orthographic = orthographic;
-            this.OrthographicSize = orthographicSize;
-            this.FieldOfView = fieldOfView;
-            this.NearClipPlane = nearClipPlane;
-            this.FarClipPlane = farClipPlane;
-            this.ViewportRect = viewportRect;
-            this.RenderingPath = renderingPath;
-            this.TargetTexture = targetTexture;
-            this.OcclusionCulling = occlusionCulling;
-            this.AllowHDR = allowHdr;
-            this.AllowMSAA = allowMsaa;
-            this._isInit = true;
-        }
-
-        [SerializeField]
-        private bool _isInit;
-        public bool isInit
-        {
-            get { return _isInit; }
-        }
-
-        public CameraClearFlags ClearFlags;
-        public Color Background;
-        public int CullingMask;
-        public bool Orthographic;
-        public float OrthographicSize;
-        public float FieldOfView;
-        public float NearClipPlane;
-        public float FarClipPlane;
-        public Rect ViewportRect;
-        public RenderingPath RenderingPath;
-        public RenderTexture TargetTexture;
-        public bool OcclusionCulling;
-        public bool AllowHDR;
-        public bool AllowMSAA;
     }
 
 }

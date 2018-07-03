@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Framework.NodeGraph
 {
-    [NodeToolItem("Assets#<3>",
+    [NodeToolItem("Assets#<processor>",
         "Framework.NodeGraph",
         "AssetProcessorData|AssetProcessorController|AssetProcessorGUIController",
         "Advanced")]
@@ -21,7 +21,7 @@ namespace Framework.NodeGraph
 
         public override string GetNodeLabel()
         {
-             return "Assets" + AssetNodeGraphLagDefind.GetLabelDefine(3);
+             return "Assets" + NodeGraphLagDefind.Get("processor");
         }
 
         private Vector2 _NodeMinSize = new Vector2(230, 120);
@@ -35,9 +35,9 @@ namespace Framework.NodeGraph
             
             if (_ConnectionPointGUIList == null)
             {
-                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(string[]).Name, "PathInput", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(10) + AssetNodeGraphLagDefind.GetLabelDefine(7), new Vector2(100, 60), ConnectionPointInoutType.MutiInput);
-                ConnectionPointGUI p1 = new ConnectionPointGUI(200, 0, 2, typeof(string[]).Name, "AssetsPath", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(8), new Vector2(100, 60), ConnectionPointInoutType.Output);
-                ConnectionPointGUI p2 = new ConnectionPointGUI(201, 1, 2, typeof(string[]).Name, "CustomScriptResultInfo", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(16), new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(string[]).Name, "PathInput", m_nodeGUI, NodeGraphLagDefind.Get("path") + NodeGraphLagDefind.Get("input"), new Vector2(100, 60), ConnectionPointInoutType.MutiInput);
+                ConnectionPointGUI p1 = new ConnectionPointGUI(200, 0, 2, typeof(string[]).Name, "AssetsPath", m_nodeGUI, NodeGraphLagDefind.Get("output"), new Vector2(100, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p2 = new ConnectionPointGUI(201, 1, 2, typeof(string[]).Name, "CustomScriptResultInfo", m_nodeGUI, NodeGraphLagDefind.Get(""), new Vector2(120, 60), ConnectionPointInoutType.Output);
 
                 _ConnectionPointGUIList = new List<ConnectionPointGUI>() {p0, p1, p2};
             }
@@ -90,7 +90,7 @@ namespace Framework.NodeGraph
                     UnityEngine.Object custom = AssetDatabase.LoadMainAssetAtPath(customPath);
                     if (custom != null)
                     {
-                        GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IAssetProcess)");
+                        GUILayout.Label(NodeGraphLagDefind.Get("customScript") + "(IAssetProcess)");
                         UnityEngine.Object n = EditorGUILayout.ObjectField(custom, typeof(MonoScript), false);
                         if (n == null)
                         {
@@ -123,7 +123,7 @@ namespace Framework.NodeGraph
                                 _describeStyle.normal.textColor = Color.white;
                             }
 
-                            GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(5) + " : " + des, _describeStyle);
+                            GUILayout.Label(NodeGraphLagDefind.Get("description") + " : " + des, _describeStyle);
                         }
 
                         //显示自定义脚本字段
@@ -159,7 +159,7 @@ namespace Framework.NodeGraph
             }
             else
             {
-                GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IAssetProcess)");
+                GUILayout.Label(NodeGraphLagDefind.Get("customScript") + "(IAssetProcess)");
                 UnityEngine.Object n = EditorGUILayout.ObjectField(null, typeof (MonoScript), false);
                 if (n != null)
                 {
@@ -184,7 +184,7 @@ namespace Framework.NodeGraph
                 string rid = (string)m_nodeGUI.data.ref_GetField_Inst_Public("ResultInfoDescribe");
                 if (string.IsNullOrEmpty(rid))
                 {
-                    GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(6) + ":");
+                    GUILayout.Label(NodeGraphLagDefind.Get("resultInfo") + ":");
                 }
                 else
                 {

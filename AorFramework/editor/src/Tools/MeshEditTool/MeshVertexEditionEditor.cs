@@ -4,7 +4,7 @@ using Framework.Tools;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.editor
+namespace Framework.Editor
 {
     [CustomEditor(typeof(MeshVertexEdition))]
     public class MeshVertexEditionEditor : UnityEditor.Editor

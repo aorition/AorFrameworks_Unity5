@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
-using Framework.editor;
+using Framework.Editor;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;

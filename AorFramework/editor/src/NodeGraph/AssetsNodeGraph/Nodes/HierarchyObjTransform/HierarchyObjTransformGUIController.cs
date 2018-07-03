@@ -7,7 +7,7 @@ using Framework.NodeGraph.Utility;
 
 namespace Framework.NodeGraph
 {
-    [NodeToolItem("HierarchyObjTransform",
+    [NodeToolItem("#<hierarchy>#<object>#<transform>",
         "Framework.NodeGraph",
         "HierarchyObjTransformData|HierarchyObjTransformController|HierarchyObjTransformGUIController",
         "Hierarchy Tools",-100)]
@@ -18,7 +18,7 @@ namespace Framework.NodeGraph
 
         public override string GetNodeLabel()
         {
-            return "HierarchyObjTransform";
+            return NodeGraphLagDefind.Get("hierarchy") + NodeGraphLagDefind.Get("object") + NodeGraphLagDefind.Get("transform");
         }
 
         private Vector2 _MinSizeDefind = new Vector2(200, 120);
@@ -200,9 +200,9 @@ namespace Framework.NodeGraph
         {
             if (_ConnectionPointGUIList == null)
             {
-                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(int[]).Name, "InputInstanceIDs", m_nodeGUI,AssetNodeGraphLagDefind.GetLabelDefine(7),new Vector2(120, 60), ConnectionPointInoutType.MutiInput);
-                ConnectionPointGUI p1 = new ConnectionPointGUI(200, 0, 2, typeof(int[]).Name, "InstancesPath", m_nodeGUI,AssetNodeGraphLagDefind.GetLabelDefine(8),new Vector2(120, 60), ConnectionPointInoutType.Output);
-                ConnectionPointGUI p2 = new ConnectionPointGUI(201, 1, 2, typeof(string[]).Name, "ResultInfo", m_nodeGUI,AssetNodeGraphLagDefind.GetLabelDefine(6),new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(int[]).Name, "InputInstanceIDs", m_nodeGUI,NodeGraphLagDefind.Get("input"),new Vector2(120, 60), ConnectionPointInoutType.MutiInput);
+                ConnectionPointGUI p1 = new ConnectionPointGUI(200, 0, 2, typeof(int[]).Name, "InstancesPath", m_nodeGUI,NodeGraphLagDefind.Get("output"),new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p2 = new ConnectionPointGUI(201, 1, 2, typeof(string[]).Name, "ResultInfo", m_nodeGUI,NodeGraphLagDefind.Get("resultInfo"),new Vector2(120, 60), ConnectionPointInoutType.Output);
                 _ConnectionPointGUIList = new List<ConnectionPointGUI>() { p0,p1,p2 };
             }
 

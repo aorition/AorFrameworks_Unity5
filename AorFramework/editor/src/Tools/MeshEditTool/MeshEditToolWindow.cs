@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.editor
+namespace Framework.Editor
 {
     /// <summary>
     /// Mesh 编辑界面

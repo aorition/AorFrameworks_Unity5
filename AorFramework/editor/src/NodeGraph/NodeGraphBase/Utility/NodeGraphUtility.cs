@@ -41,6 +41,21 @@ namespace Framework.NodeGraph.Utility
             return nValue;
         }
 
+        public static bool Draw_NG_ToggleLeft(object data, string refFieldName, GUIContent labelContent, Action<bool> changedAction = null)
+        {
+            bool value = (bool)data.ref_GetField_Inst_Public(refFieldName);
+            bool nValue = EditorGUILayout.ToggleLeft(labelContent, value);
+            if (!nValue.Equals(value))
+            {
+                data.ref_SetField_Inst_Public(refFieldName, nValue);
+                if (changedAction != null)
+                {
+                    changedAction(nValue);
+                }
+            }
+            return nValue;
+        }
+
         public static string Draw_NG_TextField(object data,string refFieldName,GUIContent labelContent,Action<string> changedAction = null)
         {
             string value = (string)data.ref_GetField_Inst_Public(refFieldName);

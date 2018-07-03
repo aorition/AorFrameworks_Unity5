@@ -74,7 +74,15 @@ public class VisualCameraEditor : Editor
         //            }
         //            _isDirty = true;
         //        }
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("_solo"), new GUIContent("SOLO", "独占模式"));
+
+//        EditorGUILayout.PropertyField(serializedObject.FindProperty("_solo"), new GUIContent("SOLO", "独占模式"));
+        bool solo = serializedObject.FindProperty("_solo").boolValue;
+        bool nSolo = EditorGUILayout.Toggle(new GUIContent("SOLO", "独占模式"), solo);
+        if (!nSolo.Equals(solo))
+        {
+            _target.Solo = nSolo;
+        }
+
 
         GUILayout.Space(5);
 
@@ -91,7 +99,14 @@ public class VisualCameraEditor : Editor
 //                _target.ref_SetField_Inst_NonPublic("_level", nLevel);
 //            }
 //        }
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("_level"), new GUIContent("优先级"));
+
+      //  EditorGUILayout.PropertyField(serializedObject.FindProperty("_level"), new GUIContent("优先级"));
+        float level = serializedObject.FindProperty("_level").floatValue;
+        float nlevel = EditorGUILayout.FloatField(new GUIContent("优先级"), level);
+        if (!nlevel.Equals(level))
+        {
+            _target.Level = nlevel;
+        }
 
         GUILayout.Space(5);
 

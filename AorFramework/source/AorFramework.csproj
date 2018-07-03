@@ -70,6 +70,7 @@
     <Compile Include="src\Config\Base\JConfigParser.cs" />
     <Compile Include="src\Config\RoleViewConfig.cs" />
     <Compile Include="src\Core\AorGUILayout.cs" />
+    <Compile Include="src\Core\JScriptableObject.cs" />
     <Compile Include="src\Define\FrameworkAssetsPathDefine.cs" />
     <Compile Include="src\Define\FrameworkBaseEnumDefines.cs" />
     <Compile Include="src\GameBaseInterfaces\ICustomTimeScale.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="src\GameBaseInterfaces\IGameAnimObject.cs" />
     <Compile Include="src\GameBaseInterfaces\IGameObject.cs" />
     <Compile Include="src\Core\IManager.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Models\GraphicsSettingAsset.cs" />
     <Compile Include="src\Graphics\Lightmap\Scripts\LightmapManager.cs" />
     <Compile Include="src\Graphics\Lightmap\Scripts\PrefabLightmapData.cs" />
     <Compile Include="src\Core\SetPropertyAttribute.cs" />
@@ -111,7 +113,6 @@
     <Compile Include="src\Graphics\GraphicsSystem\Scripts\GraphicBase.cs" />
     <Compile Include="src\Graphics\GraphicsSystem\Scripts\GraphicsManager.cs" />
     <Compile Include="src\Graphics\GraphicsSystem\Scripts\GraphicsManagerLuncher.cs" />
-    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Models\GraphicsSettingAsset.cs" />
     <Compile Include="src\Graphics\GraphicsSystem\Scripts\Utility\GraphicsCamUtility.cs" />
     <Compile Include="src\Graphics\GraphicsSystem\Scripts\Utility\RenderTextureUtility.cs" />
     <Compile Include="src\Graphics\VisualCamera\Scripts\Components\BasicNoisePerlin.cs" />
@@ -140,6 +141,8 @@
     <Compile Include="src\Graphics\VisualCamera\Scripts\Path\GEVPath.cs" />
     <Compile Include="src\Graphics\VisualCamera\Scripts\Path\GEVSmoothPath.cs" />
     <Compile Include="src\Graphics\VisualCamera\Scripts\VisualCamera.cs" />
+    <Compile Include="src\JSON\JScriptableObjectDataWraper.cs" />
+    <Compile Include="src\JSON\JSONParser.cs" />
     <Compile Include="src\Log\Log.cs" />
     <Compile Include="src\Tools\EditorSupport\Interfaces\IShaderDefine.cs" />
     <Compile Include="src\Tools\EditorSupport\MeshChecker\MeshChecker.cs" />
@@ -148,8 +151,10 @@
     <Compile Include="src\Tools\EditorSupport\PrefabLinker\PrefabLinker.cs" />
     <Compile Include="src\Bridges\AddComponentBridge.cs" />
     <Compile Include="src\Bridges\ResourcesLoadBridge.cs" />
+    <Compile Include="src\Tools\EditorSupport\SimpleTestMonoBehaviour\SimpleTestMonoBehaviour.cs" />
     <Compile Include="src\Tools\EditorSupport\TansformPlus\TansformShortcut.cs" />
     <Compile Include="src\Tools\FPS.cs" />
+    <Compile Include="src\Units\CameraStructInfo.cs" />
     <Compile Include="src\Utility\CameraMathUtility.cs" />
     <Compile Include="src\Utility\TextureScale.cs" />
   </ItemGroup>

@@ -5,7 +5,7 @@ using Framework.Tools;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.editor.tools
+namespace Framework.Editor.tools
 {
 
 

@@ -109,6 +109,7 @@
     <Compile Include="src\Graphics\VisualCamera\Scripts\Editor\VisualCameraEditor.cs" />
     <Compile Include="src\Graphics\VisualCamera\Scripts\Editor\VisualCameraExtensionEditor.cs" />
     <Compile Include="src\ImportAssetsUtil\FBXImportUtil.cs" />
+    <Compile Include="src\JSON\JSONEncoder.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\AssetsNodeGraph.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleBuilder\AssetBundleBuilderController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetBundleBuilder\AssetBundleBuilderData.cs" />
@@ -137,6 +138,9 @@
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\AssetTextureProcessorController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\AssetTextureProcessorData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\AssetTextureProcessorGUIController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\CheckReference\CheckReferenceController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\CheckReference\CheckReferenceData.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\CheckReference\CheckReferenceGUIController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\HierarchyObjRenamer\HierarchyObjRenamerController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\HierarchyObjRenamer\HierarchyObjRenamerData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\HierarchyObjRenamer\HierarchyObjRenamerGUIController.cs" />
@@ -152,6 +156,9 @@
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\GameObjectProcessor\GameObjectProcessorController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\GameObjectProcessor\GameObjectProcessorData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\GameObjectProcessor\GameObjectProcessorGUIController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\ProcessMaterialAction\ProcessMaterialActionController.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\ProcessMaterialAction\ProcessMaterialActionData.cs" />
+    <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\ProcessMaterialAction\ProcessMaterialActionGUIController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\ProcessPredefinedAction\ProcessPredefinedActionController.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\ProcessPredefinedAction\ProcessPredefinedActionData.cs" />
     <Compile Include="src\NodeGraph\AssetsNodeGraph\Nodes\ProcessPredefinedAction\ProcessPredefinedActionGUIController.cs" />
@@ -174,7 +181,6 @@
     <Compile Include="src\NodeGraph\NodeGraphBase\NodeGraphBaseSetting.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\NodeGraphDefind.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\NodeGraphFile.cs" />
-    <Compile Include="src\NodeGraph\AssetsNodeGraph\AssetNodeGraphLagDefind.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\NodeGraphLagDefind.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\NodeGraphTool.cs" />
     <Compile Include="src\NodeGraph\NodeGraphBase\NodeGraphToolItemCollection.cs" />
@@ -204,7 +210,9 @@
     <Compile Include="src\Tools\ShaderWriter\ShaderWriter.cs" />
     <Compile Include="src\Tools\ShaderWriter\SwPropertyItem.cs" />
     <Compile Include="src\Tools\ShaderWriter\SwSubShaderTag.cs" />
+    <Compile Include="src\Tools\SimpleTestMonoBehaviour\SimpleTestEditor.cs" />
     <Compile Include="src\Tools\TansformPlus\TransformPlusEditor.cs" />
+    <Compile Include="src\Units\MipMapSetting.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\NodeGraph\AssetsNodeGraph\Nodes\AssetTextureProcessor\PresetDatas\" />

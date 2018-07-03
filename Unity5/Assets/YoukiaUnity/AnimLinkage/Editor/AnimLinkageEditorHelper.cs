@@ -1,7 +1,7 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
-using Framework.editor;
+using Framework.Editor;
 using UnityEditor;
 using UnityEngine;
 

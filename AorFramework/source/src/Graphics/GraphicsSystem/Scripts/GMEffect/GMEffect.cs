@@ -49,6 +49,8 @@ namespace Framework.Graphic
 
         //-----------------------------------
 
+        private Vector3 __cameraShakePosCache;
+
         /// <summary>
         /// 抖动当前摄像机
         /// </summary>
@@ -75,17 +77,17 @@ namespace Framework.Graphic
                 DOTween.Kill(_tweener_CameraShake);
                 _tweener_CameraShake = null;
             }
-            
-            _manager.transform.localPosition = Vector3.zero;
+
+            __cameraShakePosCache = _manager.transform.position;
             _camShakeOffset = Vector3.zero;
 
             _tweener_CameraShake = _manager.transform.DOShakePosition(time, new Vector3(powerX, powerY, powerZ), vibrato).SetEase(Ease.Linear).OnUpdate(
                 () =>
                 {
-                    _camShakeOffset = _manager.transform.position;
+                    _camShakeOffset = _manager.transform.position - __cameraShakePosCache;
                 }).OnComplete(() =>
                 {
-                    _manager.transform.position = Vector3.zero;
+                    _manager.transform.position = __cameraShakePosCache;
                     _camShakeOffset = Vector3.zero;
                     _tweener_CameraShake = null;
                 });

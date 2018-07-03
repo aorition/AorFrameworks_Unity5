@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Framework.NodeGraph
 {
-    [NodeToolItem("#<0>",
+    [NodeToolItem("#<importRes>",
         "Framework.NodeGraph",
         "AssetSearchData|AssetSearchController|AssetSearchGUIController",
         "default", -100, true)]
@@ -19,7 +19,7 @@ namespace Framework.NodeGraph
 
         public override string GetNodeLabel()
         {
-            return AssetNodeGraphLagDefind.GetLabelDefine(0);
+            return NodeGraphLagDefind.Get("importRes");
         }
 
         private Vector2 _MinSizeDefind = new Vector2(160, 120);
@@ -66,12 +66,12 @@ namespace Framework.NodeGraph
 
             GUILayout.BeginHorizontal();
 
-            NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "IgnoreMETAFile",new GUIContent("忽略META文件"), (b) =>
+            NodeGraphUtility.Draw_NG_ToggleLeft(m_nodeGUI.data, "IgnoreMETAFile",new GUIContent("忽略META文件"), (b) =>
             {
                 m_nodeGUI.SetDirty();
             });
 
-            bool Advanced = NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "AdvancedOption", new GUIContent("高级选项"), (b) =>
+            bool Advanced = NodeGraphUtility.Draw_NG_ToggleLeft(m_nodeGUI.data, "AdvancedOption", new GUIContent("高级选项"), (b) =>
             {
                 m_nodeGUI.SetDirty();
             });
@@ -97,60 +97,50 @@ namespace Framework.NodeGraph
             
             GUILayout.Space(5);
 
-            string SearchPath = (string)m_nodeGUI.data.ref_GetField_Inst_Public("SearchPath");
-            if (string.IsNullOrEmpty(SearchPath))
+            string[] SearchPaths = (string[])m_nodeGUI.data.ref_GetField_Inst_Public("SearchPaths");
+            if (SearchPaths == null || SearchPaths.Length == 0)
             {
-
+                //空的
                 if (GUILayout.Button("SelcetSearchPath"))
                 {
-                    if (Selection.activeObject != null)
+                    SearchPaths = _getSearchPathsFormSelection();
+                    if (SearchPaths != null && SearchPaths.Length > 0)
                     {
-                        SearchPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+                        m_nodeGUI.data.SetPublicField("SearchPaths", SearchPaths);
+                        m_nodeGUI.data.SetNonPublicField("m_isDirty", true);
                     }
                     else
                     {
-                        SearchPath = EditorUtility.OpenFolderPanel("指定搜索文件夹", null, null);
+                        EditorUtility.DisplayDialog("提示", "你没有选择任何对象,请在Project下选择输入对象", "确定");
                     }
-
-                    if (!string.IsNullOrEmpty(SearchPath))
-                    {
-                        m_nodeGUI.data.ref_SetField_Inst_Public("SearchPath", SearchPath);
-                        m_nodeGUI.SetDirty();
-                    }
-
                 }
 
             }
             else
             {
-
+                //显示已经记录的搜索路径
                 GUILayout.Label(new GUIContent("搜索路径："));
-                GUILayout.BeginHorizontal();
-                string n = GUILayout.TextField(SearchPath);
-                if (n != SearchPath)
+                GUILayout.Space(5);
+                GUILayout.BeginVertical("box");
+                foreach (string path in SearchPaths)
                 {
-                    m_nodeGUI.data.ref_SetField_Inst_NonPublic("m_isDirty", true);
-                    m_nodeGUI.data.ref_SetField_Inst_Public("SearchPath", n);
+                    GUILayout.Label(path);
                 }
-                if (GUILayout.Button("重设"))
+                if (GUILayout.Button("重设搜索路径"))
                 {
-                    if (Selection.activeObject != null)
+                    SearchPaths = _getSearchPathsFormSelection();
+                    if (SearchPaths != null && SearchPaths.Length > 0)
                     {
-                        SearchPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+                        m_nodeGUI.data.SetPublicField("SearchPaths", SearchPaths);
+                        m_nodeGUI.data.SetNonPublicField("m_isDirty", true);
                     }
                     else
                     {
-                        SearchPath = EditorUtility.OpenFolderPanel("指定搜索文件夹", null, null);
-                    }
-
-                    if (!string.IsNullOrEmpty(SearchPath))
-                    {
-                        m_nodeGUI.data.ref_SetField_Inst_Public("SearchPath", SearchPath);
-                        m_nodeGUI.data.ref_SetField_Inst_Public("AssetsPath", null);
-                        m_nodeGUI.SetDirty();
+                        EditorUtility.DisplayDialog("提示", "你没有选择任何对象,请在Project下选择输入对象", "确定");
                     }
                 }
-                GUILayout.EndHorizontal();
+                GUILayout.EndVertical();
+                GUILayout.Space(5);
 
                 string[] assetPaths = (string[]) m_nodeGUI.data.ref_GetField_Inst_Public("AssetsPath");
                 if (assetPaths != null && assetPaths.Length > 0)
@@ -187,11 +177,33 @@ namespace Framework.NodeGraph
             //base.DrawNodeInspector(inspectorWidth);
         }
 
+        private string[] _getSearchPathsFormSelection()
+        {
+            if (Selection.objects != null && Selection.objects.Length > 0)
+            {
+                string path;
+                List<string> list = new List<string>();
+                foreach (UnityEngine.Object obj in Selection.objects)
+                {
+                    path = AssetDatabase.GetAssetPath(obj);
+                    if (!string.IsNullOrEmpty(path))
+                    {
+                        if (!list.Contains(path))
+                        {
+                            list.Add(path);
+                        }
+                    }
+                }
+                return list.ToArray();
+            }
+            return null;
+        }
+
         public override List<ConnectionPointGUI> GetConnectionPointInfo (GetConnectionPointMode GetMode)
         {
             if (_ConnectionPointGUIList == null)
             {
-                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(string[]).Name, "AssetsPath", m_nodeGUI,AssetNodeGraphLagDefind.GetLabelDefine(8),new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(string[]).Name, "AssetsPath", m_nodeGUI,NodeGraphLagDefind.Get("output"),new Vector2(120, 60), ConnectionPointInoutType.Output);
                 _ConnectionPointGUIList = new List<ConnectionPointGUI>() { p0 };
             }
 

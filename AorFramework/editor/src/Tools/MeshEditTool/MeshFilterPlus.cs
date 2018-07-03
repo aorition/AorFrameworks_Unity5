@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Framework.editor.tools;
+using Framework.Editor.tools;
 using Framework.Tools;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Framework.editor
+namespace Framework.Editor
 {
     
     [CanEditMultipleObjects]

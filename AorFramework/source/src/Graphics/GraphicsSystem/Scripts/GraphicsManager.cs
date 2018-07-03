@@ -393,17 +393,14 @@ namespace Framework.Graphic
             RefreshCurrentVisualCamera();
         }
 
+
         private void _SortAndGetCurrentVisualCamera()
         {
+
             if (_visualCameras.Count == 0)
             {
                 _currentVisualCamera = null;
 
-//                if (_mainCamera && _GCGinfo)
-//                {
-                    //                    GraphicsCamUtility.ApplayCamParamToCamera(_mainCamera, _GCGinfo);
-//                    GraphicsCamUtility.ApplyDesDataToCameraFormDesInfo(_mainCamera, _GCGinfo.MainCamDesInfo);
-//                }
                 if (_mainCamera && _mainCamera.gameObject.activeSelf)
                 {
                     _mainCamera.gameObject.SetActive(false);
@@ -539,8 +536,8 @@ namespace Framework.Graphic
                 _visualCameras[i].UpdateExtension(_deltaTime);
             }
 
-            //刷新相机组优先级
-            _SortAndGetCurrentVisualCamera();
+            //刷新相机组优先级 (优化性能:: 在保证VisualCamera的注册,反注册,相关数据更改时已经手动调用RefreshCurrentVisualCamera方法,因此这里可以不进行排序)
+            //_SortAndGetCurrentVisualCamera();
 
             //MainCamera参数匹配
             if (_currentVisualCamera && AllowVisualCameraParamCover)
@@ -647,7 +644,6 @@ namespace Framework.Graphic
                 sub.allowHDR = _mainCamera.allowHDR;
                 sub.allowMSAA = _mainCamera.allowMSAA;
             }
-
         }
 
         //------

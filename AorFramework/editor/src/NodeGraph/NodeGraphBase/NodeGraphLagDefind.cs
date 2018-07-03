@@ -1,84 +1,91 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using AorBaseUtility;
+using AorBaseUtility.MiniJSON;
+using UnityEngine;
 
 namespace Framework.NodeGraph
 {
     public class NodeGraphLagDefind
     {
-
         public enum NodeGraphLagTag : int
         {
             EN = 0,
             CH,
         }
 
-        /// <summary>
-        /// 获取Label (通过NodeGraphLagDefind定义)
-        /// </summary>
-        public static string GetLabelDefine(int lagID)
+        public static NodeGraphLagTag LaguageTag = NodeGraphLagTag.CH;
+
+        protected static Dictionary<string, List<string>> _parseLagJson(string json)
         {
-            if (NodeGraphBase.Instance != null) return NodeGraphLagDefind.GetLabelDefine<NodeGraphLagDef>(NodeGraphBase.Instance.LAGTag, lagID);
-            return NodeGraphLagDefind.GetLabelDefine<NodeGraphLagDef>(NodeGraphLagDefind.NodeGraphLagTag.EN, lagID);
+            Dictionary<string, List<string>> labelsDic = new Dictionary<string, List<string>>();
+
+            Dictionary<string, object> dic = Json.DecodeToDic(json);
+
+            foreach (string key in dic.Keys)
+            {
+                if (!labelsDic.ContainsKey(key))
+                {
+                    if (dic[key] is IList)
+                    {
+                        List<string> vlist = new List<string>();
+                        IList list = dic[key] as IList;
+                        for (int i = 0; i < list.Count; i++)
+                        {
+                            string v = list[i].ToString();
+                            vlist.Add(v);
+                        }
+                        labelsDic.Add(key, vlist);
+                    }
+                    else
+                    {
+                        Debug.LogError("*** NodeGraphLagDefind.Init labelsDic Error :: value is a type of error > " + key + " : " + dic[key] + "]");
+                    }
+
+                }
+                else
+                {
+                    Debug.LogError("*** NodeGraphLagDefind.Init labelsDic Error :: On Same Key > " + key + " : value 1 : [" + labelsDic[key] + "],value 2 : [" + dic[key] + "]");
+                }
+            }
+
+            if (labelsDic.Count > 0)
+            {
+                return labelsDic;
+            }
+            return null;
         }
 
-        public static Regex _repReg = new Regex("\\d+");
-
-        /// <summary>
-        /// 转换AssetNodeGraphLagDef中的数字为{数字}
-        /// </summary>
-        private static string _transSharpToStringFormatTag(string src)
+        private static Dictionary<string, List<string>> _labelsDic;
+        protected static Dictionary<string, List<string>> labelsDic
         {
-            if (_repReg.IsMatch(src))
+            get
             {
-                MatchCollection mc = _repReg.Matches(src);
-                int i, len = mc.Count;
-                for (i = 0; i < len; i++)
+                if (_labelsDic == null)
                 {
-                    string d = mc[i].Value;
-                    src = src.Replace(mc[i].Value, "{" + d + "}");
+                    //初始化
+                    string json = AorIO.ReadStringFormFile(NodeGraphDefind.RESOURCE_LAGJSON);
+                    if (!string.IsNullOrEmpty(json))
+                    {
+                        _labelsDic = _parseLagJson(json);
+                    }
                 }
-                return src;
+                return _labelsDic;
+            }
+        }
+
+        public static string Get(string key)
+        {
+            if (labelsDic == null) return key;
+            if (labelsDic.ContainsKey(key))
+            {
+                return _labelsDic[key][(int) LaguageTag];
             }
             else
             {
-                return src;
+                return "NonDefineLabel";
             }
-        }
-
-        public static string GetLabelDefine<T>(NodeGraphLagTag tag, int lagID) where T : struct
-        {
-            if (typeof(Enum) != typeof(T).BaseType)
-            {
-                throw new Exception("The T type parameter for the current generic class must be an enumerated type.");
-            }
-
-            int defId = lagID*Enum.GetNames(typeof (NodeGraphLagTag)).Length + (int) tag;
-            string defStr = Enum.Parse(typeof (T), defId.ToString()).ToString();
-            return _transSharpToStringFormatTag(defStr.Replace("_"," "));
-        }
-
-        public enum NodeGraphLagDef : int
-        {
-            test, 测试,//0
-            WelCome_to_use_NodeGraph, 欢迎使用_NodeGraph,//1
-            New, 新建,//2
-            Open, 打开,//3
-            NodeGraph_has_been_not_Initialization, NodeGraph_未初始化,//4
-            Prompt,提示,//5
-            has_not_saved, 尚未保存,//6
-            need_to_save, 是否保存,//7
-            Save,保存,//8
-            Canel,取消,//9
-            SaveAs,保存到,//10
-            Inspector, INSPECTOR,//11
-            This_Node_need_update_data,此节点需要更新数据,//12
-            ToolBar,工具箱,//13
-            Delete,删除,//14
-            Set_Node_As_MainNode,将Node设为MainNode,//15
-            Cancel_Set_MainNode,取消设置为MainNode,//16
-            FastFollowRun,快捷执行,//17
-            SettingsPanel,设置面板,//18
         }
     }
 }

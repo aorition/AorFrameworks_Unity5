@@ -15,7 +15,7 @@ namespace Framework.NodeGraph
 
         public readonly string SearchPattern;
 
-        public readonly string SearchPath;
+        public readonly string[] SearchPaths;
 
         public readonly string[] AssetsPath;
 

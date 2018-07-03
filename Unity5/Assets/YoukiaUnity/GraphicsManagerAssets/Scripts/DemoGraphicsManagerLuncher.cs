@@ -18,11 +18,11 @@ public class DemoGraphicsManagerLuncher : GraphicsManagerLuncher {
             if (info.type == SubGCamType.FinalOutput)
             {
                 PostProcessingBehaviour ppb = cam.gameObject.AddComponent<PostProcessingBehaviour>();
-                ResourcesLoadBridge.LoadScriptableObject("data/DemoPPAssetData", so =>
+                ResourcesLoadBridge.Load<PostProcessingProfile>("data/DemoPPAssetData", (so,param) =>
                 {
                     if (so)
                     {
-                        ppb.profile = so as PostProcessingProfile;
+                        ppb.profile = so;
                     }
                 });
             }
@@ -34,12 +34,12 @@ public class DemoGraphicsManagerLuncher : GraphicsManagerLuncher {
         
         if (_GlowEffectSetting)
         {
-            GraphicsManager.Instance.registerSubSettingData<RoleGlowSettingAsset>(_GlowEffectSetting);
+            GraphicsManager.Instance.RegisterSubSettingData<RoleGlowSettingAsset>(_GlowEffectSetting);
         }
 
         if (_ShadowEffectSetting)
         {
-            GraphicsManager.Instance.registerSubSettingData<RoleShadowSettingAsset>(_ShadowEffectSetting);
+            GraphicsManager.Instance.RegisterSubSettingData<RoleShadowSettingAsset>(_ShadowEffectSetting);
             if (_ShadowEffectSetting.Enable)
             {
                 RoleShadowEffectCamera.Create();

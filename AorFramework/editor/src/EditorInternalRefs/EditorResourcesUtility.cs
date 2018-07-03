@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Framework.editor
+namespace Framework.Editor
 {
     /// <summary>
     /// UnityEditorInternal.EditorResourcesUtility 类的 Wrap反射类

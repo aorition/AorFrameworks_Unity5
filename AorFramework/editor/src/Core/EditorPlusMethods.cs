@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using AorBaseUtility;
+using AorFramework;
 using UnityEditor;
 using UnityEngine;
 
 
-namespace Framework.editor
+namespace Framework.Editor
 {
 
     /// <summary>
@@ -136,11 +137,91 @@ namespace Framework.editor
             GUI.color = Color.yellow;
             if (GUILayout.Button(new GUIContent("Save Data To Asset Immediate", "立即将修改的数据保存到文件"), GUILayout.Height(26)))
             {
+
+                //对JScriptableObject持久化做特殊处理
+                if (target is JScriptableObject)
+                {
+                    JScriptableObject jso = target as JScriptableObject;
+                    jso.ClearInnerJsonData();//重置_innerJsonValue
+                    string json = JSONEncoder.ToJSON(jso);
+                    target.SetNonPublicField("_innerJsonValue", json);
+//                    if ((bool) jso.GetNonPublicField("m_justUseJsonData"))
+//                    {
+//                        jso.ClearSerializeData();
+//                        EditorUtility.SetDirty(jso);
+//                        AssetDatabase.SaveAssets();
+//                        AssetDatabase.Refresh();
+//                    }
+                }
+
                 EditorUtility.SetDirty(target);
                 AssetDatabase.SaveAssets();
             }
             GUI.color = Color.white;
         }
+
+        /// <summary>
+        /// 修改Texture对应TextureImporter的设置
+        /// </summary>
+        public static void SetTextureImportSetting(Texture texture, bool isReadable, TextureImporterFormat textureImporterFormat, TextureImporterCompression textureCompression, TextureWrapMode wrapMode, TextureImporterType textureType, TextureImporterNPOTScale nPOTScale, MipMapSetting mipMapSettin, bool sRGBTexture = true, int anisoLevel = 1)
+        {
+            string path = AssetDatabase.GetAssetPath(texture);
+            if (!string.IsNullOrEmpty(path))
+            {
+                SetTextureImportSetting(path, isReadable, textureImporterFormat, textureCompression, wrapMode, textureType, nPOTScale, mipMapSettin, sRGBTexture, anisoLevel);
+            }
+            else
+            {
+                Debug.LogError("EditorPlusMethods.SetTextureImportSetting Error :: can not get the texture path -> " + texture);
+            }
+        }
+        /// <summary>
+        /// 修改Texture对应TextureImporter的设置
+        /// </summary>
+        public static void SetTextureImportSetting(string path, bool isReadable, TextureImporterFormat textureImporterFormat, TextureImporterCompression textureCompression, TextureWrapMode wrapMode, TextureImporterType textureType, TextureImporterNPOTScale nPOTScale, MipMapSetting mipMapSetting, bool sRGBTexture = true, int anisoLevel = 1)
+        {
+            TextureImporter importer = TextureImporter.GetAtPath(path) as TextureImporter;
+            if (importer)
+            {
+                TextureImporterPlatformSettings settings = importer.GetDefaultPlatformTextureSettings();
+                settings.format = textureImporterFormat;
+                settings.textureCompression = textureCompression;
+
+                importer.isReadable = isReadable;
+                importer.textureType = textureType;
+                importer.wrapMode = wrapMode;
+
+                //TextureImporterPlatformSettings中已经设置过了,这里就不需要再设值了.
+                //                importer.textureCompression = textureCompression;
+
+                importer.sRGBTexture = sRGBTexture;
+                importer.npotScale = nPOTScale;
+                importer.anisoLevel = anisoLevel;
+
+                if (mipMapSetting.isInit)
+                {
+                    importer.mipmapEnabled = true;
+                    importer.mipMapBias = mipMapSetting.mipMapBias;
+                    importer.mipmapFilter = mipMapSetting.mipFilter;
+                    importer.mipmapFadeDistanceStart = mipMapSetting.mipmapFadeDistanceStart;
+                    importer.mipmapFadeDistanceEnd = mipMapSetting.mipmapFadeDistanceEnd;
+                    importer.borderMipmap = mipMapSetting.borderMipmap;
+                }
+                else
+                {
+                    importer.mipmapEnabled = false;
+                }
+
+                importer.SetPlatformTextureSettings(settings);
+
+                importer.SaveAndReimport();
+            }
+            else
+            {
+                Debug.LogError("EditorPlusMethods.SetTextureImportSetting Error :: can not get TextureImporter at the path -> " + path);
+            }
+        }
+
 
         // ------------------------------------------ UsedTags 
 
@@ -249,5 +330,7 @@ namespace Framework.editor
 
 
     }
+
+
 
 }

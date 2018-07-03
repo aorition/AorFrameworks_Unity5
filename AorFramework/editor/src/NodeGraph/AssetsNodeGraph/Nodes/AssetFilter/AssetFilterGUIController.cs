@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Framework.NodeGraph
 {
-    [NodeToolItem("#<1>",
+    [NodeToolItem("#<assetsFilter>",
         "Framework.NodeGraph",
         "AssetFilterData|AssetFilterController|AssetFilterGUIController",
         "default",-99,true)]
@@ -19,9 +19,9 @@ namespace Framework.NodeGraph
 
         public override string GetNodeLabel()
         {
-            bool AdvancedOption = (bool)m_nodeGUI.data.ref_GetField_Inst_Public("AdvancedOption");
-            string hk = "(" + (AdvancedOption ? AssetNodeGraphLagDefind.GetLabelDefine(19) : FKModeLabelDefine[(int)m_nodeGUI.data.ref_GetField_Inst_Public("FilterMode")]) + ")";
-            return AssetNodeGraphLagDefind.GetLabelDefine(1) + ((hk == "(无)") ? "" : " " + hk);
+            bool AdvancedOption = (bool)m_nodeGUI.data.GetPublicField("AdvancedOption");
+            string hk = "(" + (AdvancedOption ? NodeGraphLagDefind.Get("advanced") : FKModeLabelDefine[(int)m_nodeGUI.data.GetPublicField("FilterMode")]) + ")";
+            return NodeGraphLagDefind.Get("assetsFilter") + ((hk == "(无)") ? "" : " " + hk);
         }
 
         private Vector2 _MinSizeDefind = new Vector2(200, 120);
@@ -129,7 +129,7 @@ namespace Framework.NodeGraph
                         }
                         GUILayout.FlexibleSpace();
                         //bool ni = EditorGUILayout.ToggleLeft(new GUIContent(AssetNodeGraphLagDefind.GetLabelDefine(14)),icList[i]);
-                        bool ni = EditorGUILayout.Toggle(new GUIContent(AssetNodeGraphLagDefind.GetLabelDefine(14)),
+                        bool ni = EditorGUILayout.Toggle(new GUIContent(NodeGraphLagDefind.Get("ignorecase")),
                             icList[i], NodeGraphDefind.GetToggleARStyle());
                         if (ni != icList[i])
                         {
@@ -254,8 +254,8 @@ namespace Framework.NodeGraph
         {
             if (_ConnectionPointGUIList == null)
             {
-                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(string[]).Name, "input", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(7), new Vector2(100,60),  ConnectionPointInoutType.MutiInput);
-                ConnectionPointGUI p1 = new ConnectionPointGUI(101, 0, 1, typeof(string[]).Name, "AssetsPath", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(8), new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(string[]).Name, "input", m_nodeGUI, NodeGraphLagDefind.Get("input"), new Vector2(100,60),  ConnectionPointInoutType.MutiInput);
+                ConnectionPointGUI p1 = new ConnectionPointGUI(101, 0, 1, typeof(string[]).Name, "AssetsPath", m_nodeGUI, NodeGraphLagDefind.Get("output"), new Vector2(120, 60), ConnectionPointInoutType.Output);
                 _ConnectionPointGUIList = new List<ConnectionPointGUI>() {p0, p1};
             }
 

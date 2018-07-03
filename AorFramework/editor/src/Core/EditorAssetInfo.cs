@@ -4,7 +4,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.editor
+namespace Framework.Editor
 {
 
     public class EditorAssetInfo

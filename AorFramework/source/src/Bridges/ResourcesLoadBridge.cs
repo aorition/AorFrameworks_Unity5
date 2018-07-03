@@ -1,359 +1,364 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Framework
 {
+
+    /// <summary>
+    /// 默认Resource异步加载处理器
+    /// </summary>
+    public class LoadAsyncHandler : MonoBehaviour
+    {
+
+        private readonly Queue<string> _pathQueue = new Queue<string>();
+        private readonly Queue<Type> _typeQueue = new Queue<Type>();
+        private readonly Queue<Action<UnityEngine.Object, object[]>> _callbackQueue = new Queue<Action<Object, object[]>>();
+        private readonly Queue<object[]> _parmsQueue = new Queue<object[]>();
+
+        private bool _loading = false;
+
+        private void OnEnable()
+        {
+            _init();
+        }
+
+        private void OnDisable()
+        {
+            _loading = false;
+        }
+
+        private void OnDestroy()
+        {
+            _pathQueue.Clear();
+            _typeQueue.Clear();
+            _callbackQueue.Clear();
+            _parmsQueue.Clear();
+        }
+
+        private void _init()
+        {
+            if (!_loading && _pathQueue.Count > 0)
+            {
+                StartCoroutine(loadEnumerator());
+                _loading = true;
+            }
+        }
+
+        IEnumerator loadEnumerator()
+        {
+            while (true)
+            {
+                if (_pathQueue.Count == 0)
+                {
+                    _loading = false;
+                    break;
+                }
+
+                string path = _pathQueue.Dequeue();
+                Type type = _typeQueue.Dequeue();
+                Action<UnityEngine.Object, object[]> callback = _callbackQueue.Dequeue();
+                object[] parms = _parmsQueue.Dequeue();
+
+                var request = Resources.LoadAsync(path, type);
+
+                yield return request;
+
+                if (request.isDone)
+                {
+                    if (callback != null)
+                    {
+                        callback(request.asset, parms);
+                    }
+                }
+
+            }
+        }
+
+        public void LoadAsync(string path, Type objectType, Action<UnityEngine.Object, object[]> finishCallback, params object[] param)
+        {
+            _pathQueue.Enqueue(path);
+            _typeQueue.Enqueue(objectType);
+            _callbackQueue.Enqueue(finishCallback);
+            _parmsQueue.Enqueue(param);
+
+            _init();
+        }
+
+    }
+
     /// <summary>
     /// 提供载入资源的桥接功能
     /// </summary>
     public class ResourcesLoadBridge
     {
+        
+        //------------------------------------- 
 
-        #region LoadSprite
+        #region Load By Type (基础桥接)
 
         /// <summary>
-        /// 加载 Sprite 注入方法
+        /// 加载UnityEngine.Object(非实例化) 注入方法
+        /// 注意:在LoadMethodHook已注入的情况下 Load方法和LoadAsync方法都会调用LoadMethodHook来实现方法.
         /// </summary>
-        public static Action<string, Action<Sprite>> CustomLoadSprite;
-
-        public static Action<string, Action<Sprite>, object[]> CustomLoadSpriteWithParams;
+        public static Action<string, Type, Action<UnityEngine.Object, object[]>, object[]> LoadMethodHook;
 
         /// <summary>
-        /// 加载 Sprite
+        /// Load 加载UnityEngine.Object(非实例化)(默认行为是同步) 
         /// 以 Resource/ 为起始目录
+        /// 特殊处理加载Sprite行为
+        /// 默认加载行为的param第一个参数填true,则启用异步加载
         /// </summary>
-        public static void LoadSprite(string path, Action<Sprite> finishCallback)
+        public static void Load(string path, Type objectType, Action<UnityEngine.Object, object[]> finishCallback, params object[] param)
         {
-            if (CustomLoadSprite != null)
+            if (objectType == typeof (Sprite))
             {
-                CustomLoadSprite(path, finishCallback);
-                return;
-            }
-
-            //Default
-            _defaultLoadSprite(path, finishCallback);
-        }
-
-        public static void LoadSprite(string path, Action<Sprite> finishCallback, params object[] param)
-        {
-
-            if (CustomLoadSpriteWithParams != null)
-            {
-                CustomLoadSpriteWithParams(path, finishCallback, param);
-                return;
-            }
-
-            //Default
-            _defaultLoadSprite(path, finishCallback);
-        }
-
-        private static void _defaultLoadSprite(string path, Action<Sprite> finishCallback)
-        {
-            //Default
-            bool useSt = path.Contains("@");
-            string absPath;
-            string spName = string.Empty;
-            if (useSt)
-            {
-                string[] sp = path.Split('@');
-                absPath = sp[0];
-                spName = sp[1];
+                string absPath = path;
+                string spName = string.Empty;
+                //sprite 特殊处理
+                bool useSt = path.Contains("@");
+                if (useSt)
+                {
+                    string[] sp = path.Split('@');
+                    absPath = sp[0];
+                    spName = sp[1];
+                }
+                LoadAll(absPath,objectType, (objs, param2) =>
+                {
+                    Sprite[] assets = (Sprite[])objs;
+                    if (assets != null && assets.Length > 0)
+                    {
+                        if (string.IsNullOrEmpty(spName))
+                        {
+                            finishCallback(assets[0], param2);
+                        }
+                        else
+                        {
+                            for (int i = 0; i < assets.Length; i++)
+                            {
+                                if (assets[i].name == spName)
+                                {
+                                    finishCallback(assets[i], param2);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        finishCallback(null, param2);
+                    }
+                }, param);
             }
             else
             {
-                absPath = path;
-            }
-
-            Sprite[] assets = Resources.LoadAll<Sprite>(absPath);
-            if (assets != null && assets.Length > 0)
-            {
-                Sprite tar;
-                if (useSt)
+                if (LoadMethodHook != null)
                 {
-                    for (int i = 0; i < assets.Length; i++)
-                    {
-                        if (spName.Equals(assets[i].name))
-                        {
-                            tar = assets[0];
-                            finishCallback(tar);
-                            return;
-                        }
-                    }
+                    LoadMethodHook(path, objectType, finishCallback, param);
+                    return;
                 }
-                else
+                //Default
+                _defaultLoad(path, objectType, finishCallback, param);
+            }
+        }
+        private static void _defaultLoad(string path, Type objectType, Action<UnityEngine.Object, object[]> finishCallback, params object[] param)
+        {
+            //异步加载参数判断
+            if (param != null && param.Length > 0)
+            {
+                if ((bool)param[0])
                 {
-                    tar = assets[0];
-                    finishCallback(tar);
+                    _defaultLoadAsync(path, objectType, finishCallback);
                     return;
                 }
             }
-            finishCallback(null);
+
+            //Default
+            UnityEngine.Object obj = Resources.Load(path, objectType);
+            if (finishCallback != null)
+            {
+                finishCallback(obj, null);
+            }
         }
+
+        //------------------ LoadAsync ------------------
+
+        private static string _lahGoLabelDefine = "LoadAsyncHandler";
+
+        private static GameObject m_loadAsyncHandlerGo;
+        protected static GameObject LoadAsyncHandlerGo
+        {
+            get
+            {
+                if (!m_loadAsyncHandlerGo)
+                {
+                    m_loadAsyncHandlerGo = GameObject.FindWithTag(_lahGoLabelDefine);
+                    if (!m_loadAsyncHandlerGo)
+                    {
+                        m_loadAsyncHandlerGo = new GameObject(_lahGoLabelDefine);
+                        m_loadAsyncHandlerGo.name = _lahGoLabelDefine;
+                        m_loadAsyncHandlerGo.tag = _lahGoLabelDefine;
+                    }
+                }
+                return m_loadAsyncHandlerGo;
+            }
+        }
+
+        private static LoadAsyncHandler m_loadAsyncHandler;
+        protected static LoadAsyncHandler LoadAsyncHandler
+        {
+            get
+            {
+                if (!m_loadAsyncHandler)
+                {
+                    m_loadAsyncHandler = LoadAsyncHandlerGo.GetComponent<LoadAsyncHandler>();
+                    if (!m_loadAsyncHandler)
+                    {
+                        m_loadAsyncHandler = LoadAsyncHandlerGo.AddComponent<LoadAsyncHandler>();
+                    }
+                }
+                return m_loadAsyncHandler;
+            }
+        }
+
+        private static void _defaultLoadAsync(string path, Type objectType, Action<UnityEngine.Object, object[]> finishCallback, params object[] param)
+        {
+            //Default
+            LoadAsyncHandler.LoadAsync(path, objectType, finishCallback, param);
+        }
+
+        //------------------ LoadAsync -------------- end
 
         #endregion
 
-        #region LoadTextrue
+        #region LoadAll By Type (基础桥接)
 
         /// <summary>
-        /// 加载Texture资源 注入方法
+        ///加载UnityEngine.Object(非实例化) 注入方法
         /// </summary>
-        public static Action<string, Action<Texture>> CustomLoadTexture;
-
-        public static Action<string, Action<Texture>, object[]> CustomLoadTextureWithParams;
-
-        /// <summary>
-        /// 加载Texture资源
-        /// 以 Resource/ 为起始目录
-        /// </summary>
-        public static void LoadTextrue(string path, Action<Texture> finishCallback)
-        {
-            if (CustomLoadTexture != null)
-            {
-                CustomLoadTexture(path, finishCallback);
-                return;
-            }
-
-            //Default
-            _defaultLoadTextrue(path, finishCallback);
-        }
-
-        public static void LoadTextrue(string path, Action<Texture> finishCallback, params object[] param)
-        {
-            if (CustomLoadTextureWithParams != null)
-            {
-                CustomLoadTextureWithParams(path, finishCallback, param);
-                return;
-            }
-
-            //Default
-            _defaultLoadTextrue(path, finishCallback);
-        }
-
-        public static void _defaultLoadTextrue(string path, Action<Texture> finishCallback)
-        {
-            //Default
-            Texture asset = Resources.Load<Texture>(path);
-            if (asset)
-            {
-                finishCallback(asset);
-                return;
-            }
-
-            finishCallback(null);
-        }
-
-        #endregion
-
-        #region Load By Type
-
-        /// <summary>
-        /// Load 加载UnityEngine.Object(非实例化) 注入方法
-        /// </summary>
-        public static Action<string, Type, Action<Type,UnityEngine.Object>> CustomLoad;
-
-        public static Action<string, Type, Action<Type,UnityEngine.Object>, object[]> CustomLoadWithParams;
+        public static Action<string, Type, Action<UnityEngine.Object[], object[]>, object[]> LoadAllMethodHook;
 
         /// <summary>
         /// Load 加载UnityEngine.Object(非实例化)
         /// 以 Resource/ 为起始目录
         /// </summary>
-        public static void Load(string path, Type objectType, Action<Type, UnityEngine.Object> finishCallback)
+        public static void LoadAll(string path, Type objectType, Action<UnityEngine.Object[], object[]> finishCallback, params object[] param)
         {
 
-            if (CustomLoad != null)
+            if (LoadAllMethodHook != null)
             {
-                CustomLoad(path, objectType, finishCallback);
+                LoadAllMethodHook(path, objectType, finishCallback, param);
                 return;
             }
 
             //Default
-            _defaultLoad(path, objectType, finishCallback);
+            _defaultLoadAll(path, objectType, finishCallback, param);
         }
-
-        public static void Load(string path, Type objectType, Action<Type, UnityEngine.Object> finishCallback, params object[] param)
+        private static void _defaultLoadAll(string path, Type objectType, Action<UnityEngine.Object[], object[]> finishCallback, params object[] param)
         {
-
-            if (CustomLoadWithParams != null)
+            UnityEngine.Object[] assets = Resources.LoadAll(path, objectType);
+            if (assets != null && assets.Length > 0)
             {
-                CustomLoadWithParams(path, objectType, finishCallback, param);
-                return;
+                if (finishCallback != null)
+                {
+                    finishCallback(assets, param);
+                }
             }
-
-            //Default
-            _defaultLoad(path, objectType, finishCallback);
-        }
-
-        public static void _defaultLoad(string path, Type objectType, Action<Type, UnityEngine.Object> finishCallback)
-        {
-            //Default
-            UnityEngine.Object obj = Resources.Load(path, objectType);
             if (finishCallback != null)
             {
-                finishCallback(objectType, obj);
+                finishCallback(null, param);
             }
         }
 
         #endregion
 
-        #region LoadPrefabAsset
+        //-------------------------------------
 
-        /// <summary>
-        /// LoadPrefabAsset 载入预制体资源(非实例化) 注入方法
-        /// </summary>
-        public static Action<string, Action<GameObject>> CustomLoadPrefabAsset;
-
-        public static Action<string, Action<GameObject>, object[]> CustomLoadPrefabAssetWithParams;
-
-        /// <summary>
-        ///  LoadPrefabAsset 载入预制体资源(非实例化)
-        /// 以 Resource/ 为起始目录
-        /// </summary>
-        public static void LoadPrefabAsset(string path, Action<GameObject> finishCallback)
+        public static void Load<T>(string path, Action<T, object[]> finishCallback, params object[] param)
+where T : UnityEngine.Object
         {
-            if (CustomLoadPrefabAsset != null)
+            Load(path, typeof(T), (obj, param2) =>
             {
-                CustomLoadPrefabAsset(path, finishCallback);
-                return;
-            }
+                if (obj != null)
+                {
+                    if (finishCallback != null)
+                    {
+                        finishCallback((T)obj, param2);
+                        return;
+                    }
+                }
+                if (finishCallback != null)
+                {
+                    finishCallback(null, param2);
+                }
 
-            //Default
-            _defaultLoadPrefabAsset(path, finishCallback);
+            }, param);
         }
 
-        public static void LoadPrefabAsset(string path, Action<GameObject> finishCallback, params object[] param)
+        public static void LoadAll<T>(string path, Action<T[], object[]> finishCallback, params object[] param)
+            where T : UnityEngine.Object
         {
-            if (CustomLoadPrefabAssetWithParams != null)
+            LoadAll(path, typeof(T), (objs, param2) =>
             {
-                CustomLoadPrefabAssetWithParams(path, finishCallback, param);
-                return;
-            }
-
-            //Default
-            _defaultLoadPrefabAsset(path, finishCallback);
+                if (objs != null && objs.Length > 0)
+                {
+                    T[] pks = new T[objs.Length];
+                    for (int i = 0; i < objs.Length; i++)
+                    {
+                        pks[i] = objs[i] as T;
+                    }
+                    if (finishCallback != null)
+                    {
+                        finishCallback(pks, param2);
+                        return;
+                    }
+                }
+                if (finishCallback != null)
+                {
+                    finishCallback(null, param2);
+                }
+            }, param);
         }
-
-        private static void _defaultLoadPrefabAsset(string path, Action<GameObject> finishCallback)
-        {
-            //Default
-            GameObject asset = Resources.Load<GameObject>(path);
-            if (asset)
-            {
-                finishCallback(asset);
-                return;
-            }
-            finishCallback(null);
-        }
-
-        #endregion
-
-        #region LoadScriptableObject
-
-        /// <summary>
-        /// LoadPrefabAsset 载入预制体资源(非实例化) 注入方法
-        /// </summary>
-        public static Action<string, Action<ScriptableObject>> CustomLoadScriptableObject;
-
-        public static Action<string, Action<ScriptableObject>, object[]> CustomLoadScriptableObjectWithParams;
-
-        /// <summary>
-        ///  LoadPrefabAsset 载入预制体资源(非实例化)
-        /// 以 Resource/ 为起始目录
-        /// </summary>
-        public static void LoadScriptableObject(string path, Action<ScriptableObject> finishCallback)
-        {
-            if (CustomLoadPrefabAsset != null)
-            {
-                CustomLoadScriptableObject(path, finishCallback);
-                return;
-            }
-
-            //Default
-            _defaultLoadScriptableObject(path, finishCallback);
-        }
-
-        public static void LoadScriptableObject(string path, Action<ScriptableObject> finishCallback, params object[] param)
-        {
-            if (CustomLoadScriptableObjectWithParams != null)
-            {
-                CustomLoadScriptableObjectWithParams(path, finishCallback, param);
-                return;
-            }
-
-            //Default
-            _defaultLoadScriptableObject(path, finishCallback);
-        }
-
-        public static void _defaultLoadScriptableObject(string path, Action<ScriptableObject> finishCallback)
-        {
-            //Default
-            ScriptableObject data = Resources.Load<ScriptableObject>(path);
-            if (data)
-            {
-                finishCallback(data);
-                return;
-            }
-
-            finishCallback(null);
-        }
-
-        #endregion
 
         #region LoadPrefab
 
         /// <summary>
-        /// LoadPrefab 载入预制体(实例化) 注入方法
+        /// LoadPrefab 载入预制体(实例化) 注入方法,方便实现对象池设计实现
         /// </summary>
-        public static Action<string, Action<GameObject>> CustomLoadPrefab;
-
-        public static Action<string, Action<GameObject>, object[]> CustomLoadPrefabWithParams;
+        public static Action<string, Action<GameObject, object[]>, object[]> LoadPrefabHook;
 
         /// <summary>
         /// LoadPrefab 载入预制体(实例化)
         /// 以 Resource/ 为起始目录
         /// </summary>
-        public static void LoadPrefab(string path, Action<GameObject> finishCallback)
+        public static void LoadPrefab(string path, Action<GameObject, object[]> finishCallback, params object[] param)
         {
 
-            if (CustomLoadPrefab != null)
+            if (LoadPrefabHook != null)
             {
-                CustomLoadPrefab(path, finishCallback);
+                LoadPrefabHook(path, finishCallback, param);
                 return;
             }
 
             //Default
-            _defaultLoadPrefab(path, finishCallback);
-        }
-
-        public static void LoadPrefab(string path, Action<GameObject> finishCallback, params object[] param)
-        {
-
-            if (CustomLoadPrefabWithParams != null)
-            {
-                CustomLoadPrefabWithParams(path, finishCallback, param);
-                return;
-            }
-
-            //Default
-            _defaultLoadPrefab(path, finishCallback);
-        }
-
-        public static void _defaultLoadPrefab(string path, Action<GameObject> finishCallback)
-        {
-            //Default
-            LoadPrefabAsset(path, (asset) =>
+            Load<GameObject>(path, (asset, param2) =>
             {
                 if (asset)
                 {
                     GameObject ins = GameObject.Instantiate(asset);
                     ins.name = asset.name;
-                    finishCallback(ins);
+                    if (finishCallback != null)
+                    {
+                        finishCallback(ins, param2);
+                    }
                     return;
                 }
-
-                finishCallback(null);
-            });
-
+                if (finishCallback != null)
+                {
+                    finishCallback(null, param2);
+                }
+            }, param);
         }
 
         #endregion
@@ -363,40 +368,22 @@ namespace Framework
         /// <summary>
         /// 卸载 预制体(实例化) 注入方法
         /// </summary>
-        public static Action<GameObject> CustomUnLoadPrefab;
-
-        public static Action<GameObject, object[]> CustomUnLoadPrefabWithParams;
+        public static Action<GameObject, object[]> UnLoadPrefabHook;
 
         /// <summary>
         /// 卸载 预制体(实例化)
         /// </summary>
-        public static void UnLoadPrefab(GameObject prefab)
-        {
-
-            if (CustomUnLoadPrefab != null)
-            {
-                CustomUnLoadPrefab(prefab);
-                return;
-            }
-
-            //Default
-            _defaultUnLoadPrefab(prefab);
-        }
-
         public static void UnLoadPrefab(GameObject prefab, params object[] param)
         {
-
-            if (CustomUnLoadPrefabWithParams != null)
+            if (UnLoadPrefabHook != null)
             {
-                CustomUnLoadPrefabWithParams(prefab, param);
+                UnLoadPrefabHook(prefab, param);
                 return;
             }
-
             //Default
             _defaultUnLoadPrefab(prefab);
         }
-
-        public static void _defaultUnLoadPrefab(GameObject prefab)
+        private static void _defaultUnLoadPrefab(GameObject prefab)
         {
             //Default
             if (!Application.isPlaying && Application.isEditor)
@@ -410,6 +397,44 @@ namespace Framework
         }
 
         #endregion
-        
+
+        //---------------------------------------------------
+
+        #region 弃用方法和字段
+        [Obsolete("多余的封装方法. Using Load<T>")]
+        public static void LoadSprite(string path, Action<Sprite, object[]> finishCallback, params object[] param)
+        {
+            Load<Sprite>(path, finishCallback, param);
+        }
+        [Obsolete("多余的封装方法. Using Load<T>")]
+        public static void LoadTextrue(string path, Action<Texture2D, object[]> finishCallback, params object[] param)
+        {
+            Load<Texture2D>(path, finishCallback, param);
+        }
+
+        public static void LoadPrefabAsset(string path, Action<GameObject, object[]> finishCallback, params object[] param)
+        {
+            Load<GameObject>(path, finishCallback, param);
+        }
+        [Obsolete("多余的封装方法. Using Load<T>")]
+        public static void LoadScriptableObject(string path, Action<ScriptableObject, object[]> finishCallback, params object[] param)
+        {
+            Load<ScriptableObject>(path, finishCallback, param);
+        }
+        [Obsolete("Using LoadMethodHook")]
+        public static Action<string, Type, Action<UnityEngine.Object, object[]>, object[]> CustomLoad
+        {
+            get { return LoadMethodHook; }
+            set { LoadMethodHook = value; }
+        }
+        [Obsolete("Using LoadAllMethodHook")]
+        public static Action<string, Type, Action<UnityEngine.Object[], object[]>, object[]> CustomLoadAll
+        {
+            get { return LoadAllMethodHook; }
+            set { LoadAllMethodHook = value; }
+        }
+
+        #endregion
+
     }
 }

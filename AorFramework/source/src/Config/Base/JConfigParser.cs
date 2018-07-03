@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using AorBaseUtility;
 using AorBaseUtility.Config;
 using AorBaseUtility.MiniJSON;
 using UnityEngine;
@@ -20,11 +19,43 @@ namespace Framework.core
     public class JConfigParser
     {
 
-        private static Regex JsonHeadTipReg = new Regex("//////>.*\n");
+        #region Obsolete
+        //----------------------------------------------------------------
 
-        public static string wirteJsonHeadTag(string HeadTagContent)
+        [Obsolete("Using ToConfig(Type type, Dictionary<string, object> jsonDic)")]
+        public static Config _toConfig(Type type, Dictionary<string, object> jsonDic)
         {
-            return "//////>" + HeadTagContent + "\n";
+            return ToConfig(type, jsonDic);
+        }
+
+        [Obsolete("Using WirteJsonHeadTag(string headTagContent)")]
+        public static string wirteJsonHeadTag(string headTagContent)
+        {
+            return WirteJsonHeadTag(headTagContent);
+        }
+        [Obsolete("Using SplitJsonHeadTag(string src, ref string headTagContent)")]
+        public static string splitJsonHeadTag(string src, ref string headTagContent)
+        {
+            return SplitJsonHeadTag(src, ref headTagContent);
+        }
+        [Obsolete("Using SplitJsonHeadTag(string src)")]
+        public static string splitJsonHeadTag(string src)
+        {
+            return SplitJsonHeadTag(src);
+        }
+        [Obsolete("Using ParseValue(Type type, object value)")]
+        public static object _parseVaule(Type type, object value)
+        {
+            return ParseValue(type, value);
+        }
+        //----------------------------------------------------------------
+        #endregion
+
+        private static readonly Regex JsonHeadTipReg = new Regex("//////>.*\n");
+
+        public static string WirteJsonHeadTag(string headTagContent)
+        {
+            return "//////>" + headTagContent + "\n";
         }
 
         /// <summary>
@@ -41,7 +72,7 @@ namespace Framework.core
         /// <param name="src">带有JsonHeadTag的JSON</param>
         /// <param name="headTagContent">获取JsonHeadTag的容器</param>
         /// <returns>JSON正文</returns>
-        public static string splitJsonHeadTag(string src, ref string headTagContent)
+        public static string SplitJsonHeadTag(string src, ref string headTagContent)
         {
             Match m = JsonHeadTipReg.Match(src);
             if (m.Success)
@@ -60,7 +91,7 @@ namespace Framework.core
         /// </summary>
         /// <param name="src">带有JsonHeadTag的JSON</param>
         /// <returns>JSON正文</returns>
-        public static string splitJsonHeadTag(string src)
+        public static string SplitJsonHeadTag(string src)
         {
             Match m = JsonHeadTipReg.Match(src);
             if (m.Success)
@@ -88,13 +119,13 @@ namespace Framework.core
 
             if (jsonDic != null && jsonDic.Count > 0)
             {
-                return _toConfig(type, jsonDic);
+                return ToConfig(type, jsonDic);
             }
 
             return null;
         }
 
-        public static Config _toConfig(Type type, Dictionary<string, object> jsonDic)
+        public static Config ToConfig(Type type, Dictionary<string, object> jsonDic)
         {
 
             if (jsonDic != null && jsonDic.Count > 0)
@@ -111,7 +142,7 @@ namespace Framework.core
                     {
 
                         Type fieldType = fieldInfo.FieldType;
-                        fieldInfo.SetValue(inst, _parseVaule(fieldType, jsonDic[key]));
+                        fieldInfo.SetValue(inst, ParseValue(fieldType, jsonDic[key]));
                     }
                 }
 
@@ -121,8 +152,9 @@ namespace Framework.core
 
             return null;
         }
-
-        public static object _parseVaule(Type type, object value)
+        
+        [Obsolete("using JSONParser.ParseValue")]
+        public static object ParseValue(Type type, object value)
         {
             if (value == null) return null;
 
@@ -135,7 +167,7 @@ namespace Framework.core
                 int i, len = list.Count;
                 for (i = 0; i < len; i++)
                 {
-                    ins.SetValue(_parseVaule(subType, list[i]), i);
+                    ins.SetValue(ParseValue(subType, list[i]), i);
                 }
                 return ins;
             }
@@ -158,7 +190,7 @@ namespace Framework.core
                     int i, len = list.Count;
                     for (i = 0; i < len; i++)
                     {
-                        ins.Add(_parseVaule(ttl, list[i]));
+                        ins.Add(ParseValue(ttl, list[i]));
                     }
                     return ins;
                 }
@@ -183,7 +215,7 @@ namespace Framework.core
                             {
                                 foreach (string k in sub.Keys)
                                 {
-                                    ins.Add(_parseVaule(keyType, k), _parseVaule(valueType, sub[k]));
+                                    ins.Add(ParseValue(keyType, k), ParseValue(valueType, sub[k]));
                                 }
                             }
                         }
@@ -201,7 +233,7 @@ namespace Framework.core
 
                         foreach (object key in dic.Keys)
                         {
-                            ins.Add(_parseVaule(keyType, key), _parseVaule(valueType, dic[key]));
+                            ins.Add(ParseValue(keyType, key), ParseValue(valueType, dic[key]));
                         }
                         return ins;
                     }
@@ -212,7 +244,7 @@ namespace Framework.core
             {
                 //其他Config类
                 Dictionary<string, object> dic = (Dictionary<string, object>) value;
-                return _toConfig(type, dic);
+                return ToConfig(type, dic);
             }
             else
             {
@@ -220,7 +252,7 @@ namespace Framework.core
             }
             return null;
         }
-
+        [Obsolete("using JSONParser._parseBaseData")]
         private static object _parseBaseData(Type type, string data)
         {
             if (data.Equals(""))
@@ -319,7 +351,7 @@ namespace Framework.core
             string FullClassName = type.Assembly.ManifestModule.Name + "::" + (string.IsNullOrEmpty(type.Namespace) ? " " : type.Namespace) + "::" + type.Name;
 
             //写入Json注释头
-            _string.Append(wirteJsonHeadTag(FullClassName));
+            _string.Append(WirteJsonHeadTag(FullClassName));
 
             _string.Append(_ClassToJSON(config, type));
 

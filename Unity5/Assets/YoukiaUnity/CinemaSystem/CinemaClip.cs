@@ -108,16 +108,9 @@ namespace YoukiaUnity.CinemaSystem
 
         private bool _isStarted = false;
 
-        public static void LoadTexture(string path, Action<Texture> loadedCallback, params object[] param)
+        public static void LoadTexture(string path, Action<Texture2D, object[]> loadedCallback, params object[] param)
         {
-            if (param != null && param.Length > 0)
-            {
-                ResourcesLoadBridge.LoadTextrue(path, loadedCallback, param);
-            }
-            else
-            {
-                ResourcesLoadBridge.LoadTextrue(path, loadedCallback);
-            }
+            ResourcesLoadBridge.LoadTextrue(path, loadedCallback, param);
         }
 
         /// <summary>
@@ -125,16 +118,9 @@ namespace YoukiaUnity.CinemaSystem
         /// </summary>
         /// <param name="path">CinemaClip加载path</param>
         /// <param name="loadedCallback">>加载成功后需要执行的回调(传递实例后的加载对象)</param>
-        public static void LoadPrefab(string path, Action<GameObject> loadedCallback, params object[] param)
+        public static void LoadPrefab(string path, Action<GameObject, object[]> loadedCallback, params object[] param)
         {
-            if (param != null && param.Length > 0)
-            {
-                ResourcesLoadBridge.LoadPrefab(path, loadedCallback, param);
-            }
-            else
-            {
-                ResourcesLoadBridge.LoadPrefab(path, loadedCallback);
-            }
+            ResourcesLoadBridge.LoadPrefab(path, loadedCallback, param);
         }
 
         public static Func<GameObject> HideCurrentSceneCustom;
@@ -767,7 +753,7 @@ namespace YoukiaUnity.CinemaSystem
                     loadEffectLoop(effects, index, finish);
                 }
                 else{
-                    LoadPrefab(effects[index].EffectLoadPath, (obj) =>
+                    LoadPrefab(effects[index].EffectLoadPath, (obj, param) =>
                     {
                         
                         if (obj != null)
@@ -885,7 +871,7 @@ namespace YoukiaUnity.CinemaSystem
                 }
                 else
                 {
-                    LoadPrefab(objects[index].ObjectLoadPath, (obj) =>
+                    LoadPrefab(objects[index].ObjectLoadPath, (obj, param) =>
                     {
 
                         obj.transform.localRotation = Quaternion.identity;

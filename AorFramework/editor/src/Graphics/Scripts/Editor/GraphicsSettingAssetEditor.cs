@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using AorBaseUtility;
-using Framework.editor;
+using Framework.Editor;
 using Framework.Graphic.Utility;
 using UnityEngine;
 using UnityEditor;
@@ -88,7 +88,7 @@ namespace Framework.UI.editor
 
             GUILayout.Space(8);
 
-            GCamGDesInfo mainDesInfo = (GCamGDesInfo)_target.ref_GetField_Inst_Public("MainCamDesInfo");
+            GCamGDesInfo mainDesInfo = (GCamGDesInfo)_target.GetPublicField("MainCamDesInfo");
             if (!mainDesInfo.init)
             {
                 mainDesInfo = new GCamGDesInfo("MainCamera", SubGCamType.MainCamera, -1, 0);

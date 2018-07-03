@@ -8,7 +8,7 @@ namespace Framework
         /// <summary>
         /// 查找Shader的注入方法
         /// </summary>
-        public static Func<string, Shader> CustomFind;
+        public static Func<string, Shader> FindHook;
         /// <summary>
         /// 查找Shader的桥接方法
         /// </summary>
@@ -16,11 +16,10 @@ namespace Framework
         /// <param name="callback"></param>
         public static Shader Find(string shaderName)
         {
-            if (CustomFind != null)
+            if (FindHook != null)
             {
-                return CustomFind(shaderName);
+                return FindHook(shaderName);
             }
-
             //default:
             return Shader.Find(shaderName);
         }
@@ -29,18 +28,17 @@ namespace Framework
         /// <summary>
         /// 查找Shader的注入方法 (异步)
         /// </summary>
-        public static Action<string, Action<Shader>> CustomFindAsync;
+        public static Action<string, Action<Shader>> FindAsyncHook;
         /// <summary>
         /// 查找Shader的桥接方法 (异步)
         /// </summary>
         public static void FindAsync(string shaderName, Action<Shader> callBack)
         {
-            if (CustomFind != null)
+            if (FindAsyncHook != null)
             {
-                CustomFindAsync(shaderName, callBack);
+                FindAsyncHook(shaderName, callBack);
                 return;
             }
-
             //default:
             callBack(Shader.Find(shaderName));
         }

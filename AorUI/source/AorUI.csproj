@@ -76,10 +76,10 @@
     <Compile Include="src\UGUIHelper\RTSizeListener.cs" />
     <Compile Include="src\UGUISRC\UGUI_FontUpdateTracker_SC.cs" />
     <Compile Include="src\UGUISRC\UGUI_Text_SC.cs" />
-    <Compile Include="src\UIManager\Scripts\AorUIManager.cs" />
-    <Compile Include="src\UIManager\Scripts\AorUIManagerLuncher.cs" />
+    <Compile Include="src\UIManager\Scripts\UIManager.cs" />
+    <Compile Include="src\UIManager\Scripts\UIManagerLuncher.cs" />
     <Compile Include="src\UIManager\Scripts\UIManagerSettingAsset.cs" />
-    <Compile Include="src\UIManager\Scripts\UiRuntimeUtility.cs" />
+    <Compile Include="src\UIManager\Scripts\UIRuntimeUtility.cs" />
     <Compile Include="src\UIUtility\RTFBrowser\RTFBrowser.cs" />
   </ItemGroup>
   <ItemGroup>

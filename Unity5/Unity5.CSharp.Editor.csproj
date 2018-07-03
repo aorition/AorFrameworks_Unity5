@@ -169,26 +169,13 @@
   <ItemGroup>
     <Compile Include="Assets\Editor\CinemaClipGizmoDrawer.cs" />
     <Compile Include="Assets\Editor\TestCode\RT2TexTestCode.cs" />
-    <Compile Include="Assets\Scripts\Modules\Graphics\Editor\DemoEnvironmentSettingEditor.cs" />
-    <Compile Include="Assets\Scripts\Modules\Graphics\Editor\GraphicsManagerEditor.cs" />
-    <Compile Include="Assets\Scripts\Modules\Graphics\Editor\MaterialSnapShotWindow.cs" />
-    <Compile Include="Assets\Scripts\Modules\Graphics\Editor\SubCameraInfoEditor.cs" />
-    <Compile Include="Assets\Scripts\Modules\Graphics\PigeonCoopToolkit\Effects\Trails\Editor\ExecutionOrderSetter.cs" />
-    <Compile Include="Assets\Scripts\Modules\Graphics\PigeonCoopToolkit\Effects\Trails\Editor\InfoDialogueSpawner.cs" />
-    <Compile Include="Assets\Scripts\Modules\Graphics\PigeonCoopToolkit\Effects\Trails\Editor\SmokePlumeEditor.cs" />
-    <Compile Include="Assets\Scripts\Modules\Graphics\PigeonCoopToolkit\Effects\Trails\Editor\SmokeTrailEditor.cs" />
-    <Compile Include="Assets\Scripts\Modules\Graphics\PigeonCoopToolkit\Effects\Trails\Editor\SmoothTrailEditor.cs" />
-    <Compile Include="Assets\Scripts\Modules\Graphics\PigeonCoopToolkit\Effects\Trails\Editor\TrailEditor.cs" />
-    <Compile Include="Assets\Scripts\Modules\Graphics\PigeonCoopToolkit\Effects\Trails\Editor\TrailEditor_Base.cs" />
-    <Compile Include="Assets\Scripts\Modules\Graphics\PigeonCoopToolkit\Effects\Trails\Editor\TrailPreviewUtillity.cs" />
-    <Compile Include="Assets\Scripts\Modules\Graphics\PigeonCoopToolkit\Shared\Generic\Editor\InfoDialogue.cs" />
-    <Compile Include="Assets\Scripts\Modules\Graphics\PigeonCoopToolkit\Shared\Utillities\Editor\RangePropertyDrawer.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\Editor\SplineAnimationInspector.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\Editor\SplineDataExport.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\Editor\SplineDataImport.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\Editor\SplineEditorUtility.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\Editor\SplineInspector.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\Editor\SplinesMenu.cs" />
+    <Compile Include="Assets\Scripts\Modules\TexChannelTool\Editor\TexChannelToolWindow.cs" />
     <Compile Include="Assets\T4MLite\Editor\T4MExtendsSC.cs" />
     <Compile Include="Assets\T4MLite\Editor\T4MSC.cs" />
     <Compile Include="Assets\Temp\Editor\AorRectTransformEditor.cs" />

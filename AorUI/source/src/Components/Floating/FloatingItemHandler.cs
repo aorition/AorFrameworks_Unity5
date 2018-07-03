@@ -10,27 +10,21 @@ namespace Framework.UI
 
         public static bool GlobalUpdateToggle = true;
 
-//        public static FloatingItemHandler createFloatingItemHandler(AorUIManager uiManager, Transform floatingTarget, RectTransform displayUITarget, Camera workCamera, bool UseScaleByZDistance = false, float ItemScaleDef = 100f, ScaleModeType _ScaleType = ScaleModeType.widthBase)
-        public static FloatingItemHandler createFloatingItemHandler(AorUIManager uiManager, Transform floatingTarget, RectTransform displayUITarget, Camera workCamera, bool UseScaleByZDistance = false, float ItemScaleDef = 100f)
+        public static FloatingItemHandler CreateFloatingItemHandler(Transform floatingTarget, RectTransform displayUITarget, Camera workCamera, Canvas canvas, bool UseScaleByZDistance = false, float ItemScaleDef = 100f)
         {
-            return createFloatingItemHandler(uiManager, floatingTarget, displayUITarget, workCamera, Vector2.zero, Vector3.zero, UseScaleByZDistance, ItemScaleDef);
+            return CreateFloatingItemHandler(floatingTarget, displayUITarget, workCamera, canvas, Vector2.zero, Vector3.zero, UseScaleByZDistance, ItemScaleDef);
         }
 
-//        public static FloatingItemHandler createFloatingItemHandler(AorUIManager uiManager, Transform floatingTarget, RectTransform displayUITarget, Camera workCamera, Vector2 srceenOffset, Vector3 worldOffset, bool UseScaleByZDistance = false, float ItemScaleDef = 100f, ScaleModeType _ScaleType = ScaleModeType.widthBase)
-        public static FloatingItemHandler createFloatingItemHandler(AorUIManager uiManager, Transform floatingTarget, RectTransform displayUITarget, Camera workCamera, Vector2 srceenOffset, Vector3 worldOffset, bool UseScaleByZDistance = false, float ItemScaleDef = 100f)
+        public static FloatingItemHandler CreateFloatingItemHandler(Transform floatingTarget, RectTransform displayUITarget, Camera workCamera, Canvas canvas, Vector2 srceenOffset, Vector3 worldOffset, bool UseScaleByZDistance = false, float ItemScaleDef = 100f)
         {
             FloatingItemHandler fih = displayUITarget.gameObject.AddComponent<FloatingItemHandler>();
-//            fih.UiManager = uiManager;
             fih.FloatingTarget = floatingTarget;
             fih.SrceenOffset = srceenOffset;
             fih.WorldOffset = worldOffset;
             fih.WorkCamera = workCamera;
+            fih.canvas = canvas;
             fih.UseScaleByZDistance = UseScaleByZDistance;
             fih.ItemScaleDef = ItemScaleDef;
-//            if(_ScaleType == ScaleModeType.widthBase)
-//                fih.UIScale = uiManager.StageScale;
-//            else if(_ScaleType == ScaleModeType.heightBase)
-//                fih.UIScale = uiManager.GetHeightBaseMode();
             return fih;
         }
 
@@ -48,6 +42,7 @@ namespace Framework.UI
         public Vector3 WorldOffset;
         public Camera WorkCamera;
         public CanvasGroup _CanvasGroup;
+        public Canvas canvas;
 
         public float DistanceLimit = 200f;
 
@@ -61,7 +56,7 @@ namespace Framework.UI
         private float cameraLastFOV;
 
         [HideInInspector, NonSerialized]
-        public RectTransform _rect;
+        public RectTransform _rectT;
         private bool _isInit = false;
         public bool IsInit {
             get { return _isInit; }
@@ -69,20 +64,23 @@ namespace Framework.UI
 
         private void Start()
         {
-            if(!_isInit) AheadInit();
+            if(!_isInit) __init();
         }
 
         private void Awake()
         {
-            _rect = gameObject.GetComponent<RectTransform>();
+            _rectT = gameObject.GetComponent<RectTransform>();
 
-            _rect.anchorMin = Vector2.zero;
-            _rect.anchorMax = Vector2.zero;
-            _rect.anchoredPosition = Vector2.zero;
+            //            _rectT.anchorMin = Vector2.zero;
+            //            _rectT.anchorMax = Vector2.zero;
+            //            _rectT.anchoredPosition = Vector2.zero;
+
+            _rectT.anchorMin = new Vector2(0.5f, 0.5f);
+            _rectT.anchorMax = new Vector2(0.5f, 0.5f);
 
         }
 
-        public void AheadInit()
+        private void __init()
         {
             _CanvasGroup = gameObject.GetComponent<CanvasGroup>();
             if (_CanvasGroup == null)
@@ -92,7 +90,7 @@ namespace Framework.UI
 
             if (FloatingTarget != null && WorkCamera != null)
             {
-                setPostionOnScreen();
+                UpdatePosOnScreen();
             }
 
             _isInit = true;
@@ -102,17 +100,13 @@ namespace Framework.UI
             if (_isInit && FloatingTarget != null && WorkCamera != null)
             {
                 // _CanvasGroup.alpha = 0;
-                setPostionOnScreen();
+                UpdatePosOnScreen();
             }
         }
-
-
-        public void setPostionOnScreen()
+        
+        public void UpdatePosOnScreen()
         {
-            if (cameraLastPosition == WorkCamera.transform.position &&
-                itemLastPosition == FloatingTarget.position &&
-                cameraLastFOV == WorkCamera.fieldOfView)
-                return;
+
             cameraLastPosition = WorkCamera.transform.position;
             itemLastPosition = FloatingTarget.position;
             cameraLastFOV = WorkCamera.fieldOfView;
@@ -121,18 +115,36 @@ namespace Framework.UI
             float dis = Vector3.Distance(cameraLastPosition, itemLastPosition);
             if (posDir != Vector3.zero && Vector3.Dot(WorkCamera.transform.forward, posDir) < 0 && dis < DistanceLimit)
             {
-                Vector3 ScreenPos = WorkCamera.WorldToScreenPoint(itemLastPosition + WorldOffset);
+                Vector3 ScreenPos = Vector3.zero;
+                if (canvas && (canvas.renderMode == RenderMode.ScreenSpaceCamera || canvas.renderMode == RenderMode.WorldSpace) &&  canvas.worldCamera)
+                {
+                    //这个是UGUI坐标转世界坐标的算法
+
+//                    Vector3 scr = RectTransformUtility.WorldToScreenPoint(canvas.worldCamera, obj.transform.position);
+//                    scr.z = 0;
+//                    scr.z = Mathf.Abs(Camera.main.transform.position.z - transform.position.z);
+//                    currentObj.transform.position = Camera.main.ScreenToWorldPoint(scr);
+
+
+                    Vector2 pos;
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, WorkCamera.WorldToScreenPoint(itemLastPosition), canvas.worldCamera, out pos);
+                    ScreenPos = pos;
+                }
+                else
+                {
+                    ScreenPos = WorkCamera.WorldToScreenPoint(itemLastPosition + WorldOffset) - new Vector3((float)Screen.width / 2, (float)Screen.height / 2,0);
+                }
                 if (UseScaleByZDistance)
                 {
                     float sd = ItemScaleDef / Vector3.Distance(cameraLastPosition, FloatingTarget.transform.position);
-                    _rect.localScale = UIScale * sd;
-                    _rect.anchoredPosition = new Vector2(ScreenPos.x + SrceenOffset.x * UIScale.x * sd,
+                    _rectT.localScale = UIScale * sd;
+                    _rectT.anchoredPosition = new Vector2(ScreenPos.x + SrceenOffset.x * UIScale.x * sd,
                         ScreenPos.y + SrceenOffset.y * UIScale.y * sd);
                 }
                 else
                 {
-                    _rect.localScale = UIScale;
-                    _rect.anchoredPosition = new Vector2(ScreenPos.x + SrceenOffset.x * UIScale.x,
+                    _rectT.localScale = UIScale;
+                    _rectT.anchoredPosition = new Vector2(ScreenPos.x + SrceenOffset.x * UIScale.x,
                         ScreenPos.y + SrceenOffset.y * UIScale.y);
                 }
                 _CanvasGroup.alpha = 1;
@@ -163,11 +175,19 @@ namespace Framework.UI
 
         private void LateUpdate()
         {
-            if (FloatingTarget != null && WorkCamera != null && GlobalUpdateToggle && UpdateToggle)
+            if (FloatingTarget != null && WorkCamera != null && GlobalUpdateToggle && UpdateToggle && _updateDirty())
             {
-                setPostionOnScreen();
+                UpdatePosOnScreen();
             }
         }
+
+        private bool _updateDirty()
+        {
+            return !(cameraLastPosition == WorkCamera.transform.position
+                     && itemLastPosition == FloatingTarget.position 
+                     && cameraLastFOV.Equals( WorkCamera.fieldOfView));
+        }
+
         //---------------------------------------
 
         [Serializable]

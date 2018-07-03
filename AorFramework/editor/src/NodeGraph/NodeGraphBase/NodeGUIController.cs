@@ -16,7 +16,7 @@ namespace Framework.NodeGraph
     /// <summary>
     /// NodeData GUI内容绘制器
     /// </summary>
-    //[NodeToolItem("NodeBase", "AorFramework.NodeGraph.NodeData|AorFramework.NodeGraph.NodeController|AorFramework.NodeGraph.NodeGUIController")]
+    //[NodeToolItem("NodeBase", "Framework.NodeGraph.NodeData|AorFramework.NodeGraph.NodeController|AorFramework.NodeGraph.NodeGUIController")]
     public class NodeGUIController : INodeGUIController
     {
 
@@ -161,7 +161,7 @@ namespace Framework.NodeGraph
 
             var menu = new GenericMenu();
             menu.AddItem(
-                new GUIContent(NodeGraphLagDefind.GetLabelDefine(14)),
+                new GUIContent(NodeGraphLagDefind.Get("delete")),
                 false,
                 () => {
                     if (NodeGraphBase.Instance != null)
@@ -176,7 +176,7 @@ namespace Framework.NodeGraph
                 {
                     menu.AddItem(
                         //取消MianNode
-                        new GUIContent(NodeGraphLagDefind.GetLabelDefine(16)),
+                        new GUIContent(NodeGraphLagDefind.Get("cancelSetMainNode")),
                         false,
                         () =>
                         {
@@ -191,7 +191,7 @@ namespace Framework.NodeGraph
                 {
                     menu.AddItem(
                         //设置MainNode
-                        new GUIContent(NodeGraphLagDefind.GetLabelDefine(15)),
+                        new GUIContent(NodeGraphLagDefind.Get("setNodeAsMainNode")),
                         false,
                         () =>
                         {

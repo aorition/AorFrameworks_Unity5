@@ -6,7 +6,7 @@ using AorBaseUtility;
 using UnityEngine;
 using UnityEditor;
 
-namespace Framework.editor
+namespace Framework.Editor
 {
 
     public class MeshExportUtil

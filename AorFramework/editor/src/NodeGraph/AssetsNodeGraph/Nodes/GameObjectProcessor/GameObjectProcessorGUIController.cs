@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Framework.NodeGraph
 {
-    [NodeToolItem("GameObject#<3>",
+    [NodeToolItem("GameObject#<processor>",
         "Framework.NodeGraph",
         "GameObjectProcessorData|GameObjectProcessorController|GameObjectProcessorGUIController",
         "Hierarchy Tools")]
@@ -21,7 +21,7 @@ namespace Framework.NodeGraph
 
         public override string GetNodeLabel()
         {
-             return "GameObject" + AssetNodeGraphLagDefind.GetLabelDefine(3);
+             return "GameObject" + NodeGraphLagDefind.Get("processor");
         }
 
         private Vector2 _NodeMinSize = new Vector2(230, 120);
@@ -34,10 +34,10 @@ namespace Framework.NodeGraph
         {
             if (_ConnectionPointGUIList == null)
             {
-                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 2, typeof(int[]).Name, "PrefabInput", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(9) + AssetNodeGraphLagDefind.GetLabelDefine(7), new Vector2(100, 60), ConnectionPointInoutType.MutiInput);
+                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 2, typeof(int[]).Name, "PrefabInput", m_nodeGUI, NodeGraphLagDefind.Get("prefab") + NodeGraphLagDefind.Get("input"), new Vector2(100, 60), ConnectionPointInoutType.MutiInput);
                 ConnectionPointGUI p1 = new ConnectionPointGUI(101, 1, 2, typeof(int).Name, "PredefinedAction", m_nodeGUI, "PredefinedAction", new Vector2(100, 60), ConnectionPointInoutType.Input);
-                ConnectionPointGUI p2 = new ConnectionPointGUI(200, 0, 2, typeof(int[]).Name, "InstancesPath", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(8), new Vector2(120, 60), ConnectionPointInoutType.Output);
-                ConnectionPointGUI p3 = new ConnectionPointGUI(201, 1, 2, typeof(string[]).Name, "CustomScriptResultInfo", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(16), new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p2 = new ConnectionPointGUI(200, 0, 2, typeof(int[]).Name, "InstancesPath", m_nodeGUI, NodeGraphLagDefind.Get("output"), new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p3 = new ConnectionPointGUI(201, 1, 2, typeof(string[]).Name, "CustomScriptResultInfo", m_nodeGUI, NodeGraphLagDefind.Get("info"), new Vector2(120, 60), ConnectionPointInoutType.Output);
 
                 _ConnectionPointGUIList = new List<ConnectionPointGUI>() {p0, p1, p2, p3};
             }
@@ -91,7 +91,7 @@ namespace Framework.NodeGraph
                     UnityEngine.Object custom = AssetDatabase.LoadMainAssetAtPath(customPath);
                     if (custom != null)
                     {
-                        GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IGameObjectProcess)");
+                        GUILayout.Label(NodeGraphLagDefind.Get("customScript") + "(IGameObjectProcess)");
                         UnityEngine.Object n = EditorGUILayout.ObjectField(custom, typeof(MonoScript), false);
                         if (n == null)
                         {
@@ -124,7 +124,7 @@ namespace Framework.NodeGraph
                                 _describeStyle.normal.textColor = Color.white;
                             }
 
-                            GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(5) + " : " + des, _describeStyle);
+                            GUILayout.Label(NodeGraphLagDefind.Get("description") + " : " + des, _describeStyle);
                         }
 
                         //显示自定义脚本字段
@@ -160,7 +160,7 @@ namespace Framework.NodeGraph
             }
             else
             {
-                GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(4) + "(IGameObjectProcess)");
+                GUILayout.Label(NodeGraphLagDefind.Get("customScript") + "(IGameObjectProcess)");
                 UnityEngine.Object n = EditorGUILayout.ObjectField(null, typeof (MonoScript), false);
                 if (n != null)
                 {
@@ -185,7 +185,7 @@ namespace Framework.NodeGraph
                 string rid = (string)m_nodeGUI.data.ref_GetField_Inst_Public("ResultInfoDescribe");
                 if (string.IsNullOrEmpty(rid))
                 {
-                    GUILayout.Label(AssetNodeGraphLagDefind.GetLabelDefine(6) + ":");
+                    GUILayout.Label(NodeGraphLagDefind.Get("resultInfo") + ":");
                 }
                 else
                 {

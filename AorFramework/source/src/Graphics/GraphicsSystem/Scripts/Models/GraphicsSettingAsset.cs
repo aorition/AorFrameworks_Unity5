@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using AorFramework;
 using UnityEngine;
 
-public class GraphicsSettingAsset : ScriptableObject
+public class GraphicsSettingAsset : JScriptableObject
 {
 
     public bool UseFixedUpdate = false;
@@ -20,6 +21,7 @@ public class GraphicsSettingAsset : ScriptableObject
 
 }
 
+[Serializable]
 public enum SubGCamType
 {
     Normal,

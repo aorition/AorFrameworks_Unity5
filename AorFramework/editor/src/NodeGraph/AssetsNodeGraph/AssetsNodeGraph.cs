@@ -24,7 +24,7 @@ namespace Framework.NodeGraph
         }
 
         //AssetNodeGraph 对 NodeToolItemAttribute.ToolItemLabelDefine 定义了由 AssetNodeGraphLagDefind类 提供的多语言代替标签
-        private Regex TALabelLagIDReg = new Regex("#<\\d+>");
+        private Regex TALabelLagIDReg = new Regex("#<[a-zA-Z0-9]+>");
 
         protected override string _GetToolItemLabel(string label)
         {
@@ -39,8 +39,7 @@ namespace Framework.NodeGraph
                     Match m = mc[i];
                     string t = m.Value.Substring(2);
                     t = t.Substring(0, t.Length - 1);
-                    int lagId = int.Parse(t);
-                    itemLabel = itemLabel.Replace(m.Value, AssetNodeGraphLagDefind.GetLabelDefine(lagId));
+                    itemLabel = itemLabel.Replace(m.Value, NodeGraphLagDefind.Get(t));
                 }
 
                 return itemLabel;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
-using Framework.editor;
+using Framework.Editor;
 
 [CustomEditor(typeof(SpriteAsset))]
 public class UGUISpriteAssetEditor : Editor {

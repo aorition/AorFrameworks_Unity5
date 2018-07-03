@@ -7,6 +7,9 @@ namespace Framework
 {
     /// <summary>
     /// 提供AddComponent的桥接功能
+    /// 
+    /// (尚未验证此桥接类的实用性)
+    /// 
     /// </summary>
     public class AddComponentBridge
     {

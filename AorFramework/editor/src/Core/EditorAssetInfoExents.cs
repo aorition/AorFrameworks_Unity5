@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Framework.editor
+namespace Framework.Editor
 {
 
     public static class EditorAssetInfoExents

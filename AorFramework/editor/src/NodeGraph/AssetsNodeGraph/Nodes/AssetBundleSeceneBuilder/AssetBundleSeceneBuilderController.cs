@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using AorBaseUtility;
-using Framework.editor;
+using Framework.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -28,6 +28,10 @@ namespace Framework.NodeGraph
 
             string subPath = (string)m_nodeGUI.data.ref_GetField_Inst_Public("SubPath");
             string path = Application.streamingAssetsPath + (string.IsNullOrEmpty(subPath) ? "" : "/" + subPath);
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
 
             //获取上级节点数据
             ConnectionPointGUI cpg = NodeGraphBase.Instance.GetConnectionPointGui(m_nodeGUI.id, 100, ConnectionPointInoutType.MutiInput);

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
-using Framework.NodeGraph.Tool;
 using Framework.NodeGraph.Utility;
 using UnityEditor;
 using UnityEngine;
 
 namespace Framework.NodeGraph
 {
-    [NodeToolItem("AssetBundleBuilder",
+    [NodeToolItem("#<assetsBuilder>",
         "Framework.NodeGraph",
         "AssetBundleBuilderData|AssetBundleBuilderController|AssetBundleBuilderGUIController",
         "AssetBundleTools")]
@@ -17,7 +16,7 @@ namespace Framework.NodeGraph
 
         public override string GetNodeLabel()
         {
-            return "AssetBundleBuilder";
+            return NodeGraphLagDefind.Get("assetsBuilder");
         }
 
         private Vector2 _MinSizeDefind = new Vector2(200, 120);
@@ -67,6 +66,39 @@ namespace Framework.NodeGraph
             if (m_nodeGUI == null) return;
 
             GUILayout.BeginVertical("box", GUILayout.Width(inspectorWidth));
+            GUILayout.Space(10);
+            GUILayout.Label("打包设置:");
+            GUILayout.Space(5);
+            
+          
+            GUILayout.Label("BuildAssetBundleOptions:");
+            GUILayout.BeginHorizontal();
+            NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "None",new GUIContent ("None"));
+            NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "UncompressedAssetBundle", new GUIContent("UncompressedAssetBundle"));
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "CollectDependencies", new GUIContent("CollectDependencies"));
+        
+            NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "CompleteAssets", new GUIContent("CompleteAssets"));
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "DisableWriteTypeTree", new GUIContent("DisableWriteTypeTree"));
+            NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "DeterministicAssetBundle", new GUIContent("DeterministicAssetBundle"));
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "ForceRebuildAssetBundle", new GUIContent("ForceRebuildAssetBundle"));
+            NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "IgnoreTypeTreeChanges", new GUIContent("IgnoreTypeTreeChanges"));
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "AppendHashToAssetBundleName", new GUIContent("AppendHashToAssetBundleName"));
+  
+            NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "ChunkBasedCompression", new GUIContent("ChunkBasedCompression"));
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "StrictMode", new GUIContent("StrictMode"));
+            NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "DryRunBuild", new GUIContent("DryRunBuild"));
+            GUILayout.EndHorizontal();
+            GUILayout.Space(15);
 
             //AddonsPacking
             bool addp = NodeGraphUtility.Draw_NG_Toggle(m_nodeGUI.data, "AddonsPacking", new GUIContent("增量打包模式"));
@@ -93,6 +125,8 @@ namespace Framework.NodeGraph
             //save路径
             NodeGraphUtility.Draw_NG_TextField(m_nodeGUI.data, "SubPath", new GUIContent("APBundleSave路径(默认为空)"));
 
+
+            GUILayout.Space(5);
             if (GUILayout.Button("Build AssetBundle"))
             {
                 m_nodeGUI.controller.update();
@@ -107,7 +141,7 @@ namespace Framework.NodeGraph
         {
             if (_ConnectionPointGUIList == null)
             {
-                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(string[]).Name, "input", m_nodeGUI, AssetNodeGraphLagDefind.GetLabelDefine(7), new Vector2(100,60),  ConnectionPointInoutType.MutiInput);
+                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(string[]).Name, "input", m_nodeGUI, NodeGraphLagDefind.Get("input"), new Vector2(100,60),  ConnectionPointInoutType.MutiInput);
                 _ConnectionPointGUIList = new List<ConnectionPointGUI>() {p0};
             }
 

@@ -16,6 +16,17 @@ namespace Framework
     /// </summary>
     public static class TransformExtends
     {
+
+        #region 废弃的方法
+
+        [Obsolete("Using GetHierarchyPath")]
+        public static string getHierarchyPath(this Transform tran)
+        {
+            return _getHierarchPathLoop(tran);
+        }
+
+        #endregion
+
         public static void Dispose(this Transform trans)
         {
             trans.gameObject.Dispose();
@@ -40,7 +51,7 @@ namespace Framework
         /// <summary>
         /// 获取对象在Hierarchy中的节点路径
         /// </summary>
-        public static string getHierarchyPath(this Transform tran)
+        public static string GetHierarchyPath(this Transform tran)
         {
             return _getHierarchPathLoop(tran);
         }

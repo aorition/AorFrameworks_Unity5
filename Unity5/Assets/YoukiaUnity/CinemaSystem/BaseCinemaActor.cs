@@ -72,7 +72,7 @@ namespace YoukiaUnity.CinemaSystem
             if (!character.UseActorIDPreBinding && !string.IsNullOrEmpty(character.ActorLoadPath))
             {
 
-                CinemaClip.LoadPrefab(character.ActorLoadPath, (go) =>
+                CinemaClip.LoadPrefab(character.ActorLoadPath, (go, param) =>
                 {
 
                     if (go == null)
@@ -121,7 +121,7 @@ namespace YoukiaUnity.CinemaSystem
                         if (character.UseActorIDPreBinding && !string.IsNullOrEmpty(character.ActorLoadPath))
                         {
                             Log.Error("补救？拿资源里的人");
-                            CinemaClip.LoadPrefab(character.ActorLoadPath, (o) =>
+                            CinemaClip.LoadPrefab(character.ActorLoadPath, (o, param) =>
                             {
 
                                 if (o == null)

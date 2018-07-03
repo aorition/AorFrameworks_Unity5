@@ -306,7 +306,7 @@ namespace Framework.NodeGraph
                 {
                     Type fieldType = fieldInfo.FieldType;
 
-                    fieldInfo.SetValue(this, JConfigParser._parseVaule(fieldType, keyValue[key]));
+                    fieldInfo.SetValue(this, JConfigParser.ParseValue(fieldType, keyValue[key]));
                 }
             }
         }
@@ -341,19 +341,19 @@ namespace Framework.NodeGraph
                 GUILayout.BeginHorizontal();
 
                     GUILayout.FlexibleSpace();
-                    GUILayout.Label(NodeGraphLagDefind.GetLabelDefine(1), "HeaderLabel");
+                    GUILayout.Label(NodeGraphLagDefind.Get("welcome"), "HeaderLabel");
                     GUILayout.FlexibleSpace();
 
                 GUILayout.EndHorizontal();
                 
                 //test 新建工作流
-                if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(2) + " Graph"))
+                if (GUILayout.Button(NodeGraphLagDefind.Get("new") + " Graph"))
                 {
                     NewNodeGraph();
                     Repaint();
                 }
 
-                if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(3) + " Graph"))
+                if (GUILayout.Button(NodeGraphLagDefind.Get("open") + " Graph"))
                 {
                     OpenGraph();
                     Repaint();
@@ -423,7 +423,7 @@ namespace Framework.NodeGraph
                 GUILayout.BeginHorizontal();
 
                     GUILayout.FlexibleSpace();
-                    GUILayout.Label(NodeGraphLagDefind.GetLabelDefine(4), "HeaderLabel");
+                    GUILayout.Label(NodeGraphLagDefind.Get("noInit"), "HeaderLabel");
                     GUILayout.FlexibleSpace();
 
                 GUILayout.EndHorizontal();
@@ -1000,7 +1000,7 @@ namespace Framework.NodeGraph
             GUILayout.BeginHorizontal(GUILayout.Width(Screen.width), GUILayout.Height(NodeGraphDefind.MenuLayoutHeight));
 //            AorGUILayout.Horizontal(() =>
 //            {
-                if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(13), NodeGraphDefind.GetToolBarBtnStyle(_isShowToolArea), GUILayout.Height(28), GUILayout.Width(_ToolAreaWidth)))
+                if (GUILayout.Button(NodeGraphLagDefind.Get("toolbar"), NodeGraphDefind.GetToolBarBtnStyle(_isShowToolArea), GUILayout.Height(28), GUILayout.Width(_ToolAreaWidth)))
                 {
                     _isShowToolArea = !_isShowToolArea;
                 }
@@ -1014,15 +1014,15 @@ namespace Framework.NodeGraph
                     GUILayout.BeginHorizontal("AnimationEventBackground", GUILayout.Height(NodeGraphDefind.MenuLayoutHeight), GUILayout.ExpandWidth(true));
 
                     //新建Graph
-                    if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(2) + " Graph", GUILayout.Height(28),
+                    if (GUILayout.Button(NodeGraphLagDefind.Get("new") + " Graph", GUILayout.Height(28),
                         GUILayout.Width(120)))
                     {
                         if (string.IsNullOrEmpty(_saveGraphPath))
                         {
-                            if (EditorUtility.DisplayDialog(NodeGraphLagDefind.GetLabelDefine(5),
-                                "Graph " + NodeGraphLagDefind.GetLabelDefine(6) + "," +
-                                NodeGraphLagDefind.GetLabelDefine(7) + "?", NodeGraphLagDefind.GetLabelDefine(8),
-                                NodeGraphLagDefind.GetLabelDefine(9)))
+                            if (EditorUtility.DisplayDialog(NodeGraphLagDefind.Get("prompt"),
+                                "Graph " + NodeGraphLagDefind.Get("nonSave") + "," +
+                                NodeGraphLagDefind.Get("needToSave") + "?", NodeGraphLagDefind.Get("save"),
+                                NodeGraphLagDefind.Get("cancel")))
                             {
                                 SaveGraphToFile();
                             }
@@ -1034,15 +1034,15 @@ namespace Framework.NodeGraph
                         NewNodeGraph();
                     }
                     //打开Graph
-                    if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(3) + " Graph", GUILayout.Height(28),
+                    if (GUILayout.Button(NodeGraphLagDefind.Get("open") + " Graph", GUILayout.Height(28),
                         GUILayout.Width(120)))
                     {
                         if (string.IsNullOrEmpty(_saveGraphPath))
                         {
-                            if (EditorUtility.DisplayDialog(NodeGraphLagDefind.GetLabelDefine(5),
-                                "Graph " + NodeGraphLagDefind.GetLabelDefine(6) + "," +
-                                NodeGraphLagDefind.GetLabelDefine(7) + "?", NodeGraphLagDefind.GetLabelDefine(8),
-                                NodeGraphLagDefind.GetLabelDefine(9)))
+                            if (EditorUtility.DisplayDialog(NodeGraphLagDefind.Get("prompt"),
+                                "Graph " + NodeGraphLagDefind.Get("nonSave") + "," +
+                                NodeGraphLagDefind.Get("needToSave") + "?", NodeGraphLagDefind.Get("save"),
+                                NodeGraphLagDefind.Get("cancel")))
                             {
                                 SaveGraphToFile();
                             }
@@ -1056,7 +1056,7 @@ namespace Framework.NodeGraph
                     //保存Graph
                     if (string.IsNullOrEmpty(_saveGraphPath))
                     {
-                        if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(8), GUILayout.Height(28),
+                        if (GUILayout.Button(NodeGraphLagDefind.Get("save"), GUILayout.Height(28),
                             GUILayout.Width(120)))
                         {
                             SaveGraphToFile();
@@ -1064,7 +1064,7 @@ namespace Framework.NodeGraph
                     }
                     else
                     {
-                        if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(10), GUILayout.Height(28),
+                        if (GUILayout.Button(NodeGraphLagDefind.Get("saveas"), GUILayout.Height(28),
                             GUILayout.Width(120)))
                         {
                             SaveGraphToFile(true);
@@ -1075,7 +1075,7 @@ namespace Framework.NodeGraph
 
                     if (_MainNode != null)
                     {
-                        if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(17), GUILayout.Height(28),
+                        if (GUILayout.Button(NodeGraphLagDefind.Get("fastFollowRun"), GUILayout.Height(28),
                             GUILayout.Width(120)))
                         {
                             _MainNode.controller.update();
@@ -1090,7 +1090,7 @@ namespace Framework.NodeGraph
                     GUILayout.FlexibleSpace();
                 }
 
-                if (GUILayout.Button(NodeGraphLagDefind.GetLabelDefine(11), NodeGraphDefind.GetInspectorBtnStyle(_isShowInspector), GUILayout.Height(28), GUILayout.Width(_InspectorWidth)))
+                if (GUILayout.Button(NodeGraphLagDefind.Get("inspector"), NodeGraphDefind.GetInspectorBtnStyle(_isShowInspector), GUILayout.Height(28), GUILayout.Width(_InspectorWidth)))
                 {
                     _isShowInspector = !_isShowInspector;
                 }
@@ -1622,7 +1622,7 @@ namespace Framework.NodeGraph
                     if (_state == NodeGraphModifyState.Default && Event.current.button == 0 && !Event.current.alt)
                     {
 
-                        Vector2 msPos = new Vector2(Event.current.mousePosition.x, Event.current.mousePosition.y - NodeGraphDefind.MenuLayoutHeight);
+                        Vector2 msPos = new Vector2(Event.current.mousePosition.x, Event.current.mousePosition.y - NodeGraphDefind.MenuLayoutHeight + _ToolAreaScrollPos.y);
                         int dragSeclet = -1;
 
                         string data = "";
@@ -1722,9 +1722,9 @@ namespace Framework.NodeGraph
                                         {
                                             if (string.IsNullOrEmpty(_saveGraphPath))
                                             {
-                                                if (EditorUtility.DisplayDialog(NodeGraphLagDefind.GetLabelDefine(5),
-                                                    "Graph " + NodeGraphLagDefind.GetLabelDefine(6) + "," + NodeGraphLagDefind.GetLabelDefine(7) +
-                                                    "?", NodeGraphLagDefind.GetLabelDefine(8), NodeGraphLagDefind.GetLabelDefine(9)))
+                                                if (EditorUtility.DisplayDialog(NodeGraphLagDefind.Get("prompt"),
+                                                    "Graph " + NodeGraphLagDefind.Get("nonSave") + "," + NodeGraphLagDefind.Get("needToSave") +
+                                                    "?", NodeGraphLagDefind.Get("save"), NodeGraphLagDefind.Get("cancel")))
                                                 {
                                                     SaveGraphToFile();
                                                 }
@@ -1872,7 +1872,7 @@ namespace Framework.NodeGraph
             var rightClickPos = Event.current.mousePosition + _NodeGraphCanvasScrollPos;
             var menu = new GenericMenu();
 
-            menu.AddItem(new GUIContent(string.Format(AssetNodeGraphLagDefind.GetLabelDefine(13), label)), _ToolAreaItemCollection[cIndex][index].isDefaultIntoShortcutMenu, () =>
+            menu.AddItem(new GUIContent(string.Format(NodeGraphLagDefind.Get("addShortcutMenu"), label)), _ToolAreaItemCollection[cIndex][index].isDefaultIntoShortcutMenu, () =>
             {
                 _ToolAreaItemCollection[cIndex][index].isDefaultIntoShortcutMenu = !_ToolAreaItemCollection[cIndex][index].isDefaultIntoShortcutMenu;
                 if (_ToolAreaItemCollection[cIndex][index].isDefaultIntoShortcutMenu)
@@ -1953,7 +1953,7 @@ namespace Framework.NodeGraph
             }
 
             //固定显示 settingPanel
-            menu.AddItem(new GUIContent(NodeGraphLagDefind.GetLabelDefine(18)), false, () =>
+            menu.AddItem(new GUIContent(NodeGraphLagDefind.Get("settingsPanel")), false, () =>
             {
                 NodeGraphSettingWindow.init(_Settings);
             });
@@ -2176,7 +2176,7 @@ namespace Framework.NodeGraph
 
             //save
             string fileStr = f.fileToString();
-            string fileHead = JConfigParser.wirteJsonHeadTag("NodeGraph File");
+            string fileHead = JConfigParser.WirteJsonHeadTag("NodeGraph File");
             return AorIO.SaveStringToFile(savePath, fileHead + fileStr);
         }
 

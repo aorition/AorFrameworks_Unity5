@@ -330,7 +330,7 @@ namespace Framework.UI
 
             if (!string.IsNullOrEmpty(TemplateLoadPath)) {
 
-                ResourcesLoadBridge.LoadPrefab(TemplateLoadPath, go => {
+                ResourcesLoadBridge.LoadPrefab(TemplateLoadPath, (go,param) => {
                     go.name = "ListItemTemplate";
                     go.transform.SetParent(transform, false);
                     TemplateObject = go;

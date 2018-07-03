@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Framework.editor;
+using Framework.Editor;
 using UnityEditor;
 using UnityEngine;
 

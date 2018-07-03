@@ -49,7 +49,7 @@ namespace Framework.NodeGraph
                     string dataTypeIdx = nDic["DataType"].ToString();
                     Dictionary<string, object> dDic = (Dictionary<string, object>)nDic["Data"];
                     Type dataType = NodeGraphTool.getTypeInAssembly(usingTypeDic[dataTypeIdx]);
-                    object data = JConfigParser._toConfig(dataType, dDic);
+                    object data = JConfigParser.ToConfig(dataType, dDic);
 
                     //controller
                     //object controller = null;
@@ -69,12 +69,12 @@ namespace Framework.NodeGraph
 
                     //NodeGUI
                     NodeGUI nodeGui = new NodeGUI((INodeData)data,(INodeController)controller,(INodeGUIController)GUIController);
-                    nodeGui.position = (Vector2)JConfigParser._parseVaule(typeof (Vector2), nDic["Pos"].ToString());
-                    nodeGui.size = (Vector2)JConfigParser._parseVaule(typeof(Vector2), nDic["Size"].ToString());
+                    nodeGui.position = (Vector2)JConfigParser.ParseValue(typeof (Vector2), nDic["Pos"].ToString());
+                    nodeGui.size = (Vector2)JConfigParser.ParseValue(typeof(Vector2), nDic["Size"].ToString());
 
                     //将Node传递给GUIController
-                    controller.ref_InvokeMethod_Inst_Public("setup", new object[] {nodeGui});
-                    GUIController.ref_InvokeMethod_Inst_Public("setup", new object[] {nodeGui});
+                    controller.InvokePublicMethod("setup", new object[] {nodeGui});
+                    GUIController.InvokePublicMethod("setup", new object[] {nodeGui});
 //                    GUIController.ref_SetField_Inst_NonPublic("m_nodeGUI", nodeGui);
 
                     //isMain

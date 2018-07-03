@@ -3,7 +3,7 @@ using Framework.Tools;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.editor
+namespace Framework.Editor
 {
 
     [CanEditMultipleObjects]

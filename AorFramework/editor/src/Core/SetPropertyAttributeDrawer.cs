@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using System.Reflection;
 
-namespace Framework.editor
+namespace Framework.Editor
 {
     [CustomPropertyDrawer(typeof(SetPropertyAttribute))]
     public class SetPropertyAttributeDrawer : PropertyDrawer

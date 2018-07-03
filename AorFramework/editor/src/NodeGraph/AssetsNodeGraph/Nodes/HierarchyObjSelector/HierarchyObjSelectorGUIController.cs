@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 namespace Framework.NodeGraph
 {
-    [NodeToolItem("Hierarchy #<12>",
+    [NodeToolItem("#<hierarchy>#<selector>",
         "Framework.NodeGraph",
         "HierarchyObjSelectorData|HierarchyObjSelectorController|HierarchyObjSelectorGUIController",
         "Hierarchy Tools",-100)]
@@ -18,7 +18,7 @@ namespace Framework.NodeGraph
 
         public override string GetNodeLabel()
         {
-            return "Hierarchy" + AssetNodeGraphLagDefind.GetLabelDefine(11);
+            return NodeGraphLagDefind.Get("hierarchy") + NodeGraphLagDefind.Get("selector");
         }
 
         private Vector2 _MinSizeDefind = new Vector2(160, 120);
@@ -324,7 +324,7 @@ namespace Framework.NodeGraph
         {
             if (_ConnectionPointGUIList == null)
             {
-                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(int[]).Name, "SelectedInstanceIDs", m_nodeGUI,AssetNodeGraphLagDefind.GetLabelDefine(8),new Vector2(120, 60), ConnectionPointInoutType.Output);
+                ConnectionPointGUI p0 = new ConnectionPointGUI(100, 0, 1, typeof(int[]).Name, "SelectedInstanceIDs", m_nodeGUI,NodeGraphLagDefind.Get("output"),new Vector2(120, 60), ConnectionPointInoutType.Output);
                 _ConnectionPointGUIList = new List<ConnectionPointGUI>() { p0 };
             }
 

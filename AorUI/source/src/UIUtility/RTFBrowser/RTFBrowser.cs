@@ -30,7 +30,7 @@ public class RTFBrowser : MonoBehaviour
     
     public static void CreateBrowser(RectTransform parent, Action<RTFBrowser> finishCallback)
     {
-        ResourcesLoadBridge.LoadPrefab(_UIPrefabPath, g =>
+        ResourcesLoadBridge.LoadPrefab(_UIPrefabPath, (g, p) =>
         {
             g.transform.SetParent(parent, false);
             RTFBrowser view = g.AddComponent<RTFBrowser>();
@@ -40,7 +40,7 @@ public class RTFBrowser : MonoBehaviour
 
     public static void CreateBrowser(RectTransform parent, string entryPath, Action<RTFBrowser> finishCallback)
     {
-        ResourcesLoadBridge.LoadPrefab(_UIPrefabPath, g =>
+        ResourcesLoadBridge.LoadPrefab(_UIPrefabPath, (g, p) =>
         {
             g.transform.SetParent(parent, false);
             RTFBrowser view = g.AddComponent<RTFBrowser>();
@@ -504,7 +504,7 @@ public class RTFBrowser : MonoBehaviour
         for (i = 0; i < len; i++)
         {
             ARTFBFileInfo cinfo = infoList[i];
-            ResourcesLoadBridge.LoadPrefab(_UISubPath_RTFBInfoItem, g =>
+            ResourcesLoadBridge.LoadPrefab(_UISubPath_RTFBInfoItem, (g,param) =>
             {
                 g.transform.SetParent(_innerSContent, false);
                 //
@@ -545,7 +545,7 @@ public class RTFBrowser : MonoBehaviour
     private void drawNGbtns()
     {
 
-        ResourcesLoadBridge.LoadPrefab(_UISubPath_RTBNGText, g =>
+        ResourcesLoadBridge.LoadPrefab(_UISubPath_RTBNGText, (g, param) =>
         {
             g.transform.SetParent(_NGContent, false);
             g.name = "NGBr";
@@ -583,7 +583,7 @@ public class RTFBrowser : MonoBehaviour
 
     private void createRTBNGText(string label)
     {
-        ResourcesLoadBridge.LoadPrefab(_UISubPath_RTBNGText, g =>
+        ResourcesLoadBridge.LoadPrefab(_UISubPath_RTBNGText, (g, param) =>
         {
             g.transform.SetParent(_NGContent, false);
             //
@@ -597,7 +597,7 @@ public class RTFBrowser : MonoBehaviour
     /// </summary>
     private void createNGBtn(string label)
     {
-        ResourcesLoadBridge.LoadPrefab(_UISubPath_RTBNGButton, g =>
+        ResourcesLoadBridge.LoadPrefab(_UISubPath_RTBNGButton, (g, param) =>
         {
             g.transform.SetParent(_NGContent, false);
             //
