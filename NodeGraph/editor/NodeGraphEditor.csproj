@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BAFDB9F4-2AB2-4BAF-8BE1-74AB3EDB3E9D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NodeGraphEditor</RootNamespace>
+    <AssemblyName>NodeGraphEditor</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Editor\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;UNITY_5</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Editor\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AorBaseExtents">
+      <HintPath>..\..\AorBaseExtents\bin\AorBaseExtents.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AorUnityExtents">
+      <HintPath>..\..\AorUnityExtents\bin\AorUnityExtents.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NodeGraph, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\NodeGraph.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEditor">
+      <HintPath>..\..\IncludeLibs\Unity5.6.5f1\UnityEditor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>..\..\IncludeLibs\Unity5.6.5f1\UnityEditor.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\IncludeLibs\Unity5.6.5f1\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\IncludeLibs\Unity5.6.5f1\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\AssetsNodeGraph\AssetsNodeGraph.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetBundleBuilder\AssetBundleBuilderController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetBundleBuilder\AssetBundleBuilderData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetBundleBuilder\AssetBundleBuilderGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetBundleSeceneBuilder\AssetBundleSeceneBuilderController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetBundleSeceneBuilder\AssetBundleSeceneBuilderData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetBundleSeceneBuilder\AssetBundleSeceneBuilderGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetBundleTagSetter\AssetBundleTagSetterController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetBundleTagSetter\AssetBundleTagSetterData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetBundleTagSetter\AssetBundleTagSetterGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetDepend\AssetDependController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetDepend\AssetDependData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetDepend\AssetDependGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetFilter\AssetFilterController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetFilter\AssetFilterData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetFilter\AssetFilterGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetPrefabProcessor\AssetPrefabProcessorController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetPrefabProcessor\AssetPrefabProcessorData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetPrefabProcessor\AssetPrefabProcessorGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetProcessor\AssetProcessorController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetProcessor\AssetProcessorData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetProcessor\AssetProcessorGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetSearch\AssetSearchController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetSearch\AssetSearchData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetSearch\AssetSearchGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetTextureProcessor\AssetTextureProcessorController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetTextureProcessor\AssetTextureProcessorData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\AssetTextureProcessor\AssetTextureProcessorGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\CheckReference\CheckReferenceController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\CheckReference\CheckReferenceData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\CheckReference\CheckReferenceGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\GameObjectProcessor\GameObjectProcessorController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\GameObjectProcessor\GameObjectProcessorData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\GameObjectProcessor\GameObjectProcessorGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\HierarchyObjRenamer\HierarchyObjRenamerController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\HierarchyObjRenamer\HierarchyObjRenamerData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\HierarchyObjRenamer\HierarchyObjRenamerGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\HierarchyObjSelector\HierarchyObjSelectorController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\HierarchyObjSelector\HierarchyObjSelectorData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\HierarchyObjSelector\HierarchyObjSelectorGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\HierarchyObjTransform\HierarchyObjTransformController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\HierarchyObjTransform\HierarchyObjTransformData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\HierarchyObjTransform\HierarchyObjTransformGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\InfoOutputTxt\InfoOutputTxtController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\InfoOutputTxt\InfoOutputTxtData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\InfoOutputTxt\InfoOutputTxtGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\ProcessMaterialAction\ProcessMaterialActionController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\ProcessMaterialAction\ProcessMaterialActionData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\ProcessMaterialAction\ProcessMaterialActionGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\ProcessPredefinedAction\ProcessPredefinedActionController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\ProcessPredefinedAction\ProcessPredefinedActionData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\ProcessPredefinedAction\ProcessPredefinedActionGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\TextureProcessPredefinedAction\TextureProcessPredefinedActionController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\TextureProcessPredefinedAction\TextureProcessPredefinedActionData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\TextureProcessPredefinedAction\TextureProcessPredefinedActionGUIController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\UnityPackageExporter\UnityPackageExporterController.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\UnityPackageExporter\UnityPackageExporterData.cs" />
+    <Compile Include="src\AssetsNodeGraph\Nodes\UnityPackageExporter\UnityPackageExporterGUIController.cs" />
+    <Compile Include="src\FrameworkBaseEnumDefines.cs" />
+    <Compile Include="src\NodeGraphBase\Attributes\NodeToolItemAttribute.cs" />
+    <Compile Include="src\NodeGraphBase\ConnectionGUI.cs" />
+    <Compile Include="src\NodeGraphBase\ConnectionPointGUI.cs" />
+    <Compile Include="src\NodeGraphBase\Interfaces\INodeController.cs" />
+    <Compile Include="src\NodeGraphBase\Interfaces\INodeData.cs" />
+    <Compile Include="src\NodeGraphBase\Interfaces\INodeGUIController.cs" />
+    <Compile Include="src\NodeGraphBase\NodeBehaviour.cs" />
+    <Compile Include="src\NodeGraphBase\NodeController.cs" />
+    <Compile Include="src\NodeGraphBase\NodeData.cs" />
+    <Compile Include="src\NodeGraphBase\NodeGraphBase.cs" />
+    <Compile Include="src\NodeGraphBase\NodeGraphBaseSetting.cs" />
+    <Compile Include="src\NodeGraphBase\NodeGraphDefind.cs" />
+    <Compile Include="src\NodeGraphBase\NodeGraphFile.cs" />
+    <Compile Include="src\NodeGraphBase\NodeGraphLagDefind.cs" />
+    <Compile Include="src\NodeGraphBase\NodeGraphTool.cs" />
+    <Compile Include="src\NodeGraphBase\NodeGraphToolItemCollection.cs" />
+    <Compile Include="src\NodeGraphBase\NodeGraphToolItemData.cs" />
+    <Compile Include="src\NodeGraphBase\NodeGraphToolItemUtility.cs" />
+    <Compile Include="src\NodeGraphBase\NodeGUI.cs" />
+    <Compile Include="src\NodeGraphBase\NodeGUIController.cs" />
+    <Compile Include="src\NodeGraphBase\Utility\LayoutUtility.cs" />
+    <Compile Include="src\NodeGraphBase\Utility\NodeGraphUtility.cs" />
+    <Compile Include="src\NodeGraphBase\Utility\REFUtility.cs" />
+    <Compile Include="src\NodeGraphBase\windows\AssetPathBrowserWindow.cs" />
+    <Compile Include="src\NodeGraphBase\windows\NodeGraphSettingWindow.cs" />
+    <Compile Include="src\SupportLibs\DllUpgrader.cs" />
+    <Compile Include="src\SupportLibs\EditorAssetInfo.cs" />
+    <Compile Include="src\SupportLibs\EditorAssetInfoExents.cs" />
+    <Compile Include="src\AssetsNodeGraph\TextureImporterDatawraper.cs" />
+    <Compile Include="src\SupportLibs\JConfigParser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\AssetsNodeGraph\Nodes\AssetTextureProcessor\PresetDatas\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\NodeGraphBase\Bitmaps\AssetGraph_Arrow.png" />
+    <Content Include="src\NodeGraphBase\Bitmaps\AssetGraph_ConnectionPoint_EnableMark.png" />
+    <Content Include="src\NodeGraphBase\Bitmaps\AssetGraph_ConnectionPoint_InputMark.png" />
+    <Content Include="src\NodeGraphBase\Bitmaps\AssetGraph_ConnectionPoint_OutputMark.png" />
+    <Content Include="src\NodeGraphBase\Bitmaps\AssetGraph_ConnectionPoint_OutputMark_Connected.png" />
+    <Content Include="src\NodeGraphBase\Bitmaps\AssetGraph_InputBG.png" />
+    <Content Include="src\NodeGraphBase\Bitmaps\AssetGraph_OutputBG.png" />
+    <Content Include="src\NodeGraphBase\Bitmaps\AssetGraph_Selection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AorBaseUtility\AorBaseUtility.csproj">
+      <Project>{CFF766B5-AAF1-4638-A423-F71EA26E70E5}</Project>
+      <Name>AorBaseUtility</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

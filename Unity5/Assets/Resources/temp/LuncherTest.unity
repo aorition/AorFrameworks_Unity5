@@ -861,12 +861,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1979553275}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 284974477, guid: ffb094aeb063c324d8b5c7f2fad4d38c, type: 3}
+  m_Script: {fileID: 202370959, guid: 52a844d62d8555a468715e7f57884c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DonDestroyOnLoad: 1
   ParentTransformPovit: {fileID: 1979553278}
-  _SettingAsset: {fileID: 11400000, guid: 6aee5953f91e84d44872562f44de8498, type: 2}
-  _viewCamera: {fileID: 1759330632}
+  _UIManagerSetting: {fileID: 11400000, guid: ea770e9e614a2da4eaad0134f07aeda3, type: 2}
 --- !u!114 &1979553277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -879,7 +879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ParentTransformPovit: {fileID: 1979553278}
-  _GraphicsManagerSetting: {fileID: 11400000, guid: 6e5a4fc779f98834b97e7649a6a2665d,
+  _GraphicsManagerSetting: {fileID: 11400000, guid: bfd07d6ed04269643a79a5ef632b394e,
     type: 2}
   _GMEUIRoot: {fileID: 200379127}
 --- !u!4 &1979553278
