@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// version :: Unity-Ugui-src-5.6
+/// </summary>
 namespace UnityEngine.UI
 {
     /// <summary>

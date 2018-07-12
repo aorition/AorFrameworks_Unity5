@@ -66,21 +66,18 @@
     <Compile Include="src\Events\AorUIEventListener.cs" />
     <Compile Include="src\Events\AorUIEventListenerSettingAsset.cs" />
     <Compile Include="src\UGUIPlus\AorText.cs" />
-    <Compile Include="src\UGUIPlus\textIncSprites\SpriteAsset.cs" />
-    <Compile Include="src\UGUIPlus\textIncSprites\SpriteAssetInfo.cs" />
-    <Compile Include="src\UGUIPlus\textIncSprites\AorEmojiHandler.cs" />
-    <Compile Include="src\UGUIPlus\textIncSprites\AorTextIncSprites.cs" />
-    <Compile Include="src\UGUIPlus\textIncSprites\SpriteGraphic.cs" />
-    <Compile Include="src\UGUIPlus\textIncSprites\TextPlusData.cs" />
     <Compile Include="src\Extends\RectTransformExtends.cs" />
-    <Compile Include="src\UGUIHelper\RTSizeListener.cs" />
+    <Compile Include="src\Units\SpriteAsset.cs" />
+    <Compile Include="src\Units\SpriteAssetInfo.cs" />
+    <Compile Include="src\Utility\RectTransformSizeListener.cs" />
     <Compile Include="src\UGUISRC\UGUI_FontUpdateTracker_SC.cs" />
+    <Compile Include="src\UGUISRC\UGUI_ScrollRect_SC.cs" />
     <Compile Include="src\UGUISRC\UGUI_Text_SC.cs" />
-    <Compile Include="src\UIManager\Scripts\UIManager.cs" />
-    <Compile Include="src\UIManager\Scripts\UIManagerLuncher.cs" />
-    <Compile Include="src\UIManager\Scripts\UIManagerSettingAsset.cs" />
-    <Compile Include="src\UIManager\Scripts\UIRuntimeUtility.cs" />
-    <Compile Include="src\UIUtility\RTFBrowser\RTFBrowser.cs" />
+    <Compile Include="src\UIManager\UIManager.cs" />
+    <Compile Include="src\UIManager\UIManagerLuncher.cs" />
+    <Compile Include="src\UIManager\UIManagerSettingAsset.cs" />
+    <Compile Include="src\UIManager\UIRuntimeUtility.cs" />
+    <Compile Include="src\Utility\RTFBrowser\RTFBrowser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AorBaseExtents\AorBaseExtents.csproj">

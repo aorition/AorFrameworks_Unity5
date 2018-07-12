@@ -278,7 +278,7 @@ namespace T4MLite
         GameObject Child;
         GameObject UnityTerrain;
         GameObject AddObject;
-        Transform PlayerCam;
+//        Transform PlayerCam;
         ProceduralMaterial PreceduralAdd;
         ProceduralMaterial Precedural;
 
@@ -793,7 +793,7 @@ namespace T4MLite
                         case 0:
                             if (T4MMaster)
                             {
-                                Billboard();
+                               // Billboard();
                             }
                             else
                             {
@@ -973,166 +973,166 @@ namespace T4MLite
             EditorUtility.DisplayDialog("T4M Message", "Construction Completed", "OK");
         }
 
-        void Billboard()
-        {
+//        void Billboard()
+//        {
+//
+//            EditorGUILayout.Space();
+//            EditorGUILayout.Space();
+//            GUILayout.Label("Culling BillBoard Mode", EditorStyles.boldLabel);
+//            BilBocclusion = (OccludeBy)EditorGUILayout.EnumPopup("Mode", BilBocclusion, GUILayout.Width(340));
+//
+//            EditorGUILayout.Space();
+//            EditorGUILayout.Space();
+//
+//
+//            GUILayout.Label("BillBoard Rotation Axis", EditorStyles.boldLabel);
+//            BillBoardAxis = (BillbAxe)EditorGUILayout.EnumPopup("Axis", BillBoardAxis, GUILayout.Width(340));
+//            EditorGUILayout.Space();
+//            EditorGUILayout.Space();
+//
+//            GUILayout.Label("BillBoard Update Interval in Seconde", EditorStyles.boldLabel, GUILayout.Width(400));
+//            GUILayout.BeginHorizontal();
+//            GUILayout.Label("(less value = less performance)", GUILayout.Width(300));
+//            BillInterval = EditorGUILayout.FloatField(BillInterval, GUILayout.Width(50));
+//            GUILayout.EndHorizontal();
+//            EditorGUILayout.Space();
+//            EditorGUILayout.Space();
+//            GUILayout.BeginHorizontal();
+//            GUILayout.Label("Maximum View Distance", EditorStyles.boldLabel, GUILayout.Width(298));
+//            BillboardDist = EditorGUILayout.FloatField(BillboardDist, GUILayout.Width(50));
+//            GUILayout.EndHorizontal();
+//            GUILayout.BeginHorizontal();
+//            GUILayout.FlexibleSpace();
+//            BillboardDist = GUILayout.HorizontalScrollbar(BillboardDist, 0.0f, 0f, 200f, GUILayout.Width(350));
+//            GUILayout.FlexibleSpace();
+//            GUILayout.EndHorizontal();
+//            GUILayout.FlexibleSpace();
+//            GUILayout.BeginHorizontal();
+//            GUILayout.FlexibleSpace();
+//
+//            Texture Swap;
+//            string buttonBill;
+//            if (billActivate == true)
+//            {
+//                buttonBill = "DEACTIVATE";
+//                Swap = (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/on.png", typeof(Texture));
+//            }
+//            else
+//            {
+//                buttonBill = "ACTIVATE";
+//                Swap = (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/off.png", typeof(Texture));
+//            }
+//
+//
+//            if (GUILayout.Button(buttonBill, GUILayout.Width(100), GUILayout.Height(30)))
+//            {
+//                ActivateDeactivateBillBoard();
+//            }
+//            GUILayout.Label(Swap, GUILayout.Width(75), GUILayout.Height(30));
+//            GUILayout.FlexibleSpace();
+//            GUILayout.EndHorizontal();
+//            GUILayout.FlexibleSpace();
+//
+//        }
 
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
-            GUILayout.Label("Culling BillBoard Mode", EditorStyles.boldLabel);
-            BilBocclusion = (OccludeBy)EditorGUILayout.EnumPopup("Mode", BilBocclusion, GUILayout.Width(340));
+//        void DeactivateBillBByScript()
+//        {
+//            T4MBillBObjSC[] T4MBillObjGet = GameObject.FindObjectsOfType(typeof(T4MBillBObjSC)) as T4MBillBObjSC[];
+//
+//            for (var i = 0; i < T4MBillObjGet.Length; i++)
+//            {
+//                T4MBillObjGet[i].Render.enabled = true;
+//                T4MBillObjGet[i].Transf.LookAt(Vector3.zero, Vector3.up);
+//            }
+//
+//            CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillboardPosition = new Vector3[0];
+//            CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillStatus = new int[0];
+//            CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillScript = new T4MBillBObjSC[0];
+//            PrefabUtility.RecordPrefabInstancePropertyModifications(CurrentSelect.gameObject.GetComponent<T4MObjSC>());
+//            Debug.LogWarning(
+//                "The Number of Activated Billboard Objects has changed, reactivate the billboards in the 'Billboard' Tab.");
+//        }
 
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
-
-
-            GUILayout.Label("BillBoard Rotation Axis", EditorStyles.boldLabel);
-            BillBoardAxis = (BillbAxe)EditorGUILayout.EnumPopup("Axis", BillBoardAxis, GUILayout.Width(340));
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
-
-            GUILayout.Label("BillBoard Update Interval in Seconde", EditorStyles.boldLabel, GUILayout.Width(400));
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("(less value = less performance)", GUILayout.Width(300));
-            BillInterval = EditorGUILayout.FloatField(BillInterval, GUILayout.Width(50));
-            GUILayout.EndHorizontal();
-            EditorGUILayout.Space();
-            EditorGUILayout.Space();
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Maximum View Distance", EditorStyles.boldLabel, GUILayout.Width(298));
-            BillboardDist = EditorGUILayout.FloatField(BillboardDist, GUILayout.Width(50));
-            GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-            BillboardDist = GUILayout.HorizontalScrollbar(BillboardDist, 0.0f, 0f, 200f, GUILayout.Width(350));
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
-            GUILayout.FlexibleSpace();
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-
-            Texture Swap;
-            string buttonBill;
-            if (billActivate == true)
-            {
-                buttonBill = "DEACTIVATE";
-                Swap = (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/on.png", typeof(Texture));
-            }
-            else
-            {
-                buttonBill = "ACTIVATE";
-                Swap = (Texture)AssetDatabase.LoadAssetAtPath(T4MEditorFolder + "Img/off.png", typeof(Texture));
-            }
-
-
-            if (GUILayout.Button(buttonBill, GUILayout.Width(100), GUILayout.Height(30)))
-            {
-                ActivateDeactivateBillBoard();
-            }
-            GUILayout.Label(Swap, GUILayout.Width(75), GUILayout.Height(30));
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
-            GUILayout.FlexibleSpace();
-
-        }
-
-        void DeactivateBillBByScript()
-        {
-            T4MBillBObjSC[] T4MBillObjGet = GameObject.FindObjectsOfType(typeof(T4MBillBObjSC)) as T4MBillBObjSC[];
-
-            for (var i = 0; i < T4MBillObjGet.Length; i++)
-            {
-                T4MBillObjGet[i].Render.enabled = true;
-                T4MBillObjGet[i].Transf.LookAt(Vector3.zero, Vector3.up);
-            }
-
-            CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillboardPosition = new Vector3[0];
-            CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillStatus = new int[0];
-            CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillScript = new T4MBillBObjSC[0];
-            PrefabUtility.RecordPrefabInstancePropertyModifications(CurrentSelect.gameObject.GetComponent<T4MObjSC>());
-            Debug.LogWarning(
-                "The Number of Activated Billboard Objects has changed, reactivate the billboards in the 'Billboard' Tab.");
-        }
-
-        void ActivateDeactivateBillBoard()
-        {
-            if (billActivate == true)
-            {
-                //si le billboard est actif
-                T4MBillBObjSC[] T4MBillObjGet = GameObject.FindObjectsOfType(typeof(T4MBillBObjSC)) as T4MBillBObjSC[];
-
-                for (var i = 0; i < T4MBillObjGet.Length; i++)
-                {
-                    T4MBillObjGet[i].Render.enabled = true;
-                    T4MBillObjGet[i].Transf.LookAt(Vector3.zero, Vector3.up);
-                }
-
-                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillboardPosition = new Vector3[0];
-                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillStatus = new int[0];
-                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillScript = new T4MBillBObjSC[0];
-                PrefabUtility.RecordPrefabInstancePropertyModifications(
-                    CurrentSelect.gameObject.GetComponent<T4MObjSC>());
-                billActivate = false;
-                Debug.LogWarning("Billboard deactivated !");
-            }
-            else
-            {
-                if (!PlayerCam)
-                    PlayerCam = Camera.main.transform;
-
-                T4MBillBObjSC[] T4MBillObjGet = GameObject.FindObjectsOfType(typeof(T4MBillBObjSC)) as T4MBillBObjSC[];
-                Vector3[] T4MBillVectGetR = new Vector3[T4MBillObjGet.Length];
-                int[] T4MBillValueGetR = new int[T4MBillObjGet.Length];
-
-                for (var j = 0; j < T4MBillObjGet.Length; j++)
-                {
-                    T4MBillVectGetR[j] = T4MBillObjGet[j].transform.position;
-                    if (Vector3.Distance(T4MBillObjGet[j].transform.position, PlayerCam.transform.position) <=
-                        BillboardDist)
-                    {
-                        T4MBillObjGet[j].Render.enabled = true;
-                        T4MBillValueGetR[j] = 1;
-
-                    }
-                    else
-                    {
-                        if (BilBocclusion == OccludeBy.Max_View_Distance)
-                        {
-                            T4MBillObjGet[j].Render.enabled = false;
-                            T4MBillValueGetR[j] = 0;
-                        }
-                        else
-                        {
-                            T4MBillObjGet[j].Render.enabled = true;
-                            T4MBillValueGetR[j] = 1;
-                        }
-                    }
-                    if (BillBoardAxis == BillbAxe.Y_Axis)
-                        T4MBillObjGet[j].Transf.LookAt(
-                            new Vector3(PlayerCam.transform.position.x, T4MBillObjGet[j].Transf.position.y,
-                                PlayerCam.transform.position.z), Vector3.up);
-                    else
-                        T4MBillObjGet[j].Transf.LookAt(PlayerCam.transform.position, Vector3.up);
-
-                }
-                if (BilBocclusion == OccludeBy.Max_View_Distance)
-                    CurrentSelect.GetComponent<T4MObjSC>().BilBbasedOnScript = true;
-                else CurrentSelect.GetComponent<T4MObjSC>().BilBbasedOnScript = false;
-
-                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillboardPosition = T4MBillVectGetR;
-                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillStatus = T4MBillValueGetR;
-                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillScript = T4MBillObjGet;
-                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillMaxViewDistance = BillboardDist;
-                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillInterval = BillInterval;
-                if (BillBoardAxis == BillbAxe.Y_Axis)
-                    CurrentSelect.gameObject.GetComponent<T4MObjSC>().Axis = 0;
-                else CurrentSelect.gameObject.GetComponent<T4MObjSC>().Axis = 1;
-                PrefabUtility.RecordPrefabInstancePropertyModifications(
-                    CurrentSelect.gameObject.GetComponent<T4MObjSC>());
-
-                billActivate = true;
-                Debug.LogWarning("Billboard (re)activated !");
-            }
-        }
+//        void ActivateDeactivateBillBoard()
+//        {
+//            if (billActivate == true)
+//            {
+//                //si le billboard est actif
+//                T4MBillBObjSC[] T4MBillObjGet = GameObject.FindObjectsOfType(typeof(T4MBillBObjSC)) as T4MBillBObjSC[];
+//
+//                for (var i = 0; i < T4MBillObjGet.Length; i++)
+//                {
+//                    T4MBillObjGet[i].Render.enabled = true;
+//                    T4MBillObjGet[i].Transf.LookAt(Vector3.zero, Vector3.up);
+//                }
+//
+//                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillboardPosition = new Vector3[0];
+//                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillStatus = new int[0];
+//                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillScript = new T4MBillBObjSC[0];
+//                PrefabUtility.RecordPrefabInstancePropertyModifications(
+//                    CurrentSelect.gameObject.GetComponent<T4MObjSC>());
+//                billActivate = false;
+//                Debug.LogWarning("Billboard deactivated !");
+//            }
+//            else
+//            {
+//                if (!PlayerCam)
+//                    PlayerCam = Camera.main.transform;
+//
+//                T4MBillBObjSC[] T4MBillObjGet = GameObject.FindObjectsOfType(typeof(T4MBillBObjSC)) as T4MBillBObjSC[];
+//                Vector3[] T4MBillVectGetR = new Vector3[T4MBillObjGet.Length];
+//                int[] T4MBillValueGetR = new int[T4MBillObjGet.Length];
+//
+//                for (var j = 0; j < T4MBillObjGet.Length; j++)
+//                {
+//                    T4MBillVectGetR[j] = T4MBillObjGet[j].transform.position;
+//                    if (Vector3.Distance(T4MBillObjGet[j].transform.position, PlayerCam.transform.position) <=
+//                        BillboardDist)
+//                    {
+//                        T4MBillObjGet[j].Render.enabled = true;
+//                        T4MBillValueGetR[j] = 1;
+//
+//                    }
+//                    else
+//                    {
+//                        if (BilBocclusion == OccludeBy.Max_View_Distance)
+//                        {
+//                            T4MBillObjGet[j].Render.enabled = false;
+//                            T4MBillValueGetR[j] = 0;
+//                        }
+//                        else
+//                        {
+//                            T4MBillObjGet[j].Render.enabled = true;
+//                            T4MBillValueGetR[j] = 1;
+//                        }
+//                    }
+//                    if (BillBoardAxis == BillbAxe.Y_Axis)
+//                        T4MBillObjGet[j].Transf.LookAt(
+//                            new Vector3(PlayerCam.transform.position.x, T4MBillObjGet[j].Transf.position.y,
+//                                PlayerCam.transform.position.z), Vector3.up);
+//                    else
+//                        T4MBillObjGet[j].Transf.LookAt(PlayerCam.transform.position, Vector3.up);
+//
+//                }
+//                if (BilBocclusion == OccludeBy.Max_View_Distance)
+//                    CurrentSelect.GetComponent<T4MObjSC>().BilBbasedOnScript = true;
+//                else CurrentSelect.GetComponent<T4MObjSC>().BilBbasedOnScript = false;
+//
+//                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillboardPosition = T4MBillVectGetR;
+//                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillStatus = T4MBillValueGetR;
+//                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillScript = T4MBillObjGet;
+//                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillMaxViewDistance = BillboardDist;
+//                CurrentSelect.gameObject.GetComponent<T4MObjSC>().BillInterval = BillInterval;
+//                if (BillBoardAxis == BillbAxe.Y_Axis)
+//                    CurrentSelect.gameObject.GetComponent<T4MObjSC>().Axis = 0;
+//                else CurrentSelect.gameObject.GetComponent<T4MObjSC>().Axis = 1;
+//                PrefabUtility.RecordPrefabInstancePropertyModifications(
+//                    CurrentSelect.gameObject.GetComponent<T4MObjSC>());
+//
+//                billActivate = true;
+//                Debug.LogWarning("Billboard (re)activated !");
+//            }
+//        }
 
         void Planting()
         {
@@ -2424,7 +2424,7 @@ namespace T4MLite
 
                 if (GUILayout.Button(buttonLod, GUILayout.Width(100), GUILayout.Height(30)))
                 {
-                    ActivateDeactivateLOD();
+                    //ActivateDeactivateLOD();
                 }
                 GUILayout.Label(Swap, GUILayout.Width(75), GUILayout.Height(30));
 
@@ -2442,155 +2442,155 @@ namespace T4MLite
             }
         }
 
-        void DeactivateLODByScript()
-        {
-            T4MLodObjSC[] T4MLodObjGet = GameObject.FindObjectsOfType(typeof(T4MLodObjSC)) as T4MLodObjSC[];
+//        void DeactivateLODByScript()
+//        {
+//            T4MLodObjSC[] T4MLodObjGet = GameObject.FindObjectsOfType(typeof(T4MLodObjSC)) as T4MLodObjSC[];
+//
+//            for (var i = 0; i < T4MLodObjGet.Length; i++)
+//            {
+//                T4MLodObjGet[i].LOD2.enabled = T4MLodObjGet[i].LOD3.enabled = false;
+//                T4MLodObjGet[i].LOD1.enabled = true;
+//                if (LODModeControler == LODMod.Mass_Control)
+//                    T4MLodObjGet[i].Mode = 0;
+//                else if (LODModeControler == LODMod.Independent_Control)
+//                    T4MLodObjGet[i].Mode = 0;
+//                PrefabUtility.RecordPrefabInstancePropertyModifications(T4MLodObjGet[i].GetComponent<T4MLodObjSC>());
+//            }
+//
+//            CurrentSelect.gameObject.GetComponent<T4MObjSC>().ObjLodScript = new T4MLodObjSC[0];
+//            CurrentSelect.gameObject.GetComponent<T4MObjSC>().ObjPosition = new Vector3[0];
+//            CurrentSelect.gameObject.GetComponent<T4MObjSC>().ObjLodStatus = new int[0];
+//            CurrentSelect.gameObject.GetComponent<T4MObjSC>().Mode = 0;
+//            PrefabUtility.RecordPrefabInstancePropertyModifications(CurrentSelect.gameObject.GetComponent<T4MObjSC>());
+//            Debug.Log("The Number of Activated LOD Objects has changed, reactivate the billboards in the 'LOD' Tab.");
+//            CurrentSelect.gameObject.GetComponent<T4MObjSC>().Awake();
+//        }
 
-            for (var i = 0; i < T4MLodObjGet.Length; i++)
-            {
-                T4MLodObjGet[i].LOD2.enabled = T4MLodObjGet[i].LOD3.enabled = false;
-                T4MLodObjGet[i].LOD1.enabled = true;
-                if (LODModeControler == LODMod.Mass_Control)
-                    T4MLodObjGet[i].Mode = 0;
-                else if (LODModeControler == LODMod.Independent_Control)
-                    T4MLodObjGet[i].Mode = 0;
-                PrefabUtility.RecordPrefabInstancePropertyModifications(T4MLodObjGet[i].GetComponent<T4MLodObjSC>());
-            }
-
-            CurrentSelect.gameObject.GetComponent<T4MObjSC>().ObjLodScript = new T4MLodObjSC[0];
-            CurrentSelect.gameObject.GetComponent<T4MObjSC>().ObjPosition = new Vector3[0];
-            CurrentSelect.gameObject.GetComponent<T4MObjSC>().ObjLodStatus = new int[0];
-            CurrentSelect.gameObject.GetComponent<T4MObjSC>().Mode = 0;
-            PrefabUtility.RecordPrefabInstancePropertyModifications(CurrentSelect.gameObject.GetComponent<T4MObjSC>());
-            Debug.Log("The Number of Activated LOD Objects has changed, reactivate the billboards in the 'LOD' Tab.");
-            CurrentSelect.gameObject.GetComponent<T4MObjSC>().Awake();
-        }
-
-        void ActivateDeactivateLOD()
-        {
-            if (LodActivate == true)
-            {
-                //Lod actif
-                T4MLodObjSC[] T4MLodObjGet = GameObject.FindObjectsOfType(typeof(T4MLodObjSC)) as T4MLodObjSC[];
-
-                for (var i = 0; i < T4MLodObjGet.Length; i++)
-                {
-                    T4MLodObjGet[i].LOD2.enabled = T4MLodObjGet[i].LOD3.enabled = false;
-                    T4MLodObjGet[i].LOD1.enabled = true;
-                    if (LODModeControler == LODMod.Mass_Control)
-                        T4MLodObjGet[i].Mode = 0;
-                    else if (LODModeControler == LODMod.Independent_Control)
-                        T4MLodObjGet[i].Mode = 0;
-                    PrefabUtility.RecordPrefabInstancePropertyModifications(T4MLodObjGet[i].GetComponent<T4MLodObjSC>());
-                }
-
-                CurrentSelect.gameObject.GetComponent<T4MObjSC>().ObjLodScript = new T4MLodObjSC[0];
-                CurrentSelect.gameObject.GetComponent<T4MObjSC>().ObjPosition = new Vector3[0];
-                CurrentSelect.gameObject.GetComponent<T4MObjSC>().ObjLodStatus = new int[0];
-                CurrentSelect.gameObject.GetComponent<T4MObjSC>().Mode = 0;
-                PrefabUtility.RecordPrefabInstancePropertyModifications(
-                    CurrentSelect.gameObject.GetComponent<T4MObjSC>());
-                LodActivate = false;
-                Debug.LogWarning("LOD deactivated !");
-            }
-            else
-            {
-                if (!PlayerCam)
-                    PlayerCam = Camera.main.transform;
-
-                T4MLodObjSC[] T4MLodObjGetR = GameObject.FindObjectsOfType(typeof(T4MLodObjSC)) as T4MLodObjSC[];
-                Vector3[] T4MLodVectGetR = new Vector3[T4MLodObjGetR.Length];
-                int[] T4MLodValueGetR = new int[T4MLodObjGetR.Length];
-
-
-                for (int i = 0; i < T4MLodObjGetR.Length; i++)
-                {
-                    T4MLodVectGetR[i] = T4MLodObjGetR[i].transform.position;
-
-
-                    float distanceFromCameraR =
-                        Vector3.Distance(
-                            new Vector3(T4MLodObjGetR[i].transform.position.x, PlayerCam.position.y,
-                                T4MLodObjGetR[i].transform.position.z), PlayerCam.transform.position);
-
-
-                    if (distanceFromCameraR <= MaximunView)
-                    {
-                        if (distanceFromCameraR < StartLOD2)
-                        {
-                            T4MLodObjGetR[i].LOD2.enabled = T4MLodObjGetR[i].LOD3.enabled = false;
-                            T4MLodObjGetR[i].LOD1.enabled = true;
-                            T4MLodObjGetR[i].ObjLodStatus = T4MLodValueGetR[i] = 1;
-                        }
-                        else if (distanceFromCameraR >= StartLOD2 && distanceFromCameraR < StartLOD3)
-                        {
-                            T4MLodObjGetR[i].LOD1.enabled = T4MLodObjGetR[i].LOD3.enabled = false;
-                            T4MLodObjGetR[i].LOD2.enabled = true;
-                            T4MLodObjGetR[i].ObjLodStatus = T4MLodValueGetR[i] = 2;
-                        }
-                        else if (distanceFromCameraR >= StartLOD3)
-                        {
-                            T4MLodObjGetR[i].LOD1.enabled = T4MLodObjGetR[i].LOD2.enabled = false;
-                            T4MLodObjGetR[i].LOD3.enabled = true;
-                            T4MLodObjGetR[i].ObjLodStatus = T4MLodValueGetR[i] = 3;
-                        }
-                    }
-                    else
-                    {
-                        if (LODocclusion == OccludeBy.Max_View_Distance)
-                        {
-                            T4MLodObjGetR[i].LOD3.enabled =
-                                T4MLodObjGetR[i].LOD1.enabled = T4MLodObjGetR[i].LOD2.enabled = false;
-                            T4MLodObjGetR[i].ObjLodStatus = T4MLodValueGetR[i] = 0;
-                        }
-                        else
-                        {
-                            T4MLodObjGetR[i].LOD1.enabled = T4MLodObjGetR[i].LOD2.enabled = false;
-                            T4MLodObjGetR[i].LOD3.enabled = true;
-                            T4MLodObjGetR[i].ObjLodStatus = T4MLodValueGetR[i] = 3;
-                        }
-                    }
-                    //To each LOD
-                    T4MLodObjGetR[i].Interval = UpdateInterval;
-                    T4MLodObjGetR[i].MaxViewDistance = MaximunView;
-                    T4MLodObjGetR[i].PlayerCamera = PlayerCam;
-                    T4MLodObjGetR[i].LOD2Start = StartLOD2;
-                    T4MLodObjGetR[i].LOD3Start = StartLOD3;
-                    if (LODModeControler == LODMod.Mass_Control)
-                        T4MLodObjGetR[i].Mode = 1;
-                    else if (LODModeControler == LODMod.Independent_Control)
-                        T4MLodObjGetR[i].Mode = 2;
-                    PrefabUtility.RecordPrefabInstancePropertyModifications(T4MLodObjGetR[i].GetComponent<T4MLodObjSC>());
-                }
-
-                if (LODModeControler == LODMod.Mass_Control)
-                    CurrentSelect.gameObject.GetComponent<T4MObjSC>().Mode = 1;
-                else if (LODModeControler == LODMod.Independent_Control)
-                    CurrentSelect.gameObject.GetComponent<T4MObjSC>().Mode = 2;
-
-
-                if (LODocclusion == OccludeBy.Max_View_Distance)
-                    CurrentSelect.GetComponent<T4MObjSC>().LODbasedOnScript = true;
-                else CurrentSelect.GetComponent<T4MObjSC>().LODbasedOnScript = false;
-
-                CurrentSelect.GetComponent<T4MObjSC>().ObjLodScript = T4MLodObjGetR;
-                CurrentSelect.GetComponent<T4MObjSC>().ObjPosition = T4MLodVectGetR;
-                CurrentSelect.GetComponent<T4MObjSC>().ObjLodStatus = T4MLodValueGetR;
-                CurrentSelect.GetComponent<T4MObjSC>().Interval = UpdateInterval;
-                CurrentSelect.GetComponent<T4MObjSC>().MaxViewDistance = MaximunView;
-
-                CurrentSelect.GetComponent<T4MObjSC>().LOD2Start = StartLOD2;
-                CurrentSelect.GetComponent<T4MObjSC>().LOD3Start = StartLOD3;
-                CurrentSelect.GetComponent<T4MObjSC>().PlayerCamera = PlayerCam;
-
-                PrefabUtility.RecordPrefabInstancePropertyModifications(
-                    CurrentSelect.gameObject.GetComponent<T4MObjSC>());
-
-                LodActivate = true;
-                Debug.LogWarning("LOD (re)activated !");
-            }
-            CurrentSelect.gameObject.GetComponent<T4MObjSC>().Awake();
-        }
+//        void ActivateDeactivateLOD()
+//        {
+//            if (LodActivate == true)
+//            {
+//                //Lod actif
+//                T4MLodObjSC[] T4MLodObjGet = GameObject.FindObjectsOfType(typeof(T4MLodObjSC)) as T4MLodObjSC[];
+//
+//                for (var i = 0; i < T4MLodObjGet.Length; i++)
+//                {
+//                    T4MLodObjGet[i].LOD2.enabled = T4MLodObjGet[i].LOD3.enabled = false;
+//                    T4MLodObjGet[i].LOD1.enabled = true;
+//                    if (LODModeControler == LODMod.Mass_Control)
+//                        T4MLodObjGet[i].Mode = 0;
+//                    else if (LODModeControler == LODMod.Independent_Control)
+//                        T4MLodObjGet[i].Mode = 0;
+//                    PrefabUtility.RecordPrefabInstancePropertyModifications(T4MLodObjGet[i].GetComponent<T4MLodObjSC>());
+//                }
+//
+//                CurrentSelect.gameObject.GetComponent<T4MObjSC>().ObjLodScript = new T4MLodObjSC[0];
+//                CurrentSelect.gameObject.GetComponent<T4MObjSC>().ObjPosition = new Vector3[0];
+//                CurrentSelect.gameObject.GetComponent<T4MObjSC>().ObjLodStatus = new int[0];
+//                CurrentSelect.gameObject.GetComponent<T4MObjSC>().Mode = 0;
+//                PrefabUtility.RecordPrefabInstancePropertyModifications(
+//                    CurrentSelect.gameObject.GetComponent<T4MObjSC>());
+//                LodActivate = false;
+//                Debug.LogWarning("LOD deactivated !");
+//            }
+//            else
+//            {
+//                if (!PlayerCam)
+//                    PlayerCam = Camera.main.transform;
+//
+//                T4MLodObjSC[] T4MLodObjGetR = GameObject.FindObjectsOfType(typeof(T4MLodObjSC)) as T4MLodObjSC[];
+//                Vector3[] T4MLodVectGetR = new Vector3[T4MLodObjGetR.Length];
+//                int[] T4MLodValueGetR = new int[T4MLodObjGetR.Length];
+//
+//
+//                for (int i = 0; i < T4MLodObjGetR.Length; i++)
+//                {
+//                    T4MLodVectGetR[i] = T4MLodObjGetR[i].transform.position;
+//
+//
+//                    float distanceFromCameraR =
+//                        Vector3.Distance(
+//                            new Vector3(T4MLodObjGetR[i].transform.position.x, PlayerCam.position.y,
+//                                T4MLodObjGetR[i].transform.position.z), PlayerCam.transform.position);
+//
+//
+//                    if (distanceFromCameraR <= MaximunView)
+//                    {
+//                        if (distanceFromCameraR < StartLOD2)
+//                        {
+//                            T4MLodObjGetR[i].LOD2.enabled = T4MLodObjGetR[i].LOD3.enabled = false;
+//                            T4MLodObjGetR[i].LOD1.enabled = true;
+//                            T4MLodObjGetR[i].ObjLodStatus = T4MLodValueGetR[i] = 1;
+//                        }
+//                        else if (distanceFromCameraR >= StartLOD2 && distanceFromCameraR < StartLOD3)
+//                        {
+//                            T4MLodObjGetR[i].LOD1.enabled = T4MLodObjGetR[i].LOD3.enabled = false;
+//                            T4MLodObjGetR[i].LOD2.enabled = true;
+//                            T4MLodObjGetR[i].ObjLodStatus = T4MLodValueGetR[i] = 2;
+//                        }
+//                        else if (distanceFromCameraR >= StartLOD3)
+//                        {
+//                            T4MLodObjGetR[i].LOD1.enabled = T4MLodObjGetR[i].LOD2.enabled = false;
+//                            T4MLodObjGetR[i].LOD3.enabled = true;
+//                            T4MLodObjGetR[i].ObjLodStatus = T4MLodValueGetR[i] = 3;
+//                        }
+//                    }
+//                    else
+//                    {
+//                        if (LODocclusion == OccludeBy.Max_View_Distance)
+//                        {
+//                            T4MLodObjGetR[i].LOD3.enabled =
+//                                T4MLodObjGetR[i].LOD1.enabled = T4MLodObjGetR[i].LOD2.enabled = false;
+//                            T4MLodObjGetR[i].ObjLodStatus = T4MLodValueGetR[i] = 0;
+//                        }
+//                        else
+//                        {
+//                            T4MLodObjGetR[i].LOD1.enabled = T4MLodObjGetR[i].LOD2.enabled = false;
+//                            T4MLodObjGetR[i].LOD3.enabled = true;
+//                            T4MLodObjGetR[i].ObjLodStatus = T4MLodValueGetR[i] = 3;
+//                        }
+//                    }
+//                    //To each LOD
+//                    T4MLodObjGetR[i].Interval = UpdateInterval;
+//                    T4MLodObjGetR[i].MaxViewDistance = MaximunView;
+//                    T4MLodObjGetR[i].PlayerCamera = PlayerCam;
+//                    T4MLodObjGetR[i].LOD2Start = StartLOD2;
+//                    T4MLodObjGetR[i].LOD3Start = StartLOD3;
+//                    if (LODModeControler == LODMod.Mass_Control)
+//                        T4MLodObjGetR[i].Mode = 1;
+//                    else if (LODModeControler == LODMod.Independent_Control)
+//                        T4MLodObjGetR[i].Mode = 2;
+//                    PrefabUtility.RecordPrefabInstancePropertyModifications(T4MLodObjGetR[i].GetComponent<T4MLodObjSC>());
+//                }
+//
+//                if (LODModeControler == LODMod.Mass_Control)
+//                    CurrentSelect.gameObject.GetComponent<T4MObjSC>().Mode = 1;
+//                else if (LODModeControler == LODMod.Independent_Control)
+//                    CurrentSelect.gameObject.GetComponent<T4MObjSC>().Mode = 2;
+//
+//
+//                if (LODocclusion == OccludeBy.Max_View_Distance)
+//                    CurrentSelect.GetComponent<T4MObjSC>().LODbasedOnScript = true;
+//                else CurrentSelect.GetComponent<T4MObjSC>().LODbasedOnScript = false;
+//
+//                CurrentSelect.GetComponent<T4MObjSC>().ObjLodScript = T4MLodObjGetR;
+//                CurrentSelect.GetComponent<T4MObjSC>().ObjPosition = T4MLodVectGetR;
+//                CurrentSelect.GetComponent<T4MObjSC>().ObjLodStatus = T4MLodValueGetR;
+//                CurrentSelect.GetComponent<T4MObjSC>().Interval = UpdateInterval;
+//                CurrentSelect.GetComponent<T4MObjSC>().MaxViewDistance = MaximunView;
+//
+//                CurrentSelect.GetComponent<T4MObjSC>().LOD2Start = StartLOD2;
+//                CurrentSelect.GetComponent<T4MObjSC>().LOD3Start = StartLOD3;
+//                CurrentSelect.GetComponent<T4MObjSC>().PlayerCamera = PlayerCam;
+//
+//                PrefabUtility.RecordPrefabInstancePropertyModifications(
+//                    CurrentSelect.gameObject.GetComponent<T4MObjSC>());
+//
+//                LodActivate = true;
+//                Debug.LogWarning("LOD (re)activated !");
+//            }
+//            CurrentSelect.gameObject.GetComponent<T4MObjSC>().Awake();
+//        }
 
 
         void ConverterMenu()
@@ -3808,7 +3808,7 @@ namespace T4MLite
 
                             GUILayout.BeginHorizontal();
                             GUILayout.Label("Scene Camera", EditorStyles.boldLabel, GUILayout.Width(190));
-                            PlayerCam = EditorGUILayout.ObjectField(PlayerCam, typeof(Transform), true) as Transform;
+//                            PlayerCam = EditorGUILayout.ObjectField(PlayerCam, typeof(Transform), true) as Transform;
                             GUILayout.EndHorizontal();
                             GUILayout.BeginHorizontal();
                             GUILayout.Label("Activate LOD System  ", EditorStyles.boldLabel, GUILayout.Width(190));
@@ -4372,7 +4372,7 @@ namespace T4MLite
                 CurrentSelect.GetComponent<T4MObjSC>().FarView = FarDistMaxView;
                 CurrentSelect.GetComponent<T4MObjSC>().BackGroundView = BGDistMaxView;
                 CurrentSelect.GetComponent<T4MObjSC>().Master = 1;
-                CurrentSelect.GetComponent<T4MObjSC>().PlayerCamera = PlayerCam;
+//                CurrentSelect.GetComponent<T4MObjSC>().PlayerCamera = PlayerCam;
                 PrefabUtility.RecordPrefabInstancePropertyModifications(
                     CurrentSelect.gameObject.GetComponent<T4MObjSC>());
             }
@@ -5119,7 +5119,7 @@ namespace T4MLite
                 StartLOD2 = CurrentSelect.GetComponent<T4MObjSC>().LOD2Start;
                 StartLOD3 = CurrentSelect.GetComponent<T4MObjSC>().LOD3Start;
                 UpdateInterval = CurrentSelect.GetComponent<T4MObjSC>().Interval;
-                PlayerCam = CurrentSelect.GetComponent<T4MObjSC>().PlayerCamera;
+//                PlayerCam = CurrentSelect.GetComponent<T4MObjSC>().PlayerCamera;
                 BillInterval = CurrentSelect.GetComponent<T4MObjSC>().BillInterval;
                 BillboardDist = CurrentSelect.GetComponent<T4MObjSC>().BillMaxViewDistance;
                 ActivatedLayerCul = CurrentSelect.GetComponent<T4MObjSC>().enabledLayerCul;
@@ -5156,19 +5156,19 @@ namespace T4MLite
                 else LodActivate = false;
 
 
-                if (PlayerCam == null && Camera.main)
-                    PlayerCam = Camera.main.transform;
-                else if (PlayerCam == null && !Camera.main)
-                {
-                    Camera[] Cam = GameObject.FindObjectsOfType(typeof(Camera)) as Camera[];
-                    for (var b = 0; b < Cam.Length; b++)
-                    {
-                        if (Cam[b].GetComponent<AudioListener>())
-                        {
-                            PlayerCam = Cam[b].transform;
-                        }
-                    }
-                }
+//                if (PlayerCam == null && Camera.main)
+//                    PlayerCam = Camera.main.transform;
+//                else if (PlayerCam == null && !Camera.main)
+//                {
+//                    Camera[] Cam = GameObject.FindObjectsOfType(typeof(Camera)) as Camera[];
+//                    for (var b = 0; b < Cam.Length; b++)
+//                    {
+//                        if (Cam[b].GetComponent<AudioListener>())
+//                        {
+//                            PlayerCam = Cam[b].transform;
+//                        }
+//                    }
+//                }
 
 
                 if (CurrentSelect.gameObject.GetComponent<T4MObjSC>().T4MMaterial.HasProperty("_SpecColor"))

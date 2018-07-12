@@ -108,7 +108,6 @@ namespace Framework.Editor
                 }
                 else if (obj is UnityEngine.Object)
                 {
-                    //??? 未验证 条件是否正确
                     _result.Append(_encodeStructOrClass(type, obj));
                 }
 
@@ -231,13 +230,9 @@ namespace Framework.Editor
                 }
                 _result.Append("}");
             }
-            else if (obj is UnityEngine.Object)
+            else// if (obj is UnityEngine.Object)
             {
-                //??? 未验证此方法是否AB包上还能继续用.
-//                _result.Append("{");
-//                _result.Append("\"instanceId\":" + (obj as UnityEngine.Object).GetInstanceID());
-//                _result.Append(",\"resPath\":\"" + AssetDatabase.GetAssetPath((UnityEngine.Object) obj) + "\"");
-//                _result.Append("}");
+
                 string subJson = JScriptableObjectDataWraper.EncodeJSON(obj as UnityEngine.Object);
                 _result.Append(string.IsNullOrEmpty(subJson) ? "null" : subJson);
             }

@@ -3,10 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using AorBaseUtility;
 using UnityEngine.EventSystems;
-using Object = UnityEngine.Object;
 
 namespace Framework.UI
 {
@@ -19,7 +16,6 @@ namespace Framework.UI
 
     public class ScrollList : AorUIComponent
     {
-
 
         /// <summary>
         /// 列表方向
@@ -244,9 +240,7 @@ namespace Framework.UI
             _listData.RemoveRange(_listData.Count - count, count);
             _isDirty = true;
         }
-
-
-
+        
         public void StartCreative(int dataCount, Action<ScrollListItem> customDrawListItem, string templateLoadPath = null, uint startIndex = 0, int jumpIndex = 0)
         {
 

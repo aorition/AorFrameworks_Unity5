@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
+using AorFramework;
 
 namespace Framework.UI
 {
-    public class AorUIEventListenerSettingAsset : ScriptableObject
+    public class AorUIEventListenerSettingAsset : JScriptableObject
     {
 
         public static AorUIEventListenerSettingAsset Default()
         {
-            return ScriptableObject.CreateInstance<AorUIEventListenerSettingAsset>();
+            return JScriptableObject.CreateInstance<AorUIEventListenerSettingAsset>();
         }
 
         public float FPS = 60f;

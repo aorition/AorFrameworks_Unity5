@@ -151,6 +151,12 @@
     <Reference Include="ShaderForge">
       <HintPath>Assets\UnityExtends\ShaderForge\Editor\ShaderForge.dll</HintPath>
     </Reference>
+    <Reference Include="NodeGraph">
+      <HintPath>Assets\Plugins\NodeGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="NodeGraphEditor">
+      <HintPath>Assets\Plugins\Editor\NodeGraphEditor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity5.CSharp.Plugins.csproj">

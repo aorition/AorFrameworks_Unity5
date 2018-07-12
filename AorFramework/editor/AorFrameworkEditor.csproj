@@ -67,6 +67,7 @@
     <Compile Include="src\Config\CreateSpecialField.cs" />
     <Compile Include="src\Config\EditorConfigCreater.cs" />
     <Compile Include="src\Config\GenerateConfig.cs" />
+    <Compile Include="src\Core\DecoratorEditor.cs" />
     <Compile Include="src\Core\SetPropertyAttributeDrawer.cs" />
     <Compile Include="src\Core\EditorAssetInfo.cs" />
     <Compile Include="src\Core\EditorAssetInfoExents.cs" />

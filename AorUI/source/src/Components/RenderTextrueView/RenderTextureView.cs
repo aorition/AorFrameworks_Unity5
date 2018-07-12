@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using System.Collections;
 using Framework.Graphic.Utility;
-using UnityEngine.EventSystems;
 
 namespace Framework.UI
 {

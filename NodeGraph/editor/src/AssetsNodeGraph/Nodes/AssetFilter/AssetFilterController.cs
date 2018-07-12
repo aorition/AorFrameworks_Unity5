@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
+using UnityEditor;
 using UnityEngine;
 
 namespace Framework.NodeGraph
 {
     public class AssetFilterController : NodeController
     {
+
         public override void update(bool updateParentLoop = true)
         {
             //获取上级节点数据

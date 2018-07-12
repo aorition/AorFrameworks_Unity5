@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
+/// <summary>
+/// version :: Unity-Ugui-src-5.6
+/// </summary>
 namespace UnityEngine.UI
 {
     public static class UGUI_FontUpdateTracker_SC

@@ -258,10 +258,8 @@ namespace Framework.JSON
                     {
                         //Error 数据错误
                     }
-                }else
-//                if (type.IsSubclassOf(typeof(UnityEngine.Object)))
+                }else // if (type.IsSubclassOf(typeof(UnityEngine.Object)))
                 {
-                    //{"Value":{"instanceID":14876}}
                     int instanceId = int.Parse((dic["Value"] as Dictionary<string, object>)["instanceID"].ToString());
                     string subJson = "{\"Value\":{ \"instanceID\":" + instanceId + "}";
                     return JScriptableObjectDataWraper.CreateObjectFromJSON(subJson);
