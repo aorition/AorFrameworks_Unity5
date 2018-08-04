@@ -12,14 +12,12 @@ namespace Framework.Editor
     /// <summary>
     /// 
     /// 材质球(Shader)增强Inspector
-    /// 
     /// Author: Aorition
     /// 
-    /// 
-    /// 
-    /// 须知:
+    /// 扩展Shader须知:
     /// 
     ///     1.定义Shader描述格式:
+    /// 
     ///                             //@@@DynamicShaderInfoStart
     ///                             //<Readonly> 此处定义你的shader描述 (单行; <Readonly>标签可选, 表示此描述不可更改)
     ///                             //@@@DynamicShaderInfoEnd
@@ -42,7 +40,6 @@ namespace Framework.Editor
     ///                             ZWrite[_zWrite]
     ///                             ZTest[_zTest]
     ///                             Cull[_cull]
-    ///      ** PS(Properties端枚举定义的字段名须和)
     /// 
     /// </summary>
     
@@ -70,6 +67,38 @@ namespace Framework.Editor
                     _descLabelStyle.wordWrap = true;
                 }
                 return _descLabelStyle;
+            }
+        }
+
+        private static GUIStyle _t0Style;
+        protected static GUIStyle T0Style
+        {
+            get
+            {
+                if (_t0Style == null)
+                {
+                    _t0Style = CloneGUIStyle(GUI.skin.GetStyle("Label"));
+                    _t0Style.fontSize = 14;
+                    _t0Style.fontStyle = FontStyle.Bold;
+                    _t0Style.wordWrap = true;
+                }
+                return _t0Style;
+            }
+        }
+
+        private static GUIStyle _t1Style;
+        protected static GUIStyle T1Style
+        {
+            get
+            {
+                if (_t1Style == null)
+                {
+                    _t1Style = CloneGUIStyle(GUI.skin.GetStyle("Label"));
+                    _t1Style.fontSize = 12;
+                    _t1Style.fontStyle = FontStyle.Bold;
+                    _t1Style.wordWrap = true;
+                }
+                return _t1Style;
             }
         }
 
@@ -119,6 +148,7 @@ namespace Framework.Editor
             }
         }
 
+        protected bool _isCannotWirteDes;
         protected bool _isDynamicShader;
 
         protected bool _isDefine_Dynamic_Blend;
@@ -134,6 +164,23 @@ namespace Framework.Editor
         {
             if (!shader) return;
             _shaderCahce = shader;
+
+            //重置所有bool标识以及标识变量
+            _isCannotWirteDes = false;
+            _isDynamicShader = false;
+            _isDefine_Dynamic_Blend = false;
+            _isDefine_Dynamic_Zwirte = false;
+            _isDefine_Dynamic_ZTest = false;
+            _isDefine_Dynamic_Cull = false;
+
+            _shaderDescReadonly = false;
+            _isNewDescription = false;
+
+            _isShowKeywords = false;
+            _shaderCahceCode = string.Empty;
+            _shderDescription = string.Empty;
+            _shderDescriptionCache = string.Empty;
+
             //获取Shader文本数据
             _shaderPath = AssetDatabase.GetAssetPath(_shaderCahce);
 
@@ -141,12 +188,21 @@ namespace Framework.Editor
             if (string.IsNullOrEmpty(_shaderPath)
                 || _shaderPath == "Resources/unity_builtin_extra"
                 || _shaderPath == "Library/unity default resources"
-            ) return;
+                )
+            {
+                //标识该Shader不能被注入Description;
+                _isCannotWirteDes = true;
+                return;
+            }
 
             ShaderPropNameDefineDic.Clear();
 
             string path = Application.dataPath.Replace("Assets", "") + _shaderPath;
             _shaderCahceCode = AorIO.ReadStringFormFile(path);
+
+            //材质的Shader为Missing状态时拿不到Shader的文本
+            if (string.IsNullOrEmpty(_shaderCahceCode))
+                return;
 
             //统一结束符 (\r\n -> \n)
             _shaderCahceCode = _shaderCahceCode.Replace("\r\n", "\n");
@@ -165,13 +221,13 @@ namespace Framework.Editor
                 _shderDescriptionCache = _shderDescription;
             }
 
-            //移除空格
-            _shaderCahceCode = _shaderCahceCode.Replace(" ", "");
+            //建立副本并移除空格, 用于以下数据抓取
+            string shaderCode = _shaderCahceCode.Replace(" ", "");
 
             //动态 RenderState 抓取 -----------
 
             //Zwirte
-            Match zwirteMatch = zwirteEnumRegex.Match(_shaderCahceCode);
+            Match zwirteMatch = zwirteEnumRegex.Match(shaderCode);
             if (zwirteMatch.Success)
             {
                 if (zwirteMatch.Groups[1].Value == "_ZWirte")
@@ -185,7 +241,7 @@ namespace Framework.Editor
             }
 
             //ZTest
-            Match ztestMatch = ztestEnumRegex.Match(_shaderCahceCode);
+            Match ztestMatch = ztestEnumRegex.Match(shaderCode);
             if (ztestMatch.Success)
             {
                 _isDefine_Dynamic_ZTest = ztestMatch.Groups[2].Value.ToLower().Contains("ztest")
@@ -194,7 +250,7 @@ namespace Framework.Editor
             }
 
             //Cull
-            Match cullMatch = cullEnumRegex.Match(_shaderCahceCode);
+            Match cullMatch = cullEnumRegex.Match(shaderCode);
             if (cullMatch.Success)
             {
                 _isDefine_Dynamic_ZTest = cullMatch.Groups[2].Value.ToLower().Contains("cull")
@@ -203,7 +259,7 @@ namespace Framework.Editor
             }
 
             //Blend
-            Match blendMatch = blendEnumRegex.Match(_shaderCahceCode);
+            Match blendMatch = blendEnumRegex.Match(shaderCode);
             bool blendMatchLoop = blendMatch.Success;
             while (blendMatchLoop)
             {
@@ -276,6 +332,7 @@ namespace Framework.Editor
         }
 
         private bool _isShowKeywords;
+        private bool _isNewDescription;
 
         public override void OnInspectorGUI()
         {
@@ -291,6 +348,8 @@ namespace Framework.Editor
             if (!_targetMat || !_targetMat.shader) return;
 
             GUILayout.Space(10);
+
+            // ShaderKeywords 功能
 
             GUILayout.BeginVertical("box");
             _isShowKeywords = EditorGUILayout.BeginToggleGroup("Show ShaderKeywords", _isShowKeywords);
@@ -344,40 +403,93 @@ namespace Framework.Editor
 
             GUILayout.Space(10);
 
-            //描述 (暂时不打算加入新建描述的功能,如果shader确实需要添加描述,请手动为shader添加描述识别字段)
-            if (!string.IsNullOrEmpty(_shderDescriptionCache))
+            // Shader Description : 
+            if (!_isCannotWirteDes)
             {
                 GUILayout.BeginVertical("box");
                 GUILayout.Space(8);
-                GUILayout.Label("Shader Description : ");
+                GUILayout.Label("Shader Description : ", T0Style);
                 GUILayout.Space(5);
 
-                if (_shaderDescReadonly)
+                if (string.IsNullOrEmpty(_shderDescriptionCache))
                 {
-                    GUILayout.Label(_shderDescriptionCache, DescLabelStyle);
+                    if (_isNewDescription)
+                    {
+                        _shderDescriptionCache = EditorGUILayout.TextArea(_shderDescriptionCache);
+                    }
+                    else
+                    {
+                        GUILayout.BeginHorizontal();
+                        GUILayout.FlexibleSpace();
+                        if (GUILayout.Button("New Description", GUILayout.Width(Screen.width * 0.3f)))
+                        {
+                            _isNewDescription = true;
+                        }
+                        GUILayout.EndHorizontal();
+                    }
+
                 }
                 else
                 {
 
-                    _shderDescriptionCache = EditorGUILayout.TextArea(_shderDescriptionCache, DescLabelStyle);
-                    GUILayout.BeginHorizontal();
-                    GUILayout.FlexibleSpace();
-                    if (_shderDescriptionCache != _shderDescription)
+                    if (_shaderDescReadonly)
                     {
-                        if (GUILayout.Button("SaveChanged", GUILayout.Width(Screen.width * 0.3f)))
-                        {
-                            //防止新输入描述中包含\n 或者 \r\n
-                            _shderDescriptionCache = _shderDescriptionCache.Replace("\r\n", "");
-                            _shderDescriptionCache = _shderDescriptionCache.Replace("\n", "");
-                            //重写Shader文件
-                            _ReBuildShaderCode(() =>
-                            {
-                                //重写成功后
-                                _shderDescription = _shderDescriptionCache;
-                            });
-                        }
+                        GUILayout.Label(_shderDescriptionCache, DescLabelStyle);
                     }
-                    GUILayout.EndHorizontal();
+                    else
+                    {
+
+                        _shderDescriptionCache = EditorGUILayout.TextArea(_shderDescriptionCache, DescLabelStyle);
+                        GUILayout.BeginHorizontal();
+                        GUILayout.FlexibleSpace();
+                        if (_shderDescriptionCache != _shderDescription)
+                        {
+                            if (GUILayout.Button("SaveChanged", GUILayout.Width(Screen.width * 0.3f)))
+                            {
+                                _isNewDescription = false;
+                                //防止新输入描述中包含\n 或者 \r\n
+                                _shderDescriptionCache = _shderDescriptionCache.Replace("\r\n", "");
+                                _shderDescriptionCache = _shderDescriptionCache.Replace("\n", "");
+
+                                //移除首尾空白
+                                _shderDescriptionCache = _shderDescriptionCache.Trim();
+
+                                //检测是否含有"只读"标签
+                                bool setReadOnly = false;
+                                if (_shderDescriptionCache.StartsWith("<只读>"))
+                                {
+                                    _shderDescriptionCache = _shderDescriptionCache.Substring(4);
+                                    setReadOnly = true;
+                                }
+                                else if(_shderDescriptionCache.ToLower().StartsWith("<readonly>"))
+                                {
+                                    _shderDescriptionCache = _shderDescriptionCache.Substring(10);
+                                    setReadOnly = true;
+                                }
+
+                                //确认描述只读
+                                if (setReadOnly)
+                                {
+                                    if (!EditorUtility.DisplayDialog("提示", "确定设置描述为只读描述?!(该操作无法撤销)", "确认", "取消"))
+                                    {
+                                        setReadOnly = false;
+                                    }
+                                }
+
+                                //重写Shader文件
+                                _writingDescription(setReadOnly, () =>
+                                {
+                                    _ReBuildShaderCode(() =>
+                                    {
+                                        //重写成功后
+                                        _shderDescription = _shderDescriptionCache;
+                                    });
+                                });
+                            }
+                        }
+                        GUILayout.EndHorizontal();
+                    }
+
                 }
 
                 GUILayout.EndVertical();
@@ -392,12 +504,12 @@ namespace Framework.Editor
                 GUI.color = DefineGUIColor;
 
                 GUILayout.Space(8);
-                GUILayout.Label("DynamicShader Tools : ");
+                GUILayout.Label("DynamicShader Tools : ", T0Style);
                 GUILayout.Space(5);
 
                 if (_isDefine_Dynamic_Blend)
                 {
-                    drawTag();
+                    _draw_BlendTagUI();
                     GUILayout.Space(10);
                 }
 
@@ -409,114 +521,212 @@ namespace Framework.Editor
             }
 
         }
-
-        protected void _ReBuildShaderCode(Action sucessDo)
+        
+        protected void _writingDescription(bool descReadonly, Action sucessDo)
         {
             Match infoMatch = ShaderInfoRge.Match(_shaderCahceCode);
             if (infoMatch.Success)
             {
                 string rp = infoMatch.Value;
-                rp = rp.Replace(infoMatch.Groups[1].Value, _shaderDescReadonly ? ("//<Readonly>" + _shderDescriptionCache) : ("//" + _shderDescriptionCache) + "\n");
+                rp = rp.Replace(infoMatch.Groups[1].Value,
+                    descReadonly ? ("//<Readonly>" + _shderDescriptionCache) : ("//" + _shderDescriptionCache));
                 _shaderCahceCode = _shaderCahceCode.Replace(infoMatch.Value, rp);
+                sucessDo();
+            }
+            else
+            {
+                string des = string.Format("//@@@DynamicShaderInfoStart\n{0}\n//@@@DynamicShaderInfoEnd\n", descReadonly ? ("//<Readonly>" + _shderDescriptionCache) : ("//" + _shderDescriptionCache));
+                _shaderCahceCode = des + _shaderCahceCode;
+                sucessDo();
+            }
+        }
 
-                string path = Application.dataPath.Replace("Assets", "") + _shaderPath;
-                if (AorIO.SaveStringToFile(path, _shaderCahceCode))
-                {
-                    EditorUtility.SetDirty(_shaderCahce);
-                    EditorUtility.SetDirty(_targetMat);
-                    AssetDatabase.SaveAssets();
-                    AssetDatabase.Refresh();
-                    sucessDo();
-                }
+        protected void _ReBuildShaderCode(Action sucessDo)
+        {
+            string path = Application.dataPath.Replace("Assets", "") + _shaderPath;
+            if (AorIO.SaveStringToFile(path, _shaderCahceCode))
+            {
+                EditorUtility.SetDirty(_shaderCahce);
+                EditorUtility.SetDirty(_targetMat);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+                sucessDo();
             }
         }
 
         public virtual void OnDrawExtendsInspectorGUI()
         {
-            //
+            //draw something
         }
 
-        //Todo 这个UI有点丑.. 有空给改改
-        private void drawTag()
+        private static GUIContent[] m_BlendTagUIGUIContents;
+        protected static GUIContent[] BlendTagUIGUIContents
+        {
+            get
+            {
+                //index label                 Value
+                //0     普通                  One Zero, One Zero
+                //1     Alpha混合             SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+                //2     叠加                  SrcAlpha One, One OneMinusSrcAlpha
+                //3     背景加深              Zero DstColor, One OneMinusSrcAlpha
+                //4     叠加(忽略Alpha)       One One, One One
+                //5     柔和叠加(忽略Alpha)   SrcColor One, One OneMinusSrcAlpha
+                //6     前景加深              Zero SrcColor, One OneMinusSrcAlpha
+                //7     Spine专用             One OneMinusSrcAlpha, One OneMinusSrcAlpha
+                if (m_BlendTagUIGUIContents == null)
+                {
+                    m_BlendTagUIGUIContents = new GUIContent[8];
+                    m_BlendTagUIGUIContents[0] = new GUIContent("普通");
+                    m_BlendTagUIGUIContents[1] = new GUIContent("Alpha混合");
+                    m_BlendTagUIGUIContents[2] = new GUIContent("叠加");
+                    m_BlendTagUIGUIContents[3] = new GUIContent("背景加深");
+                    m_BlendTagUIGUIContents[4] = new GUIContent("叠加(忽略Alpha)");
+                    m_BlendTagUIGUIContents[5] = new GUIContent("柔和叠加(忽略Alpha)");
+                    m_BlendTagUIGUIContents[6] = new GUIContent("前景加深");
+                    m_BlendTagUIGUIContents[7] = new GUIContent("Spine专用");
+                }
+                return m_BlendTagUIGUIContents;
+            }
+        }
+
+        private int _getBlendValuesIndex()
+        {
+            BlendMode SrcBlend = (BlendMode) _targetMat.GetInt(ShaderPropNameDefineDic["SrcBlend"]);
+            BlendMode DstBlend = (BlendMode) _targetMat.GetInt(ShaderPropNameDefineDic["DstBlend"]);
+            BlendMode SrcAlphaBlend = (BlendMode) _targetMat.GetInt(ShaderPropNameDefineDic["SrcAlphaBlend"]);
+            BlendMode DstAlphaBlend = (BlendMode) _targetMat.GetInt(ShaderPropNameDefineDic["DstAlphaBlend"]);
+
+            if (SrcBlend == BlendMode.One && DstBlend == BlendMode.Zero 
+                && SrcAlphaBlend == BlendMode.One && DstAlphaBlend == BlendMode.Zero)
+            {
+                //0     普通                  One Zero, One Zero
+                return 0;
+            }
+            if (SrcBlend == BlendMode.SrcAlpha && DstBlend == BlendMode.OneMinusSrcAlpha
+                     && SrcAlphaBlend == BlendMode.One && DstAlphaBlend == BlendMode.OneMinusSrcAlpha)
+            {
+                //1     Alpha混合             SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+                return 1;
+            }
+            if (SrcBlend == BlendMode.SrcAlpha && DstBlend == BlendMode.One
+                     && SrcAlphaBlend == BlendMode.One && DstAlphaBlend == BlendMode.OneMinusSrcAlpha)
+            {
+                //2     叠加                  SrcAlpha One, One OneMinusSrcAlpha
+                return 2;
+            }
+            if (SrcBlend == BlendMode.Zero && DstBlend == BlendMode.DstColor
+                     && SrcAlphaBlend == BlendMode.One && DstAlphaBlend == BlendMode.OneMinusSrcAlpha)
+            {
+                //3     背景加深              Zero DstColor, One OneMinusSrcAlpha
+                return 3;
+            }
+            if (SrcBlend == BlendMode.One && DstBlend == BlendMode.One
+                     && SrcAlphaBlend == BlendMode.One && DstAlphaBlend == BlendMode.One)
+            {
+                //4     叠加(忽略Alpha)       One One, One One
+                return 4;
+            }
+            if (SrcBlend == BlendMode.SrcColor && DstBlend == BlendMode.One
+                     && SrcAlphaBlend == BlendMode.One && DstAlphaBlend == BlendMode.OneMinusSrcAlpha)
+            {
+                //5     柔和叠加(忽略Alpha)   SrcColor One, One OneMinusSrcAlpha
+                return 5;
+            }
+            if (SrcBlend == BlendMode.Zero && DstBlend == BlendMode.SrcColor
+                     && SrcAlphaBlend == BlendMode.One && DstAlphaBlend == BlendMode.OneMinusSrcAlpha)
+            {
+                //6     前景加深              Zero SrcColor, One OneMinusSrcAlpha
+                return 6;
+            }
+            if (SrcBlend == BlendMode.One && DstBlend == BlendMode.OneMinusSrcAlpha
+                     && SrcAlphaBlend == BlendMode.One && DstAlphaBlend == BlendMode.OneMinusSrcAlpha)
+            {
+                //7     Spine专用             One OneMinusSrcAlpha, One OneMinusSrcAlpha
+                return 7;
+            }
+            return -1;
+        }
+
+        private void _draw_BlendTagUI()
         {
 
-            EditorGUILayout.Separator();
+            GUILayout.BeginVertical("box");
+            GUILayout.Space(5);
 
-            EditorGUILayout.LabelField("混合模式选单:");
+            GUILayout.Label("混合模式:", T1Style);
+            GUILayout.Space(5);
 
-            EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("普通", GUILayout.Width(120)))
+            //获取index
+            int index = _getBlendValuesIndex();
+            int xCount = Screen.width >= 480 ? 4 : (int) Screen.width/120;
+            int hNum = Mathf.CeilToInt((float) BlendTagUIGUIContents.Length/xCount);
+            int SGHeight = hNum * 30;
+            index = GUILayout.SelectionGrid(index, BlendTagUIGUIContents, xCount,GUILayout.Height(SGHeight));
+
+            GUILayout.Space(5);
+            GUILayout.EndVertical();
+
+            switch (index)
             {
-                _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.One);
-                _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.Zero);
-
-                _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
-                _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.Zero);
-
+                case 0:
+                    //0     普通                  One Zero, One Zero
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.One);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.Zero);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.Zero);
+                    break;
+                case 1:
+                    //1     Alpha混合             SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.SrcAlpha);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.OneMinusSrcAlpha);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.OneMinusSrcAlpha);
+                    break;
+                case 2:
+                    //2     叠加                  SrcAlpha One, One OneMinusSrcAlpha
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.SrcAlpha);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.One);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.OneMinusSrcAlpha);
+                    break;
+                case 3:
+                    //3     背景加深              Zero DstColor, One OneMinusSrcAlpha
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.Zero);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.DstColor);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.OneMinusSrcAlpha);
+                    break;
+                case 4:
+                    //4     叠加(忽略Alpha)       One One, One One
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.One);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.One);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.One);
+                    break;
+                case 5:
+                    //5     柔和叠加(忽略Alpha)   SrcColor One, One OneMinusSrcAlpha
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.SrcColor);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.One);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.OneMinusSrcAlpha);
+                    break;
+                case 6:
+                    //6     前景加深              Zero SrcColor, One OneMinusSrcAlpha
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.Zero);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.SrcColor);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.OneMinusSrcAlpha);
+                    break;
+                case 7:
+                    //7     Spine专用             One OneMinusSrcAlpha, One OneMinusSrcAlpha
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.One);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.OneMinusSrcAlpha);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
+                    _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.OneMinusSrcAlpha);
+                    break;
+                default:
+                    break;
             }
-
-            if (GUILayout.Button("Alpha混合", GUILayout.Width(120)))
-            {
-                _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.SrcAlpha);
-                _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.OneMinusSrcAlpha);
-
-                _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
-                _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.OneMinusSrcAlpha);
-
-            }
-            if (GUILayout.Button("叠加", GUILayout.Width(120)))
-            {
-                _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.SrcAlpha);
-                _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.One);
-
-                _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
-                _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.OneMinusSrcAlpha);
-
-            }
-            if (GUILayout.Button("背景加深", GUILayout.Width(120)))
-            {
-                _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.Zero);
-                _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.DstColor);
-
-                //alpha为覆盖模式
-                _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
-                _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.OneMinusSrcAlpha);
-
-            }
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("叠加(忽略Alpha)", GUILayout.Width(120)))
-            {
-                _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.One);
-                _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.One);
-
-                _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
-                _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.One);
-            }
-
-            if (GUILayout.Button("柔和叠加(忽略Alpha)", GUILayout.Width(120)))
-            {
-                _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.SrcColor);
-                _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.One);
-
-                _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
-                _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.OneMinusSrcAlpha);
-
-
-            }
-            if (GUILayout.Button("前景加深", GUILayout.Width(120)))
-            {
-                _targetMat.SetInt(ShaderPropNameDefineDic["SrcBlend"], (int)BlendMode.Zero);
-                _targetMat.SetInt(ShaderPropNameDefineDic["DstBlend"], (int)BlendMode.SrcColor);
-
-                _targetMat.SetInt(ShaderPropNameDefineDic["SrcAlphaBlend"], (int)BlendMode.One);
-                _targetMat.SetInt(ShaderPropNameDefineDic["DstAlphaBlend"], (int)BlendMode.OneMinusSrcAlpha);
-            }
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.Separator();
-
-            //        EditorUtility.SetDirty(target as Material);
 
         }
 
