@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AorBaseUtility
+namespace AorBaseUtility.Extends
 {
     public static class FloatExtends
     {

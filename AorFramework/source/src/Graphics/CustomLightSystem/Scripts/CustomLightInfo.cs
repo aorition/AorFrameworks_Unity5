@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Framework.Graphic
+namespace Framework.Graphic.CustomLight
 {
     /// <summary>
     /// 灯光信息

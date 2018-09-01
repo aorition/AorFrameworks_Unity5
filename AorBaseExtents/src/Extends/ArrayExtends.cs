@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AorBaseUtility
+namespace AorBaseUtility.Extends
 {
     public static class ArrayExtends
     {

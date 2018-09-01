@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
-using AorBaseUtility;
-using Framework.Graphic.Utility;
+using AorBaseUtility.Extends;
+using Framework.Extends;
 
 namespace Framework.Graphic
 {

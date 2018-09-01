@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Framework.Extends;
 using Framework.Graphic.Utility;
+using Framework.Utility;
 using UnityEngine;
 
 namespace Framework.Graphic
@@ -498,27 +500,27 @@ namespace Framework.Graphic
 
         public void AddPostEffectComponent(IRTPostEffectComponent component)
         {
-            if (!_postEffectComponents.Contains(component))
+            if (!m_postRTEffectComponents.Contains(component))
             {
-                _postEffectComponents.Add(component);
+                m_postRTEffectComponents.Add(component);
             }
         }
 
         public void RemovePostEffectComponent(IRTPostEffectComponent component)
         {
-            if (_postEffectComponents.Contains(component))
+            if (m_postRTEffectComponents.Contains(component))
             {
-                _postEffectComponents.Remove(component);
+                m_postRTEffectComponents.Remove(component);
             }
         }
 
-        protected readonly List<IRTPostEffectComponent> _postEffectComponents = new List<IRTPostEffectComponent>();
+        protected readonly List<IRTPostEffectComponent> m_postRTEffectComponents = new List<IRTPostEffectComponent>();
 
         protected void _RefreshPostEffectComponents()
         {
-            for (int i = 0; i < _postEffectComponents.Count; i++)
+            for (int i = 0; i < m_postRTEffectComponents.Count; i++)
             {
-                _postEffectComponents[i].UpdateGMPostEffect();
+                m_postRTEffectComponents[i].UpdateGMPostEffect();
             }
         }
 
@@ -643,6 +645,9 @@ namespace Framework.Graphic
                 sub.useOcclusionCulling = _mainCamera.useOcclusionCulling;
                 sub.allowHDR = _mainCamera.allowHDR;
                 sub.allowMSAA = _mainCamera.allowMSAA;
+
+                sub.projectionMatrix = _mainCamera.projectionMatrix;
+
             }
         }
 
@@ -670,7 +675,7 @@ namespace Framework.Graphic
         internal void SortEffectComponents()
         {
             //更新list排序
-            peclist.Sort((a, b) =>
+            m_peclist.Sort((a, b) =>
             {
                 if (a.Level > b.Level)
                 {
@@ -682,25 +687,41 @@ namespace Framework.Graphic
                 }
                 return 0;
             });
-            peclist.Reverse();
-
+            m_peclist.Reverse();
         }
+
         internal FLPostEffectController FLPostEffectController;
-        internal readonly HashSet<string> pecNameList = new HashSet<string>(); 
-        internal readonly List<IFLPostEffectComponent> peclist = new List<IFLPostEffectComponent>();
+        internal readonly Dictionary<string, List<IFLPostEffectComponent>> m_postFLEffectComponents = new Dictionary<string, List<IFLPostEffectComponent>>();
+        internal readonly List<IFLPostEffectComponent> m_peclist = new List<IFLPostEffectComponent>();
+
+        internal void PostEffectComponentsToList()
+        {
+            m_peclist.Clear();
+            foreach (List<IFLPostEffectComponent> list in m_postFLEffectComponents.Values)
+            {
+                m_peclist.Add(list[0]);
+            }
+        }
 
         public void AddPostEffectComponent(IFLPostEffectComponent component)
         {
-
-            if (!pecNameList.Contains(component.ScriptName))
+            string key = component.ScriptName;
+            if (!m_postFLEffectComponents.ContainsKey(key))
             {
-                pecNameList.Add(component.ScriptName);
-                peclist.Add(component);
-                SortEffectComponents();
+                List<IFLPostEffectComponent> list = new List<IFLPostEffectComponent>();
+                list.Add(component);
+                m_postFLEffectComponents.Add(component.ScriptName, list);
 
             }
+            else
+            {
+                m_postFLEffectComponents[key].Insert(0, component);
+            }
 
-            if (FLPostEffectController && peclist.Count > 0)
+            PostEffectComponentsToList();
+            SortEffectComponents();
+
+            if (FLPostEffectController && m_peclist.Count > 0)
             {
                 FLPostEffectController.enabled = true;
             }
@@ -708,19 +729,26 @@ namespace Framework.Graphic
 
         public void RemovePostEffectComponent(IFLPostEffectComponent component)
         {
-            if (pecNameList.Contains(component.ScriptName))
+            string key = component.ScriptName;
+            if (m_postFLEffectComponents.ContainsKey(key))
             {
-                pecNameList.Remove(component.ScriptName);
-                peclist.Remove(component);
 
-                if (FLPostEffectController && peclist.Count == 0)
+                m_postFLEffectComponents[key].Remove(component);
+
+                if (m_postFLEffectComponents[key].Count == 0)
+                {
+                    m_postFLEffectComponents.Remove(component.ScriptName);
+                }
+
+                PostEffectComponentsToList();
+                SortEffectComponents();
+
+                if (FLPostEffectController && m_peclist.Count == 0)
                 {
                     FLPostEffectController.enabled = false;
                 }
-                SortEffectComponents();
             }
         }
-
 
     }
 

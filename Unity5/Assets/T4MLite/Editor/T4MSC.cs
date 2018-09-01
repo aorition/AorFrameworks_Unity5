@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Text;
-using Framework;
+using Framework.Extends;
 
 namespace T4MLite
 {

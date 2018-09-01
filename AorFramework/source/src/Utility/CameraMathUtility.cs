@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using AorBaseUtility;
+using AorBaseUtility.Extends;
 using UnityEngine;
 
 namespace Framework.Utility
@@ -104,23 +104,14 @@ namespace Framework.Utility
         }
 
         /// <summary>
-        /// 计算H Fov 
+        /// 计算 fov 值 
+        /// 提示:视平面半长度值决定求得的Fov是水平fov还是垂直fov异或对角fov.
         /// </summary>
-        /// <param name="w">视平面半宽度</param>
+        /// <param name="halfLen">视平面半长度</param>
         /// <param name="distance"></param>
-        public float CalculateHFOV(float w, float distance)
+        public float CalculateHFOV(float halfLen, float distance)
         {
-            return (Mathf.Atan(w / distance)) * Mathf.Rad2Deg * 2f;
-        }
-
-        /// <summary>
-        /// 计算V Fov 
-        /// </summary>
-        /// <param name="w">视平面半宽度</param>
-        /// <param name="distance"></param>
-        public float CalculateVFOV(float w, float h, float distance)
-        {
-            return (Mathf.Atan(h / distance)) * Mathf.Rad2Deg * 2f;
+            return (Mathf.Atan(halfLen / distance)) * Mathf.Rad2Deg * 2f;
         }
 
         /// <summary>
@@ -208,6 +199,61 @@ namespace Framework.Utility
             return Mathf.Clamp(fov, Mathf.Min(fovA, fovB), Mathf.Max(fovA, fovB));
         }
 
+        /// <summary>
+        /// 根据fixAspect(计划Aspect值)计算投影矩阵
+        /// @当前相机计算得出的Aspect将适配fixAspect的宽度(以此消除在不同屏幕分辨率下该相机的视觉差异)
+        /// </summary>
+        /// <param name="fixAspect">计划Aspect值: width/height </param>
+        /// <param name="hfov">相机fov值</param>
+        /// <param name="near">相机nearClipPlane</param>
+        /// <param name="far">相机farClipPlane</param>
+        /// <param name="orthographic">是否是正交相机</param>
+        /// <returns></returns>
+        public static void CorrectingAspect(float fixAspect, float hfov, float near, float far, bool orthographic, ref Matrix4x4 ProjMatAdapt)
+        {
+
+            //aspect: width/height
+            float halfHeight = Mathf.Tan(hfov * Mathf.PI / 180.0f * 0.5f) * near;
+
+            float halfWidth = halfHeight * fixAspect;
+
+            float left = -halfWidth;
+            float right = halfWidth;
+            float bottom = -halfHeight;
+            float top = halfHeight;
+
+            top *= fixAspect * Screen.height / Screen.width;
+            bottom *= fixAspect * Screen.height / Screen.width;
+
+            if (orthographic)
+            {
+                float dx = 1.0f / (right - left);
+                float dy = 1.0f / (top - bottom);
+                float dz = 1.0f / (near - far);
+
+                ProjMatAdapt.m00 = 2 * dx;
+                ProjMatAdapt.m11 = 2 * dy;
+                ProjMatAdapt.m22 = 2 * dz;
+                ProjMatAdapt.m03 = -dx * (left + right);
+                ProjMatAdapt.m13 = -dy * (bottom + top);
+                ProjMatAdapt.m23 = dz * (near + far);
+                ProjMatAdapt.m33 = 1.0f;
+            }
+            else
+            {
+                float dx = 1.0f / (right - left);
+                float dy = 1.0f / (top - bottom);
+                float dz = 1.0f / (near - far);
+
+                ProjMatAdapt.m00 = 2 * near * dx;
+                ProjMatAdapt.m11 = 2 * near * dy;
+                ProjMatAdapt.m02 = dx * (right + left);
+                ProjMatAdapt.m12 = dy * (bottom + top);
+                ProjMatAdapt.m22 = dz * (far + near);
+                ProjMatAdapt.m32 = -1;
+                ProjMatAdapt.m23 = 2 * dz * near * far;
+            }
+        }
 
     }
 }

@@ -176,9 +176,7 @@ namespace Framework.UI
             float c = RootCanvas.pixelRect.height - _stageSize.y * b;
             Stage.sizeDelta = new Vector2(Stage.sizeDelta.x, _stageSize.y + c / b);
         }
-
-
-
+        
         public Vector3 GetHeightBaseMode()
         {
             float b = RootCanvas.pixelRect.height / _stageSize.y;

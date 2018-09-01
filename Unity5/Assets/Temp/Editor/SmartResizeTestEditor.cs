@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Framework.UI;
 
 [CustomEditor(typeof(SmartResizeTest))]
 public class SmartResizeTestEditor : Editor

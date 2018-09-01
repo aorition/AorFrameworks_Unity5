@@ -139,6 +139,9 @@
     <Reference Include="DOTween46">
       <HintPath>Assets\Plugins\DOTween46.dll</HintPath>
     </Reference>
+    <Reference Include="NodeGraph">
+      <HintPath>Assets\Plugins\NodeGraph.dll</HintPath>
+    </Reference>
     <Reference Include="zlib.net">
       <HintPath>Assets\Plugins\zlib.net.dll</HintPath>
     </Reference>
@@ -148,14 +151,11 @@
     <Reference Include="AorUIEditor">
       <HintPath>Assets\Plugins\Editor\AorUIEditor.dll</HintPath>
     </Reference>
-    <Reference Include="ShaderForge">
-      <HintPath>Assets\UnityExtends\ShaderForge\Editor\ShaderForge.dll</HintPath>
-    </Reference>
-    <Reference Include="NodeGraph">
-      <HintPath>Assets\Plugins\NodeGraph.dll</HintPath>
-    </Reference>
     <Reference Include="NodeGraphEditor">
       <HintPath>Assets\Plugins\Editor\NodeGraphEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="ShaderForge">
+      <HintPath>Assets\UnityExtends\ShaderForge\Editor\ShaderForge.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -175,13 +175,16 @@
   <ItemGroup>
     <Compile Include="Assets\Editor\CinemaClipGizmoDrawer.cs" />
     <Compile Include="Assets\Editor\TestCode\RT2TexTestCode.cs" />
+    <Compile Include="Assets\Scripts\Modules\PhysicsTestTool\Editor\PhysicsTestToolWindow.cs" />
+    <Compile Include="Assets\Scripts\Modules\PhysicsTestTool\Editor\RigidbodyDebugHandlerEditor.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\Editor\SplineAnimationInspector.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\Editor\SplineDataExport.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\Editor\SplineDataImport.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\Editor\SplineEditorUtility.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\Editor\SplineInspector.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\Editor\SplinesMenu.cs" />
-    <Compile Include="Assets\Scripts\Modules\TexChannelTool\Editor\TexChannelToolWindow.cs" />
+    <Compile Include="Assets\Scripts\Modules\SpringBone\Editor\SpringBoneEditWindow.cs" />
+    <Compile Include="Assets\Scripts\Modules\SpringBone\Editor\SpringBoneEditor.cs" />
     <Compile Include="Assets\T4MLite\Editor\T4MExtendsSC.cs" />
     <Compile Include="Assets\T4MLite\Editor\T4MSC.cs" />
     <Compile Include="Assets\Temp\Editor\AorRectTransformEditor.cs" />
@@ -260,7 +263,6 @@
     <Compile Include="Assets\YoukiaUnity\CinemaSystem\Editor\KeyframeTangentMode.cs" />
     <Compile Include="Assets\YoukiaUnity\GraphicsManagerAssets\Components\RoleGlow\Editor\RoleGlowSettingAssetEditor.cs" />
     <Compile Include="Assets\YoukiaUnity\GraphicsManagerAssets\Components\RoleShadow\Editor\RoleShadowSettingAssetEditor.cs" />
-    <Compile Include="Assets\YoukiaUnity\Tools\SimpleAnimatorDebuger\Editor\SimpleAnimatorDebugerWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\FrameworkEditorSupport\Shader\ModelChecker.shader" />
@@ -435,6 +437,7 @@
     <None Include="Assets\Resources\Shader\Framebasic\Billbord\YKSprite.shader" />
     <None Include="Assets\Resources\Shader\Framebasic\Unlit\Color.shader" />
     <None Include="Assets\Resources\Shader\Test\Cel Shader.shader" />
+    <None Include="Assets\Resources\Textures\EquipIcon\EquiplconAtls.txt" />
     <None Include="Assets\Resources\config\RoleViewConfig.txt" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />

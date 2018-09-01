@@ -43,7 +43,7 @@ namespace Framework.Graphic
 
         void OnRenderImage(RenderTexture src, RenderTexture dest)
         {
-            int count = GraphicsManager.Instance.peclist.Count;
+            int count = GraphicsManager.Instance.m_peclist.Count;
 
             RenderTexture orgSrc = src;
 //            IFLPostEffectComponent currentRender;
@@ -55,8 +55,8 @@ namespace Framework.Graphic
                 newrt = org;
                 for (int i = 0; i < count; i++)
                 {
-                    if (GraphicsManager.Instance.peclist[i].IsActive)
-                        GraphicsManager.Instance.peclist[i].RenderImage(orgSrc, newrt);
+                    if (GraphicsManager.Instance.m_peclist[i].IsActive)
+                        GraphicsManager.Instance.m_peclist[i].RenderImage(orgSrc, newrt);
 
                     //switch
                     last = orgSrc;
@@ -70,8 +70,8 @@ namespace Framework.Graphic
             }
             else if (count == 1)
             {
-                if (GraphicsManager.Instance.peclist[0].IsActive)
-                    GraphicsManager.Instance.peclist[0].RenderImage(src, dest);
+                if (GraphicsManager.Instance.m_peclist[0].IsActive)
+                    GraphicsManager.Instance.m_peclist[0].RenderImage(src, dest);
 
             }
             else

@@ -115,9 +115,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Demo\MeshCombineOrMerage\CombineOrMerage01\Script\ChangeFunc.cs" />
+    <Compile Include="Assets\Scripts\Modules\PhysicsTestTool\RigidbodyDebugHandler.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\Bezier.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\Spline.cs" />
     <Compile Include="Assets\Scripts\Modules\Splines\SplineAnimation.cs" />
+    <Compile Include="Assets\Scripts\Modules\SpringBone\SpringBone.cs" />
+    <Compile Include="Assets\Scripts\Modules\SpringBone\SpringBoneEditon.cs" />
     <Compile Include="Assets\Scripts\Modules\Sprite\YKSprite.cs" />
     <Compile Include="Assets\Scripts\Modules\Sprite\YKSpriteManager.cs" />
     <Compile Include="Assets\Scripts\UI\Components\Floating\HPTip.cs" />
@@ -367,6 +370,7 @@
     <Compile Include="Assets\YoukiaUnity\GraphicsManagerAssets\Scripts\DemoGraphicsManagerLuncher.cs" />
     <Compile Include="Assets\YoukiaUnity\GraphicsManagerAssets\Scripts\RequestPostProcessing.cs" />
     <Compile Include="Assets\YoukiaUnity\Misc\Scripts\SimpleShadowCtl.cs" />
+    <Compile Include="Assets\YoukiaUnity\Tools\AnimatorDebuger\AorAnimatorDebugerWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\FrameworkEditorSupport\Shader\ModelChecker.shader" />
@@ -541,6 +545,7 @@
     <None Include="Assets\Resources\Shader\Framebasic\Billbord\YKSprite.shader" />
     <None Include="Assets\Resources\Shader\Framebasic\Unlit\Color.shader" />
     <None Include="Assets\Resources\Shader\Test\Cel Shader.shader" />
+    <None Include="Assets\Resources\Textures\EquipIcon\EquiplconAtls.txt" />
     <None Include="Assets\Resources\config\RoleViewConfig.txt" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />

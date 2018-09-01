@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\bin\Editor\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;UNITY_5</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -70,6 +70,7 @@
     <Compile Include="src\UGUISRC\UGUI_Text_SCEditor.cs" />
     <Compile Include="src\UIManager\UIManagerSettingAssetEditor.cs" />
     <Compile Include="src\Units\SpriteAssetEditor.cs" />
+    <Compile Include="src\Utility\ReimportUnityEngineUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AorBaseExtents\AorBaseExtents.csproj">
@@ -103,6 +104,7 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

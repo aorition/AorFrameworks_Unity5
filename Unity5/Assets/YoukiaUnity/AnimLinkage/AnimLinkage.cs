@@ -1,7 +1,6 @@
-﻿using Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
-
+using Framework.Extends;
 using UnityEngine;
 
 [Serializable]

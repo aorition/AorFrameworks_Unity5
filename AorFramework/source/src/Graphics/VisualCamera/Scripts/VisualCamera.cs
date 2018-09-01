@@ -90,7 +90,21 @@ namespace Framework.Graphic
                 }
             }
         }
-        
+
+        private bool _useHfov;
+        public bool UseHfov
+        {
+            get { return _useHfov; }
+            set { _useHfov = value; }
+        }
+
+        private float _Hfov;
+        public float Hfov
+        {
+            get { return _Hfov; }
+            set { _Hfov = value; }
+        }
+
         private VisualCameraExtension _extension;
         public VisualCameraExtension extension 
         {

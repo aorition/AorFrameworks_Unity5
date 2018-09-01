@@ -1,4 +1,7 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+﻿//@@@DynamicShaderInfoStart
+//描述测试
+//@@@DynamicShaderInfoEnd
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 Shader "Custom/EdgeDrawWithBlend"
 {

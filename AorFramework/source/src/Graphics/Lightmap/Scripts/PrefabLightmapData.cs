@@ -48,7 +48,7 @@ namespace Framework.Graphic
                 rd.lightmapIndex = _lightmapIndex;
                 rd.lightmapScaleOffset = _lightmapScaleOffset;
             }
-
+            
         }
     }
 

@@ -483,6 +483,10 @@ namespace Framework.Editor
                                     {
                                         //重写成功后
                                         _shderDescription = _shderDescriptionCache;
+                                        if (setReadOnly)
+                                        {
+                                            _shaderDescReadonly = true;
+                                        }
                                     });
                                 });
                             }

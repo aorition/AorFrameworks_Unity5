@@ -3,25 +3,31 @@ using System.Collections.Generic;
 
 using UnityEditor;
 
-/// <summary>
-/// Editor常用扩展方法
-/// </summary>
-public static class EditorExtends {
-
+namespace Framework.Editor
+{
     /// <summary>
-    /// 获取当前编辑焦点是否在AnimationWindow窗口上
+    /// Editor常用扩展方法
     /// </summary>
-    public static bool isFoucsAnimtionWindow(this Editor editor)
+    public static class EditorExtends
     {
-        EditorWindow window = EditorWindow.focusedWindow;
-        if (window == null)
-            return false;
-        Type t = window.GetType();
-        if (t.Name == "AnimationWindow")
-        {
-            return true;
-        }
-        return false;
-    }
 
+        /// <summary>
+        /// 获取当前编辑焦点是否在AnimationWindow窗口上
+        /// </summary>
+        public static bool isFoucsAnimtionWindow(this UnityEditor.Editor editor)
+        {
+            EditorWindow window = EditorWindow.focusedWindow;
+            if (window == null)
+                return false;
+            Type t = window.GetType();
+            if (t.Name == "AnimationWindow")
+            {
+                return true;
+            }
+            return false;
+        }
+
+    }
 }
+
+

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace AorBaseUtility
+namespace AorBaseUtility.Extends
 {
 
     /// <summary>

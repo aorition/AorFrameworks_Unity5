@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using AorBaseUtility;
+using AorBaseUtility.Extends;
 using AorFramework;
 using UnityEditor;
 using UnityEngine;
@@ -17,22 +18,24 @@ namespace Framework.Editor
     public class EditorPlusMethods
     {
 
-        /// <summary>
-        /// 创建制定对象的撤消点
-        /// </summary>
-        public static void RegisterUndo(string name, params UnityEngine.Object[] objects)
-        {
-            if (objects != null && objects.Length > 0)
-            {
-                UnityEditor.Undo.RecordObjects(objects, name);
+        //-------------------------- GUIContents Define ---------------------
 
-                foreach (UnityEngine.Object obj in objects)
+        private static GUIContent m_CompilingLabel;
+        private static GUIContent CompilingLabel
+        {
+            get
+            {
+                if (m_CompilingLabel == null)
                 {
-                    if (obj == null) continue;
-                    EditorUtility.SetDirty(obj);
+                    m_CompilingLabel = new GUIContent("Compiling Please Wait...", "正在编译中 ...");
                 }
+                return m_CompilingLabel;
             }
         }
+
+
+
+        //-------------------------- GUIContents Define ----------------  end
 
         private static EditorApplication.CallbackFunction _UDDoOnce;
         private static Action _UDDoOnceDos;
@@ -103,26 +106,6 @@ namespace Framework.Editor
             return asset;
         }
 
-        public static void SaveAssetFileInProject(string dir,string assetName, ScriptableObject fileObj)
-        {
-            string name = assetName + ".asset";
-            string path = dir + "/" + name;
-            SaveAssetFileInProject(path, fileObj);
-        }
-
-        public static void SaveAssetFileInProject(string path, ScriptableObject fileObj)
-        {
-            path = AssetDatabase.GenerateUniqueAssetPath(path);
-            AssetDatabase.CreateAsset(fileObj, path);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-        }
-
-        public static void SavePNGFileInProject(string path, byte[] bytes)
-        {
-            AorIO.SaveBytesToFile(path, bytes);
-        }
-
 
         /// <summary>
         /// 绘制 按钮-> <立即写入修改数据到文件>
@@ -157,6 +140,61 @@ namespace Framework.Editor
                 EditorUtility.SetDirty(target);
                 AssetDatabase.SaveAssets();
             }
+            GUI.color = Color.white;
+        }
+
+        /// <summary>
+        /// 如果正在编译阶段 则绘制 提示UI  
+        /// @@@ 建议所有EditorWindow.OnGUI都配备此段代码
+        /// </summary>
+        public static bool Draw_isCompilingUI()
+        {
+            if (EditorApplication.isCompiling)
+            {
+                GUILayout.FlexibleSpace();
+                GUILayout.BeginHorizontal();
+                GUILayout.FlexibleSpace();
+                GUILayout.Label(CompilingLabel);
+                GUILayout.FlexibleSpace();
+                GUILayout.EndHorizontal();
+                GUILayout.FlexibleSpace();
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 如果正在编译阶段 则绘制 提示 Notification UI  
+        /// @@@ 建议所有EditorWindow.OnGUI都配备此段代码
+        /// </summary>
+        public static bool Draw_isCompilingNotification (EditorWindow editorWindow) {
+
+            #region 正在编译提示
+            if (EditorApplication.isCompiling)
+            {
+                editorWindow.ShowNotification(new GUIContent("Compiling Please Wait..."));
+                editorWindow.Repaint();
+                return true;
+            }
+            editorWindow.RemoveNotification();
+            #endregion
+            return false;
+        }
+
+
+
+
+        /// <summary>
+        /// 绘制 测试窗口大小信息
+        /// 
+        /// @ 要求必须写在GUI绘制代码的末尾.
+        /// @@ 测试信息显示会占用10像素的屏幕高度
+        /// 
+        /// </summary>
+        public static void Draw_DebugWindowSizeUI()
+        {
+            GUI.color = Color.red;
+            GUI.Label(new Rect(0,0, Screen.width,24), "WindowSize > width : " + Screen.width + " , height : " + Screen.height);
             GUI.color = Color.white;
         }
 
@@ -328,9 +366,51 @@ namespace Framework.Editor
 
         // ------------------------------------------ PlusDefindWindow End
 
+        #region 已废弃的API
+
+        /// <summary>
+        /// 创建制定对象的撤消点
+        /// </summary>
+        [Obsolete("对于Undo的再封装不灵活,没实际意义")]
+        public static void RegisterUndo(string name, params UnityEngine.Object[] objects)
+        {
+            if (objects != null && objects.Length > 0)
+            {
+                UnityEditor.Undo.RecordObjects(objects, name);
+
+                foreach (UnityEngine.Object obj in objects)
+                {
+                    if (obj == null) continue;
+                    EditorUtility.SetDirty(obj);
+                }
+            }
+        }
+
+        [Obsolete("并没有存在的意义")]
+        public static void SaveAssetFileInProject(string dir, string assetName, ScriptableObject fileObj)
+        {
+            string name = assetName + ".asset";
+            string path = dir + "/" + name;
+            SaveAssetFileInProject(path, fileObj);
+        }
+
+        [Obsolete("并没有存在的意义")]
+        public static void SaveAssetFileInProject(string path, ScriptableObject fileObj)
+        {
+            path = AssetDatabase.GenerateUniqueAssetPath(path);
+            AssetDatabase.CreateAsset(fileObj, path);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+        [Obsolete("并没有存在的意义")]
+        public static void SavePNGFileInProject(string path, byte[] bytes)
+        {
+            AorIO.SaveBytesToFile(path, bytes);
+        }
+
+        #endregion
 
     }
-
-
 
 }

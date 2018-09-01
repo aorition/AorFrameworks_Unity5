@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Framework.Extends;
 using UnityEngine;
 
-namespace Framework.Graphic
+namespace Framework.Graphic.CustomLight
 {
     [ExecuteInEditMode]
     public class CustomLightSupports : MonoBehaviour

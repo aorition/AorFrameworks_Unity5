@@ -1,7 +1,5 @@
-﻿using Framework;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using Framework.Extends;
 using UnityEngine;
 using UnityEngine.UI;
 

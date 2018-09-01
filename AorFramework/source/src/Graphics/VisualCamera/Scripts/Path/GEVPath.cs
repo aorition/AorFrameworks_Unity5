@@ -1,6 +1,6 @@
 using UnityEngine;
 using System;
-using AorBaseUtility;
+using AorBaseUtility.Extends;
 using Framework.Graphic.Utility;
 
 namespace Framework.Graphic
