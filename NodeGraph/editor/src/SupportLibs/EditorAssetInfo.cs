@@ -181,11 +181,11 @@ namespace NodeGraph.SupportLib
             }
             if (path.LastIndexOf('/') != -1)
             {
-                dirPath = path.Substring(0, path.LastIndexOf('/'));
+                dirPath = string.IsNullOrEmpty(suffix) ? path : path.Substring(0, path.LastIndexOf('/'));
             }
             else
             {
-                dirPath = "/";
+                dirPath = string.IsNullOrEmpty(suffix) ? path : "/";
             }
 
             isInit = true;
