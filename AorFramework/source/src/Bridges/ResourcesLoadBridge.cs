@@ -127,7 +127,7 @@ namespace Framework
                 }
                 LoadAll(absPath,objectType, (objs, param2) =>
                 {
-                    Sprite[] assets = (Sprite[])objs;
+                    UnityEngine.Object[] assets = objs;
                     if (assets != null && assets.Length > 0)
                     {
                         if (string.IsNullOrEmpty(spName))
@@ -141,6 +141,7 @@ namespace Framework
                                 if (assets[i].name == spName)
                                 {
                                     finishCallback(assets[i], param2);
+                                    return;
                                 }
                             }
                         }
@@ -263,6 +264,7 @@ namespace Framework
                 if (finishCallback != null)
                 {
                     finishCallback(assets, param);
+                    return;
                 }
             }
             if (finishCallback != null)
@@ -275,8 +277,7 @@ namespace Framework
 
         //-------------------------------------
 
-        public static void Load<T>(string path, Action<T, object[]> finishCallback, params object[] param)
-where T : UnityEngine.Object
+        public static void Load<T>(string path, Action<T, object[]> finishCallback, params object[] param) where T : UnityEngine.Object
         {
             Load(path, typeof(T), (obj, param2) =>
             {
@@ -314,6 +315,7 @@ where T : UnityEngine.Object
                         return;
                     }
                 }
+
                 if (finishCallback != null)
                 {
                     finishCallback(null, param2);
