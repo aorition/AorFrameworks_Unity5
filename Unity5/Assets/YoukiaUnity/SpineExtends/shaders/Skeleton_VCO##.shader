@@ -49,12 +49,14 @@
 			{
 				float4 vertex : POSITION;
 				float2 uv : TEXCOORD0;
+				half4 color : COLOR;
 			};
 
 			struct v2f
 			{
 				float2 uv : TEXCOORD0;
 				float4 vertex : SV_POSITION;
+				half4 color : COLOR;
 			};
 
 			sampler2D _MainTex;
@@ -73,6 +75,7 @@
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = v.uv;
+				o.color = v.color;
 				return o;
 			}
 			
@@ -80,6 +83,7 @@
 			{
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv) * _Color;
+				col.a *= i.color.a;
 #ifdef ENABLE_CUTOFF
 			clip(col.a - _Cutoff);
 #endif
