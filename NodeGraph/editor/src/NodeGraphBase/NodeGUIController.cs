@@ -16,7 +16,7 @@ namespace Framework.NodeGraph
     /// <summary>
     /// NodeData GUI内容绘制器
     /// </summary>
-    //[NodeToolItem("NodeBase", "Framework.NodeGraph.NodeData|AorFramework.NodeGraph.NodeController|AorFramework.NodeGraph.NodeGUIController")]
+    //[NodeToolItem("NodeBase", "Framework.NodeGraph.NodeData|Framework.NodeGraph.NodeController|Framework.NodeGraph.NodeGUIController")]
     public class NodeGUIController : INodeGUIController
     {
 

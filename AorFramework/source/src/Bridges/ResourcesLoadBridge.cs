@@ -400,20 +400,36 @@ namespace Framework
 
         #endregion
 
-        //---------------------------------------------------
+        //-------------------------------------------------------------------------------------------------------
 
-        #region 弃用方法和字段
-        [Obsolete("多余的封装方法. Using Load<T>")]
+        public static Action<string, Action<Sprite, object[]>, object[]> LoadSpriteHook;
         public static void LoadSprite(string path, Action<Sprite, object[]> finishCallback, params object[] param)
         {
+            if(LoadSpriteHook != null)
+            {
+                LoadSpriteHook(path, finishCallback, param);
+                return;
+            }
             Load<Sprite>(path, finishCallback, param);
         }
-        [Obsolete("多余的封装方法. Using Load<T>")]
+        
+        public static Action<string, Action<Texture2D, object[]>, object[]> LoadTextrueHook;
         public static void LoadTextrue(string path, Action<Texture2D, object[]> finishCallback, params object[] param)
         {
+            if(LoadTextrueHook != null)
+            {
+                LoadTextrueHook(path, finishCallback, param);
+                return;
+            }
             Load<Texture2D>(path, finishCallback, param);
         }
 
+
+
+        //-------------------------------------------------------------------------------------------------------
+
+        #region 弃用方法和字段
+        [Obsolete("多余的封装方法. Using Load<T>")]
         public static void LoadPrefabAsset(string path, Action<GameObject, object[]> finishCallback, params object[] param)
         {
             Load<GameObject>(path, finishCallback, param);

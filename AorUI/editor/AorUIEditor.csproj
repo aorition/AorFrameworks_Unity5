@@ -70,6 +70,7 @@
     <Compile Include="src\UGUISRC\UGUI_Text_SCEditor.cs" />
     <Compile Include="src\UIManager\UIManagerSettingAssetEditor.cs" />
     <Compile Include="src\Units\SpriteAssetEditor.cs" />
+    <Compile Include="src\Utility\RectTransformPlusEditor.cs" />
     <Compile Include="src\Utility\ReimportUnityEngineUI.cs" />
   </ItemGroup>
   <ItemGroup>
