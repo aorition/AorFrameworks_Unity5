@@ -1,48 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Linq;
-using System.Text;
-using AorBaseUtility;
 using AorBaseUtility.Config;
 using UnityEngine;
 
-public class EditorConfigCreater
+namespace Framework.Editor
 {
 
-    /// <summary>
-    /// 创建一个Config的实例，初始数据由initParms填入；
-    /// </summary>
-    public static T CreateConfigInstance<T>(Dictionary<string, object> initParms) where T : Config
+    public class EditorConfigCreater
     {
 
-        Type type = typeof (T);
-
-        T inst = Activator.CreateInstance<T>();
-
-        foreach (KeyValuePair<string, object> keyValuePair in initParms)
+        /// <summary>
+        /// 创建一个Config的实例，初始数据由initParms填入；
+        /// </summary>
+        public static T CreateConfigInstance<T>(Dictionary<string, object> initParms) where T : Config
         {
-            try
+
+            Type type = typeof(T);
+
+            T inst = Activator.CreateInstance<T>();
+
+            foreach (KeyValuePair<string, object> keyValuePair in initParms)
             {
-                FieldInfo fieldInfo = type.GetField(keyValuePair.Key, BindingFlags.Instance|BindingFlags.Public| BindingFlags.GetField);
-                if (fieldInfo != null)
+                try
                 {
-                    fieldInfo.SetValue(inst, keyValuePair.Value);
+                    FieldInfo fieldInfo = type.GetField(keyValuePair.Key, BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetField);
+                    if (fieldInfo != null)
+                    {
+                        fieldInfo.SetValue(inst, keyValuePair.Value);
+                    }
+                    fieldInfo = type.GetField(keyValuePair.Key, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
+                    if (fieldInfo != null)
+                    {
+                        fieldInfo.SetValue(inst, keyValuePair.Value);
+                    }
                 }
-                fieldInfo = type.GetField(keyValuePair.Key, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
-                if (fieldInfo != null)
+                catch (Exception ex)
                 {
-                    fieldInfo.SetValue(inst, keyValuePair.Value);
+                    Debug.LogError(ex.Message);
+                    continue;
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.LogError(ex.Message);
-                continue;
-            }
+
+            return inst;
         }
 
-        return inst;
     }
 
 }
+
+

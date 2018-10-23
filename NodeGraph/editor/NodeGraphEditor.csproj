@@ -152,7 +152,6 @@
     <Compile Include="src\NodeGraphBase\Utility\REFUtility.cs" />
     <Compile Include="src\NodeGraphBase\windows\AssetPathBrowserWindow.cs" />
     <Compile Include="src\NodeGraphBase\windows\NodeGraphSettingWindow.cs" />
-    <Compile Include="src\SupportLibs\DllUpgrader.cs" />
     <Compile Include="src\SupportLibs\EditorAssetInfo.cs" />
     <Compile Include="src\SupportLibs\EditorAssetInfoExents.cs" />
     <Compile Include="src\AssetsNodeGraph\TextureImporterDatawraper.cs" />

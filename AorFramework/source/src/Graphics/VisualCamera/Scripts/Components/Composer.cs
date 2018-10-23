@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using Framework.Extends;
 using Framework.Graphic.Utility;
 
 namespace Framework.Graphic

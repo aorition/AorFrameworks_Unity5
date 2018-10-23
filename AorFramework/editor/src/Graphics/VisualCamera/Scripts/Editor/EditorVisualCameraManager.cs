@@ -73,7 +73,7 @@ namespace Framework.Graphic.Editor
 
         private static bool VaildvisualCamera(VisualCamera visualCamera)
         {
-            return (visualCamera && visualCamera.gameObject && visualCamera.CrrentCamera);
+            return (visualCamera && visualCamera.gameObject && visualCamera.CrrentCamera && visualCamera.gameObject.activeInHierarchy && visualCamera.gameObject.activeSelf && visualCamera.enabled);
         }
 
         private static void HierarchyWindowItemOnGui(int instanceId, Rect selectionRect)

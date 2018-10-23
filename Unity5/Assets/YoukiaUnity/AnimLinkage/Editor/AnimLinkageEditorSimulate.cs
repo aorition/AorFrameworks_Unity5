@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using AorBaseUtility;
+using AorBaseUtility.Extends;
 using Framework.Editor;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
-using Framework;
+using Framework.Extends;
 
 public class AnimLinkageEditorSimulate
 {

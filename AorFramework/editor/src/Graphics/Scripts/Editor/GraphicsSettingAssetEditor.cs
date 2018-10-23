@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using AorBaseUtility;
+using AorBaseUtility.Extends;
 using Framework.Editor;
 using Framework.Graphic.Utility;
 using UnityEngine;
 using UnityEditor;
 
-namespace Framework.UI.editor
+namespace Framework.Graphic.editor
 {
     [CustomEditor(typeof(GraphicsSettingAsset))]
     public class GraphicsSettingAssetEditor : UnityEditor.Editor

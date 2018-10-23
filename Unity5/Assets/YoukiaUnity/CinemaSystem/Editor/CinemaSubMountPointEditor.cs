@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AorBaseUtility;
+using AorBaseUtility.Extends;
 using UnityEditor;
 using UnityEngine;
 using YoukiaUnity.CinemaSystem;
@@ -33,7 +34,7 @@ public class CinemaSubMountPointEditor : Editor
         Transform mountRoot = EditorGUILayout.ObjectField(new GUIContent("设置绑定点根节点"),serializedObject.FindProperty("_mountRoot").objectReferenceValue,typeof(Transform),true) as Transform;
         if (mountRoot != serializedObject.FindProperty("_mountRoot").objectReferenceValue)
         {
-            _target.ref_SetField_Inst_NonPublic("_isInit", false);
+ 
             serializedObject.FindProperty("_mountRoot").objectReferenceValue = mountRoot;
             serializedObject.FindProperty("_subMountPointPath").stringValue = "";
 

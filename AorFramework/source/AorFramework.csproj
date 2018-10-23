@@ -74,6 +74,7 @@
     <Compile Include="src\GameBaseInterfaces\IGameAnimObject.cs" />
     <Compile Include="src\GameBaseInterfaces\IGameObject.cs" />
     <Compile Include="src\Core\IManager.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\FLPostEffect\FLGaussBlurEffect.cs" />
     <Compile Include="src\Graphics\GraphicsSystem\Scripts\Models\GraphicsSettingAsset.cs" />
     <Compile Include="src\Graphics\Lightmap\Scripts\LightmapManager.cs" />
     <Compile Include="src\Graphics\Lightmap\Scripts\PrefabLightmapData.cs" />
@@ -140,19 +141,21 @@
     <Compile Include="src\JSON\JScriptableObjectDataWraper.cs" />
     <Compile Include="src\JSON\JSONParser.cs" />
     <Compile Include="src\Log\Log.cs" />
-    <Compile Include="src\Tools\EditorSupport\Interfaces\IShaderDefine.cs" />
-    <Compile Include="src\Tools\EditorSupport\MeshChecker\MeshChecker.cs" />
-    <Compile Include="src\Tools\EditorSupport\MeshChecker\MeshGroupChecker.cs" />
-    <Compile Include="src\Tools\EditorSupport\MeshEditTool\MeshVertexEdition.cs" />
-    <Compile Include="src\Tools\EditorSupport\PrefabLinker\PrefabLinker.cs" />
+    <Compile Include="src\Utility\CorrectingAspect.cs" />
+    <Compile Include="src\Utility\EditorSupport\Interfaces\IShaderDefine.cs" />
+    <Compile Include="src\Utility\EditorSupport\MeshChecker\MeshChecker.cs" />
+    <Compile Include="src\Utility\EditorSupport\MeshChecker\MeshGroupChecker.cs" />
+    <Compile Include="src\Utility\EditorSupport\MeshEditTool\MeshVertexEdition.cs" />
+    <Compile Include="src\Utility\EditorSupport\PrefabLinker\PrefabLinker.cs" />
     <Compile Include="src\Bridges\AddComponentBridge.cs" />
     <Compile Include="src\Bridges\ResourcesLoadBridge.cs" />
-    <Compile Include="src\Tools\EditorSupport\SimpleTestMonoBehaviour\SimpleTestMonoBehaviour.cs" />
-    <Compile Include="src\Tools\EditorSupport\TansformPlus\TansformShortcut.cs" />
-    <Compile Include="src\Tools\FPS.cs" />
+    <Compile Include="src\Utility\EditorSupport\SimpleTestMonoBehaviour\SimpleTestMonoBehaviour.cs" />
+    <Compile Include="src\Utility\EditorSupport\TansformPlus\TansformShortcut.cs" />
+    <Compile Include="src\Utility\FPS.cs" />
     <Compile Include="src\Units\CameraStructInfo.cs" />
     <Compile Include="src\Utility\CameraMathUtility.cs" />
     <Compile Include="src\Utility\TextureScale.cs" />
+    <Compile Include="src\Utility\TimeScaleIgnore.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AorBaseExtents\AorBaseExtents.csproj">

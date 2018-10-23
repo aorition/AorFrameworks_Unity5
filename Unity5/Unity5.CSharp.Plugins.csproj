@@ -100,11 +100,11 @@
     <Reference Include="DOTween46">
       <HintPath>Assets\Plugins\DOTween46.dll</HintPath>
     </Reference>
-    <Reference Include="zlib.net">
-      <HintPath>Assets\Plugins\zlib.net.dll</HintPath>
-    </Reference>
     <Reference Include="NodeGraph">
       <HintPath>Assets\Plugins\NodeGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="zlib.net">
+      <HintPath>Assets\Plugins\zlib.net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -326,6 +326,7 @@
     <None Include="Assets\Resources\Shader\Framebasic\Billbord\YKSprite.shader" />
     <None Include="Assets\Resources\Shader\Framebasic\Unlit\Color.shader" />
     <None Include="Assets\Resources\Shader\Test\Cel Shader.shader" />
+    <None Include="Assets\Resources\Textures\EquipIcon\EquiplconAtls.txt" />
     <None Include="Assets\Resources\config\RoleViewConfig.txt" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />

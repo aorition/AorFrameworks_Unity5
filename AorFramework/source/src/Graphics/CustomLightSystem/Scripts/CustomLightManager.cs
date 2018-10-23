@@ -1,8 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Framework.Extends;
 
-namespace Framework.Graphic
+namespace Framework.Graphic.CustomLight
 {
     /// <summary>
     /// 自定义灯光管理器

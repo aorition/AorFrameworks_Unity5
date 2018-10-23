@@ -1,7 +1,7 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 //@@@DynamicShaderInfoStart
-//带(主光)高光参数的3层混合地表贴图
+//<Readonly>带(主光)高光参数的3层混合地表贴图
 //@@@DynamicShaderInfoEnd
 
 Shader "Custom/Light/Diffuse - 3CombieTexture - DirectionalLight" {

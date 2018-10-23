@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEditor;
 
-namespace Framework.Graphic
+namespace Framework.Graphic.CustomLight.Editor
 {
     
-
     public class CustomLightManagerEditor : UnityEditor.Editor
     {
         

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Framework.Editor;
 using UnityEngine;
 using UnityEditor;
+using Framework.UI;
 [CustomEditor(typeof(RectTransform))]
 public class AorRectTransformEditor : DecoratorEditor
 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using AorBaseUtility;
+using AorBaseUtility.Extends;
 using Framework.Editor;
 using Framework.Graphic;
 using UnityEditor;
@@ -9,6 +10,7 @@ using UnityEditor.Animations;
 using UnityEngine;
 using YoukiaUnity.CinemaSystem;
 using Framework;
+using Framework.Extends;
 
 [CustomEditor(typeof(CinemaClip))]
 public class CinemaClipEditor : UnityEditor.Editor
