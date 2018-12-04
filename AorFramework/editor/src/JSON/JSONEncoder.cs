@@ -212,11 +212,17 @@ namespace Framework.Editor
                 int i, len = pFieldInfos.Length;
                 for (i = 0; i < len; i++)
                 {
+                    FieldInfo pFieldInfo = pFieldInfos[i];
+
+                    //这里需要过滤JScriptableObject的_status字段和_innerJsonValue字段
+                    if (obj is JScriptableObject && (pFieldInfo.Name == "_status" || pFieldInfo.Name == "_innerJsonValue")) {
+                        continue;
+                    }
+
                     if (i > 0)
                     {
                         _result.Append(",");
                     }
-                    FieldInfo pFieldInfo = pFieldInfos[i];
                     string key = "\"" + pFieldInfo.Name + "\"";
                     Type FType = pFieldInfo.FieldType;
                     object value = pFieldInfo.GetValue(obj);

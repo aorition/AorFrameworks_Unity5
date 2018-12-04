@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Framework;
+﻿using System;
 using UnityEngine;
 
 namespace Framework.Graphic
@@ -29,10 +27,8 @@ namespace Framework.Graphic
         public bool OverrideAllowHDR = false;
         public bool OverrideAllowMSAA = false;
 
-        public bool IgnoreInterpolationOnce = true;
-
         [SerializeField]
-        [Range(0,1)]
+        [Range(0, 1)]
         private float _interpolation = 0;
         /// <summary>
         /// 运行时相机运动插值(设置范围 0-1, 大于1时会产生奇怪的运动, 0为不插值)
@@ -46,9 +42,11 @@ namespace Framework.Graphic
                 if (!_interpolation.Equals(v))
                 {
                     _interpolation = v;
+                    if (OnInterpolationChanged != null) OnInterpolationChanged(_interpolation);
                 }
             }
         }
+        public Action<float> OnInterpolationChanged;
 
         private Camera _currentCam;
         public Camera CrrentCamera
@@ -65,15 +63,18 @@ namespace Framework.Graphic
         public float Level
         {
             get { return _level; }
-            set {
+            set
+            {
                 if (!_level.Equals(value))
                 {
                     _level = value;
                     if (GraphicsManager.IsInit())
                         GraphicsManager.Instance.RefreshCurrentVisualCamera();
-                }   
+                    if (OnLevelChanged != null) OnLevelChanged(_level);
+                }
             }
         }
+        public Action<float> OnLevelChanged;
 
         [SerializeField]
         private bool _solo;
@@ -87,40 +88,58 @@ namespace Framework.Graphic
                     _solo = value;
                     if (GraphicsManager.IsInit())
                         GraphicsManager.Instance.RefreshCurrentVisualCamera();
+                    if (OnSoloChanged != null) OnSoloChanged(_solo);
+                }
+            }
+        }
+        public Action<bool> OnSoloChanged;
+
+        //private bool _useHfov;
+        //public bool UseHfov
+        //{
+        //    get { return _useHfov; }
+        //    set { _useHfov = value; }
+        //}
+
+        //private float _Hfov;
+        //public float Hfov
+        //{
+        //    get { return _Hfov; }
+        //    set { _Hfov = value; }
+        //}
+
+        [SerializeField]
+        private bool _ignoreInterpolationOnce = true;
+        public bool IgnoreInterpolationOnce
+        {
+            get { return _ignoreInterpolationOnce; }
+            set
+            {
+                if (!_ignoreInterpolationOnce.Equals(value))
+                {
+                    _ignoreInterpolationOnce = value;
                 }
             }
         }
 
-        private bool _useHfov;
-        public bool UseHfov
-        {
-            get { return _useHfov; }
-            set { _useHfov = value; }
-        }
-
-        private float _Hfov;
-        public float Hfov
-        {
-            get { return _Hfov; }
-            set { _Hfov = value; }
-        }
 
         private VisualCameraExtension _extension;
-        public VisualCameraExtension extension 
+        public VisualCameraExtension extension
         {
-            get {
+            get
+            {
                 if (!_extension)
                 {
                     _extension = GetComponent<VisualCameraExtension>();
-//                    if (!_extension) _extension = gameObject.AddComponent<VisualCameraExtension>();
+                    //                    if (!_extension) _extension = gameObject.AddComponent<VisualCameraExtension>();
                 }
                 return _extension;
             }
         }
-        
+
         public void UpdateExtension(float deltaTime)
         {
-            if(extension && _extension.enabled) _extension.UpdateExtension(deltaTime);
+            if (extension && _extension.enabled) _extension.UpdateExtension(deltaTime);
         }
 
         protected void Awake()
@@ -144,7 +163,7 @@ namespace Framework.Graphic
         protected void OnDisable()
         {
             if (!CrrentCamera) return;
-            if(GraphicsManager.IsInit())
+            if (GraphicsManager.IsInit())
                 GraphicsManager.Instance.UnregisterVisualCamera(this);
         }
 

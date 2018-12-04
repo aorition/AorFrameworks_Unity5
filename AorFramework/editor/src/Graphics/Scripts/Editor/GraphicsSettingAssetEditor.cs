@@ -9,7 +9,7 @@ using UnityEditor;
 namespace Framework.Graphic.editor
 {
     [CustomEditor(typeof(GraphicsSettingAsset))]
-    public class GraphicsSettingAssetEditor : UnityEditor.Editor
+    public class GraphicsSettingAssetEditor : JScriptableObjectEditor
     {
 
         [MenuItem("Assets/GraphicsManagerAssets/GraphicsSettingAsset")]
@@ -32,13 +32,14 @@ namespace Framework.Graphic.editor
             DontClear = 4,
         }
 
-        private GraphicsSettingAsset _target;
+        private GraphicsSettingAsset m_target;
 
-        private void Awake()
+        protected override void Awake()
         {
-            _target = target as GraphicsSettingAsset;
+            base.Awake();
+            m_target = target as GraphicsSettingAsset;
         }
-
+        
         public override void OnInspectorGUI()
         {
             //base.OnInspectorGUI();
@@ -50,9 +51,9 @@ namespace Framework.Graphic.editor
             _draw_subCameraMParam();
             serializedObject.ApplyModifiedProperties();
 
-            #region *** 按钮-> <立即写入修改数据到文件> :: 建议所有.Asset文件的Editor都配备此段代码
-            EditorPlusMethods.Draw_AssetFileApplyImmediateUI(target);
-            #endregion
+            Draw_AssetFileApplyImmediateUI();
+            GUILayout.Space(8);
+            Draw_JScriptableObject_editor_UI();
         }
 
         private void _draw_baseParam()
@@ -88,7 +89,7 @@ namespace Framework.Graphic.editor
 
             GUILayout.Space(8);
 
-            GCamGDesInfo mainDesInfo = (GCamGDesInfo)_target.GetPublicField("MainCamDesInfo");
+            GCamGDesInfo mainDesInfo = (GCamGDesInfo)m_target.GetPublicField("MainCamDesInfo");
             if (!mainDesInfo.init)
             {
                 mainDesInfo = new GCamGDesInfo("MainCamera", SubGCamType.MainCamera, -1, 0);
@@ -251,7 +252,7 @@ namespace Framework.Graphic.editor
 
             //        mainDesInfo.ref_SetField_Inst_Public("lensSetting", mainLensSetting);
             mainDesInfo.lensSetting = mainLensSetting;
-            _target.ref_SetField_Inst_Public("MainCamDesInfo", mainDesInfo);
+            m_target.ref_SetField_Inst_Public("MainCamDesInfo", mainDesInfo);
 
             _draw_cameraParamCoppyer();
 
@@ -277,13 +278,13 @@ namespace Framework.Graphic.editor
                         cam.useOcclusionCulling, cam.allowHDR, cam.allowMSAA
                         );
 
-                    GCamGDesInfo mainDesInfo = (GCamGDesInfo)_target.ref_GetField_Inst_Public("MainCamDesInfo");
+                    GCamGDesInfo mainDesInfo = (GCamGDesInfo)m_target.ref_GetField_Inst_Public("MainCamDesInfo");
                     mainDesInfo.lensSetting = cgLensSetting;
                     mainDesInfo.depth = cam.depth;
 
                     mainDesInfo.cullingMask = cam.cullingMask;
 
-                    _target.ref_SetField_Inst_Public("MainCamDesInfo", mainDesInfo);
+                    m_target.ref_SetField_Inst_Public("MainCamDesInfo", mainDesInfo);
                 }
             }
 
@@ -294,7 +295,7 @@ namespace Framework.Graphic.editor
                 {
 
 
-                    GCamGDesInfo mainDesInfo = (GCamGDesInfo)_target.ref_GetField_Inst_Public("MainCamDesInfo");
+                    GCamGDesInfo mainDesInfo = (GCamGDesInfo)m_target.ref_GetField_Inst_Public("MainCamDesInfo");
 
                     //cullingMask
                     cam.cullingMask = mainDesInfo.cullingMask;
@@ -351,7 +352,7 @@ namespace Framework.Graphic.editor
             GUILayout.Space(8);
 
             _delSubDesInfos.Clear();
-            List<GCamGDesInfo> subDesInfos = (List<GCamGDesInfo>)_target.ref_GetField_Inst_Public("SubCamGDesInfos");
+            List<GCamGDesInfo> subDesInfos = (List<GCamGDesInfo>)m_target.ref_GetField_Inst_Public("SubCamGDesInfos");
             if (subDesInfos != null && subDesInfos.Count > 0)
             {
                 for (int i = 0; i < subDesInfos.Count; i++)
@@ -379,7 +380,7 @@ namespace Framework.Graphic.editor
                 subDesInfos.Remove(_delSubDesInfos[i]);
             }
 
-            _target.ref_SetField_Inst_Public("SubCamGDesInfos", subDesInfos);
+            m_target.ref_SetField_Inst_Public("SubCamGDesInfos", subDesInfos);
 
             GUILayout.Space(5);
 

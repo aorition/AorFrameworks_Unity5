@@ -70,6 +70,7 @@
     <Compile Include="src\Core\DecoratorEditor.cs" />
     <Compile Include="src\Core\EditorMonoBehaviour.cs" />
     <Compile Include="src\Core\HierachyMonitor.cs" />
+    <Compile Include="src\Core\JScriptableObjectEditor.cs" />
     <Compile Include="src\Core\SetPropertyAttributeDrawer.cs" />
     <Compile Include="src\EditorAssetInfo\EditorAssetInfo.cs" />
     <Compile Include="src\EditorAssetInfo\EditorAssetInfoExents.cs" />

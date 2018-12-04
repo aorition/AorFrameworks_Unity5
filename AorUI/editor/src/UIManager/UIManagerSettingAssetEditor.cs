@@ -12,7 +12,7 @@ namespace Framework.UI.Editor
 {
 
     [CustomEditor(typeof(UIManagerSettingAsset))]
-    public class UIManagerSettingAssetEditor : UnityEditor.Editor
+    public class UIManagerSettingAssetEditor : JScriptableObjectEditor
     {
 
         private static GUIStyle _titleStyle;
@@ -40,23 +40,23 @@ namespace Framework.UI.Editor
             EditorPlusMethods.CreateAssetFile<UIManagerSettingAsset>("unameUIManagerSettingAsset");
         }
 
-        private UIManagerSettingAsset _target;
+        private UIManagerSettingAsset m_target;
 
-        private void OnEnable()
+        protected override void Awake()
         {
-            _target = target as UIManagerSettingAsset;
+            base.Awake();
+            m_target = target as UIManagerSettingAsset;
         }
 
         private Vector2 _scpos = Vector2.zero;
-
         public override void OnInspectorGUI()
         {
 
             bool isInfoDirty = false;
             bool isLayersDirty = false;
 
-            List<UICanvasInfo> InfoList = (List<UICanvasInfo>)_target.GetNonPublicField("m_InfoList");
-            List<UILayerGroup> LayerList = (List<UILayerGroup>) _target.GetNonPublicField("m_LayerList");
+            List<UICanvasInfo> InfoList = (List<UICanvasInfo>)m_target.GetNonPublicField("m_InfoList");
+            List<UILayerGroup> LayerList = (List<UILayerGroup>) m_target.GetNonPublicField("m_LayerList");
 
             if (InfoList == null || InfoList.Count == 0)
             {
@@ -73,7 +73,7 @@ namespace Framework.UI.Editor
                 uiLayerGroup.Add(UILayer.Default());
                 LayerList.Add(uiLayerGroup);
 
-                _target.SetNonPublicField("_isInit", true);
+                m_target.SetNonPublicField("_isInit", true);
 
                 isInfoDirty = true;
                 isLayersDirty = true;
@@ -130,17 +130,17 @@ namespace Framework.UI.Editor
 
             if (isInfoDirty)
             {
-                _target.ref_SetField_Inst_NonPublic("m_InfoList", nInfoList);
+                m_target.SetNonPublicField("m_InfoList", nInfoList);
             }
 
             if (isLayersDirty)
             {
-                _target.ref_SetField_Inst_NonPublic("m_LayerList", nLayerList);
+                m_target.SetNonPublicField("m_LayerList", nLayerList);
             }
 
-            #region *** 按钮-> <立即写入修改数据到文件> :: 建议所有.Asset文件的Editor都配备此段代码
-            EditorPlusMethods.Draw_AssetFileApplyImmediateUI(target);
-            #endregion
+            Draw_AssetFileApplyImmediateUI();
+            GUILayout.Space(8);
+            Draw_JScriptableObject_editor_UI();
 
         }
 
@@ -474,10 +474,13 @@ namespace Framework.UI.Editor
             float nFarClipPlane = EditorGUILayout.FloatField("Far Clip Plane", FarClipPlane);
             if (!nFarClipPlane.Equals(FarClipPlane)) isDirty = true;
 
-            Rect ViewportRect = CameraInfo.ViewportRect;
+            Rect ViewportRect = new Rect(CameraInfo.Viewport.x, CameraInfo.Viewport.y, CameraInfo.Viewport.z, CameraInfo.Viewport.w);
             Rect nViewportRect = EditorGUILayout.RectField("Viewport Rect", ViewportRect);
-            if (!nViewportRect.Equals(ViewportRect)) isDirty = true;
-
+            if (!nViewportRect.Equals(ViewportRect))
+            {
+                CameraInfo.Viewport = new Vector4(nViewportRect.x, nViewportRect.y, nViewportRect.width, nViewportRect.height);
+                isDirty = true;
+            }
             float Depth = CameraInfo.Depth;
             float nDepth = EditorGUILayout.FloatField("Depth", Depth);
             if (!nDepth.Equals(Depth)) isDirty = true;

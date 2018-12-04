@@ -261,7 +261,7 @@ namespace Framework.JSON
                 }else // if (type.IsSubclassOf(typeof(UnityEngine.Object)))
                 {
                     int instanceId = int.Parse((dic["Value"] as Dictionary<string, object>)["instanceID"].ToString());
-                    string subJson = "{\"Value\":{ \"instanceID\":" + instanceId + "}";
+                    string subJson = "{\"Value\":{ \"instanceID\":" + instanceId + "}}";
                     return JScriptableObjectDataWraper.CreateObjectFromJSON(subJson);
                 }
             }

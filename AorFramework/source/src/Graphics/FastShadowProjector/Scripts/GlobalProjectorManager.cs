@@ -26,7 +26,6 @@ namespace Framework.Graphic.FastShadowProjector
         // *. 提供Request静态方法.
         // *. 提供IsInit静态方法判定改Manager是否初始化
         // *. 须Awake中调用ManagerBase.VerifyUniqueOnInit验证单例唯一
-        // *. 须Awake中调用ManagerBase.VerifyUniqueOnInit验证单例唯一
         //
         //=============== 基于MonoBehavior的Manager====================
 

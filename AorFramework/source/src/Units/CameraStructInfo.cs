@@ -35,7 +35,8 @@ namespace Framework
             this.FieldOfView = fieldOfView;
             this.NearClipPlane = nearClipPlane;
             this.FarClipPlane = farClipPlane;
-            this.ViewportRect = viewportRect;
+            //this.ViewportRect = viewportRect;
+            this.Viewport = new Vector4(viewportRect.x, viewportRect.y, viewportRect.width, viewportRect.height);
             this.Depth = Depth;
             this.RenderingPath = renderingPath;
             this.TargetTexture = targetTexture;
@@ -60,7 +61,8 @@ namespace Framework
         public float FieldOfView;
         public float NearClipPlane;
         public float FarClipPlane;
-        public Rect ViewportRect;
+        //public Rect ViewportRect; //Unity5.x JSONUtility不支持序列化Rect ... 改为Vector4作持久化
+        public Vector4 Viewport;
         public float Depth;
         public RenderingPath RenderingPath;
         public RenderTexture TargetTexture;

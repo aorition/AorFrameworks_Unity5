@@ -205,7 +205,6 @@ namespace AorBaseUtility.Extends
 
             if (methodInfo != null)
             {
-
                 return methodInfo.Invoke(obj, parameters);
             }
             else

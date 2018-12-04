@@ -146,7 +146,7 @@ namespace Framework.UI
                     camera.fieldOfView = info.CameraInfo.FieldOfView;
                     camera.nearClipPlane = info.CameraInfo.NearClipPlane;
                     camera.farClipPlane = info.CameraInfo.FarClipPlane;
-                    camera.rect = info.CameraInfo.ViewportRect;
+                    camera.rect = new Rect(info.CameraInfo.Viewport.x, info.CameraInfo.Viewport.y, info.CameraInfo.Viewport.z, info.CameraInfo.Viewport.w);
                     camera.depth = info.CameraInfo.Depth;
                     camera.renderingPath = info.CameraInfo.RenderingPath;
                     camera.targetTexture = info.CameraInfo.TargetTexture;

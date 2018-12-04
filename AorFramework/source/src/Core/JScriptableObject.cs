@@ -62,9 +62,9 @@ namespace Framework
         /// 这是一个神奇的标识字段
         /// 用于判断Unity在加载此对象时是否反序列化失败,如果反序列化失败了.则启用内置JSON数据恢复逻辑
         /// </summary>
-        [SerializeField]
+        [SerializeField, HideInInspector]
         protected JScriptableObjectStatus _status;
-        [SerializeField]
+        [SerializeField, HideInInspector]
         protected string _innerJsonValue;
 //        [SerializeField]
 //        protected bool m_justUseJsonData = false;
@@ -108,7 +108,6 @@ namespace Framework
             //以实现通过内部JSON数据反序列化
             Type type = this.GetType();
             List<FieldInfo> FieldInfoList = new List<FieldInfo>();
-
             Dictionary<string, object> dic = JSONParser.DecodeToDic(jsonText);
             foreach (string key in dic.Keys)
             {
@@ -153,6 +152,7 @@ namespace Framework
         public virtual void ClearInnerJsonData()
         {
             _innerJsonValue = string.Empty;
+            _status = new JScriptableObjectStatus(true);
         }
 
         /// <summary>
@@ -160,6 +160,38 @@ namespace Framework
         /// </summary>
         public virtual void ClearSerializeData()
         {
+
+            Type type = this.GetType();
+            FieldInfo[] pFieldInfos = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.GetField);
+            FieldInfo[] nFieldInfos = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
+            List<FieldInfo> list = new List<FieldInfo>();
+            list.AddRange(pFieldInfos);
+            for (int i = 0; i < nFieldInfos.Length; i++)
+            {
+                Attribute[] a = Attribute.GetCustomAttributes(nFieldInfos[i]);
+                if (a.Length > 0)
+                {
+                    int u, ulen = a.Length;
+                    for (u = 0; u < ulen; u++)
+                    {
+                        if (a[u] is SerializeField)
+                        {
+                            list.Add(nFieldInfos[i]);
+                            break;
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < list.Count; i++)
+            {
+                FieldInfo info = list[i];
+                //这里需要过滤JScriptableObject的_status字段和_innerJsonValue字段
+                if (info.Name != "_status" && info.Name != "_innerJsonValue")
+                {
+                    info.SetValue(this, null);
+                }
+            }
+
             _status = new JScriptableObjectStatus();
             //
         }

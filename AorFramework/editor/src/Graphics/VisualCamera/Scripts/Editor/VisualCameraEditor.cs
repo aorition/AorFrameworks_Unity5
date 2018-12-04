@@ -75,7 +75,7 @@ public class VisualCameraEditor : Editor
         //            _isDirty = true;
         //        }
 
-//        EditorGUILayout.PropertyField(serializedObject.FindProperty("_solo"), new GUIContent("SOLO", "独占模式"));
+        //        EditorGUILayout.PropertyField(serializedObject.FindProperty("_solo"), new GUIContent("SOLO", "独占模式"));
         bool solo = serializedObject.FindProperty("_solo").boolValue;
         bool nSolo = EditorGUILayout.Toggle(new GUIContent("SOLO", "独占模式"), solo);
         if (!nSolo.Equals(solo))
@@ -86,21 +86,21 @@ public class VisualCameraEditor : Editor
 
         GUILayout.Space(5);
 
-//        int level = (int)_target.ref_GetField_Inst_NonPublic("_level");
-//        int nLevel = EditorGUILayout.IntField(new GUIContent("优先级"), level);
-//        if (!nLevel.Equals(level))
-//        {
-//            if (Application.isPlaying)
-//            {
-//                _target.Level = nLevel;
-//            }
-//            else
-//            {
-//                _target.ref_SetField_Inst_NonPublic("_level", nLevel);
-//            }
-//        }
+        //        int level = (int)_target.ref_GetField_Inst_NonPublic("_level");
+        //        int nLevel = EditorGUILayout.IntField(new GUIContent("优先级"), level);
+        //        if (!nLevel.Equals(level))
+        //        {
+        //            if (Application.isPlaying)
+        //            {
+        //                _target.Level = nLevel;
+        //            }
+        //            else
+        //            {
+        //                _target.ref_SetField_Inst_NonPublic("_level", nLevel);
+        //            }
+        //        }
 
-      //  EditorGUILayout.PropertyField(serializedObject.FindProperty("_level"), new GUIContent("优先级"));
+        //  EditorGUILayout.PropertyField(serializedObject.FindProperty("_level"), new GUIContent("优先级"));
         float level = serializedObject.FindProperty("_level").floatValue;
         float nlevel = EditorGUILayout.FloatField(new GUIContent("优先级"), level);
         if (!nlevel.Equals(level))
@@ -126,17 +126,33 @@ public class VisualCameraEditor : Editor
         //        {
         //            _target.ref_SetField_Inst_Public("IgnoreInterpolationOnFirstEnable", nIgnoreInterp);
         //        }
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("IgnoreInterpolationOnce"), new GUIContent("忽略一次插值?"));
+
+        //EditorGUILayout.PropertyField(serializedObject.FindProperty("IgnoreInterpolationOnce"), new GUIContent("忽略一次插值?"));
+
+        bool ignoreInterpolationOnce = serializedObject.FindProperty("_ignoreInterpolationOnce").boolValue;
+        bool nIgnoreInterpolationOnce = EditorGUILayout.Toggle(new GUIContent("IIO", "忽略一次插值"), ignoreInterpolationOnce);
+        if (!nIgnoreInterpolationOnce.Equals(ignoreInterpolationOnce))
+        {
+            _target.IgnoreInterpolationOnce = nIgnoreInterpolationOnce;
+        }
 
         GUILayout.Space(5);
 
-//        float interpn = (float)_target.ref_GetField_Inst_NonPublic("_interpolation");
-//        float nInterpn = EditorGUILayout.Slider(new GUIContent("缓动插值", "虚拟相机与主相机产生插值效果, 值为0时关闭插值"), interpn, 0, 1);
-//        if (!nInterpn.Equals(interpn))
-//        {
-//            _target.ref_SetField_Inst_NonPublic("_interpolation", nInterpn);
-//        }
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("_interpolation"), new GUIContent("缓动插值", "虚拟相机与主相机产生插值效果, 值为0时关闭插值"));
+        //        float interpn = (float)_target.ref_GetField_Inst_NonPublic("_interpolation");
+        //        float nInterpn = EditorGUILayout.Slider(new GUIContent("缓动插值", "虚拟相机与主相机产生插值效果, 值为0时关闭插值"), interpn, 0, 1);
+        //        if (!nInterpn.Equals(interpn))
+        //        {
+        //            _target.ref_SetField_Inst_NonPublic("_interpolation", nInterpn);
+        //        }
+
+        //EditorGUILayout.PropertyField(serializedObject.FindProperty("_interpolation"), new GUIContent("缓动插值", "虚拟相机与主相机产生插值效果, 值为0时关闭插值"));
+
+        float interpolation = serializedObject.FindProperty("_interpolation").floatValue;
+        float nInterpolation = EditorGUILayout.Slider(new GUIContent("缓动插值", "虚拟相机与主相机产生插值效果, 值为0时关闭插值"), interpolation, 0, 1);
+        if (!nInterpolation.Equals(interpolation))
+        {
+            _target.Interpolation = nInterpolation;
+        }
 
         GUILayout.Space(5);
 
@@ -158,7 +174,7 @@ public class VisualCameraEditor : Editor
         GUILayout.Space(5);
 
         GUILayout.BeginHorizontal();
-        togeField("OverrideClearFlags",new GUIContent("Clear Flags"));
+        togeField("OverrideClearFlags", new GUIContent("Clear Flags"));
         togeField("OverrideBackground", new GUIContent("Background Color"));
         GUILayout.EndHorizontal();
 
@@ -201,7 +217,7 @@ public class VisualCameraEditor : Editor
 
             GUILayout.Space(5);
 
-            if (GUILayout.Button(new GUIContent("Extension", "添加扩展组件"),GUILayout.Height(30)))
+            if (GUILayout.Button(new GUIContent("Extension", "添加扩展组件"), GUILayout.Height(30)))
             {
                 ext = _target.gameObject.AddComponent<VisualCameraExtension>();
 
@@ -224,12 +240,12 @@ public class VisualCameraEditor : Editor
 
     private void togeField(string fieldName, GUIContent label)
     {
-//        bool tog = (bool)_target.ref_GetField_Inst_Public(fieldName);
-//        bool ntog = EditorGUILayout.ToggleLeft(label, tog);
-//        if (!ntog.Equals(tog))
-//        {
-//            _target.ref_SetField_Inst_Public(fieldName, ntog);
-//        }
+        //        bool tog = (bool)_target.ref_GetField_Inst_Public(fieldName);
+        //        bool ntog = EditorGUILayout.ToggleLeft(label, tog);
+        //        if (!ntog.Equals(tog))
+        //        {
+        //            _target.ref_SetField_Inst_Public(fieldName, ntog);
+        //        }
         EditorGUILayout.PropertyField(serializedObject.FindProperty(fieldName), label);
     }
 

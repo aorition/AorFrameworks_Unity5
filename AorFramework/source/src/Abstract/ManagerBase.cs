@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework
@@ -194,6 +193,9 @@ namespace Framework
 
         /// <summary>
         /// 如果在Start阶段Manager还没有Setup会调用该方法
+        /// 
+        /// 提示: 使用该方法后,需要设置_isInit为true表示以通过该方法初始化,
+        /// 
         /// </summary>
         protected virtual void OnUnSetupedStart()
         {

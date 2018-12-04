@@ -33,12 +33,7 @@ MonoBehaviour:
       FieldOfView: 60
       NearClipPlane: 10
       FarClipPlane: 100
-      ViewportRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1
-        height: 1
+      Viewport: {x: 0, y: 0, z: 0, w: 0}
       Depth: 51
       RenderingPath: -1
       TargetTexture: {fileID: 0}

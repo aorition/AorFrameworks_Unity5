@@ -13,14 +13,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _status:
     _isInit: 1
-  _innerJsonValue: '{"UseFixedUpdate":"False","AllowVCamParaCover":"True","MainCamDesInfo":{"init":"True","name":"MainCamera","type":"MainCamera","cullingMask":-1,"depth":0,"lensSetting":{"init":"True","ClearFlags":"Skybox","BackgroundColor":{"r":0,"g":0,"b":1,"a":1},"isOrthographicCamera":"False","OrthographicSize":5,"FieldOfView":60,"NearClipPlane":0.3,"FarClipPlane":1000,"RenderingPath":"UsePlayerSettings","UseOcclusionCulling":"True","AllowHDR":"True","AllowMSAA":"True"}},"SubCamGDesInfos":[{"init":"True","name":"FinialCamera","type":"FinalOutput","cullingMask":0,"depth":50,"lensSetting":{"init":"False","ClearFlags":"0","BackgroundColor":{"r":0,"g":0,"b":0,"a":0},"isOrthographicCamera":"False","OrthographicSize":0,"FieldOfView":0,"NearClipPlane":0,"FarClipPlane":0,"RenderingPath":"VertexLit","UseOcclusionCulling":"False","AllowHDR":"False","AllowMSAA":"False"}}],"_status":{"_isInit":"True"},"_innerJsonValue":""}'
+  _innerJsonValue: 
   UseFixedUpdate: 0
   AllowVCamParaCover: 1
   MainCamDesInfo:
     init: 1
     name: MainCamera
     type: 1
-    cullingMask: -1
+    cullingMask: 1
     depth: 0
     lensSetting:
       init: 1
@@ -41,6 +41,42 @@ MonoBehaviour:
     type: 3
     cullingMask: 0
     depth: 50
+    lensSetting:
+      init: 0
+      ClearFlags: 0
+      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+      isOrthographicCamera: 0
+      OrthographicSize: 0
+      FieldOfView: 0
+      NearClipPlane: 0
+      FarClipPlane: 0
+      RenderingPath: 0
+      UseOcclusionCulling: 0
+      AllowHDR: 0
+      AllowMSAA: 0
+  - init: 1
+    name: UICamera
+    type: 0
+    cullingMask: 32
+    depth: 25
+    lensSetting:
+      init: 0
+      ClearFlags: 0
+      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
+      isOrthographicCamera: 0
+      OrthographicSize: 0
+      FieldOfView: 0
+      NearClipPlane: 0
+      FarClipPlane: 0
+      RenderingPath: 0
+      UseOcclusionCulling: 0
+      AllowHDR: 0
+      AllowMSAA: 0
+  - init: 1
+    name: WaterCamera
+    type: 0
+    cullingMask: 16
+    depth: 0
     lensSetting:
       init: 0
       ClearFlags: 0

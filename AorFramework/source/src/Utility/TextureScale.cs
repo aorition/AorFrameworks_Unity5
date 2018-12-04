@@ -1,11 +1,14 @@
-﻿using System.Threading;using UnityEngine;namespace Framework.Utility
+﻿using System.Threading;
+using UnityEngine;
+
+namespace Framework.Utility
 {
 
     // Only works on ARGB32, RGB24 and Alpha8 textures that are marked readable
     public class TextureScale
     {
 
-        public class ThreadData
+        private class ThreadData
         {
             public int start;
             public int end;
@@ -66,18 +69,18 @@
                 for (i = 0; i < cores - 1; i++)
                 {
                     threadData = new ThreadData(slice * i, slice * (i + 1));
-                    ParameterizedThreadStart ts = useBilinear ? new ParameterizedThreadStart(BilinearScale) : new ParameterizedThreadStart(PointScale);
+                    ParameterizedThreadStart ts = useBilinear ? new ParameterizedThreadStart(ThreadedBilinear) : new ParameterizedThreadStart(ThreadedPoint);
                     Thread thread = new Thread(ts);
                     thread.Start(threadData);
                 }
                 threadData = new ThreadData(slice * i, newHeight);
                 if (useBilinear)
                 {
-                    BilinearScale(threadData);
+                    ThreadedBilinear(threadData);
                 }
                 else
                 {
-                    PointScale(threadData);
+                    ThreadedPoint(threadData);
                 }
                 while (finishCount < cores)
                 {
@@ -89,11 +92,11 @@
                 ThreadData threadData = new ThreadData(0, newHeight);
                 if (useBilinear)
                 {
-                    BilinearScale(threadData);
+                    ThreadedBilinear(threadData);
                 }
                 else
                 {
-                    PointScale(threadData);
+                    ThreadedPoint(threadData);
                 }
             }
 
@@ -105,7 +108,7 @@
             newColors = null;
         }
 
-        public static void BilinearScale(System.Object obj)
+        private static void ThreadedBilinear(System.Object obj)
         {
             ThreadData threadData = (ThreadData)obj;
             for (var y = threadData.start; y < threadData.end; y++)
@@ -130,7 +133,7 @@
             mutex.ReleaseMutex();
         }
 
-        public static void PointScale(System.Object obj)
+        private static void ThreadedPoint(System.Object obj)
         {
             ThreadData threadData = (ThreadData)obj;
             for (var y = threadData.start; y < threadData.end; y++)
@@ -157,4 +160,6 @@
         }
     }
 
-}
+}
+
+

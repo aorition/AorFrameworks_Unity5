@@ -118,25 +118,8 @@ namespace Framework.Editor
         {
             GUILayout.Space(13);
             GUI.color = Color.yellow;
-            if (GUILayout.Button(new GUIContent("Save Data To Asset Immediate", "立即将修改的数据保存到文件"), GUILayout.Height(26)))
+            if (GUILayout.Button("立即写入数据到文件 (Save To Asset Immediate)", GUILayout.Height(26)))
             {
-
-                //对JScriptableObject持久化做特殊处理
-                if (target is JScriptableObject)
-                {
-                    JScriptableObject jso = target as JScriptableObject;
-                    jso.ClearInnerJsonData();//重置_innerJsonValue
-                    string json = JSONEncoder.ToJSON(jso);
-                    target.SetNonPublicField("_innerJsonValue", json);
-//                    if ((bool) jso.GetNonPublicField("m_justUseJsonData"))
-//                    {
-//                        jso.ClearSerializeData();
-//                        EditorUtility.SetDirty(jso);
-//                        AssetDatabase.SaveAssets();
-//                        AssetDatabase.Refresh();
-//                    }
-                }
-
                 EditorUtility.SetDirty(target);
                 AssetDatabase.SaveAssets();
             }

@@ -74,7 +74,6 @@ namespace Framework.Editor.Utility
 
             GUILayout.EndScrollView();
 
-           // EditorPlusMethods.Draw_DebugWindowSizeUI();
         }
 
         //--------------------------------------
@@ -149,7 +148,7 @@ namespace Framework.Editor.Utility
 
             GUILayout.Space(5);
 
-            _keepOldPovitData = EditorGUILayout.ToggleLeft("是否保留已有Povit数据?", _keepOldPovitData);
+            _keepOldPovitData = EditorGUILayout.ToggleLeft("是否保留已有Povit/Border数据?", _keepOldPovitData);
 
             GUILayout.Space(5);
 
@@ -298,9 +297,6 @@ namespace Framework.Editor.Utility
             Dictionary<string, object> meta = dic["meta"] as Dictionary<string, object>;
             Dictionary<string, object> metaSize = meta["size"] as Dictionary<string, object>;
 
-            //float texW = Utils.StrToFloat (metaSize["w"].ToString ());
-            //float texW = float.Parse(metaSize["w"].ToString());
-            //float texH = Utils.StrToFloat (metaSize["h"].ToString ());
             float texH = float.Parse(metaSize["h"].ToString());
 
             foreach (KeyValuePair<string, object> item in frames)
@@ -314,19 +310,11 @@ namespace Framework.Editor.Utility
 
                 bool trimmed = (bool)((item.Value as Dictionary<string, object>)["trimmed"]);
 
-                //float w = (Utils.StrToFloat (frame["w"].ToString ()));
                 float w = float.Parse(frame["w"].ToString());
-                //float h = (Utils.StrToFloat (frame["h"].ToString ()));
                 float h = float.Parse(frame["h"].ToString());
-                //float x = (Utils.StrToFloat (frame["x"].ToString ()));
                 float x = float.Parse(frame["x"].ToString());
-                //float y = (texH - Utils.StrToFloat (frame["y"].ToString ()) - h);
                 float y = texH - float.Parse(frame["y"].ToString()) - h;
-
-                if (item.Key == "daitynpc_work_a_01.png")
-                {
-                    Debug.Log("");
-                }
+                
                 Vector2 center = new Vector2(0.5f, 0.5f);
                 if (trimmed)
                 {
@@ -342,7 +330,6 @@ namespace Framework.Editor.Utility
                 }
 
                 SpriteMetaData za = new SpriteMetaData();
-
                 za.name = item.Key;
                 za.name = za.name.Split('.')[0];
                 za.rect = new Rect(x, y, w, h);
@@ -359,7 +346,6 @@ namespace Framework.Editor.Utility
             //-------------------
 
             textureImporter.textureType = TextureImporterType.Sprite;
-            //textureImporter.generateCubemap = TextureImporterGenerateCubemap.AutoCubemap;
             textureImporter.isReadable = false;
             textureImporter.mipmapEnabled = false;
             textureImporter.spriteImportMode = SpriteImportMode.Multiple;
@@ -387,7 +373,6 @@ namespace Framework.Editor.Utility
                     za.alignment = each2.alignment;
                     za.pivot = each2.pivot;
                     za.border = each2.border;
-                    za.rect = new Rect(za.rect.x, za.rect.y, each2.rect.width, each2.rect.height);
                     break;
                 }
             }
