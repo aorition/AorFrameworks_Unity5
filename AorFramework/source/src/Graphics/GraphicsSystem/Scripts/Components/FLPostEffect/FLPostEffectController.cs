@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ namespace Framework.Graphic
                 Shader shader = ShaderBridge.Find("Hidden/PostEffect/Reverse");
                 if (!shader)
                 {
-                    Log.Error("** FLPostEffectController.OnEnable Error :: Can not Find the Shader : Hidden/PostEffect/Reverse , create ReverseMat fail.");
+                    //Log.Error("** FLPostEffectController.OnEnable Error :: Can not Find the Shader : Hidden/PostEffect/Reverse , create ReverseMat fail.");
                 }
                 ReverseMat = new Material(shader);
             }

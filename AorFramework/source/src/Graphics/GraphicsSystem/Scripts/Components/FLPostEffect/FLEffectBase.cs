@@ -1,4 +1,5 @@
-﻿using System.Deployment.Internal;
+﻿#pragma warning disable
+using System.Deployment.Internal;
 using Framework.Graphic;
 using UnityEngine;
 
@@ -21,7 +22,15 @@ public class FLEffectBase : MonoBehaviour, IFLPostEffectComponent
     }
 
 
-    public int Level => RenderLevel;
+    //public int Level => RenderLevel;
+
+    public int Level {
+        get { return RenderLevel; }
+        set {
+            RenderLevel = value;
+        }
+    }
+
 
     /// <summary>
     /// 独立运作模式 : 当脚本(包含子类)挂载到Camera节点上即开启独立运作模式, 该模式下脚本将直接对Camera本身起作用而不使用GraphicsManager渲染流.
@@ -76,7 +85,7 @@ public class FLEffectBase : MonoBehaviour, IFLPostEffectComponent
 
     public void RenderImage(RenderTexture src, RenderTexture dst)
     {
-        if (_RenderLevel != RenderLevel && GraphicsManager.Instance)
+        if (_RenderLevel != RenderLevel && GraphicsManager.Instance != null)
         {
             GraphicsManager.Instance.SortEffectComponents();
         }

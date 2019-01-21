@@ -3,10 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using Framework.JSON;
 using UnityEngine;
 
-namespace Framework.Editor
+namespace Framework.JSON
 {
 
     /// <summary>

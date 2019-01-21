@@ -228,7 +228,8 @@ namespace Framework.Editor
 
             //Zwirte
             Match zwirteMatch = zwirteEnumRegex.Match(shaderCode);
-            if (zwirteMatch.Success)
+            bool zwirteSuccess = !regexCodeHasBeenCommentedOut(zwirteMatch, shaderCode);
+            if (zwirteSuccess)
             {
                 if (zwirteMatch.Groups[1].Value == "_ZWirte")
                 {
@@ -242,7 +243,8 @@ namespace Framework.Editor
 
             //ZTest
             Match ztestMatch = ztestEnumRegex.Match(shaderCode);
-            if (ztestMatch.Success)
+            bool ztestSuccess = !regexCodeHasBeenCommentedOut(ztestMatch, shaderCode);
+            if (ztestSuccess)
             {
                 _isDefine_Dynamic_ZTest = ztestMatch.Groups[2].Value.ToLower().Contains("ztest")
                                           && ztestMatch.Groups[3].Value.ToLower() == "float";
@@ -251,7 +253,8 @@ namespace Framework.Editor
 
             //Cull
             Match cullMatch = cullEnumRegex.Match(shaderCode);
-            if (cullMatch.Success)
+            bool cullSuccess = !regexCodeHasBeenCommentedOut(cullMatch, shaderCode);
+            if (cullSuccess)
             {
                 _isDefine_Dynamic_ZTest = cullMatch.Groups[2].Value.ToLower().Contains("cull")
                                           && cullMatch.Groups[3].Value.ToLower() == "float";
@@ -260,7 +263,7 @@ namespace Framework.Editor
 
             //Blend
             Match blendMatch = blendEnumRegex.Match(shaderCode);
-            bool blendMatchLoop = blendMatch.Success;
+            bool blendMatchLoop = !regexCodeHasBeenCommentedOut(blendMatch, shaderCode);
             while (blendMatchLoop)
             {
                 if (blendMatch.Groups[3].Value.ToLower() == "float")
@@ -296,7 +299,8 @@ namespace Framework.Editor
                 }
 
                 blendMatch = blendMatch.NextMatch();
-                blendMatchLoop = blendMatch.Success;
+                blendMatchLoop = !regexCodeHasBeenCommentedOut(blendMatch, shaderCode);
+
             }
             //判断Shader是否启用Dynamic_Blend
             _isDefine_Dynamic_Blend = ShaderPropNameDefineDic.ContainsKey("SrcBlend")
@@ -312,6 +316,29 @@ namespace Framework.Editor
             if (_isDynamicShader) OnDynamicShaderInit();
         }
 
+        /// <summary>
+        /// 检查匹配的字符串是否已经被注释掉了。
+        /// 注意： 如果匹配不成功则直接返回true
+        /// </summary>
+        protected virtual bool regexCodeHasBeenCommentedOut(Match match, string matchingStr)
+        {
+
+            if (match == null || !match.Success || string.IsNullOrEmpty(matchingStr)) return true;
+
+            int i = match.Index;
+            string k;
+            while (true)
+            {
+                i--;
+                k = matchingStr.Substring(i, 1);
+                if (k == "\n" || k == "\r" || k == "\r\n" || i <= 0)
+                {
+                    break;
+                }
+            }
+            k = matchingStr.Substring(i, match.Index - i);
+            return k.Contains("//");
+        }
 
         protected virtual void OnDynamicShaderInit()
         {

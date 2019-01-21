@@ -16,8 +16,7 @@ public class ConnectManager
     //内部消息
 //    public YKEvent NetEvent;
     public float RealtimeSinceStartup;
-
-
+    
     public static ConnectManager manager()
     {
         if (_manager == null)

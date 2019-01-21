@@ -141,6 +141,7 @@
     <Compile Include="src\Graphics\VisualCamera\Scripts\VisualCamera.cs" />
     <Compile Include="src\Graphics\VisualCamera\Scripts\VisualCameraAnimHandler.cs" />
     <Compile Include="src\JSON\JScriptableObjectDataWraper.cs" />
+    <Compile Include="src\JSON\JSONEncoder.cs" />
     <Compile Include="src\JSON\JSONParser.cs" />
     <Compile Include="src\Log\Log.cs" />
     <Compile Include="src\Utility\CorrectingAspect.cs" />

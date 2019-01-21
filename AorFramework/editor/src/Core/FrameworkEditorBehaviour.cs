@@ -10,6 +10,7 @@ namespace Framework.Editor
     [InitializeOnLoad]
     public class FrameworkEditorBehaviour
     {
+
         static FrameworkEditorBehaviour()
         {
             Assembly assembly = Assembly.Load("UnityEditor.dll");

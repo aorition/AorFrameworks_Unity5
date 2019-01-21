@@ -160,6 +160,8 @@ namespace Framework.Graphic
             {
                 _mainCamera = new GameObject().AddComponent<Camera>();
                 _mainCamera.gameObject.tag = "MainCamera";
+                _mainCamera.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+
             }
 
             _mainCamera.gameObject.SetActive(false);
@@ -179,6 +181,8 @@ namespace Framework.Graphic
                 {
                     GCamGDesInfo info = _GCGinfo.SubCamGDesInfos[i];
                     Camera cam = new GameObject(info.name).AddComponent<Camera>();
+                    cam.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+
                     _subCameras.Add(cam);
 
                     cam.transform.SetParent(_mainCamera.transform, false);

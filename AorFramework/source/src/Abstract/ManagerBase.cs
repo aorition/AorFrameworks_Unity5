@@ -1,5 +1,7 @@
-﻿using System;
+﻿#pragma warning disable
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework
@@ -9,7 +11,9 @@ namespace Framework
     /// </summary>
     public abstract class ManagerBase : MonoBehaviour
     {
-        
+
+        private static readonly Dictionary<Type, Action> _AfterInitDo = new Dictionary<Type, Action>();
+
         private static T FindOrCreateManager<T>(string GameObjectName, Transform parenTransform = null)
             where T : ManagerBase
         {
@@ -68,18 +72,39 @@ namespace Framework
         protected static T CreateInstanceOnGameObject<T>(ref T uniqueInstance, GameObject target)
             where T : ManagerBase
         {
-            if (!target) return null;
+            if (!target)
+            {
+                return null;
+            }
+
             if (uniqueInstance == null)
             {
                 uniqueInstance = target.AddComponent<T>();
             }
+
             return uniqueInstance as T;
         }
 
         protected static void Request<T>(ref T uniqueInstance, Action GraphicsManagerIniteDoSh)
             where T : ManagerBase
         {
-            uniqueInstance.AddManagerInited(GraphicsManagerIniteDoSh);
+            if (VerifyIsInit<T>(ref uniqueInstance))
+            {
+                GraphicsManagerIniteDoSh();
+            }
+            else
+            {
+                Type t = typeof(T);
+                if (!_AfterInitDo.ContainsKey(t))
+                {
+                    _AfterInitDo.Add(t, GraphicsManagerIniteDoSh);
+                }
+                else
+                {
+                    _AfterInitDo[t] += GraphicsManagerIniteDoSh;
+                }
+
+            }
         }
 
         protected static bool VerifyIsInit<T>(ref T uniqueInstance)
@@ -107,6 +132,11 @@ namespace Framework
         {
             if (uniqueInstance != null && uniqueInstance == instance)
             {
+                Type t = uniqueInstance.GetType();
+                if (_AfterInitDo.ContainsKey(t))
+                {
+                    _AfterInitDo.Remove(t);
+                }
                 uniqueInstance = null;
             }
         }
@@ -121,19 +151,6 @@ namespace Framework
         /// 标识Mananger是否初始化
         /// </summary>
         protected bool _isInit = false;
-
-        protected Action _AfterInitDo;
-        protected void AddManagerInited(Action doSh)
-        {
-            if (_isInit)
-            {
-                doSh();
-            }
-            else
-            {
-                _AfterInitDo += doSh;
-            }
-        }
 
         /// <summary>
         /// Awake阶段: 推荐Manager调用ManagerBase.VerifyUniqueOnInit完成单例唯一判断
@@ -171,9 +188,13 @@ namespace Framework
         {
             if (_AfterInitDo != null)
             {
-                Action tmpDo = _AfterInitDo;
-                tmpDo();
-                _AfterInitDo = null;
+                Type t = this.GetType();
+                if (_AfterInitDo.ContainsKey(t))
+                {
+                    Action tmpDo = _AfterInitDo[t];
+                    tmpDo();
+                    _AfterInitDo.Remove(t);
+                }
             }
             OnAfterInit();
         }
@@ -226,7 +247,6 @@ namespace Framework
         /// </summary>
         protected virtual void OnDestroy()
         {
-            _AfterInitDo = null;
             //Do -> ManagerBase.VerifyUniqueOnDispose
         }
 

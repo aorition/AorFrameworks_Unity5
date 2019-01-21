@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable
+using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -62,7 +63,6 @@ namespace Framework.Graphic.FastShadowProjector
 
         public static void Request(Action GraphicsManagerIniteDoSh)
         {
-            CreateInstance();
             ManagerBase.Request(ref _instance, GraphicsManagerIniteDoSh);
         }
 
@@ -151,7 +151,7 @@ namespace Framework.Graphic.FastShadowProjector
 
         protected override void OnAfterInit()
         {
-            
+
         }
 
         //=======================================================================
@@ -320,7 +320,7 @@ namespace Framework.Graphic.FastShadowProjector
         {
             _instance.FixedProjection = configAsset.FixedProjection;
             _instance.ZClipFar = configAsset.ZClipFar;
-            _instance._GlobalShadowResolution = (int) configAsset.ShadowResolution;
+            _instance._GlobalShadowResolution = (int)configAsset.ShadowResolution;
             _instance._GlobalProjectionDir = configAsset.ProjectionAngles;
             Setup();
         }
@@ -414,6 +414,8 @@ namespace Framework.Graphic.FastShadowProjector
                 _GlobalShadowResolution = projector.GlobalShadowResolution;
             }
 
+            OnProjectionDirChange();
+
         }
 
         public void RemoveProjector(IProjector projector)
@@ -451,6 +453,7 @@ namespace Framework.Graphic.FastShadowProjector
             {
                 CheckForTerrain(receiver);
                 _ShadowReceivers.Add(receiver);
+                OnProjectionDirChange();
             }
         }
 
@@ -930,6 +933,7 @@ namespace Framework.Graphic.FastShadowProjector
 
         void Update()
         {
+
             ShadowReceiver receiver;
 
             for (int i = 0; i < _ShadowReceivers.Count; i++)
@@ -1023,7 +1027,7 @@ namespace Framework.Graphic.FastShadowProjector
                     {
 
                         _MBP.Clear();
-                        _MBP.AddMatrix("_GlobalProjector", _FinalMatrix);
+                        _MBP.SetMatrix("_GlobalProjector", _FinalMatrix);
                         //_MBP.AddMatrix("_GlobalProjectorClip", _FinalClipMatrix);
 
                         for (int n = 0; n < _ShadowReceivers[i].GetMesh().subMeshCount; n++)

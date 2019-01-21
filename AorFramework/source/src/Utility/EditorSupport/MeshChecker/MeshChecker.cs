@@ -8,8 +8,7 @@ namespace Framework.Utility
     [ExecuteInEditMode]
     public class MeshChecker : MonoBehaviour, IEditorOnlyScript
     {
-
-
+        
         private Shader _ckShader;
 
         public int ViewType = 0;
@@ -40,7 +39,7 @@ namespace Framework.Utility
                 checkMaterials = null;
             }
         }
-
+        
         private void Update()
         {
 

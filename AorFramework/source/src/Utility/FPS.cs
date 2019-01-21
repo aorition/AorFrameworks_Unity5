@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Framework.Extends;
 using UnityEngine;
 using UnityEngine.SceneManagement;
