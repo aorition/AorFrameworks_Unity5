@@ -1,6 +1,8 @@
 using UnityEngine;
 using System;
 
+using Framework.AnimLinkage;
+
 public class EffectScript_TextureOffset : MonoBehaviour, ISimulateAble
 {
 

@@ -45,7 +45,7 @@ namespace ExoticUnity.GUI.AorUI.Components
 
         private void Awake()
         {
-            _text = transform.FindChild("Text").GetComponent<Text>();
+            _text = transform.Find("Text").GetComponent<Text>();
             _animator = _text.GetComponent<Animator>();
         }
 

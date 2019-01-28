@@ -152,10 +152,10 @@
 			Tags{ "LightMode" = "ForwardAdd" }
 			//开启混合模式，让Additional Pass计算得到的光照结果可以在帧缓存中与之前的光照结果叠加
 			
-		///	Fog{ Color (0,0,0,0)}
+			///	Fog{ Color (0,0,0,0)}
 			
 			//如果没有开启，Additional Pass会直接覆盖之前的光照结果。
-	//?		Blend SrcAlpha One
+			//?Blend SrcAlpha One
 			Blend One One
 
 			CGPROGRAM
@@ -227,36 +227,33 @@
 
 				fixed3 worldNormal = normalize(i.worldNormal);
 				//平行光
-		#ifdef USING_DIRECTIONAL_LIGHT
-				fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
-				//其他光源
-		#else
-				fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz - i.worldPos.xyz);
-		#endif
+				#ifdef USING_DIRECTIONAL_LIGHT
+					fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);
+					//其他光源
+				#else
+					fixed3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz - i.worldPos.xyz);
+				#endif
 				//漫反射计算
 				fixed3 diffuse = _LightColor0.rgb * _Color.rgb * max(0,dot(worldNormal,worldLightDir));
 				//平行光没有衰减
-
-		#ifdef USING_DIRECTIONAL_LGITH
-
-				fixed atten = 1.0;
-		#else
-				//点光源
-		#if defined(POINT)
-				float3 lightCoord = mul(unity_WorldToLight,float4(i.worldPos,1)).xyz;
-				//使用点到光源的距离值的平方来取样，可以避开开方操作
-				//使用宏UNITY_ATTEN_CHANNEL来得到衰减纹理中衰减值所在的分量，以得到最终的衰减值。
-				fixed atten = tex2D(_LightTexture0,dot(lightCoord,lightCoord).rr).UNITY_ATTEN_CHANNEL;
-				//聚光灯
-		#elif defined(SPOT)
-				float4 lightCoord = mul(unity_WorldToLight,float4(i.worldPos,1));
-				//角度衰减，距离衰减
-				fixed atten = (lightCoord.z > 0) * tex2D(_LightTexture0,lightCoord.xy / lightCoord.w + 0.5).w * tex2D(_LightTextureB0,dot(lightCoord,lightCoord).rr).UNITY_ATTEN_CHANNEL;
-		#else
-				fixed atten = 1.0;
-		#endif
-
-		#endif
+				#ifdef USING_DIRECTIONAL_LGITH
+					fixed atten = 1.0;
+				#else
+					//点光源
+					#if defined(POINT)
+						float3 lightCoord = mul(unity_WorldToLight,float4(i.worldPos,1)).xyz;
+						//使用点到光源的距离值的平方来取样，可以避开开方操作
+						//使用宏UNITY_ATTEN_CHANNEL来得到衰减纹理中衰减值所在的分量，以得到最终的衰减值。
+						fixed atten = tex2D(_LightTexture0,dot(lightCoord,lightCoord).rr).UNITY_ATTEN_CHANNEL;
+					//聚光灯
+					#elif defined(SPOT)
+						float4 lightCoord = mul(unity_WorldToLight,float4(i.worldPos,1));
+						//角度衰减，距离衰减
+						fixed atten = (lightCoord.z > 0) * tex2D(_LightTexture0,lightCoord.xy / lightCoord.w + 0.5).w * tex2D(_LightTextureB0,dot(lightCoord,lightCoord).rr).UNITY_ATTEN_CHANNEL;
+					#else
+						fixed atten = 1.0;
+					#endif
+				#endif
 
 				fixed4 finial = fixed4(diffuse * atten * col, 1.0);
 				fixed4 black = fixed4(0, 0, 0, 1);
@@ -265,7 +262,7 @@
 				return finial;
 			}
 			ENDCG
-		}
+		}//end pass
 		
 
 		Pass{

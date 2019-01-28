@@ -1,4 +1,4 @@
-﻿namespace Framework.editor
+﻿namespace Framework.Editor
 {
     using System.Collections;
     using System.Collections.Generic;

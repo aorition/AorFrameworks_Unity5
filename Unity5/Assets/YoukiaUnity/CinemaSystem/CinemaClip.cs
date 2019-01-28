@@ -5,7 +5,6 @@ using Framework;
 using Framework.Extends;
 using Framework.Graphic;
 using UnityEngine;
-using YoukiaUnity;
 
 //using YoukiaUnity.Resource;
 

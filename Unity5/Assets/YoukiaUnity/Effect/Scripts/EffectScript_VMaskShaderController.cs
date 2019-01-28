@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Framework.AnimLinkage;
+
 public class EffectScript_VMaskShaderController : MonoBehaviour, ISimulateAble
 {
 

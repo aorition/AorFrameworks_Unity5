@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _status:
     _isInit: 1
-  _innerJsonValue: '{"m_InfoList":[{"Name":"Default","RenderMode":"ScreenSpaceCamera","PixelPerfect":"False","SortingLayerName":"Default","SortOrder":0,"TargetDisplay":0,"AdditionalShaderChannels":"None","CameraInfo":{"ClearFlags":"Depth","Background":{"r":0,"g":0,"b":0,"a":0},"CullingMask":32,"Orthographic":"True","OrthographicSize":10,"FieldOfView":60,"NearClipPlane":10,"FarClipPlane":100,"ViewportRect":{},"Depth":51,"RenderingPath":"UsePlayerSettings","TargetTexture":null,"OcclusionCulling":"False","AllowHDR":"False","AllowMSAA":"False","_isInit":"True"},"PlaneDistance":50,"ScaleMode":"ConstantPixelSize","ScaleFactor":1,"ReferencePixelsPerUnit":100,"ReferenceResolution":{"x":800,"y":600},"ScreenMatchMode":"MatchWidthOrHeight","MatchWidthOrHeight":0,"PhysicalUnit":"Points","FallbackScreenDPI":96,"DefaultSpriteDPI":96,"IgnoreReversedGraphic":"True","BlockingObjects":"None","BlockingMask":-1,"_isInit":"True"}],"m_LayerList":[{"_isInit":"True","m_UILayers":[{"Name":"DefaultLayer","PovitState":"Center","SiblingIndex":0,"UseInnerCanvas":"False","OverrideSorting":"False","SortOrder":0,"IgnoreReversedGraphics":"True","BlockingObjects":"None","BlockingMask":-1,"UseCanvasGroup":"False","Alpha":1,"Interactable":"True","BlocksRaycasts":"True","IgnoreParentGroups":"False","_isInit":"True"}]}],"_status":{"_isInit":"True"},"_innerJsonValue":""}'
+  _innerJsonValue: 
   m_InfoList:
   - _isInit: 1
     Name: Default

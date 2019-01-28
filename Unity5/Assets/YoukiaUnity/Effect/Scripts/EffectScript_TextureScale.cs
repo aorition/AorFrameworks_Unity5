@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Framework.AnimLinkage;
+
 public class EffectScript_TextureScale : MonoBehaviour, ISimulateAble
 {
 

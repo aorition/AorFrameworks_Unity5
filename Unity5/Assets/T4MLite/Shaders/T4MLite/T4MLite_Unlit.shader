@@ -52,12 +52,12 @@
 			{
 				float4 pos : SV_POSITION;
 
-		#ifdef LIGHTMAP_ON
-				float2  uv[6] : TEXCOORD0;
-		#endif
-		#ifdef LIGHTMAP_OFF
-				float2  uv[5] : TEXCOORD0;
-		#endif
+				#ifdef LIGHTMAP_ON
+						float2  uv[6] : TEXCOORD0;
+				#endif
+				#ifdef LIGHTMAP_OFF
+						float2  uv[5] : TEXCOORD0;
+				#endif
 
 				LIGHTING_COORDS(6, 7)
 				UNITY_FOG_COORDS(8)

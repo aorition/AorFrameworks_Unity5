@@ -32,10 +32,12 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using Framework.AnimLinkage;
 
 namespace Spine.Unity {
 	[RequireComponent(typeof(Animator))]
-	public class SkeletonAnimator : SkeletonRenderer, ISkeletonAnimation, ISimulatableAnimator {
+	public class SkeletonAnimator : SkeletonRenderer, ISkeletonAnimation, ISimulatableAnimator
+    {
 
 		[SerializeField] protected MecanimTranslator translator;
 		public MecanimTranslator Translator { get { return translator; } }

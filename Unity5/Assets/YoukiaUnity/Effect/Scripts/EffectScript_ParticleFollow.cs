@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Framework.AnimLinkage;
 
 public class EffectScript_ParticleFollow : MonoBehaviour, ISimulateAble
 {

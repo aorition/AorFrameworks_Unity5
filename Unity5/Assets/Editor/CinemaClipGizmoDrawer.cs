@@ -9,7 +9,7 @@ using YoukiaUnity.CinemaSystem;
 /// </summary>
 public class CinemaClipGizmoDrawer
 {
-    [DrawGizmo(GizmoType.SelectedOrChild | GizmoType.NotSelected)]
+    [DrawGizmo(GizmoType.InSelectionHierarchy | GizmoType.NotInSelectionHierarchy)]
     //    [DrawGizmo(GizmoType.SelectedOrChild)]
     static void DrawCinemaGizmo(Transform transform, GizmoType gizmoType)
     {

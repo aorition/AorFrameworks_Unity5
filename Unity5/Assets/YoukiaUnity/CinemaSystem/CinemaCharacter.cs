@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml;
-using Framework;
 using UnityEngine;
-
+using Framework.AnimLinkage;
 
 namespace YoukiaUnity.CinemaSystem
 {
@@ -12,7 +10,7 @@ namespace YoukiaUnity.CinemaSystem
     /// 演员:该类运行时加载的人物
     /// 角色:制作时的点位
     /// </summary>
-    public class CinemaCharacter : MonoBehaviour ,IAnimLinkageCharacter, ICinemaCharacterGizmo
+    public class CinemaCharacter : MonoBehaviour , IAnimLinkageCharacter, ICinemaCharacterGizmo
     {
 
         [NonSerialized]

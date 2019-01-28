@@ -737,13 +737,13 @@ namespace Framework.UI
                 return;
 
             if (_highlight != -1) {
-                Transform o = _panel.FindChild(_highlight.ToString());
+                Transform o = _panel.Find(_highlight.ToString());
                 if (o != null) {
                     o.GetComponent<ScrollListItem>().isActived = false;
                 }
             }
             _highlight = id;
-            Transform go = _panel.FindChild(id.ToString());
+            Transform go = _panel.Find(id.ToString());
             if (go != null) {
                 go.GetComponent<ScrollListItem>().isActived = true;
             }

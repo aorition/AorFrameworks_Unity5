@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Framework.editor;
 using UnityEditor;
 using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
 
-namespace Framework.editor
+namespace Framework.Editor
 {
     [CustomEditor(typeof(VertextBrush))]
     [RequireComponent(typeof(MeshFilter))]
@@ -213,8 +212,7 @@ namespace Framework.editor
 
             DestroyImmediate(vs);
         }
-
-
+        
         protected override void PaintVertices(List<int> vertex)
         {
             if (editType == SelectVertexType.Brush)
@@ -377,8 +375,7 @@ namespace Framework.editor
 
             GUI.color = old;
         }
-
-
+        
         private MeshFilter GetMeshFilter(Transform transform)
         {
             MeshFilter meshFilter = transform.GetComponentInChildren<MeshFilter>();
@@ -388,6 +385,7 @@ namespace Framework.editor
             }
             return meshFilter;
         }
+
         private MeshRenderer GetMeshRenderer(Transform transform)
         {
             MeshRenderer meshRenderer = transform.GetComponentInChildren<MeshRenderer>();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Framework.editor
+namespace Framework.Editor
 {
     /// <summary>
     /// 这里的静态方法 基本是从 UnityEditor.TerrainInspector 里搬过来的GUI绘制封装方法
