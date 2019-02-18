@@ -4,44 +4,42 @@ using Framework.Graphic;
 using UnityEngine;
 
 [AddComponentMenu("")] //禁止此脚本放入ComponentMenu中
+[ExecuteInEditMode]
+[ImageEffectAllowedInSceneView]
 public class FLEffectBase : MonoBehaviour, IFLPostEffectComponent
 {
-
-    public int RenderLevel = 0;
-    protected int _RenderLevel;
-    protected Material renderMat;
+    
 
     public virtual string ScriptName
     {
-        get { return ""; }
+        get { return string.Empty; }
     }
 
     public bool IsActive
     {
         get { return this.enabled && gameObject.activeInHierarchy; }
     }
-
-
-    //public int Level => RenderLevel;
-
+    
+    [SerializeField, HideInInspector]
+    protected int m_RenderLevel = 0;
+    private bool m_RenderLevelDirty = false;
     public int Level {
-        get { return RenderLevel; }
+        get { return m_RenderLevel; }
         set {
-            RenderLevel = value;
+            if (m_RenderLevel != value)
+            {
+                m_RenderLevel = value;
+                m_RenderLevelDirty = true;
+            }
         }
     }
 
+    protected Material renderMat;
 
     /// <summary>
     /// 独立运作模式 : 当脚本(包含子类)挂载到Camera节点上即开启独立运作模式, 该模式下脚本将直接对Camera本身起作用而不使用GraphicsManager渲染流.
     /// </summary>
     protected bool m_isStandaloneMode = false;
-    private void Awake()
-    {
-        //检测是否独立运作模式
-        m_isStandaloneMode = GetComponent<Camera>();
-        init();
-    }
 
     /// <summary>
     /// 初始化
@@ -56,8 +54,10 @@ public class FLEffectBase : MonoBehaviour, IFLPostEffectComponent
 
         init();
 
+        if (!Application.isPlaying) return;
+
         Camera cam = GetComponent<Camera>();
-        m_isStandaloneMode = cam && cam.enabled;
+        m_isStandaloneMode = cam && cam.enabled && !GetComponent<VisualCamera>();
         
         if (!m_isStandaloneMode)
         {
@@ -77,30 +77,23 @@ public class FLEffectBase : MonoBehaviour, IFLPostEffectComponent
     //仅当立运作模式时才会调用该函数
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        if (renderMat == null || renderMat.shader == null)
-            return;
-        //        Graphics.Blit(src, dst, renderMat);
-        render(source, destination);
+        RenderImage(source, destination);
     }
 
     public void RenderImage(RenderTexture src, RenderTexture dst)
     {
-        if (_RenderLevel != RenderLevel && GraphicsManager.Instance != null)
-        {
-            GraphicsManager.Instance.SortEffectComponents();
-        }
-
         if (renderMat == null || renderMat.shader == null)
             return;
-
-        //        Graphics.Blit(src, dst, renderMat);
         render(src, dst);
-
     }
 
     protected virtual void render(RenderTexture src, RenderTexture dst)
     {
-
+        if (m_RenderLevelDirty)
+        {
+            if(GraphicsManager.IsInit()) GraphicsManager.Instance.SortEffectComponents();
+            m_RenderLevelDirty = false;
+        }
     }
 
 

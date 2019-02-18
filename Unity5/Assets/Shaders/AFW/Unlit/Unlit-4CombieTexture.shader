@@ -20,7 +20,8 @@ Shader "AFW/Unlit/Unlit - 4CombieTexture"
 		_AmbientThreshold("Ambient Threshold",Range(0,1)) = 0.2
 		[Space(10)]
 		[Toggle] _Fog("Fog?", Float) = 1
-		[HideInInspector]_Lighting("Lighting",  float) = 1
+		_Lighting("Lighting",  float) = 1
+		[HideInInspector][Toggle] _NoShadowCascades("No Shadow Cascades?", Float) = 0
 	}
 
 	SubShader
@@ -48,6 +49,7 @@ Shader "AFW/Unlit/Unlit - 4CombieTexture"
 			#pragma multi_compile ___ LIGHTMAP_ON
 
 			#pragma shader_feature _FOG_ON
+			#pragma shader_feature _NOSHADOWCASCADES_ON
 
 			#pragma exclude_renderers xbox360 ps3
 
@@ -133,9 +135,12 @@ Shader "AFW/Unlit/Unlit - 4CombieTexture"
 
 			fixed ShadowATTENUATION(v2f i){
 				fixed atten = UNITY_SHADOW_ATTENUATION(i, i.worldPos);
-				float4 shadowCoord = mul(unity_WorldToShadow[0],unityShadowCoord4(i.worldPos,1));
-				float3 s = abs((shadowCoord - 0.5) * 2);
-				atten = max(1-step(max(max(s.x, s.y), s.z), 1), atten); 
+				//处理ShadowCascades不启用时的
+				#ifdef _NOSHADOWCASCADES_ON
+					float4 shadowCoord = mul(unity_WorldToShadow[0],unityShadowCoord4(i.worldPos,1));
+					float3 s = abs((shadowCoord - 0.5) * 2);
+					atten = max(1-step(max(max(s.x, s.y), s.z), 1), atten);
+				#endif
 				return atten;
 			}
 

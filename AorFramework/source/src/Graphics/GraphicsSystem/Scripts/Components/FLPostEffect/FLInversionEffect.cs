@@ -6,6 +6,8 @@ using UnityEngine;
 namespace Framework.Graphic.Effect
 {
 
+    [ExecuteInEditMode]
+    [ImageEffectAllowedInSceneView]
     public class FLInversionEffect : FLEffectBase
     {
         [Range(0, 1)]
@@ -26,12 +28,13 @@ namespace Framework.Graphic.Effect
             {
                 renderMat = new Material(ShaderBridge.Find("Hidden/PostEffect/Inversion"));
             }
+            //填充默认渲染等级值
+            if (m_RenderLevel == 0) m_RenderLevel = 25;
         }
-
-
+        
         protected override void render(RenderTexture src, RenderTexture dst)
         {
-
+            base.render(src, dst);
 
             renderMat.SetFloat("_InversionPower", inversionPower);
             renderMat.SetColor("_InversionColor", inversionColor);

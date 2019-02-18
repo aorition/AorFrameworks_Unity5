@@ -9,40 +9,16 @@ namespace Framework.Graphic
     /// 标准PostEffect控制器
     /// </summary>
     [AddComponentMenu("")] //禁止此脚本放入ComponentMenu中
+    [ExecuteInEditMode]
+    [ImageEffectAllowedInSceneView]
     public class FLPostEffectController : MonoBehaviour
     {
         
-        private static Material ReverseMat;
-        private static void RtCopy(RenderTexture srcRt, RenderTexture tarRt, bool reverse = false)
-        {
-            if (reverse)
-            {
-                UnityEngine.Graphics.Blit(srcRt, tarRt, ReverseMat);
-            }
-            else
-            {
-                UnityEngine.Graphics.Blit(srcRt, tarRt);
-            }
-        }
+        private RenderTexture newrt = null;
+        private RenderTexture last = null;
+        private RenderTexture org = null;
 
-        void OnEnable()
-        {
-            if (!ReverseMat)
-            {
-                Shader shader = ShaderBridge.Find("Hidden/PostEffect/Reverse");
-                if (!shader)
-                {
-                    //Log.Error("** FLPostEffectController.OnEnable Error :: Can not Find the Shader : Hidden/PostEffect/Reverse , create ReverseMat fail.");
-                }
-                ReverseMat = new Material(shader);
-            }
-        }
-
-        RenderTexture newrt = null;
-        RenderTexture last = null;
-        RenderTexture org = null;
-
-        void OnRenderImage(RenderTexture src, RenderTexture dest)
+        private void OnRenderImage(RenderTexture src, RenderTexture dest)
         {
             int count = GraphicsManager.Instance.m_peclist.Count;
 

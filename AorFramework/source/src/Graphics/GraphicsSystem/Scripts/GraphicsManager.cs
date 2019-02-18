@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace Framework.Graphic
 {
-
     //[ExecuteInEditMode]
     public class GraphicsManager : ManagerBase
     {
@@ -207,7 +206,7 @@ namespace Framework.Graphic
 
         [Tooltip("是否允许VisualCamera使用参数覆盖")]
         public bool AllowVisualCameraParamCover = true;
-
+        
         //------------------------------ Events
 
         /// <summary>

@@ -191,16 +191,44 @@ namespace Framework.JSON
 
         private static object _parseStructOrClass(Type type, object data)
         {
-
+            
             //其他定义的Struct , data必须是Dictionary<string, object>
             if (data is IDictionary)
             {
                 Dictionary<string, object> dic = (Dictionary<string, object>)data;
-//                if (type.IsSubclassOf(typeof (UnityEngine.Object)))
-                if(type.IsSubclassOf(typeof(UnityEngine.ScriptableObject)) || !type.IsSubclassOf(typeof(UnityEngine.Object)))
+                //                if (type.IsSubclassOf(typeof (UnityEngine.Object)))
+                //优先判断Unity的Struct
+                if (type.FullName == "UnityEngine.Rect")
+                {
+                    float x = float.Parse(dic["x"].ToString());
+                    float y = float.Parse(dic["y"].ToString());
+                    float width = float.Parse(dic["width"].ToString());
+                    float height = float.Parse(dic["height"].ToString());
+                    return new Rect(x, y, width, height);
+                }
+                else if (type.FullName == "UnityEngine.Color")
+                {
+                    float r = float.Parse(dic["r"].ToString());
+                    float g = float.Parse(dic["g"].ToString());
+                    float b = float.Parse(dic["b"].ToString());
+                    float a = float.Parse(dic["a"].ToString());
+                    return new Color(r, b, b, a);
+                }
+                else if (type.FullName == "UnityEngine.Color32")
+                {
+                    byte r = byte.Parse(dic["r"].ToString());
+                    byte g = byte.Parse(dic["g"].ToString());
+                    byte b = byte.Parse(dic["b"].ToString());
+                    byte a = byte.Parse(dic["a"].ToString());
+                    return new Color32(r, g, b, a);
+                }
+
+                //Todo .. 其他 UnityEngine的数据结构
+
+                else if (type.IsSubclassOf(typeof(UnityEngine.ScriptableObject)) || !type.IsSubclassOf(typeof(UnityEngine.Object)))
                 {
 
-                    
+
                     if (dic != null && dic.Count > 0)
                     {
                         List<FieldInfo> FieldInfoList = new List<FieldInfo>();
@@ -258,7 +286,8 @@ namespace Framework.JSON
                     {
                         //Error 数据错误
                     }
-                }else // if (type.IsSubclassOf(typeof(UnityEngine.Object)))
+                }
+                else // if (type.IsSubclassOf(typeof(UnityEngine.Object)))
                 {
                     int instanceId = int.Parse((dic["Value"] as Dictionary<string, object>)["instanceID"].ToString());
                     string subJson = "{\"Value\":{ \"instanceID\":" + instanceId + "}}";

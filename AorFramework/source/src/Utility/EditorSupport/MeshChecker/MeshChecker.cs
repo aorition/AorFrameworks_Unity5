@@ -18,6 +18,33 @@ namespace Framework.Utility
         public Material[] checkMaterials;
         public Material cMaterial;
 
+        //------------- 
+
+        public float SingleSideValue = 0;
+
+        public bool ShowDubbleSide = false;
+
+        public bool ShowTriangleLine = false;
+        public Color TriangleLineColor = Color.blue;
+
+        public bool ShowVertexNormal = false;
+        public float DrawVertexNormalLineLength = 0.05f;
+        public Color VertexNormalColor = Color.blue;
+
+        public bool ShowTriganleNormal = false;
+        public float DrawTriganleNormalLineLength = 0.05f;
+        public Color TriganleNormalColor = Color.blue;
+
+        public bool ShowVertexTangentLine = false;
+        public float DrawVertexTangentLineLength = 0.05f;
+        public Color TangentVertexColor = Color.yellow;
+
+        public bool ShowTriganleTangentLine = false;
+        public float DrawTriganleTangentLineLength = 0.05f;
+        public Color TangentTriganleColor = Color.yellow;
+
+        //------------- 
+
         private Renderer _renderer;
 
         private void OnDisable()

@@ -16,12 +16,15 @@ namespace Framework.Utility.Editor
         SerializedProperty mRot;
         SerializedProperty mScale;
 
+        private bool mUseUnifyScale = true;
+
         void OnEnable()
         {
             instance = this;
             mPos = serializedObject.FindProperty("m_LocalPosition");
             mRot = serializedObject.FindProperty("m_LocalRotation");
             mScale = serializedObject.FindProperty("m_LocalScale");
+            mUseUnifyScale = (mScale.FindPropertyRelative("x").floatValue == mScale.FindPropertyRelative("y").floatValue && mScale.FindPropertyRelative("y").floatValue == mScale.FindPropertyRelative("z").floatValue);
         }
 
         void OnDestroy()
@@ -69,16 +72,22 @@ namespace Framework.Utility.Editor
         {
             GUILayout.BeginHorizontal();
             {
-                bool reset = GUILayout.Button("P", GUILayout.Width(20f));
+                bool dirty = false;
+                bool reset = GUILayout.Button("P", "toolbarbutton", GUILayout.Width(20f));
+                GUILayout.Button(" ", "toolbarbutton", GUILayout.Width(20f));
+                if (EditorGUILayout.PropertyField(mPos.FindPropertyRelative("x"))) dirty = true;
+                if (EditorGUILayout.PropertyField(mPos.FindPropertyRelative("y"))) dirty = true;
+                if (EditorGUILayout.PropertyField(mPos.FindPropertyRelative("z"))) dirty = true;
 
-                EditorGUILayout.PropertyField(mPos.FindPropertyRelative("x"));
-                EditorGUILayout.PropertyField(mPos.FindPropertyRelative("y"));
-                EditorGUILayout.PropertyField(mPos.FindPropertyRelative("z"));
-
-                if (reset) mPos.vector3Value = Vector3.zero;
+                if (reset) { mPos.vector3Value = Vector3.zero; dirty = true; }
+                if (dirty)
+                {
+                    UnityEditor.Undo.RecordObjects(serializedObject.targetObjects, "Change Postion");
+                }
             }
             GUILayout.EndHorizontal();
         }
+
 
         /// <summary>
         /// 绘制形变
@@ -87,13 +96,52 @@ namespace Framework.Utility.Editor
         {
             GUILayout.BeginHorizontal();
             {
-                bool reset = GUILayout.Button("S", GUILayout.Width(20f));
+                bool dirty = false;
+                bool reset = GUILayout.Button("S", "toolbarbutton", GUILayout.Width(20f));
+                bool nUseUnifyScale = GUILayout.Toggle(mUseUnifyScale,"U", "toolbarbutton", GUILayout.Width(20f));
+                if(nUseUnifyScale != mUseUnifyScale)
+                {
 
-                EditorGUILayout.PropertyField(mScale.FindPropertyRelative("x"));
-                EditorGUILayout.PropertyField(mScale.FindPropertyRelative("y"));
-                EditorGUILayout.PropertyField(mScale.FindPropertyRelative("z"));
+                    if (nUseUnifyScale && !(mScale.FindPropertyRelative("x").floatValue == mScale.FindPropertyRelative("y").floatValue && mScale.FindPropertyRelative("y").floatValue == mScale.FindPropertyRelative("z").floatValue))
+                    {
+                        if (EditorUtility.DisplayDialog("警告", "ScaleXYZ不等值，是否使用统一值？", "是", "否"))
+                        {
+                            mUseUnifyScale = true;
+                            mScale.vector3Value = new Vector3(mScale.FindPropertyRelative("x").floatValue, mScale.FindPropertyRelative("x").floatValue, mScale.FindPropertyRelative("x").floatValue);
+                            dirty = true;
+                        }
+                        else
+                        {
+                            mUseUnifyScale = false;
+                        }
+                    }
+                    else
+                    {
+                        mUseUnifyScale = nUseUnifyScale;
+                    }
+                }
 
-                if (reset) mScale.vector3Value = Vector3.one;
+                if (mUseUnifyScale)
+                {
+                    float uScale = mScale.FindPropertyRelative("x").floatValue;
+                    float nUScale = EditorGUILayout.FloatField(" ", uScale);
+                    if (!nUScale.Equals(uScale))
+                    {
+                        mScale.vector3Value = new Vector3(nUScale, nUScale, nUScale);
+                        dirty = true;
+                    }
+                }
+                else
+                {
+                    if (EditorGUILayout.PropertyField(mScale.FindPropertyRelative("x"))) dirty = true;
+                    if (EditorGUILayout.PropertyField(mScale.FindPropertyRelative("y"))) dirty = true;
+                    if (EditorGUILayout.PropertyField(mScale.FindPropertyRelative("z"))) dirty = true;
+                }
+                if (reset) { mScale.vector3Value = Vector3.zero; dirty = true; }
+                if (dirty)
+                {
+                    UnityEditor.Undo.RecordObjects(serializedObject.targetObjects, "Change Postion");
+                }
             }
             GUILayout.EndHorizontal();
         }
@@ -179,8 +227,8 @@ namespace Framework.Utility.Editor
         {
             GUILayout.BeginHorizontal();
             {
-                bool reset = GUILayout.Button("R", GUILayout.Width(20f));
-
+                bool reset = GUILayout.Button("R", "toolbarbutton", GUILayout.Width(20f));
+                GUILayout.Button(" ", "toolbarbutton", GUILayout.Width(20f));
                 Vector3 visible = (serializedObject.targetObject as Transform).localEulerAngles;
 
                 visible.x = WrapAngle(visible.x);

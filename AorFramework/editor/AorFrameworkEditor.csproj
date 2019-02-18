@@ -59,6 +59,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\AnimLinkage\AnimLinkageEditor.cs" />
+    <Compile Include="src\AnimLinkage\AnimLinkageEditorHelper.cs" />
+    <Compile Include="src\AnimLinkage\AnimLinkageEditorSimulate.cs" />
     <Compile Include="src\Config\ConfigEditorUI.cs" />
     <Compile Include="src\Config\ConfigEncoding.cs" />
     <Compile Include="src\Config\ConfigFieldEditor.cs" />
@@ -77,6 +80,8 @@
     <Compile Include="src\EditorAssetInfo\EditorAssetInfo.cs" />
     <Compile Include="src\EditorAssetInfo\EditorAssetInfoExents.cs" />
     <Compile Include="src\Core\EditorPlusMethods.cs" />
+    <Compile Include="src\Graphics\Scripts\Editor\FLEffectBaseEditor.cs" />
+    <Compile Include="src\Graphics\Scripts\Editor\RenderTextureCaptcherEditor.cs" />
     <Compile Include="src\Utility\MeshStatisticsTool.cs" />
     <Compile Include="src\Misc\NGUIEditorGUIUtility.cs" />
     <Compile Include="src\DynamicShaderSystem\MaterialInspectorBase.cs" />
@@ -125,9 +130,9 @@
     <Compile Include="src\Utility\MeshEditTool\MeshEditToolWindow.cs" />
     <Compile Include="src\Utility\MeshEditTool\MeshExportUtil.cs" />
     <Compile Include="src\Utility\MeshEditTool\MeshFilterPlus.cs" />
-    <Compile Include="src\Utility\MeshChecker\MeshGroupCheckerEditor.cs" />
     <Compile Include="src\Utility\MeshEditTool\MeshVertexEditionEditor.cs" />
     <Compile Include="src\PrefabLinker\PrefabLinkerEditor.cs" />
+    <Compile Include="src\Utility\ScriptableObjectAssetCreator\ScriptableObjectAssetCreator.cs" />
     <Compile Include="src\Utility\ShaderWriter\ShaderWriter.cs" />
     <Compile Include="src\Utility\ShaderWriter\SwPropertyItem.cs" />
     <Compile Include="src\Utility\SimpleTestMonoBehaviour\SimpleTestEditor.cs" />

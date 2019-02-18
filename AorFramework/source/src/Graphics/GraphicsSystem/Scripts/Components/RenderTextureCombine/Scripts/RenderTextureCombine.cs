@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace Framework.Graphic
 {
+
+    /// <summary>
+    ///  已知bug ：： 采集的RT和合并模式可能不匹配，造成一定程度的色偏。 需要考虑是否应该采集的RT为HDR格式而合并模块并没有区分造成的问题。
+    /// </summary>
+    [ExecuteInEditMode]
+    [ImageEffectAllowedInSceneView]
     public class RenderTextureCombine : MonoBehaviour
     {
 
@@ -92,7 +98,7 @@ namespace Framework.Graphic
                 {
                     if (!_temp)
                     {
-                        _temp = RenderTextureUtility.New(RenderTextureUtility.GetNormalHDRFormatInfo(renderTexture.width, renderTexture.height));
+                        _temp = RenderTextureUtility.New(renderTexture.width, renderTexture.height, (int)RenderTextureUtility.DepthDef.NoDepth);
                     }
                     _RTPostEffectBase.PostEffectDo(renderTexture, _temp);
                     material.SetTexture("_EffectTex", _temp);

@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace Framework.Graphic
 {
+    /// <summary>
+    /// 基于IRTPostEffectComponent
+    /// </summary>
     public class RenderTextureCaptureCamera : MonoBehaviour, IRTPostEffectComponent
     {
         
@@ -36,10 +39,9 @@ namespace Framework.Graphic
             if (!rtCombine.renderTexture)
             {
                 //                rtCombine.renderTexture = RenderTexture.GetTemporary(Screen.width, Screen.height);
-                rtCombine.renderTexture = RenderTextureUtility.New(RenderTextureUtility.GetNormalHDRFormatInfo(Screen.width, Screen.height));
+                rtCombine.renderTexture = RenderTextureUtility.New(Screen.width, Screen.height, (int)RenderTextureUtility.DepthDef.NoDepth);
                 _target.targetTexture = rtCombine.renderTexture;
             }
-
             _target.Render();
         }
         

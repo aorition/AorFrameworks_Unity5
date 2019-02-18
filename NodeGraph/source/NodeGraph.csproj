@@ -31,15 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AorBaseExtents">
-      <HintPath>..\..\AorBaseExtents\bin\AorBaseExtents.dll</HintPath>
-    </Reference>
-    <Reference Include="AorBaseUtility">
-      <HintPath>..\..\AorBaseUtility\bin\AorBaseUtility.dll</HintPath>
-    </Reference>
-    <Reference Include="AorUnityExtents">
-      <HintPath>..\..\AorUnityExtents\bin\AorUnityExtents.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

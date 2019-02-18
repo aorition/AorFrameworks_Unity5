@@ -9,89 +9,111 @@ namespace Framework.Graphic.Utility
 
         public static Action<Exception> OnThowError;
 
-        public struct FormatInfo
+        public enum FormatDef
         {
-
-            public FormatInfo(int width, int height, int depthBuffer, RenderTextureFormat format, RenderTextureReadWrite readWrite, int antiAliasing)
-            {
-                this.width = width;
-                this.height = height;
-                this.depthBuffer = depthBuffer;
-                this.format = format;
-                this.readWrite = readWrite;
-                this.antiAliasing = antiAliasing;
-            }
-
-            public int width;
-            public int height;
-            public int depthBuffer;
-            public RenderTextureFormat format;
-            public RenderTextureReadWrite readWrite;
-            //抗锯齿 必须是 1,2,4 or 8
-            public int antiAliasing;
+            Default = RenderTextureFormat.Default,
+            DefaultHDR = RenderTextureFormat.DefaultHDR,
+            Depth = RenderTextureFormat.Depth,
+            Normal = RenderTextureFormat.ARGB32,
+            ColorBuffer = RenderTextureFormat.RGB565,
+            Half = RenderTextureFormat.ARGBHalf,
+            Float = RenderTextureFormat.ARGBFloat
         }
 
-        public static FormatInfo GetSimpleFormatInfo(int width, int height)
+        public enum DepthDef
         {
-            return new FormatInfo(width, height, 16, RenderTextureFormat.ARGBHalf, RenderTextureReadWrite.Default, 1);
+            NoDepth = 0,
+            D16 = 16,
+            D24 = 24,
+            D32 = 32
         }
 
-        public static FormatInfo GetNormalFormatInfo(int width, int height)
+        public enum AntiAliasingDef
         {
-            return new FormatInfo(width, height, 32, RenderTextureFormat.Default, RenderTextureReadWrite.Default, 1);
+            NoAntiAliasing = 1,
+            X2 = 2,
+            X4 = 4,
+            X8 = 8
         }
 
-        public static FormatInfo GetNormalFormatInfo(int width, int height, int antiAliasing)
-        {
-            return new FormatInfo(width, height, 32, RenderTextureFormat.Default, RenderTextureReadWrite.Default, antiAliasing);
-        }
-
-        public static FormatInfo GetNormalHDRFormatInfo(int width, int height)
-        {
-            return new FormatInfo(width, height, 32, RenderTextureFormat.DefaultHDR, RenderTextureReadWrite.Default, 1);
-        }
-        
-        public static FormatInfo GetFullFormatInfo(int width, int height)
-        {
-            return new FormatInfo(width, height, 32, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default, 1);
-        }
-
-        public static FormatInfo GetFull64FormatInfo(int width, int height)
-        {
-            return new FormatInfo(width, height, 64, RenderTextureFormat.ARGB64, RenderTextureReadWrite.Default, 1);
-        }
-
-        public static FormatInfo GetCustomFormatInfo(int width, int height, int depthBuffer, RenderTextureFormat format,
-            RenderTextureReadWrite readWrite, int antiAliasing)
-        {
-            return new FormatInfo(width, height, depthBuffer, format, readWrite, antiAliasing);
-        }
-
-        //----------------------------------------
-
-        private static int _RequestRTNum = 0;
+        private static int m_RequestRTNum = 0;
         public static int RequestRTNum
         {
             get
             {
-                return _RequestRTNum;
+                return m_RequestRTNum;
             }
         }
 
-        public static RenderTexture New(RenderTextureUtility.FormatInfo info)
+        public static RenderTexture New(int width, int height)
         {
-            _RequestRTNum ++;
-            return RenderTexture.GetTemporary(info.width, info.height, info.depthBuffer, info.format, info.readWrite, info.antiAliasing);
+            m_RequestRTNum++;
+            return RenderTexture.GetTemporary(width, height);
+        }
+
+        public static RenderTexture New(int width, int height, int depthBuffer)
+        {
+            m_RequestRTNum++;
+            return RenderTexture.GetTemporary(width, height, depthBuffer);
+        }
+
+        public static RenderTexture New(int width, int height, int depthBuffer, RenderTextureFormat format)
+        {
+            m_RequestRTNum++;
+            return RenderTexture.GetTemporary(width, height, depthBuffer, format);
+        }
+
+        public static RenderTexture New(int width, int height, int depthBuffer, RenderTextureFormat format, RenderTextureReadWrite readWrite)
+        {
+            m_RequestRTNum++;
+            return RenderTexture.GetTemporary(width, height, depthBuffer, format, readWrite);
+        }
+
+        public static RenderTexture New(int width, int height, int depthBuffer, RenderTextureFormat format, RenderTextureReadWrite readWrite, int antiAliasing)
+        {
+            m_RequestRTNum++;
+            return RenderTexture.GetTemporary(width, height, depthBuffer, format, readWrite, antiAliasing);
         }
 
         public static void Release(RenderTexture renderTexture)
         {
-            _RequestRTNum --;
-            if (_RequestRTNum < 0 && OnThowError != null)
+            m_RequestRTNum --;
+            if (m_RequestRTNum < 0 && OnThowError != null)
             {
                 OnThowError(new Exception("RenderTexture exceeds the lower limit! Some RenderTexture has not been created using the New method, but it is disposed using the Release method."));
             }
             RenderTexture.ReleaseTemporary(renderTexture);
+        }
+
+        private static Material m_ReverseMat;
+        private static Material ReverseMat {
+            get {
+                if (!m_ReverseMat)
+                {
+                    Shader shader = ShaderBridge.Find("Hidden/PostEffect/Reverse");
+                    if (!shader)
+                    {
+                        OnThowError(new Exception("** RenderTextureUtility.create ReverseMat Error :: Can not Find the Shader : Hidden/PostEffect/Reverse , create ReverseMat fail."));
+                    }
+                    else
+                    {
+                        m_ReverseMat = new Material(shader);
+                    }
+                }
+                return m_ReverseMat;
+            }
+        }
+
+        public static void Copy(RenderTexture srcRt, RenderTexture tarRt, bool reverse = false)
+        {
+            if (reverse)
+            {
+                UnityEngine.Graphics.Blit(srcRt, tarRt, ReverseMat);
+            }
+            else
+            {
+                UnityEngine.Graphics.Blit(srcRt, tarRt);
+            }
         }
 
     }

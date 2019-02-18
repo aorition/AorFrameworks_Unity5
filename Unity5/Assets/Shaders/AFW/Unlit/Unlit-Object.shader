@@ -16,7 +16,8 @@ Shader "AFW/Unlit/Unlit - Object"
 		[Toggle] _Fog("Fog?", Float) = 1
 		[Toggle] _Clip("Clip?", Float) = 0
 		_CutOut("CutOut", Float) = 0
-		[HideInInspector]_Lighting("Lighting", Float) = 1
+		_Lighting("Lighting", Float) = 1
+		[HideInInspector][Toggle] _NoShadowCascades("No Shadow Cascades?", Float) = 0
 		[Space(10)]
 		[Toggle] _VexAnim("Vertex Animation?", Float) = 0
 		_power("Noise Power",  Range(0.001,0.1)) = 0.2
@@ -68,6 +69,7 @@ Shader "AFW/Unlit/Unlit - Object"
 			#pragma shader_feature _FOG_ON
 			#pragma shader_feature _CLIP_ON
 			#pragma shader_feature _VEXANIM_ON
+			#pragma shader_feature _NOSHADOWCASCADES_ON
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
@@ -144,9 +146,12 @@ Shader "AFW/Unlit/Unlit - Object"
 			
 			fixed ShadowATTENUATION(v2f i){
 				fixed atten = UNITY_SHADOW_ATTENUATION(i, i.worldPos);
-				float4 shadowCoord = mul(unity_WorldToShadow[0],unityShadowCoord4(i.worldPos,1));
-				float3 s = abs((shadowCoord - 0.5) * 2);
-				atten = max(1-step(max(max(s.x, s.y), s.z), 1), atten); 
+				//处理ShadowCascades不启用时的
+				#ifdef _NOSHADOWCASCADES_ON
+					float4 shadowCoord = mul(unity_WorldToShadow[0],unityShadowCoord4(i.worldPos,1));
+					float3 s = abs((shadowCoord - 0.5) * 2);
+					atten = max(1-step(max(max(s.x, s.y), s.z), 1), atten);
+				#endif
 				return atten;
 			}
 

@@ -61,6 +61,10 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Abstract\ManagerBase.cs" />
+    <Compile Include="src\AnimLinkage\AnimLinkage.cs" />
+    <Compile Include="src\AnimLinkage\Interfaces\IAnimLinkageCharacter.cs" />
+    <Compile Include="src\AnimLinkage\Interfaces\ISimulateAble.cs" />
+    <Compile Include="src\AnimLinkage\Interfaces\ISimulateAnimator.cs" />
     <Compile Include="src\Audio\Scripts\AudioManager.cs" />
     <Compile Include="src\Bridges\AudioBridge.cs" />
     <Compile Include="src\Bridges\ShaderBridge.cs" />
@@ -75,7 +79,13 @@
     <Compile Include="src\GameBaseInterfaces\IGameAnimObject.cs" />
     <Compile Include="src\GameBaseInterfaces\IGameObject.cs" />
     <Compile Include="src\Core\IManager.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\FLPostEffect\FLBloomEffectNew.cs" />
     <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\FLPostEffect\FLGaussBlurEffect.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCaptcher\RenderTextureCaptcherDebugHander.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\RenderTextureCaptureCamera.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Scripts\RenderTextureCombine.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCaptcher\RenderTextureCaptcher.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\RTPostEffect\RTPostEffectBase.cs" />
     <Compile Include="src\Graphics\GraphicsSystem\Scripts\Models\GraphicsSettingAsset.cs" />
     <Compile Include="src\Graphics\Lightmap\Scripts\LightmapManager.cs" />
     <Compile Include="src\Graphics\Lightmap\Scripts\PrefabLightmapData.cs" />
@@ -83,9 +93,6 @@
     <Compile Include="src\Graphics\BillboardSystem\Scripts\BillBoardManager.cs" />
     <Compile Include="src\Graphics\BillboardSystem\Scripts\BillBoardBase.cs" />
     <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\FLPostEffect\FLPostEffectController.cs" />
-    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\RenderTextureCaptureCamera.cs" />
-    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Scripts\RenderTextureCombine.cs" />
-    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\RTPostEffect\RTPostEffectBase.cs" />
     <Compile Include="src\Graphics\CustomLightSystem\Scripts\CustomLightInfo.cs" />
     <Compile Include="src\Graphics\CustomLightSystem\Scripts\CustomLightManager.cs" />
     <Compile Include="src\Graphics\CustomLightSystem\Scripts\CustomLightSupports.cs" />
@@ -147,7 +154,6 @@
     <Compile Include="src\Utility\CorrectingAspect.cs" />
     <Compile Include="src\Utility\EditorSupport\Interfaces\IShaderDefine.cs" />
     <Compile Include="src\Utility\EditorSupport\MeshChecker\MeshChecker.cs" />
-    <Compile Include="src\Utility\EditorSupport\MeshChecker\MeshGroupChecker.cs" />
     <Compile Include="src\Utility\EditorSupport\MeshEditTool\MeshVertexEdition.cs" />
     <Compile Include="src\Utility\EditorSupport\PrefabLinker\PrefabLinker.cs" />
     <Compile Include="src\Bridges\AddComponentBridge.cs" />
@@ -184,9 +190,6 @@
     <Folder Include="src\Misc\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Shaders\PEOverride.shader" />
-    <None Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Shaders\PEOverrideAdd.shader" />
-    <None Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Shaders\PEOverrideMultiply.shader" />
     <None Include="src\Graphics\FastShadowProjector\Documentation.pdf" />
     <None Include="src\Graphics\FastShadowProjector\Materials\BlobLight.mat" />
     <None Include="src\Graphics\FastShadowProjector\Materials\BlobLightTex.psd" />
@@ -209,6 +212,9 @@
     <None Include="src\Graphics\GraphicsSystem\Resources\data\GraphicsSetting.asset" />
     <None Include="src\Graphics\GraphicsSystem\Resources\data\RoleGlowSetting.asset" />
     <None Include="src\Graphics\GraphicsSystem\Resources\data\RoleShadowSetting.asset" />
+    <None Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Shaders\PEOverride.shader" />
+    <None Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Shaders\PEOverrideAdd.shader" />
+    <None Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Shaders\PEOverrideMultiply.shader" />
     <None Include="src\Graphics\VisualCamera\Presets\Noise\Handheld_normal_extreme.asset" />
     <None Include="src\Graphics\VisualCamera\Presets\Noise\Handheld_normal_mild.asset" />
     <None Include="src\Graphics\VisualCamera\Presets\Noise\Handheld_normal_strong.asset" />

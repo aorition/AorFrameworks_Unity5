@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable
+using System;
 using System.Collections.Generic;
 using Framework.Editor;
 using Framework.Editor.Utility;
@@ -68,89 +69,215 @@ namespace Framework.Utility.Editor
 
         }
 
-        private bool _draw_normalLines = true;
+        private bool _draw_normalLines = false;
+        private bool _draw_tangentLines = false;
+
+        /*
+        private float _singleSideValue = 0; 
+
         private bool _showDubbleSide = false;
-        private bool _showTriganleNormal = true;
-        private bool _showVertexNormal = true;
-        private bool _showTriangleLine = true;
-        private float _drawNormalLineLength = 0.2f;
+
+        private bool _showTriangleLine = false;
+        private Color _triangleLineColor = Color.blue;
+
+        private bool _showVertexNormal = false;
+        private float _drawVertexNormalLineLength = 0.05f;
+        private Color _vertexNormalColor = Color.blue;
+
+        private bool _showTriganleNormal = false;
+        private float _drawTriganleNormalLineLength = 0.05f;
+        private Color _triganleNormalColor = Color.blue;
+
+
+        private bool _showVertexTangentLine = false;
+        private float _drawVertexTangentLineLength = 0.05f;
+        private Color _tangentVertexColor = Color.yellow;
+
+        private bool _showTriganleTangentLine = false;
+        private float _drawTriganleTangentLineLength = 0.05f;
+        private Color _tangentTriganleColor = Color.yellow;
+        */
+
         private void OnSceneGUI()
         {
-            if (!_target) return;
+            if (!_target || !_checker) return;
+            //normal
             if (_draw_normalLines)
             {
                 Mesh mesh = Application.isPlaying ? _target.mesh : _target.sharedMesh;
                 if (!mesh || mesh.triangles.Length == 0 || mesh.normals.Length != mesh.vertices.Length) return;
 
+                Matrix4x4 wm = _target.transform.localToWorldMatrix;
                 Vector3 p = _target.transform.position;
                 Quaternion d = _target.transform.rotation;
                 Vector3 s;
                 Vector3 t;
 
-                Handles.color = Color.blue;
                 Vector3[] vertex = mesh.vertices;
                 Vector3[] normals = mesh.normals;
                 int[] triangles = mesh.triangles;
-                for (int i = 0; i < triangles.Length; i++)
+                for (int i = 0; i < triangles.Length; i+=3)
                 {
-                    if (i % 3 == 0)
+                    Vector3 v0 = vertex[triangles[i]];
+                    Vector3 v1 = vertex[triangles[i + 1]];
+                    Vector3 v2 = vertex[triangles[i + 2]];
+
+                    Vector3 wv0 = wm * v0; wv0 += p;
+                    Vector3 wv1 = wm * v1; wv1 += p;
+                    Vector3 wv2 = wm * v2; wv2 += p;
+
+                    Vector3 n0 = normals[triangles[i]];
+                    Vector3 n1 = normals[triangles[i + 1]];
+                    Vector3 n2 = normals[triangles[i + 2]];
+
+                    Vector3 wn0 = wm * n0;
+                    Vector3 wn1 = wm * n1;
+                    Vector3 wn2 = wm * n2;
+
+                    Vector3 wcn = Vector3.Normalize((wn0 + wn1 + wn2) / 3);
+
+                    if (!_checker.ShowDubbleSide && !_cullingCheck(wcn, _checker.SingleSideValue))
                     {
+                        //back
+                        //do nothing
+                    }
+                    else {
 
-                        Vector3 v0 = p + d * vertex[triangles[i]];
-                        Vector3 v1 = p + d * vertex[triangles[i + 1]];
-                        Vector3 v2 = p + d * vertex[triangles[i + 2]];
-                        
-                        Vector3 n = Vector3.Normalize(normals[triangles[i]] + normals[triangles[i + 1]] + normals[triangles[i + 2]]) / 3;
-
-                        //  if (!_showDubbleSide && BackFaceCulling(v0, v1, v2)) return;
-                        if (!_showDubbleSide && !_cullingCheck(n)) return;
-
-                        if (_showTriangleLine)
+                        //front
+                        if (_checker.ShowTriangleLine)
                         {
-                            Handles.DrawLine(v0, v1);
-                            Handles.DrawLine(v1, v2);
-                            Handles.DrawLine(v2, v0);
+                            Handles.color = _checker.TriangleLineColor;
+
+                            Handles.DrawLine(wv0, wv1);
+                            Handles.DrawLine(wv1, wv2);
+                            Handles.DrawLine(wv2, wv0);
                         }
 
-                        if (_showTriganleNormal)
+                        if (_checker.ShowTriganleNormal)
                         {
-                            s = p + d * (vertex[triangles[i]] + vertex[triangles[i + 1]] + vertex[triangles[i + 2]]) / 3;
-                            t = s + d * n * _drawNormalLineLength;
+                            s = (wv0 + wv1 + wv2) / 3;
+                            t = s + wcn * _checker.DrawTriganleNormalLineLength;
+                            Handles.color = _checker.TriganleNormalColor;
                             Handles.DrawLine(s, t);
                         }
 
-                        if (_showVertexNormal)
+                        if (_checker.ShowVertexNormal)
                         {
-                            for (int j = 0; j < 3; j++)
-                            {
-                                s = p + d * vertex[triangles[i + j]];
-                                t = s + d * normals[triangles[i + j]] * _drawNormalLineLength;
-                                Handles.DrawLine(s, t);
-                            }
+                            Handles.color = _checker.VertexNormalColor;
 
+                            Vector3 t0 = wv0 + wn0 * _checker.DrawVertexNormalLineLength;
+                            Handles.DrawLine(wv0, t0);
+
+                            Vector3 t1 = wv1 + wn1 * _checker.DrawVertexNormalLineLength;
+                            Handles.DrawLine(wv1, t1);
+
+                            Vector3 t2 = wv2 + wn2 * _checker.DrawVertexNormalLineLength;
+                            Handles.DrawLine(wv2, t2);
                         }
 
+                        
                     }
+
                 }
 
             }
+
+            //tangent
+            if (_draw_tangentLines)
+            {
+
+                Mesh mesh = Application.isPlaying ? _target.mesh : _target.sharedMesh;
+                if (!mesh || mesh.triangles.Length == 0 || mesh.normals.Length != mesh.vertices.Length) return;
+
+                Matrix4x4 wm = _target.transform.localToWorldMatrix;
+                Vector3 p = _target.transform.position;
+                Quaternion d = _target.transform.rotation;
+                Vector3 s;
+                Vector3 t;
+
+                Vector3[] vertex = mesh.vertices;
+                Vector3[] normals = mesh.normals;
+                Vector4[] tangents = mesh.tangents;
+                int[] triangles = mesh.triangles;
+                for (int i = 0; i < triangles.Length; i += 3)
+                {
+
+                    Vector3 v0 = vertex[triangles[i]];
+                    Vector3 v1 = vertex[triangles[i + 1]];
+                    Vector3 v2 = vertex[triangles[i + 2]];
+
+                    Vector3 wv0 = wm * v0; wv0 += p;
+                    Vector3 wv1 = wm * v1; wv1 += p;
+                    Vector3 wv2 = wm * v2; wv2 += p;
+
+                    Vector3 n0 = normals[triangles[i]];
+                    Vector3 n1 = normals[triangles[i + 1]];
+                    Vector3 n2 = normals[triangles[i + 2]];
+
+                    Vector3 wn0 = wm * n0;
+                    Vector3 wn1 = wm * n1;
+                    Vector3 wn2 = wm * n2;
+                    Vector3 wcn = Vector3.Normalize((wn0 + wn1 + wn2) / 3);
+
+                    Vector4 t0 = tangents[triangles[i]];
+                    Vector4 t1 = tangents[triangles[i + 1]];
+                    Vector4 t2 = tangents[triangles[i + 2]];
+
+                    Vector3 wt0 = wm * t0;
+                    Vector3 wt1 = wm * t1;
+                    Vector3 wt2 = wm * t2;
+                    Vector3 wct = Vector3.Normalize((wt0 + wt1 + wt2) / 3);
+
+                    if (!_checker.ShowDubbleSide && !_cullingCheck(wcn, _checker.SingleSideValue))
+                    {
+                        //back
+                        //do nothing
+                    }
+                    else
+                    {
+
+                        //front
+                        if (_checker.ShowTriangleLine)
+                        {
+                            Handles.color = _checker.TriangleLineColor;
+
+                            Handles.DrawLine(wv0, wv1);
+                            Handles.DrawLine(wv1, wv2);
+                            Handles.DrawLine(wv2, wv0);
+                        }
+
+                        if (_checker.ShowTriganleTangentLine)
+                        {
+                            s = (wv0 + wv1 + wv2) / 3;
+                            t = s + wct * _checker.DrawTriganleTangentLineLength;
+                            Handles.color = _checker.TangentTriganleColor;
+                            Handles.DrawLine(s, t);
+                        }
+
+                        if (_checker.ShowVertexTangentLine)
+                        {
+                            Handles.color = _checker.TangentVertexColor;
+
+                            Vector3 tt0 = wv0 + wt0 * _checker.DrawVertexTangentLineLength;
+                            Handles.DrawLine(wv0, tt0);
+
+                            Vector3 tt1 = wv1 + wt1 * _checker.DrawVertexTangentLineLength;
+                            Handles.DrawLine(wv1, tt1);
+
+                            Vector3 tt2 = wv2 + wt2 * _checker.DrawVertexTangentLineLength;
+                            Handles.DrawLine(wv2, tt2);
+                        }
+                        
+                    }
+
+                }
+            }
         }
+        
+        private static bool _cullingCheck(Vector3 wNormal, float sideOffset = 0) {
 
-       //private static bool BackFaceCulling(Vector3 p1, Vector3 p2, Vector3 p3)
-       //{
-       //    //其中p1 P2 p3必定严格按照逆时针或者顺时针的顺序存储 
-       //    Vector3 v1 = SceneView.currentDrawingSceneView.camera.WorldToViewportPoint(p2 - p1);
-       //    Vector3 v2 = SceneView.currentDrawingSceneView.camera.WorldToViewportPoint(p3 - p2);
-       //    Vector3 normal = Vector3.Cross(v1, v2);//计算法线 
-       //    //由于在视空间中，所以相机点就是（0,0,0） 
-       //    Vector3 viewDir = p1 - new Vector3(0, 0, 0);
-       //    return Vector3.Dot(normal, viewDir) > 0;
-       //}
-
-        private static bool _cullingCheck(Vector3 normal) {
-            //Culling消隐判断似乎还有点问题
-            float r = Vector3.Dot(normal, -SceneView.currentDrawingSceneView.camera.transform.forward);
-            return r > -0.1f;
+            float r = Vector3.Dot(SceneView.currentDrawingSceneView.camera.transform.forward, wNormal);
+            return r < sideOffset;
         }
 
         private static string[] _viewTypeLabel = { "linkTextrue", "VertexColor", "Normal", "WorldNormal", "Tangent", "UV", "Lightmap" };
@@ -160,99 +287,242 @@ namespace Framework.Utility.Editor
         #region Mesh Check
 
         private bool _checkActive;
+        private MeshChecker _checker;
 
         private void __Draw_meshCheckUI()
         {
             GUILayout.Space(10);
 
             GUILayout.BeginVertical("box");
-
-            GUILayout.Space(5);
-
-            MeshChecker checker = (target as MeshFilter).gameObject.GetComponent<MeshChecker>();
-            _checkActive = checker;
-
-            _checkActive = EditorGUILayout.ToggleLeft(new GUIContent("Mesh检查工具"), _checkActive, Title0Style);
-            GUILayout.Space(5);
-
-            if (!_checkActive)
             {
 
-                if (checker)
+                GUILayout.Space(5);
+
+                _checker = (target as MeshFilter).gameObject.GetComponent<MeshChecker>();
+                _checkActive = _checker;
+
+                _checkActive = EditorGUILayout.ToggleLeft(new GUIContent("Mesh检查工具"), _checkActive, Title0Style);
+                GUILayout.Space(5);
+
+                if (!_checkActive)
                 {
 
-                    checker.enabled = false;
-                    EditorPlusMethods.NextEditorApplicationUpdateDo(() =>
+                    if (_checker)
                     {
-                        try
+
+                        _checker.enabled = false;
+                        EditorPlusMethods.NextEditorApplicationUpdateDo(() =>
                         {
-                            if (Application.isPlaying)
+                            try
                             {
-                                Destroy(checker);
+                                MeshChecker del = _checker;
+                                _checker = null;
+                                if (Application.isPlaying)
+                                {
+                                    Destroy(del);
+                                }
+                                else
+                                {
+                                    DestroyImmediate(del);
+                                }
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                DestroyImmediate(checker);
+                                //do nothing
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            //do nothing
-                        }
-                    });
+                        });
+                    }
+
+                    GUILayout.EndVertical();
+                    return;
                 }
 
-                GUILayout.EndVertical();
-                return;
-            }
-
-
-            if (!checker)
-            {
-
-                //检查依赖shader是否存在
-                ShaderDefine_ModelChecker ShaderDefine = new ShaderDefine_ModelChecker();
-                Shader shader = Shader.Find(ShaderDefine.ShaderLabel);
-                if (!shader) FrameworkBaseShaderCreater.BuildingShaderFile(ShaderDefine, false);
-
-                //checker init
-                checker = (target as MeshFilter).gameObject.AddComponent<MeshChecker>();
-                checker.hideFlags = HideFlags.HideInInspector | HideFlags.DontSave | HideFlags.DontSaveInEditor;
-            }
-
-            if (!checker)
-            {
-                GUILayout.EndVertical();
-                return;
-            }
-
-            GUILayout.BeginHorizontal();
-            {
-                GUILayout.Label("检查类型:");
-                checker.ViewType = EditorGUILayout.Popup(checker.ViewType, _viewTypeLabel);
-            }
-            GUILayout.EndHorizontal();
-            
-            if (checker.ViewType == 0)
-            {
-                checker.mainTexture = (Texture2D)EditorGUILayout.ObjectField(new GUIContent("并联贴图"), checker.mainTexture, typeof (Texture2D), true);
-                checker.SetViewType(checker.ViewType, checker.mainTexture);
-            }
-            else
-            {
-//                checker.mainTexture = null;
-                checker.SetViewType(checker.ViewType);
-            }
-
-            if(checker.ViewType == 2)
-            {
-                GUILayout.BeginVertical("box");
+                if (!_checker)
                 {
-                    GUILayout.Label("**********");
-                }
-                GUILayout.EndVertical();
-            }
 
+                    //检查依赖shader是否存在
+                    ShaderDefine_ModelChecker ShaderDefine = new ShaderDefine_ModelChecker();
+                    Shader shader = Shader.Find(ShaderDefine.ShaderLabel);
+                    if (!shader) FrameworkBaseShaderCreater.BuildingShaderFile(ShaderDefine, false);
+
+                    //checker init
+                    _checker = (target as MeshFilter).gameObject.AddComponent<MeshChecker>();
+                    _checker.hideFlags = HideFlags.HideInInspector | HideFlags.DontSave | HideFlags.DontSaveInEditor;
+                }
+
+                if (!_checker)
+                {
+                    GUILayout.EndVertical();
+                    return;
+                }
+
+                //Todo 
+
+
+                GUILayout.BeginHorizontal();
+                {
+                    GUILayout.Label("检查类型:");
+                    _checker.ViewType = EditorGUILayout.Popup(_checker.ViewType, _viewTypeLabel);
+                }
+                GUILayout.EndHorizontal();
+
+                //link Textrue
+                if (_checker.ViewType == 0)
+                {
+
+                    GUILayout.Space(10);
+
+                    GUILayout.BeginVertical("box");
+                    {
+                        _checker.mainTexture = (Texture2D)EditorGUILayout.ObjectField(new GUIContent("并联贴图"), _checker.mainTexture, typeof(Texture2D), true);
+                        _checker.SetViewType(_checker.ViewType, _checker.mainTexture);
+                    }
+                    GUILayout.EndVertical();
+                }
+                else
+                {
+                    //                checker.mainTexture = null;
+                    _checker.SetViewType(_checker.ViewType);
+                }
+
+                //Normal && World Normal
+                if (_checker.ViewType == 2 || _checker.ViewType == 3)
+                {
+                    _draw_normalLines = true;
+
+                    GUILayout.Space(10);
+
+                    GUILayout.BeginVertical("box");
+                    {
+                        GUILayout.Space(5);
+
+                        GUILayout.BeginVertical("box");
+                        {
+                            GUILayout.Space(5);
+                            _checker.ShowDubbleSide = EditorGUILayout.ToggleLeft("Show Dubble Side", _checker.ShowDubbleSide);
+                            if (!_checker.ShowDubbleSide)
+                                _checker.SingleSideValue = EditorGUILayout.Slider("SidedOffset", _checker.SingleSideValue, -1f, 1f);
+                            else
+                                _checker.SingleSideValue = 0;
+                            GUILayout.Space(5);
+                        }
+                        GUILayout.EndVertical();
+
+                        GUILayout.Space(5);
+
+                        GUILayout.BeginVertical("box");
+                        {
+                            GUILayout.Space(5);
+                            _checker.ShowVertexNormal = EditorGUILayout.ToggleLeft("Show Vertex Normal", _checker.ShowVertexNormal);
+                            GUILayout.Space(5);
+                            _checker.DrawVertexNormalLineLength = EditorGUILayout.FloatField("Length", _checker.DrawVertexNormalLineLength);
+                            _checker.VertexNormalColor = EditorGUILayout.ColorField("Color", _checker.VertexNormalColor);
+                            GUILayout.Space(5);
+                        }
+                        GUILayout.EndVertical();
+
+                        GUILayout.Space(5);
+
+                        GUILayout.BeginVertical("box");
+                        {
+                            GUILayout.Space(5);
+                            _checker.ShowTriganleNormal = EditorGUILayout.ToggleLeft("Show Triganle Normal", _checker.ShowTriganleNormal);
+                            GUILayout.Space(5);
+                            _checker.DrawTriganleNormalLineLength = EditorGUILayout.FloatField("Length", _checker.DrawTriganleNormalLineLength);
+                            _checker.TriganleNormalColor = EditorGUILayout.ColorField("Color", _checker.TriganleNormalColor);
+                            GUILayout.Space(5);
+                        }
+                        GUILayout.EndVertical();
+
+                        GUILayout.Space(5);
+
+                        GUILayout.BeginVertical("box");
+                        {
+                            GUILayout.Space(5);
+                            _checker.ShowTriangleLine = EditorGUILayout.ToggleLeft("Show Wireframe", _checker.ShowTriangleLine);
+                            GUILayout.Space(5);
+                            _checker.TriangleLineColor = EditorGUILayout.ColorField("Color", _checker.TriangleLineColor);
+                            GUILayout.Space(5);
+                        }
+                        GUILayout.EndVertical();
+
+                        GUILayout.Space(5);
+                    }
+                    GUILayout.EndVertical();
+                }
+                else if (_checker.ViewType == 4) //Tangent
+                {
+                    _draw_tangentLines = true;
+
+                    GUILayout.Space(10);
+
+                    GUILayout.BeginVertical("box");
+                    {
+
+                        GUILayout.Space(5);
+
+                        GUILayout.BeginVertical("box");
+                        {
+                            GUILayout.Space(5);
+                            _checker.ShowDubbleSide = EditorGUILayout.ToggleLeft("Show Dubble Side", _checker.ShowDubbleSide);
+                            if (!_checker.ShowDubbleSide)
+                                _checker.SingleSideValue = EditorGUILayout.Slider("SidedOffset", _checker.SingleSideValue, -1f, 1f);
+                            else
+                                _checker.SingleSideValue = 0;
+                            GUILayout.Space(5);
+                        }
+                        GUILayout.EndVertical();
+
+                        GUILayout.Space(5);
+                        
+                        GUILayout.BeginVertical("box");
+                        {
+                            GUILayout.Space(5);
+                            _checker.ShowVertexTangentLine = EditorGUILayout.ToggleLeft("Show Vertex Tangent", _checker.ShowVertexTangentLine);
+                            GUILayout.Space(5);
+                            _checker.DrawVertexTangentLineLength = EditorGUILayout.FloatField("Length", _checker.DrawVertexTangentLineLength);
+                            _checker.TangentVertexColor = EditorGUILayout.ColorField("Color", _checker.TangentVertexColor);
+                            GUILayout.Space(5);
+                        }
+                        GUILayout.EndVertical();
+
+                        GUILayout.Space(5);
+
+                        GUILayout.BeginVertical("box");
+                        {
+                            GUILayout.Space(5);
+                            _checker.ShowTriganleTangentLine = EditorGUILayout.ToggleLeft("Show Triganle Tangent", _checker.ShowTriganleTangentLine);
+                            GUILayout.Space(5);
+                            _checker.DrawTriganleTangentLineLength = EditorGUILayout.FloatField("Length", _checker.DrawTriganleTangentLineLength);
+                            _checker.TangentTriganleColor = EditorGUILayout.ColorField("Color", _checker.TangentTriganleColor);
+                            GUILayout.Space(5);
+                        }
+                        GUILayout.EndVertical();
+
+                        GUILayout.Space(5);
+
+                        GUILayout.BeginVertical("box");
+                        {
+                            GUILayout.Space(5);
+                            _checker.ShowTriangleLine = EditorGUILayout.ToggleLeft("Show Wireframe", _checker.ShowTriangleLine);
+                            GUILayout.Space(5);
+                            _checker.TriangleLineColor = EditorGUILayout.ColorField("Color", _checker.TriangleLineColor);
+                            GUILayout.Space(5);
+                        }
+                        GUILayout.EndVertical();
+
+                        GUILayout.Space(5);
+                    }
+                    GUILayout.EndVertical();
+                }
+                else
+                {
+                    //other
+                    _draw_tangentLines = false;
+                    _draw_normalLines = false;
+                }
+
+            }
             GUILayout.EndVertical();
         }
 

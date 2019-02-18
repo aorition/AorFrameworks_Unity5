@@ -23,8 +23,8 @@ Shader "AFW/Toon/Toon - AnisoSpecular"
 		[Toggle] _Clip("Clip?", Float) = 0
 		_CutOut("CutOut", Float) = 0
 		[Space(10)]
-		[HideInInspector]_Lighting("Lighting", Float) = 1
-		[HideInInspector] _CutOut("CutOut", Float) = 0.1
+		_Lighting("Lighting", Float) = 1
+		[HideInInspector][Toggle] _NoShadowCascades("No Shadow Cascades?", Float) = 0
 		[Space(20)]
 		//OUTLINE
 		_OutlineWidth("OutlineWidth", Float) = 1
@@ -77,6 +77,7 @@ Shader "AFW/Toon/Toon - AnisoSpecular"
 			#pragma shader_feature _FOG_ON
 			#pragma shader_feature _CLIP_ON
 			#pragma shader_feature _HIDEFACE_ON
+			#pragma shader_feature _NOSHADOWCASCADES_ON
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
@@ -160,8 +161,15 @@ Shader "AFW/Toon/Toon - AnisoSpecular"
 			}
 
 
-			fixed SelfShadowATTENUATION(v2f i){
-				return UNITY_SHADOW_ATTENUATION(i, i.worldPos);
+			fixed ShadowATTENUATION(v2f i){
+				fixed atten = UNITY_SHADOW_ATTENUATION(i, i.worldPos);
+				//处理ShadowCascades不启用时的
+				#ifdef _NOSHADOWCASCADES_ON
+					float4 shadowCoord = mul(unity_WorldToShadow[0],unityShadowCoord4(i.worldPos,1));
+					float3 s = abs((shadowCoord - 0.5) * 2);
+					atten = max(1-step(max(max(s.x, s.y), s.z), 1), atten);
+				#endif
+				return atten;
 			}
 
 			
@@ -212,7 +220,7 @@ Shader "AFW/Toon/Toon - AnisoSpecular"
                 fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
 				
 				//shadow
-				fixed atten = SelfShadowATTENUATION(i);
+				fixed atten = ShadowATTENUATION(i);
 
 				fixed NL = dot(normal, lightDir);
 				fixed NV = dot(normal, viewDir);

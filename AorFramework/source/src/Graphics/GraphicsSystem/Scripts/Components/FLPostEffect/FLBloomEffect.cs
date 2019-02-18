@@ -2,9 +2,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Framework.Graphic.Utility;
 
 namespace Framework.Graphic.Effect
 {
+    [ExecuteInEditMode]
+    [ImageEffectAllowedInSceneView]
     public class FLBloomEffect : FLEffectBase
     {
         public enum Resolution
@@ -27,8 +30,7 @@ namespace Framework.Graphic.Effect
 
         [Range(1, 4)]
         public int blurIterations = 1;
-
-
+        
         private Material fastBloomMat;
         private RenderTexture rt;
         private RenderTexture rt2;
@@ -43,17 +45,30 @@ namespace Framework.Graphic.Effect
         /// </summary>
         public void Clear()
         {
-            rt = null;
-            rt2 = null;
+            if (rt != null)
+            {
+                //RenderTexture.ReleaseTemporary(rt);
+                RenderTextureUtility.Release(rt);
+                rt = null;
+            }
+            if (rt2 != null)
+            {
+                //RenderTexture.ReleaseTemporary(rt);
+                RenderTextureUtility.Release(rt2);
+                rt2 = null;
+            }
         }
 
         protected override void init()
         {
+            //填充后处理用Shader&Material
             if (fastBloomMat == null)
             {
                 fastBloomMat = new Material(ShaderBridge.Find("Hidden/PostEffect/FastBloom"));
                 renderMat = new Material(ShaderBridge.Find("Hidden/PostEffect/BloomDrawShader"));
             }
+            //填充默认渲染等级值
+            if (m_RenderLevel == 0) m_RenderLevel = 100;
         }
 
         protected override void OnDisable()
@@ -81,7 +96,8 @@ namespace Framework.Graphic.Effect
             // downsample
             if (rt == null)
             {
-                rt = new RenderTexture(rtW, rtH, 0, src.format);
+                //rt = new RenderTexture(rtW, rtH, 0, src.format);
+                rt = RenderTextureUtility.New(rtW, rtH, 0, src.format);
                 rt.filterMode = FilterMode.Bilinear;
             }
 
@@ -95,7 +111,8 @@ namespace Framework.Graphic.Effect
                 // vertical blur
                 if (rt2 == null)
                 {
-                    rt2 = new RenderTexture(rtW, rtH, 0, src.format);
+                    //rt2 = new RenderTexture(rtW, rtH, 0, src.format);
+                    rt2 = RenderTextureUtility.New(rtW, rtH, 0, src.format);
                     rt2.filterMode = FilterMode.Bilinear;
                 }
 
@@ -109,7 +126,6 @@ namespace Framework.Graphic.Effect
 
             if (renderMat != null)
             {
-
                 renderMat.SetTexture("_CurveTex", rt);
                 renderMat.SetTexture("_MainTex", src);
             }

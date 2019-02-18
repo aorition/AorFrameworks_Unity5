@@ -153,7 +153,7 @@ namespace Framework.Graphic
             if (_PECombine.renderTexture == null)
             {
 //                _PECombine.renderTexture = RenderTexture.GetTemporary(Screen.width, Screen.height);
-                _PECombine.renderTexture = RenderTextureUtility.New(RenderTextureUtility.GetNormalHDRFormatInfo(Screen.width, Screen.height));
+                _PECombine.renderTexture = RenderTextureUtility.New(Screen.width, Screen.height);
             }
 
             if (_sizeCache != _size)
@@ -166,7 +166,7 @@ namespace Framework.Graphic
                     RenderTextureUtility.Release(_rgRt);
                 }
 //                _rgRt = RenderTexture.GetTemporary(Screen.width, Screen.height);
-                _rgRt = RenderTextureUtility.New(RenderTextureUtility.GetNormalHDRFormatInfo(Screen.width, Screen.height));
+                _rgRt = RenderTextureUtility.New(Screen.width, Screen.height);
                 _target.targetTexture = _rgRt;
 
                 if (_temp != null)
@@ -184,7 +184,7 @@ namespace Framework.Graphic
                 if (!_temp)
                 {
                     //_temp = RenderTexture.GetTemporary(Screen.width/_sizeCache, Screen.height/_sizeCache);
-                    _temp = RenderTextureUtility.New(RenderTextureUtility.GetNormalHDRFormatInfo(Screen.width / _sizeCache, Screen.height / _sizeCache));
+                    _temp = RenderTextureUtility.New(Screen.width / _sizeCache, Screen.height / _sizeCache);
 
                 }
 

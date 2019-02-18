@@ -204,7 +204,36 @@ namespace Framework.JSON
             if (obj == null) return "null";
             StringBuilder _result = new StringBuilder();
 
-            if (obj is JScriptableObject || !(obj is UnityEngine.Object))
+            if(obj is UnityEngine.Rect)
+            {
+                Rect r = (Rect)obj;
+                _result.Append("{\"x\":" + r.x + ","
+                                + "\"y\":" + r.y + ","
+                                + "\"width\":" + r.width + ","
+                                + "\"height\":" + r.height
+                                + "}" );
+            }
+            else if (obj is UnityEngine.Color)
+            {
+                Color c = (Color)obj;
+                _result.Append("{\"r\":" + c.r + ","
+                                + "\"g\":" + c.g + ","
+                                + "\"b\":" + c.b + ","
+                                + "\"a\":" + c.a
+                                + "}");
+            }
+            else if (obj is UnityEngine.Color32)
+            {
+                Color c = (Color)obj;
+                _result.Append("{\"r\":" + c.r + ","
+                                + "\"g\":" + c.g + ","
+                                + "\"b\":" + c.b + ","
+                                + "\"a\":" + c.a
+                                + "}");
+            }
+            //Todo .. 其他 UnityEngine的数据结构
+
+            else if (obj is JScriptableObject || !(obj is UnityEngine.Object))
             {
                 _result.Append("{");
                 FieldInfo[] pFieldInfos = _getUsefulFieldInfos(type);
@@ -214,7 +243,8 @@ namespace Framework.JSON
                     FieldInfo pFieldInfo = pFieldInfos[i];
 
                     //这里需要过滤JScriptableObject的_status字段和_innerJsonValue字段
-                    if (obj is JScriptableObject && (pFieldInfo.Name == "_status" || pFieldInfo.Name == "_innerJsonValue")) {
+                    if (obj is JScriptableObject && (pFieldInfo.Name == "_status" || pFieldInfo.Name == "_innerJsonValue"))
+                    {
                         continue;
                     }
 
@@ -223,7 +253,7 @@ namespace Framework.JSON
                         _result.Append(",");
                     }
                     string key = "\"" + pFieldInfo.Name + "\"";
-                    Type FType = pFieldInfo.FieldType;
+                    //Type FType = pFieldInfo.FieldType;
                     object value = pFieldInfo.GetValue(obj);
 
                     _result.Append(key + ":");
@@ -280,6 +310,6 @@ namespace Framework.JSON
             }
             return list.ToArray();
         }
-
+        
     }
 }

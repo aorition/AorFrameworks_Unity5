@@ -1,7 +1,11 @@
-﻿Shader "Hidden/PostEffect/inversion" 
+﻿Shader "Hidden/PostEffect/Inversion" 
 {
 	Properties
 	{
+		_InversionPower("Inversion Power", Range(0,1)) = 1
+		_InversionColor("Inversion Color", Color) = (1,1,1,1)
+		_GrayAmount("Gray Amount", Range(0,1)) = 0
+
 		_MainTex("Base (RGB)", 2D) = "white" {}
 	}
 
@@ -11,26 +15,26 @@
 		{
 			Pass 
 			{
-				ZTest Always Cull Off ZWrite Off
+				ZTest Always
 				Fog { Mode off }
 
-				//CGPROGRAM
-				//#pragma vertex vert_img
-				//#pragma fragment frag
-				//#pragma fragmentoption ARB_precision_hint_fastest 
-				//#include "UnityCG.cginc"
-
 				CGPROGRAM
-				#include "UnityCG.cginc"
 				#pragma vertex vert
 				#pragma fragment frag
-				
+				#include "UnityCG.cginc"
+
 				sampler2D _MainTex;
 				float4 _MainTex_ST;
 
-				struct v2f {
+				float _InversionPower;
+				float4 _InversionColor;
+				float _GrayAmount;
+		
+
+				struct v2f 
+				{
 					float4  pos : SV_POSITION;
-					float2  uv : TEXCOORD2;
+					float2  uv : TEXCOORD1;
 				};
 
 				//顶点函数没什么特别的，和常规一样
@@ -45,8 +49,17 @@
 				float4 frag(v2f i) : COLOR
 				{
 					float4 mainCol = tex2D(_MainTex, i.uv);
-					mainCol.rgb = float3(1,1,1)- mainCol.rgb;
-					return mainCol;
+					fixed4 inverCol = (1 - mainCol);
+
+					fixed4 final;
+					final.a = mainCol.a;
+
+					final.rgb = lerp(mainCol.rgb, inverCol.rgb, _InversionPower) * _InversionColor;      //go to inversion
+
+					float3 grayCol = dot(final.rgb, float3(0.299, 0.587, 0.114));
+					final.rgb = lerp(final.rgb, grayCol.rgb, _GrayAmount);      //go to gray
+ 
+					return final;
 				}
 				ENDCG
 			}//end pass

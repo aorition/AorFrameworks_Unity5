@@ -1,10 +1,13 @@
 ﻿#pragma warning disable
+using Framework.Graphic.Utility;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework.Graphic.Effect
 {
+    [ExecuteInEditMode]
+    [ImageEffectAllowedInSceneView]
     public class FLBloomEffectNew : FLEffectBase
     {
         #region Public Properties
@@ -27,7 +30,7 @@ namespace Framework.Graphic.Effect
 
         [SerializeField]
         [Tooltip("Filters out pixels under this level of brightness.")]
-        float _threshold = 0.8f;
+        float _threshold = 0.95f;
 
         /// Soft-knee coefficient
         /// Makes transition between under/over-threshold gradual.
@@ -143,25 +146,37 @@ namespace Framework.Graphic.Effect
             for (var i = 0; i < kMaxIterations; i++)
             {
                 if (_blurBuffer1[i] != null)
-                    RenderTexture.ReleaseTemporary(_blurBuffer1[i]);
+                {
+                    //RenderTexture.ReleaseTemporary(_blurBuffer1[i]);
+                    RenderTextureUtility.Release(_blurBuffer1[i]);
+                    _blurBuffer1[i] = null;
+                }
 
                 if (_blurBuffer2[i] != null)
-                    RenderTexture.ReleaseTemporary(_blurBuffer2[i]);
-
-                _blurBuffer1[i] = null;
-                _blurBuffer2[i] = null;
+                {
+                    //RenderTexture.ReleaseTemporary(_blurBuffer2[i]);
+                    RenderTextureUtility.Release(_blurBuffer2[i]);
+                    _blurBuffer2[i] = null;
+                }
             }
 
-            RenderTexture.ReleaseTemporary(rt);
+            if (rt != null) {
+                //RenderTexture.ReleaseTemporary(rt);
+                RenderTextureUtility.Release(rt);
+                rt = null;
+            }
         }
 
         protected override void init()
         {
             base.init();
+            //填充后处理用Shader&Material
             if (renderMat == null)
             {
                 renderMat = new Material(ShaderBridge.Find("Hidden/Kino/Bloom"));
             }
+            //填充默认渲染等级值
+            if (m_RenderLevel == 0) m_RenderLevel = 100;
         }
 
         protected override void OnDisable()
@@ -173,7 +188,7 @@ namespace Framework.Graphic.Effect
 
         protected override void render(RenderTexture src, RenderTexture dst)
         {
-            if (!Application.isPlaying) return;
+            //if (!Application.isPlaying) return;
 
             base.render(src, dst);
 
@@ -226,8 +241,9 @@ namespace Framework.Graphic.Effect
             // downsample
             if (rt == null)
             {
-                rt = RenderTexture.GetTemporary(tw, th, 0, rtFormat); //src.format
+                //rt = RenderTexture.GetTemporary(tw, th, 0, rtFormat); //src.format
                                                                       //rt.filterMode = FilterMode.Bilinear;
+                rt = RenderTextureUtility.New(tw, th, 0, rtFormat);
             }
 
             // prefilter pass
@@ -240,9 +256,11 @@ namespace Framework.Graphic.Effect
             {
                 if (_blurBuffer1[level] == null)
                 {
-                    _blurBuffer1[level] = RenderTexture.GetTemporary(
-                        last.width / 2, last.height / 2, 0, rtFormat
-                        );
+                    //_blurBuffer1[level] = RenderTexture.GetTemporary(
+                    //    last.width / 2, last.height / 2, 0, rtFormat
+                    //    );
+
+                    _blurBuffer1[level] = RenderTextureUtility.New(last.width / 2, last.height / 2, 0, rtFormat);
                 }
 
                 pass = (level == 0) ? (_antiFlicker ? 3 : 2) : 4;
@@ -259,9 +277,10 @@ namespace Framework.Graphic.Effect
 
                 if (_blurBuffer2[level] == null)
                 {
-                    _blurBuffer2[level] = RenderTexture.GetTemporary(
-                        basetex.width, basetex.height, 0, rtFormat
-                    );
+                    //_blurBuffer2[level] = RenderTexture.GetTemporary(
+                    //    basetex.width, basetex.height, 0, rtFormat
+                    //);
+                    _blurBuffer2[level] = RenderTextureUtility.New(basetex.width, basetex.height, 0, rtFormat);
                 }
 
                 pass = _highQuality ? 6 : 5;

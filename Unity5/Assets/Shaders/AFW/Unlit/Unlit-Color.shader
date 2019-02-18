@@ -64,6 +64,7 @@ Shader "AFW/Unlit/Unlit - Color"
 			{
 				float4 vertex : POSITION;
 				float2 uv : TEXCOORD0;
+				fixed4 color : COLOR;
 			};
 
 			struct v2f
@@ -73,6 +74,7 @@ Shader "AFW/Unlit/Unlit - Color"
 					UNITY_FOG_COORDS(1)
 				#endif
 				float4 pos : SV_POSITION;
+				fixed4 color : COLOR;
 			};
 			
 			v2f vert (a2v v)
@@ -80,6 +82,7 @@ Shader "AFW/Unlit/Unlit - Color"
 				v2f o;
 				o.pos = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+				o.color = v.color;
 				#ifdef _FOG_ON
 					UNITY_TRANSFER_FOG(o,o.pos);
 				#endif
@@ -91,7 +94,7 @@ Shader "AFW/Unlit/Unlit - Color"
 				
 				// sample the texture
 				fixed4 col = tex2D(_MainTex, i.uv);
-				col *= _TintColor;
+				col *= _TintColor * i.color * _Lighting;
 
 				#ifdef _USEGRAY_ON
 					fixed isGray = step(dot(_TintColor.rgb, fixed4(1, 1, 1, 0)), 0);

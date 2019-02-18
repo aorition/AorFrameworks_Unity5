@@ -103,7 +103,7 @@ public class RoleGlowEffectCamera : MonoBehaviour, IRTPostEffectComponent
         if (_PECombine.renderTexture == null)
         {
 //            _PECombine.renderTexture = RenderTexture.GetTemporary(Screen.width, Screen.height);
-            _PECombine.renderTexture = RenderTextureUtility.New(RenderTextureUtility.GetNormalHDRFormatInfo(Screen.width, Screen.height));
+            _PECombine.renderTexture = RenderTextureUtility.New(Screen.width, Screen.height);
         }
 
         if (_sizeCache != _size)
@@ -116,7 +116,7 @@ public class RoleGlowEffectCamera : MonoBehaviour, IRTPostEffectComponent
                 RenderTextureUtility.Release(_rgRt);
             }
             //                _rgRt = RenderTexture.GetTemporary(Screen.width, Screen.height);
-            _rgRt = RenderTextureUtility.New(RenderTextureUtility.GetNormalHDRFormatInfo(Screen.width, Screen.height));
+            _rgRt = RenderTextureUtility.New(Screen.width, Screen.height);
             _target.targetTexture = _rgRt;
 
             if (_temp != null)
@@ -126,7 +126,7 @@ public class RoleGlowEffectCamera : MonoBehaviour, IRTPostEffectComponent
             }
 
             texSize = new Vector2(Screen.width / _sizeCache, Screen.height / _sizeCache);
-            _temp = RenderTextureUtility.New(RenderTextureUtility.GetNormalHDRFormatInfo((int)texSize.x, (int)texSize.y)); 
+            _temp = RenderTextureUtility.New((int)texSize.x, (int)texSize.y); 
         }
 
         _target.RenderWithShader(Shader.Find("Hidden/FColorOutput"), "RenderType");

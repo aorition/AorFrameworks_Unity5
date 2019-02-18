@@ -55,9 +55,9 @@ MonoBehaviour:
       AllowHDR: 0
       AllowMSAA: 0
   - init: 1
-    name: UICamera
-    type: 0
-    cullingMask: 32
+    name: EffectCamera
+    type: 2
+    cullingMask: 2
     depth: 25
     lensSetting:
       init: 0
@@ -76,7 +76,7 @@ MonoBehaviour:
     name: WaterCamera
     type: 0
     cullingMask: 16
-    depth: 0
+    depth: 35
     lensSetting:
       init: 0
       ClearFlags: 0
