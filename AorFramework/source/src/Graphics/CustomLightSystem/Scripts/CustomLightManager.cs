@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using Framework.Extends;
@@ -8,8 +9,12 @@ namespace Framework.Graphic.CustomLight
     /// <summary>
     /// 自定义灯光管理器
     /// </summary>
+    [ExecuteInEditMode]
+    [ImageEffectAllowedInSceneView]
     public class CustomLightManager
     {
+
+        public const string UseCustomLightDef = "USECUSTOMLIGHT";
 
         private const string DefineSupportName = "CustomLightingSupport";
 
@@ -114,14 +119,12 @@ namespace Framework.Graphic.CustomLight
         /// <param name="lightInfo">需要启用照明的灯光</param>
         public virtual void AddLight(CustomLightInfo lightInfo)
         {
-            if (lightInfo.light.type == LightType.Directional)
-            {
-                _directionalLightInfo = lightInfo;
-                return;
-            }
-
             if (!_listsInfos.Contains(lightInfo))
+            {
                 _listsInfos.Add(lightInfo);
+                if (lightInfo.lightType == LightType.Directional)
+                    _directionalLightInfo = lightInfo;
+            }
         }
 
         /// <summary>
@@ -130,25 +133,20 @@ namespace Framework.Graphic.CustomLight
         /// <param name="lightInfo">需要移除的灯光</param>
         public void RemoveLight(CustomLightInfo lightInfo)
         {
-            if (lightInfo.light.type == LightType.Directional)
-            {
-                return;
-            }
-
             if (_listsInfos.Contains(lightInfo))
                 _listsInfos.Remove(lightInfo);
         }
 
         public virtual void Update()
         {
-            if (_directionalLightInfo == null && _listsInfos.Count == 0)
+            if (_listsInfos.Count == 0)
             {
+
                 if (AutoDispose)
-                {
                     Dispose();
-                }
                 else
                 {
+                    _directionalLightInfo = null;
                     resetLightsPrams();
                 }
                 return;
@@ -173,7 +171,7 @@ namespace Framework.Graphic.CustomLight
             return (
                         info && info.gameObject
                         && info.gameObject.activeInHierarchy && info.gameObject.activeSelf
-                        && info.light.intensity > 0
+                        && info.intensity > 0
                         && info.enabled
                     );
         }
@@ -183,7 +181,7 @@ namespace Framework.Graphic.CustomLight
             _tempLightInfos.Clear();
             foreach (CustomLightInfo info in _listsInfos)
             {
-
+                if (info.lightType == LightType.Directional) continue;
                 if (verifyCustomLightInfo(info))
                 {
                     _tempLightInfos.Add(info);
@@ -207,14 +205,14 @@ namespace Framework.Graphic.CustomLight
                 for (int i = 0; i < num; i++)
                 {
 
-                    Shader.SetGlobalVector("_CustomLightColor" + i, _tempLightInfos[i].light.color * _tempLightInfos[i].light.intensity);
+                    Shader.SetGlobalVector("_CustomLightColor" + i, _tempLightInfos[i].lightColor * _tempLightInfos[i].intensity);
 
                     if (i == 0)
                     {
                         lightX.x = _tempLightInfos[i].transform.position.x;
                         lightY.x = _tempLightInfos[i].transform.position.y;
                         lightZ.x = _tempLightInfos[i].transform.position.z;
-                        Atten.x = _tempLightInfos[i].light.range * _tempLightInfos[i].light.range;
+                        Atten.x = _tempLightInfos[i].range * _tempLightInfos[i].range;
 
                     }
                     if (i == 1)
@@ -222,14 +220,14 @@ namespace Framework.Graphic.CustomLight
                         lightX.y = _tempLightInfos[i].transform.position.x;
                         lightY.y = _tempLightInfos[i].transform.position.y;
                         lightZ.y = _tempLightInfos[i].transform.position.z;
-                        Atten.y = _tempLightInfos[i].light.range * _tempLightInfos[i].light.range;
+                        Atten.y = _tempLightInfos[i].range * _tempLightInfos[i].range;
                     }
                     if (i == 2)
                     {
                         lightX.z = _tempLightInfos[i].transform.position.x;
                         lightY.z = _tempLightInfos[i].transform.position.y;
                         lightZ.z = _tempLightInfos[i].transform.position.z;
-                        Atten.z = _tempLightInfos[i].light.range * _tempLightInfos[i].light.range;
+                        Atten.z = _tempLightInfos[i].range * _tempLightInfos[i].range;
                     }
 
                     if (i == 3)
@@ -237,7 +235,7 @@ namespace Framework.Graphic.CustomLight
                         lightX.w = _tempLightInfos[i].transform.position.x;
                         lightY.w = _tempLightInfos[i].transform.position.y;
                         lightZ.w = _tempLightInfos[i].transform.position.z;
-                        Atten.w = _tempLightInfos[i].light.range * _tempLightInfos[i].light.range;
+                        Atten.w = _tempLightInfos[i].range * _tempLightInfos[i].range;
                     }
 
 
@@ -251,12 +249,12 @@ namespace Framework.Graphic.CustomLight
                     rot.x = -_directionalLightInfo.transform.forward.x;
                     rot.y = -_directionalLightInfo.transform.forward.y;
                     rot.z = -_directionalLightInfo.transform.forward.z;
-                    rot.w = _directionalLightInfo.light.intensity;
+                    rot.w = _directionalLightInfo.intensity;
 
-                    color.x = _directionalLightInfo.light.color.r;
-                    color.y = _directionalLightInfo.light.color.g;
-                    color.z = _directionalLightInfo.light.color.b;
-                    color.w = _directionalLightInfo.light.color.a;
+                    color.x = _directionalLightInfo.lightColor.r;
+                    color.y = _directionalLightInfo.lightColor.g;
+                    color.z = _directionalLightInfo.lightColor.b;
+                    color.w = _directionalLightInfo.lightColor.a * _directionalLightInfo.intensity;
                 }
             }
 
@@ -273,8 +271,8 @@ namespace Framework.Graphic.CustomLight
             Shader.SetGlobalVector("_DirectionalLightColor", color);
 
             //编辑器模式拿不到roleLight,用sunlight
-            if (!Application.isPlaying)
-                Shader.SetGlobalColor("_RoleDirectionalLightDir", rot);
+           // if (!Application.isPlaying)
+             //   Shader.SetGlobalColor("_RoleDirectionalLightDir", rot);
         }
 
         protected virtual void resetLightsPrams()
@@ -294,8 +292,8 @@ namespace Framework.Graphic.CustomLight
             Shader.SetGlobalVector("_DirectionalLightColor", Vector4.zero);
 
             //编辑器模式拿不到roleLight,用sunlight
-            if (!Application.isPlaying)
-                Shader.SetGlobalColor("_RoleDirectionalLightDir", Vector4.zero);
+           //if (!Application.isPlaying)
+             //   Shader.SetGlobalColor("_RoleDirectionalLightDir", Vector4.zero);
 
         }
 

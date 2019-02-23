@@ -71,7 +71,7 @@
     <Compile Include="src\Config\Base\JConfigParser.cs" />
     <Compile Include="src\Config\RoleViewConfig.cs" />
     <Compile Include="src\Core\AorGUILayout.cs" />
-    <Compile Include="src\Core\JScriptableObject.cs" />
+    <Compile Include="src\Config\JSON\JScriptableObject.cs" />
     <Compile Include="src\Define\FrameworkAssetsPathDefine.cs" />
     <Compile Include="src\Define\FrameworkBaseEnumDefines.cs" />
     <Compile Include="src\GameBaseInterfaces\ICustomTimeScale.cs" />
@@ -80,6 +80,7 @@
     <Compile Include="src\GameBaseInterfaces\IGameObject.cs" />
     <Compile Include="src\Core\IManager.cs" />
     <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\FLPostEffect\FLBloomEffectNew.cs" />
+    <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\FLPostEffect\FLDepthOfFieldEffect.cs" />
     <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\FLPostEffect\FLGaussBlurEffect.cs" />
     <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCaptcher\RenderTextureCaptcherDebugHander.cs" />
     <Compile Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\RenderTextureCaptureCamera.cs" />
@@ -147,9 +148,9 @@
     <Compile Include="src\Graphics\VisualCamera\Scripts\Path\GEVSmoothPath.cs" />
     <Compile Include="src\Graphics\VisualCamera\Scripts\VisualCamera.cs" />
     <Compile Include="src\Graphics\VisualCamera\Scripts\VisualCameraAnimHandler.cs" />
-    <Compile Include="src\JSON\JScriptableObjectDataWraper.cs" />
-    <Compile Include="src\JSON\JSONEncoder.cs" />
-    <Compile Include="src\JSON\JSONParser.cs" />
+    <Compile Include="src\Config\JSON\JScriptableObjectDataWraper.cs" />
+    <Compile Include="src\Config\JSON\JSONEncoder.cs" />
+    <Compile Include="src\Config\JSON\JSONParser.cs" />
     <Compile Include="src\Log\Log.cs" />
     <Compile Include="src\Utility\CorrectingAspect.cs" />
     <Compile Include="src\Utility\EditorSupport\Interfaces\IShaderDefine.cs" />
@@ -208,10 +209,6 @@
     <None Include="src\Graphics\FastShadowProjector\Resources\Terrain\FSP_TerrainFirstPassMaterial.mat" />
     <None Include="src\Graphics\FastShadowProjector\Shaders\BlobShadowAddShader.shader" />
     <None Include="src\Graphics\FastShadowProjector\Shaders\BlobShadowMultiplyShader.shader" />
-    <None Include="src\Graphics\GraphicsSystem\Resources\data\DemoPPAssetData.asset" />
-    <None Include="src\Graphics\GraphicsSystem\Resources\data\GraphicsSetting.asset" />
-    <None Include="src\Graphics\GraphicsSystem\Resources\data\RoleGlowSetting.asset" />
-    <None Include="src\Graphics\GraphicsSystem\Resources\data\RoleShadowSetting.asset" />
     <None Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Shaders\PEOverride.shader" />
     <None Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Shaders\PEOverrideAdd.shader" />
     <None Include="src\Graphics\GraphicsSystem\Scripts\Components\RenderTextureCombine\Shaders\PEOverrideMultiply.shader" />

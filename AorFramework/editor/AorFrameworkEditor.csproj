@@ -80,6 +80,7 @@
     <Compile Include="src\EditorAssetInfo\EditorAssetInfo.cs" />
     <Compile Include="src\EditorAssetInfo\EditorAssetInfoExents.cs" />
     <Compile Include="src\Core\EditorPlusMethods.cs" />
+    <Compile Include="src\Graphics\CustomLightSystem\Editor\CustomLightInfoEditor.cs" />
     <Compile Include="src\Graphics\Scripts\Editor\FLEffectBaseEditor.cs" />
     <Compile Include="src\Graphics\Scripts\Editor\RenderTextureCaptcherEditor.cs" />
     <Compile Include="src\Utility\MeshStatisticsTool.cs" />
@@ -87,7 +88,6 @@
     <Compile Include="src\DynamicShaderSystem\MaterialInspectorBase.cs" />
     <Compile Include="src\EditorInternalRefs\EditorResourcesUtility.cs" />
     <Compile Include="src\Extends\EditorExtends.cs" />
-    <Compile Include="src\Graphics\CustomLightSystem\Editor\CustomLightManagerEditor.cs" />
     <Compile Include="src\Graphics\FastShadowProjector\FSPConfigAssetEditor.cs" />
     <Compile Include="src\Graphics\FastShadowProjector\FSPStaticMeshManagerEditor.cs" />
     <Compile Include="src\Graphics\FastShadowProjector\GlobalProjectorLayerCreator.cs" />

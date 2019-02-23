@@ -69,7 +69,8 @@ Shader "AFW/Light/Light - Diffuse"
 			#pragma shader_feature _FOG_ON
 			#pragma shader_feature _CLIP_ON
 			#pragma shader_feature _VEXANIM_ON
-			#pragma shader_feature _NOSHADOWCASCADES_ON
+
+			#pragma shader_feature NOSHADOWCASCADES
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
@@ -144,13 +145,12 @@ Shader "AFW/Light/Light - Diffuse"
 				return o;
 			}
 			
-			fixed ShadowATTENUATION(v2f i){
+			inline fixed ShadowATTENUATION(v2f i){
 				fixed atten = UNITY_SHADOW_ATTENUATION(i, i.worldPos);
-				//处理ShadowCascades不启用时的
-				#ifdef _NOSHADOWCASCADES_ON
+				#ifdef NOSHADOWCASCADES
 					float4 shadowCoord = mul(unity_WorldToShadow[0],unityShadowCoord4(i.worldPos,1));
 					float3 s = abs((shadowCoord - 0.5) * 2);
-					atten = max(1-step(max(max(s.x, s.y), s.z), 1), atten);
+					atten = max(1-step(max(max(s.x, s.y), s.z), 1), atten); 
 				#endif
 				return atten;
 			}

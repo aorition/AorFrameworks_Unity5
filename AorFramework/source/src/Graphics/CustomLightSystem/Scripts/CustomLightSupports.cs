@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable
+using System;
 using System.Collections.Generic;
 using Framework.Extends;
 using UnityEngine;
@@ -15,6 +16,18 @@ namespace Framework.Graphic.CustomLight
 
         public bool isEdtorMode = false;
 
+        private void OnEnable()
+        {
+            if (!Shader.IsKeywordEnabled(CustomLightManager.UseCustomLightDef))
+                Shader.EnableKeyword(CustomLightManager.UseCustomLightDef);
+        }
+
+        private void OnDisable()
+        {
+            if (Shader.IsKeywordEnabled(CustomLightManager.UseCustomLightDef))
+                Shader.DisableKeyword(CustomLightManager.UseCustomLightDef);
+        }
+
         private void FixedUpdate()
         {
             if (UseFixedUpdate) Processing();
@@ -24,7 +37,7 @@ namespace Framework.Graphic.CustomLight
         {
             if (!UseFixedUpdate) Processing();
         }
-
+         
         private void Processing()
         {
             if (Main != gameObject)

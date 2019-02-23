@@ -17,6 +17,8 @@ namespace Framework.Graphic.editor
             _target = target as FLEffectBase;
         }
 
+        private bool m_levelChange = false;
+
         public override void OnInspectorGUI()
         {
 
@@ -24,10 +26,50 @@ namespace Framework.Graphic.editor
 
             GUILayout.Space(10);
 
-            int level = (int)_target.GetNonPublicField("m_RenderLevel");
-            int nLevel = EditorGUILayout.IntField("Render Level", level);
-            if (!nLevel.Equals(level)) _target.Level = nLevel;
-            
+            GUILayout.BeginVertical("box");
+            {
+                GUILayout.Space(5);
+
+                int level = (int)_target.GetNonPublicField("m_RenderLevel");
+                if (m_levelChange)
+                {
+                    GUILayout.BeginHorizontal();
+                    {
+
+                        GUI.color = Color.white;
+
+                        int nLevel = EditorGUILayout.IntField("Render Level", level);
+                        if (!nLevel.Equals(level)) _target.Level = nLevel;
+                        if (GUILayout.Button("Done", GUILayout.Width(80)))
+                        {
+                            m_levelChange = false;
+                        }
+                    }
+                    GUILayout.EndHorizontal();
+                }
+                else
+                {
+
+                    GUILayout.BeginHorizontal();
+                    {
+
+                        GUI.color = Color.gray;
+
+                        GUILayout.Label("Render Level");
+                        GUILayout.Label(level.ToString());
+                        if (GUILayout.Button("change?", GUILayout.Width(80)))
+                        {
+                            m_levelChange = true;
+                        }
+                    }
+                    GUILayout.EndHorizontal();
+
+                }
+
+                GUILayout.Space(5);
+            }
+            GUILayout.EndVertical();
+ 
         }
 
     }

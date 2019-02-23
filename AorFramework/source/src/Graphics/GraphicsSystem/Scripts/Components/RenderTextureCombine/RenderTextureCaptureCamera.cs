@@ -10,7 +10,7 @@ namespace Framework.Graphic
     /// </summary>
     public class RenderTextureCaptureCamera : MonoBehaviour, IRTPostEffectComponent
     {
-        
+
         public RenderTextureCombine rtCombine;
 
         private Camera _target;
@@ -30,7 +30,7 @@ namespace Framework.Graphic
 
         private void OnDisable()
         {
-            if(GraphicsManager.IsInit())
+            if (GraphicsManager.IsInit())
                 GraphicsManager.Instance.RemovePostEffectComponent(this);
         }
 
@@ -44,6 +44,6 @@ namespace Framework.Graphic
             }
             _target.Render();
         }
-        
+
     }
 }

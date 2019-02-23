@@ -98,11 +98,11 @@ namespace Framework.Graphic.editor
             //-----------------------------------------------------------------------------
 
             //name 
-            //string name = (string)mainDesInfo.ref_GetField_Inst_Public("name");
+            //string name = (string)mainDesInfo.GetPublicField("name");
             string nName = EditorGUILayout.TextField(new GUIContent("name"), mainDesInfo.name);
             if (!nName.Equals(name))
             {
-                //            mainDesInfo.ref_SetField_Inst_Public("name", nName);
+                //            mainDesInfo.SetPublicField("name", nName);
                 mainDesInfo.name = nName;
             }
             //type
@@ -129,7 +129,7 @@ namespace Framework.Graphic.editor
 
             //-----------------------------------------------------------------------------
 
-            GCLensSetting mainLensSetting = (GCLensSetting)mainDesInfo.ref_GetField_Inst_Public("lensSetting");
+            GCLensSetting mainLensSetting = (GCLensSetting)mainDesInfo.GetPublicField("lensSetting");
             if (!mainLensSetting.init)
             {
                 mainLensSetting = GCLensSetting.Default();
@@ -142,71 +142,71 @@ namespace Framework.Graphic.editor
             if (nClearFlags != ClearFlags)
             {
                 CameraClearFlags nCF = (CameraClearFlags)(int)nClearFlags;
-                //            mainLensSetting.ref_SetField_Inst_Public("ClearFlags", nCF);
+                //            mainLensSetting.SetPublicField("ClearFlags", nCF);
                 mainLensSetting.ClearFlags = nCF;
             }
             if (nClearFlags == editorCameraClearFlags.SolidColor || nClearFlags == editorCameraClearFlags.Skybox)
             {
-                //            Color bgcolor = (Color) mainLensSetting.ref_GetField_Inst_Public("BackgroundColor");
+                //            Color bgcolor = (Color) mainLensSetting.GetPublicField("BackgroundColor");
                 Color nBgcolor = EditorGUILayout.ColorField("Background Color", mainLensSetting.BackgroundColor);
                 if (!nBgcolor.Equals(mainLensSetting.BackgroundColor))
                 {
-                    //                mainLensSetting.ref_SetField_Inst_Public("BackgroundColor", nBgcolor);
+                    //                mainLensSetting.SetPublicField("BackgroundColor", nBgcolor);
                     mainLensSetting.BackgroundColor = nBgcolor;
                 }
             }
             //isOrthographicCamera
-            //        bool isOCamera = (bool)mainLensSetting.ref_GetField_Inst_Public("isOrthographicCamera");
+            //        bool isOCamera = (bool)mainLensSetting.GetPublicField("isOrthographicCamera");
             bool isOCamera = mainLensSetting.isOrthographicCamera;
             editorProjection eprojn = (editorProjection)(isOCamera ? 1 : 0);
             editorProjection nEprojn = (editorProjection)EditorGUILayout.EnumPopup("Projection", eprojn);
             if (nEprojn != eprojn)
             {
-                //            mainLensSetting.ref_SetField_Inst_Public("isOrthographicCamera", (nEprojn == editorProjection.Orthographic));
+                //            mainLensSetting.SetPublicField("isOrthographicCamera", (nEprojn == editorProjection.Orthographic));
                 mainLensSetting.isOrthographicCamera = (nEprojn == editorProjection.Orthographic);
             }
             if (nEprojn == editorProjection.Orthographic)
             {
                 //OrthographicSize
-                //            float OrthographicSize = (float)mainLensSetting.ref_GetField_Inst_Public("OrthographicSize");
+                //            float OrthographicSize = (float)mainLensSetting.GetPublicField("OrthographicSize");
                 float OrthographicSize = mainLensSetting.OrthographicSize;
                 float nOrthographicSize = EditorGUILayout.FloatField(new GUIContent("Orthographic Size"), OrthographicSize);
                 if (!nOrthographicSize.Equals(OrthographicSize))
                 {
-                    //                mainLensSetting.ref_SetField_Inst_Public("OrthographicSize", nOrthographicSize);
+                    //                mainLensSetting.SetPublicField("OrthographicSize", nOrthographicSize);
                     mainLensSetting.OrthographicSize = nOrthographicSize;
                 }
             }
             else
             {
                 //Perspective
-                //            float fov = (float)mainLensSetting.ref_GetField_Inst_Public("FieldOfView");
+                //            float fov = (float)mainLensSetting.GetPublicField("FieldOfView");
                 float fov = mainLensSetting.FieldOfView;
                 float nFov = EditorGUILayout.Slider("Field Of View", fov, 1f, 179f);
                 if (!nFov.Equals(fov))
                 {
-                    //                mainLensSetting.ref_SetField_Inst_Public("FieldOfView", nFov);
+                    //                mainLensSetting.SetPublicField("FieldOfView", nFov);
                     mainLensSetting.FieldOfView = nFov;
                 }
             }
 
             //near
-            //        float NearClipPlane = (float)mainLensSetting.ref_GetField_Inst_Public("NearClipPlane");
+            //        float NearClipPlane = (float)mainLensSetting.GetPublicField("NearClipPlane");
             float NearClipPlane = mainLensSetting.NearClipPlane;
             float nNearClipPlane = EditorGUILayout.FloatField(new GUIContent("Near Clip Plane"), NearClipPlane);
             if (!nNearClipPlane.Equals(NearClipPlane))
             {
-                //            mainLensSetting.ref_SetField_Inst_Public("NearClipPlane", nNearClipPlane);
+                //            mainLensSetting.SetPublicField("NearClipPlane", nNearClipPlane);
                 mainLensSetting.NearClipPlane = nNearClipPlane;
             }
 
             //fear
-            //        float FarClipPlane = (float)mainLensSetting.ref_GetField_Inst_Public("FarClipPlane");
+            //        float FarClipPlane = (float)mainLensSetting.GetPublicField("FarClipPlane");
             float FarClipPlane = mainLensSetting.FarClipPlane;
             float nFarClipPlane = EditorGUILayout.FloatField(new GUIContent("Far Clip Plane"), FarClipPlane);
             if (!nFarClipPlane.Equals(FarClipPlane))
             {
-                //            mainLensSetting.ref_SetField_Inst_Public("FarClipPlane", nFarClipPlane);
+                //            mainLensSetting.SetPublicField("FarClipPlane", nFarClipPlane);
                 mainLensSetting.FarClipPlane = nFarClipPlane;
             }
 
@@ -218,30 +218,30 @@ namespace Framework.Graphic.editor
             }
 
             //UseOcclusionCulling
-            //        bool UseOcclusionCulling = (bool)mainLensSetting.ref_GetField_Inst_Public("UseOcclusionCulling");
+            //        bool UseOcclusionCulling = (bool)mainLensSetting.GetPublicField("UseOcclusionCulling");
             bool UseOcclusionCulling = mainLensSetting.UseOcclusionCulling;
             bool nUseOcclusionCulling = EditorGUILayout.Toggle(new GUIContent("Use Occlusion Culling"), UseOcclusionCulling);
             if (!nUseOcclusionCulling.Equals(UseOcclusionCulling))
             {
-                //            mainLensSetting.ref_SetField_Inst_Public("UseOcclusionCulling", nUseOcclusionCulling);
+                //            mainLensSetting.SetPublicField("UseOcclusionCulling", nUseOcclusionCulling);
                 mainLensSetting.UseOcclusionCulling = nUseOcclusionCulling;
             }
             //AllowHDR
-            //        bool AllowHDR = (bool)mainLensSetting.ref_GetField_Inst_Public("AllowHDR");
+            //        bool AllowHDR = (bool)mainLensSetting.GetPublicField("AllowHDR");
             bool AllowHDR = mainLensSetting.AllowHDR;
             bool nAllowHDR = EditorGUILayout.Toggle(new GUIContent("Allow HDR"), AllowHDR);
             if (!nAllowHDR.Equals(AllowHDR))
             {
-                //            mainLensSetting.ref_SetField_Inst_Public("AllowHDR", nAllowHDR);
+                //            mainLensSetting.SetPublicField("AllowHDR", nAllowHDR);
                 mainLensSetting.AllowHDR = nAllowHDR;
             }
             //AllowMSAA
-            //        bool AllowMSAA = (bool)mainLensSetting.ref_GetField_Inst_Public("AllowMSAA");
+            //        bool AllowMSAA = (bool)mainLensSetting.GetPublicField("AllowMSAA");
             bool AllowMSAA = mainLensSetting.AllowMSAA;
             bool nAllowMSAA = EditorGUILayout.Toggle(new GUIContent("Allow MSAA"), AllowMSAA);
             if (!nAllowMSAA.Equals(AllowMSAA))
             {
-                //            mainLensSetting.ref_SetField_Inst_Public("AllowMSAA", nAllowMSAA);
+                //            mainLensSetting.SetPublicField("AllowMSAA", nAllowMSAA);
                 mainLensSetting.AllowMSAA = nAllowMSAA;
             }
             GUILayout.Space(8);
@@ -250,9 +250,9 @@ namespace Framework.Graphic.editor
 
             GUILayout.Space(5);
 
-            //        mainDesInfo.ref_SetField_Inst_Public("lensSetting", mainLensSetting);
+            //        mainDesInfo.SetPublicField("lensSetting", mainLensSetting);
             mainDesInfo.lensSetting = mainLensSetting;
-            m_target.ref_SetField_Inst_Public("MainCamDesInfo", mainDesInfo);
+            m_target.SetPublicField("MainCamDesInfo", mainDesInfo);
 
             _draw_cameraParamCoppyer();
 
@@ -278,13 +278,13 @@ namespace Framework.Graphic.editor
                         cam.useOcclusionCulling, cam.allowHDR, cam.allowMSAA
                         );
 
-                    GCamGDesInfo mainDesInfo = (GCamGDesInfo)m_target.ref_GetField_Inst_Public("MainCamDesInfo");
+                    GCamGDesInfo mainDesInfo = (GCamGDesInfo)m_target.GetPublicField("MainCamDesInfo");
                     mainDesInfo.lensSetting = cgLensSetting;
                     mainDesInfo.depth = cam.depth;
 
                     mainDesInfo.cullingMask = cam.cullingMask;
 
-                    m_target.ref_SetField_Inst_Public("MainCamDesInfo", mainDesInfo);
+                    m_target.SetPublicField("MainCamDesInfo", mainDesInfo);
                 }
             }
 
@@ -295,7 +295,7 @@ namespace Framework.Graphic.editor
                 {
 
 
-                    GCamGDesInfo mainDesInfo = (GCamGDesInfo)m_target.ref_GetField_Inst_Public("MainCamDesInfo");
+                    GCamGDesInfo mainDesInfo = (GCamGDesInfo)m_target.GetPublicField("MainCamDesInfo");
 
                     //cullingMask
                     cam.cullingMask = mainDesInfo.cullingMask;
@@ -352,7 +352,7 @@ namespace Framework.Graphic.editor
             GUILayout.Space(8);
 
             _delSubDesInfos.Clear();
-            List<GCamGDesInfo> subDesInfos = (List<GCamGDesInfo>)m_target.ref_GetField_Inst_Public("SubCamGDesInfos");
+            List<GCamGDesInfo> subDesInfos = (List<GCamGDesInfo>)m_target.GetPublicField("SubCamGDesInfos");
             if (subDesInfos != null && subDesInfos.Count > 0)
             {
                 for (int i = 0; i < subDesInfos.Count; i++)
@@ -380,7 +380,7 @@ namespace Framework.Graphic.editor
                 subDesInfos.Remove(_delSubDesInfos[i]);
             }
 
-            m_target.ref_SetField_Inst_Public("SubCamGDesInfos", subDesInfos);
+            m_target.SetPublicField("SubCamGDesInfos", subDesInfos);
 
             GUILayout.Space(5);
 
@@ -400,21 +400,21 @@ namespace Framework.Graphic.editor
             if (!info.init) info.init = true;
 
             //name 
-            //        string name = (string)info.ref_GetField_Inst_Public("name");
+            //        string name = (string)info.GetPublicField("name");
             string name = info.name;
             string nName = EditorGUILayout.TextField(new GUIContent("Name"), name);
             if (!nName.Equals(name))
             {
-                //            info.ref_SetField_Inst_Public("name", nName);
+                //            info.SetPublicField("name", nName);
                 info.name = nName;
             }
             //type
-            //        SubGCamType type = (SubGCamType)info.ref_GetField_Inst_Public("type");
+            //        SubGCamType type = (SubGCamType)info.GetPublicField("type");
             SubGCamType type = info.type;
             SubGCamType nType = (SubGCamType)EditorGUILayout.EnumPopup(new GUIContent("Type"), type);
             if (!nType.Equals(type))
             {
-                //            info.ref_SetField_Inst_Public("type", nType);
+                //            info.SetPublicField("type", nType);
                 info.type = nType;
             }
             //cullingMask
@@ -430,22 +430,22 @@ namespace Framework.Graphic.editor
             //        {
             //            cullingMask = "";
             //            info.cullingMask = "";
-            ////            info.ref_SetField_Inst_Public("cullingMask", cullingMask);
+            ////            info.SetPublicField("cullingMask", cullingMask);
             //        }
             //        string nCullingMask = EditorGUILayout.TextField(new GUIContent("cullingMask"), cullingMask);
             //        if (!nCullingMask.Equals(cullingMask))
             //        {
-            ////            info.ref_SetField_Inst_Public("cullingMask", nCullingMask);
+            ////            info.SetPublicField("cullingMask", nCullingMask);
             //            info.cullingMask = nCullingMask;
             //        }
 
             //depth
-            //        int depth = (int)info.ref_GetField_Inst_Public("depth");
+            //        int depth = (int)info.GetPublicField("depth");
             float depth = info.depth;
             float nDepth = EditorGUILayout.FloatField(new GUIContent("depth"), depth);
             if (!nDepth.Equals(depth))
             {
-                //            info.ref_SetField_Inst_Public("depth", nDepth);
+                //            info.SetPublicField("depth", nDepth);
                 info.depth = nDepth;
             }
 

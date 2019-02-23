@@ -77,8 +77,6 @@
 				
 				fixed4 curveCol = tex2D(_CurveTex, i.uv);
 
-				//return curveCol;
-
 				// 饱和度
 				// 特定系数
 				fixed luminance = 0.2125 * curveCol.r + 0.7154 * curveCol.g + 0.0721 * curveCol.b;

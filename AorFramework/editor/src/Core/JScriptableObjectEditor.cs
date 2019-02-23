@@ -191,10 +191,35 @@ namespace Framework.Editor
                             {
                                 JScriptableObject jso = _targets[i] as JScriptableObject;
                                 string json = JSONEncoder.ToJSON(jso);
-                                target.SetNonPublicField("_innerJsonValue", json);
+                                jso.SetNonPublicField("_innerJsonValue", json);
                             }
                         }
 
+                    }
+                    GUI.color = Color.green;
+                    if (GUILayout.Button("导出JSON数据文件", GUILayout.Height(26)))
+                    {
+
+                        if (EditorUtility.DisplayDialog("提示", "确定导出JSON数据文件 ? ", "确定", "取消"))
+                        {
+                            Undo.RecordObjects(_targets, "导出JSON数据文件");
+                            for (int i = 0; i < _targets.Length; i++)
+                            {
+                                JScriptableObject jso = _targets[i] as JScriptableObject;
+                                string json = JSONEncoder.ToJSON(jso);
+                                jso.SetNonPublicField("_innerJsonValue", json);
+                                string srcPath = AssetDatabase.GetAssetPath(jso);
+                                if (!string.IsNullOrEmpty(srcPath))
+                                {
+                                    EditorAssetInfo einfo = new EditorAssetInfo(srcPath);
+                                    string path = einfo.dirPath + "/" + einfo.name + ".json";
+                                    string head = jso.GetType().FullName;
+                                    AorBaseUtility.AorIO.SaveStringToFile(path, JSONEncoder.InsertJsonHeadTag(head, json));
+                                }
+                            }
+                            AssetDatabase.Refresh();
+                        }
+                        
                     }
                     GUI.color = Color.red;
                     if (GUILayout.Button("清除JSON数据", GUILayout.Height(26)))

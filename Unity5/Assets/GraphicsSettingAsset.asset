@@ -8,7 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1393933203, guid: ffb094aeb063c324d8b5c7f2fad4d38c, type: 3}
+  m_Script: {fileID: 1736389878, guid: ffb094aeb063c324d8b5c7f2fad4d38c, type: 3}
   m_Name: GraphicsSettingAsset
   m_EditorClassIdentifier: 
   _status:
@@ -20,7 +20,7 @@ MonoBehaviour:
     init: 1
     name: MainCamera
     type: 1
-    cullingMask: 1
+    cullingMask: -1
     depth: 0
     lensSetting:
       init: 1
@@ -37,46 +37,10 @@ MonoBehaviour:
       AllowMSAA: 1
   SubCamGDesInfos:
   - init: 1
-    name: FinialCamera
+    name: FinialCam
     type: 3
     cullingMask: 0
     depth: 50
-    lensSetting:
-      init: 0
-      ClearFlags: 0
-      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      isOrthographicCamera: 0
-      OrthographicSize: 0
-      FieldOfView: 0
-      NearClipPlane: 0
-      FarClipPlane: 0
-      RenderingPath: 0
-      UseOcclusionCulling: 0
-      AllowHDR: 0
-      AllowMSAA: 0
-  - init: 1
-    name: EffectCamera
-    type: 2
-    cullingMask: 2
-    depth: 25
-    lensSetting:
-      init: 0
-      ClearFlags: 0
-      BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
-      isOrthographicCamera: 0
-      OrthographicSize: 0
-      FieldOfView: 0
-      NearClipPlane: 0
-      FarClipPlane: 0
-      RenderingPath: 0
-      UseOcclusionCulling: 0
-      AllowHDR: 0
-      AllowMSAA: 0
-  - init: 1
-    name: WaterCamera
-    type: 0
-    cullingMask: 16
-    depth: 35
     lensSetting:
       init: 0
       ClearFlags: 0

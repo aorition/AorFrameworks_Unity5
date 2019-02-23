@@ -9,15 +9,20 @@ namespace Framework.Graphic
 
         protected virtual void Awake()
         {
-            GraphicsManager.RequestGraphicsManager(Luncher);
+            GraphicsManager.Request(Init);
+        }
+
+        protected bool m_isInit;
+        public bool isInit {
+            get { return m_isInit; }
         }
 
         /// <summary>
         /// 初始化
         /// </summary>
-        protected virtual void Luncher()
+        protected virtual void Init()
         {
-
+            m_isInit = true;
         }
 
     }

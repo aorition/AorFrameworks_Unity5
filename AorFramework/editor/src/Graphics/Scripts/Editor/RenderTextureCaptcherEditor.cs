@@ -92,7 +92,8 @@ namespace Framework.Graphic.editor
                                 {
                                     DestroyImmediate(hander);
                                 }
-                            }catch(Exception ex)
+                            }
+                            finally
                             {
                                 //do nothing
                             }

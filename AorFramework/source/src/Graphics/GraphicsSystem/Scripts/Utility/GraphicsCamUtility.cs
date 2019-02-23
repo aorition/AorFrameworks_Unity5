@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Framework;
-using Framework.Graphic;
 using UnityEngine;
 
 namespace Framework.Graphic.Utility
@@ -65,7 +63,7 @@ namespace Framework.Graphic.Utility
                     rtCamera.cullingMask = 0;
                     rtCamera.depth = cam.depth;
 
-                    GraphicsManager.instance.AddSubCamera(rtCamera);
+                    GraphicsManager.Instance.AddSubCamera(rtCamera);
 
                     RenderTextureCombine rtc = RenderTextureCombine.Create(rtcGo,
                         RenderTextureCombine.PostEffectCombineType.Normal);

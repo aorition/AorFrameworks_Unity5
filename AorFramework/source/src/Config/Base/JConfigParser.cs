@@ -15,6 +15,9 @@ namespace Framework.core
 
     /// <summary>
     /// JSON / Config 互转
+    /// 
+    /// (考虑是否还有继续维护的必要？参见JScriptableObject)
+    /// 
     /// </summary>
     public class JConfigParser
     {
